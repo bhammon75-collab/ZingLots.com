@@ -93,12 +93,47 @@ Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-trick
 - Realtime: tables app.lots and app.bids
 
 4) Deploy Edge Functions (Dashboard → Edge Functions):
-- livekit-token, stripe-onboard, checkout-create-session, stripe-webhook, shipping-create-label, admin-settle
+
+**Core Functions:**
+- `livekit-token` - Generate LiveKit access tokens for real-time features
+- `stripe-onboard` - Stripe Connect onboarding for sellers
+- `checkout-create-session` - Create Stripe checkout sessions for payments
+- `stripe-webhook` - Handle Stripe webhook events
+- `admin-settle` - Administrative settlement of transactions
+
+**Additional Functions:**
+- `paypal-create-order` - PayPal payment integration
+- `paypal-capture-order` - PayPal order capture
+- `orders-set-tracking` - Set tracking information for orders
+- `bids-csv` - Export bidding data as CSV
+- `lots-import-csv` - Bulk import lots from CSV
+- `livekit-start-egress` - Start LiveKit recording/streaming
+- `livekit-stop-egress` - Stop LiveKit recording/streaming
+- `stripe-connect-onboard` - Enhanced Stripe Connect onboarding
 
 5) Test flow:
-- Open /qa in two tabs; set a Lot ID; place sample bids; use “Shorten Soft-Close (20s)” to see realtime extend ping
+- Open /qa in two tabs; set a Lot ID; place sample bids; use "Shorten Soft-Close (20s)" to see realtime extend ping
 - End Lot (demo) to generate invoiced order via RPC
 - Call checkout-create-session to pay; webhook marks order paid and creates pending payout
-- Call shipping-create-label to get label URL + tracking; include $1 platform label margin
+- Call orders-set-tracking to set shipping tracking; include platform fees
 - Call admin-settle to transfer payout and mark order settled
 
+## Development
+
+**Package Manager**: Choose one for consistent builds
+- **NPM**: `npm ci && npm run dev` (remove bun.lockb)
+- **Bun**: `bun install && bun run dev` (remove package-lock.json)
+
+**Testing**:
+```sh
+npm run test        # Run tests in watch mode
+npm run test:ui     # Run tests with UI
+npm run test:smoke  # Run smoke tests
+```
+
+**Build & Deploy**:
+```sh
+npm run lint        # ESLint check
+npm run build       # Production build (includes ellipsis check)
+npm run ci          # Full CI: lint + build
+```
