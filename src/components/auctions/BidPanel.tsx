@@ -1,0 +1,282 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { getSupabase } from "@/lib/supabaseClient";
+import { nextMinimum } from "@/lib/bidding";
+import { VerifyModal } from "./VerifyModal";
+import { useLotRealtime } from "@/hooks/useLotRealtime";
+
+export type BidPanelProps = {
+  lot: {
+    id: string;
+    auction_id: string;
+    title: string;
+    starting_bid: number;
+    current_price: number | null;
+    reserve_met: boolean;
+    high_bidder?: string | null;
+  };
+  auction: {
+    id: string;
+    ends_at: string; // ISO
+    soft_close_secs: number;
+  };
+  userTier: { tier: 0 | 1 | 2; cap?: number | null };
+  isSeller: boolean;
+  isAdmin?: boolean;
+};
+
+function formatUSD(n: number) {
+  return n.toLocaleString(undefined, { style: "currency", currency: "USD" });
+}
+
+export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: BidPanelProps) {
+  const sb = getSupabase();
+  const { toast } = useToast();
+  const [offered, setOffered] = useState<string>("");
+  const [max, setMax] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
+  const [verifyOpen, setVerifyOpen] = useState(false);
+  const [uid, setUid] = useState<string | null>(null);
+  const lastClickRef = useRef<number>(0);
+  const wasLeadingRef = useRef<boolean>(false);
+
+  const realtime = useLotRealtime(lot.id);
+
+  useEffect(() => {
+    if (!sb) return;
+    sb.auth.getUser()
+      .then(({ data }) => setUid(data?.user?.id ?? null))
+      .catch(() => setUid(null));
+  }, [sb]);
+
+  const currentPrice = useMemo(() => {
+    return (realtime.topBid ?? lot.current_price ?? null) ?? null;
+  }, [realtime.topBid, lot.current_price]);
+
+  const minNext = useMemo(() => nextMinimum(currentPrice, lot.starting_bid), [currentPrice, lot.starting_bid]);
+
+  const isLeading = useMemo(() => {
+    const high = realtime.highBidderId ?? lot.high_bidder ?? null;
+    return !!(high && uid && high === uid);
+  }, [realtime.highBidderId, lot.high_bidder, uid]);
+
+  // Countdown
+  const [remaining, setRemaining] = useState<string>("");
+  const lastEndsRef = useRef<string>(auction.ends_at);
+  useEffect(() => {
+    const id = setInterval(() => {
+      const endsAt = realtime.endsAt ?? auction.ends_at;
+      const diff = new Date(endsAt).getTime() - Date.now();
+      if (diff <= 0) {
+        setRemaining("Ended");
+      } else {
+        const m = Math.floor(diff / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        setRemaining(`${m}:${String(s).padStart(2, "0")}`);
+      }
+    }, 1000);
+    return () => clearInterval(id);
+  }, [auction.ends_at, realtime.endsAt]);
+
+  // Soft-close toast
+  useEffect(() => {
+    const prev = lastEndsRef.current;
+    const nowEnds = realtime.endsAt ?? auction.ends_at;
+    if (prev && nowEnds && nowEnds !== prev) {
+      const prevMs = new Date(prev).getTime();
+      const nowMs = new Date(nowEnds).getTime();
+      if (nowMs - prevMs >= auction.soft_close_secs * 1000) {
+        toast({ description: `Extended +${Math.floor(auction.soft_close_secs / 60)}:00` });
+      }
+    }
+    lastEndsRef.current = nowEnds;
+  }, [realtime.endsAt, auction.soft_close_secs, auction.ends_at, toast]);
+
+  useEffect(() => {
+    if (!uid) return;
+    const leading = isLeading;
+    if (wasLeadingRef.current && !leading && realtime.highBidderId) {
+      toast({ description: "You've been outbid" });
+    }
+    wasLeadingRef.current = leading;
+  }, [isLeading, realtime.highBidderId, uid, toast]);
+
+  const isEnded = useMemo(() => new Date(realtime.endsAt ?? auction.ends_at).getTime() <= Date.now(), [realtime.endsAt, auction.ends_at]);
+
+  const onSubmit = async () => {
+    const now = Date.now();
+    if (now - (lastClickRef.current || 0) < 300) return;
+    lastClickRef.current = now;
+    if (!sb) return toast({ description: "Supabase not configured" });
+    const offerNum = Number(offered);
+    const maxNum = max ? Number(max) : null;
+    if (!Number.isFinite(offerNum) || offerNum <= 0) {
+      return toast({ description: "Enter a valid offer" });
+    }
+
+    const cap = userTier.cap ?? (userTier.tier === 0 ? 200 : userTier.tier === 1 ? 1000 : Infinity);
+    const consider = Math.max(offerNum, maxNum ?? offerNum);
+    if (consider > cap) {
+      setVerifyOpen(true);
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      // Round to 2 decimals and guard inputs
+      const round2 = (n: number) => Math.round(n * 100) / 100;
+      const offered2 = round2(offerNum);
+      const max2 = max !== '' && maxNum != null ? round2(maxNum) : null;
+
+      const { error } = await sb.rpc('app.place_bid', {
+        lot_id: lot.id,
+        offered: offered2,
+        max: max2,
+      });
+      if (error) {
+        const code = (error as any).code || '';
+        const msg = error.message || 'Bid failed';
+        // Rate limit guard from DB
+        if (code === 'RLT01' || /RLT01|rate limit|too many bids/i.test(msg)) {
+          toast({ description: "You're bidding too fast—please wait a few seconds." });
+          return;
+        }
+        const m = msg.match(/Bid must be [≥>=]\s*\$?(\d+(?:\.\d+)?)/i) || msg.match(/Minimum acceptable is\s*\$?(\d+(?:\.\d+)?)/i);
+        if (m) {
+          toast({ description: `Minimum acceptable is ${formatUSD(Number(m[1]))}` });
+        } else if (/tier|cap|verify|limit/i.test(msg)) {
+          setVerifyOpen(true);
+        } else {
+          toast({ description: msg });
+        }
+        return;
+      }
+      setOffered("");
+      setMax("");
+      toast({ description: `Bid placed: up to ${formatUSD(max2 ?? offered2)}` });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const downloadCsv = async () => {
+    if (!sb) return;
+    try {
+      const { data: sess } = await sb.auth.getSession();
+      const token = sess?.session?.access_token;
+      const fnUrl = `https://huebxglhbenulbcftzdq.functions.supabase.co/bids-csv?lot_id=${encodeURIComponent(lot.id)}`;
+      const res = await fetch(fnUrl, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
+      if (res.status === 401) return toast({ description: 'Unauthorized' });
+      if (res.status === 403) return toast({ description: 'Forbidden' });
+      if (!res.ok) return toast({ description: `Export failed (${res.status})` });
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const d = new Date().toISOString().slice(0,10).replace(/-/g, '');
+      a.download = `bids_${lot.id}_${d}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e:any) {
+      toast({ description: e.message || 'Export failed' });
+    }
+  };
+
+  return (
+    <section aria-labelledby="bid-panel" className="rounded-lg border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <h2 id="bid-panel" className="text-sm font-medium">Place a bid</h2>
+        <Badge variant={realtime.reserveMet || lot.reserve_met ? "default" : "secondary"}>
+          {realtime.reserveMet || lot.reserve_met ? 'RESERVE MET ✅' : 'RESERVE NOT MET'}
+        </Badge>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-1">
+          <div className="text-xs text-muted-foreground">Current</div>
+          <div className="text-2xl font-semibold">{formatUSD(currentPrice ?? lot.starting_bid)}</div>
+          {isLeading && <div className="text-xs"><Badge variant="secondary">You're leading</Badge></div>}
+          <div className="text-xs text-muted-foreground">Next minimum: {formatUSD(minNext)}</div>
+        </div>
+        <div className="justify-self-end text-right">
+          <div className="text-xs text-muted-foreground">Ends in</div>
+          <div className="text-2xl font-semibold">{remaining}</div>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="space-y-1">
+          <label htmlFor="offered" className="text-xs text-muted-foreground">Offered</label>
+          <Input
+            id="offered"
+            inputMode="decimal"
+            placeholder={`Enter ≥ ${formatUSD(minNext)}`}
+            value={offered}
+            onChange={(e) => {
+              const v = e.target.value.replace(/[^0-9.]/g, '');
+              const i = v.indexOf('.');
+              const clean = i >= 0 ? v.slice(0, i + 1) + v.slice(i + 1).replace(/\./g, '').slice(0, 2) : v;
+              setOffered(clean);
+            }}
+            onPaste={(e) => {
+              e.preventDefault();
+              const t = e.clipboardData.getData('text') || '';
+              const v = t.replace(/[^0-9.]/g, '');
+              const i = v.indexOf('.');
+              const clean = i >= 0 ? v.slice(0, i + 1) + v.slice(i + 1).replace(/\./g, '').slice(0, 2) : v;
+              setOffered(clean);
+            }}
+            aria-label="Offered amount"
+          />
+        </div>
+        <div className="space-y-1">
+          <label htmlFor="max" className="text-xs text-muted-foreground">Max bid (optional)</label>
+          <Input
+            id="max"
+            inputMode="decimal"
+            placeholder="Proxy cap"
+            value={max}
+            onChange={(e) => {
+              const v = e.target.value.replace(/[^0-9.]/g, '');
+              const i = v.indexOf('.');
+              const clean = i >= 0 ? v.slice(0, i + 1) + v.slice(i + 1).replace(/\./g, '').slice(0, 2) : v;
+              setMax(clean);
+            }}
+            onPaste={(e) => {
+              e.preventDefault();
+              const t = e.clipboardData.getData('text') || '';
+              const v = t.replace(/[^0-9.]/g, '');
+              const i = v.indexOf('.');
+              const clean = i >= 0 ? v.slice(0, i + 1) + v.slice(i + 1).replace(/\./g, '').slice(0, 2) : v;
+              setMax(clean);
+            }}
+            aria-label="Maximum bid cap"
+          />
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center gap-3">
+        <Button onClick={onSubmit} disabled={isSeller || isEnded || submitting} aria-busy={submitting}>
+          {isEnded ? 'Auction ended' : isSeller ? 'Sellers cannot bid' : submitting ? 'Submitting…' : 'Place bid'}
+        </Button>
+        {(isSeller || !!isAdmin) && (
+          <Button variant="outline" onClick={downloadCsv}>Download bid history (CSV)</Button>
+        )}
+        <div className="ml-auto text-xs text-muted-foreground">Earlier max wins. Auto-bids in minimum increments.</div>
+      </div>
+
+      <VerifyModal open={verifyOpen} onOpenChange={setVerifyOpen} onStripeIdentity={() => {
+        setVerifyOpen(false);
+        toast({ description: 'Stripe Identity flow coming soon.' });
+      }} onManualUpload={() => {
+        setVerifyOpen(false);
+        toast({ description: 'Manual review upload coming soon.' });
+      }} />
+    </section>
+  );
+}

@@ -1,0 +1,86 @@
+import { Helmet } from "react-helmet-async";
+import ZingNav from "@/components/ZingNav";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
+import { getSupabase } from "@/lib/supabaseClient";
+import LiveLotTicker from "@/components/auctions/LiveLotTicker";
+
+const QA = () => {
+  const [lotId, setLotId] = useState("");
+  const [showId, setShowId] = useState("");
+  const [startingBid, setStartingBid] = useState(0);
+  // Fetch starting bid when lot changes
+  useEffect(() => {
+    const sb = getSupabase();
+    let active = true;
+    (async () => {
+      if (!sb || !lotId) return;
+      const { data } = await sb.from('lots').select('starting_bid').eq('id', lotId).maybeSingle();
+      if (!active) return;
+      setStartingBid(Number((data as any)?.starting_bid ?? 0));
+    })();
+    return () => { active = false; };
+  }, [lotId]);
+
+  const placeSampleBid = async () => {
+    const sb = getSupabase();
+    if (!sb) return toast({ description: "Supabase not configured" });
+    const { data: user } = await sb.auth.getUser();
+    if (!user?.user) return toast({ description: "Sign in first" });
+    const { error } = await sb.rpc("place_bid", { p_lot: lotId, p_amount: 12.34 });
+    if (error) return toast({ description: error.message });
+    toast({ description: `Bid placed for $12.34` });
+  };
+
+  const shortenSoftClose = async () => {
+    const sb = getSupabase();
+    if (!sb) return toast({ description: "Supabase not configured" });
+    const { error } = await sb.from("lots").update({ ends_at: new Date(Date.now() + 20_000).toISOString() }).eq("id", lotId);
+    if (error) return toast({ description: error.message });
+    toast({ description: "ends_at set to 20s from now (if you have permission)" });
+  };
+
+  const endLotNow = async () => {
+    const sb = getSupabase();
+    if (!sb) return toast({ description: "Supabase not configured" });
+    const { error } = await sb.rpc("end_lot", { p_lot: lotId });
+    if (error) return toast({ description: error.message });
+    toast({ description: "Lot ended (if you have permission)" });
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>QA Harness | ZingLots</title>
+        <meta name="description" content="Test soft-close, bids, and realtime for ZingLots." />
+        <link rel="canonical" href="/qa" />
+      </Helmet>
+      <ZingNav />
+      <main className="container mx-auto px-4 py-10 space-y-6">
+        <h1 className="text-3xl font-bold">QA Harness</h1>
+        <p className="text-sm text-muted-foreground">Use in two browsers to demo bidding + soft-close.</p>
+
+        <div className="rounded-lg border bg-card p-4 space-y-3">
+          <div className="grid gap-2 sm:grid-cols-2">
+            <input className="rounded-md border bg-background px-3 py-2" placeholder="Lot ID" value={lotId} onChange={(e) => setLotId(e.target.value)} />
+            <input className="rounded-md border bg-background px-3 py-2" placeholder="Show ID" value={showId} onChange={(e) => setShowId(e.target.value)} />
+          </div>
+          {lotId && <LiveLotTicker lotId={lotId} startingBid={startingBid} />}
+          <div className="flex gap-3">
+            <Button onClick={placeSampleBid}>Place Sample Bid ($12.34)</Button>
+            <Button variant="outline" onClick={shortenSoftClose}>Shorten Soft-Close (20s)</Button>
+            <Button variant="destructive" onClick={endLotNow}>End Lot (demo)</Button>
+          </div>
+        </div>
+
+        <aside className="text-xs text-muted-foreground">
+          Seeds: see docs/migrations/0003_seed_demo.sql. Legal: Collectibles intended for ages 14+.
+        </aside>
+      </main>
+    </div>
+  );
+};
+
+export default QA;
+
