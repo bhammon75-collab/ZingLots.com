@@ -13,6 +13,18 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
+// Helper for ItemList JSON-LD
+const listJsonLd = (items: {id:string; title:string}[]) => ({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": items.map((it, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "url": `https://www.zinglots.com/product/${it.id}`,
+    "name": it.title
+  }))
+});
+
 const Index = () => {
   const showDev = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('dev') === '1';
   const [term, setTerm] = useState("");
@@ -30,6 +42,9 @@ const Index = () => {
         <link rel="canonical" href="/" />
         <meta property="og:title" content="ZingLots | Live Toy Auctions" />
         <meta property="og:description" content="Discover live shows and bid on collectible toys with soft-close and Buy Now." />
+        <script type="application/ld+json">
+          {JSON.stringify(listJsonLd((DEMO_LOTS ?? []).slice(0, 12)))}
+        </script>
       </Helmet>
 
       <ZingNav />
