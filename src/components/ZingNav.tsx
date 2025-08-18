@@ -101,13 +101,14 @@ const ZingNav = () => {
           </nav>
 
           {/* Centered Logo */}
-          <div className="flex-1 flex justify-center">
-            <Link to="/">
+          <div className="flex-1 flex justify-center items-center">
+            <Link to="/" className="flex items-center gap-3">
               <img 
-                src="/lovable-uploads/9500d176-1bca-4494-936a-0978e437e2d8.png" 
-                alt="ZingLots - B2B Surplus Marketplace" 
-                className="h-32 w-auto"
+                src="/icons/bolt.svg" 
+                alt="ZingLots Bolt Logo" 
+                className="h-16 w-16"
               />
+              <span className="text-3xl font-bold text-gray-900">ZingLots</span>
             </Link>
           </div>
 
@@ -165,13 +166,14 @@ const ZingNav = () => {
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex h-32 items-start justify-between pt-4">
-          <div className="flex-1 flex justify-center">
-            <Link to="/">
+          <div className="flex-1 flex justify-center items-center">
+            <Link to="/" className="flex items-center gap-2">
               <img 
-                src="/lovable-uploads/9500d176-1bca-4494-936a-0978e437e2d8.png" 
-                alt="ZingLots - B2B Surplus Marketplace" 
-                className="h-24 w-auto"
+                src="/icons/bolt.svg" 
+                alt="ZingLots Bolt Logo" 
+                className="h-12 w-12"
               />
+              <span className="text-2xl font-bold text-gray-900">ZingLots</span>
             </Link>
           </div>
           <button
