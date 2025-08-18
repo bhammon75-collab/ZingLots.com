@@ -3,14 +3,14 @@ import { supabase as sharedClient } from '@/integrations/supabase/client';
 
 type Database = {
   public: {
-    Views: {};
-    Tables: {};
-    Functions: {};
+    Views: Record<string, never>;
+    Tables: Record<string, never>;
+    Functions: Record<string, never>;
   };
   app: {
-    Views: {};
-    Tables: {};
-    Functions: {};
+    Views: Record<string, never>;
+    Tables: Record<string, never>;
+    Functions: Record<string, never>;
   };
 };
 
