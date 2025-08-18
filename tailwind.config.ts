@@ -28,10 +28,6 @@ export default {
 					DEFAULT: '#111316',
 					light: '#FFFFFF'
 				},
-				border: {
-					DEFAULT: '#1F2329',
-					light: '#E5E7EB'
-				},
 				text: {
 					DEFAULT: '#E7EAF0',
 					muted: '#A5ACB8',
@@ -147,7 +143,7 @@ export default {
 						height: 'var(--radix-accordion-content-height)'
 					},
 					to: {
-						height: 'var(--radix-accordion-content-height)'
+						height: '0'
 					}
 				}
 			}
