@@ -13,6 +13,7 @@ interface State {
   extendedPing?: number
 }
 
+// Properly typed Supabase query responses instead of generic casting
 interface LotData {
   status: LotStatus
   ends_at: string | null
@@ -26,6 +27,7 @@ interface BidData {
   amount: number
 }
 
+// Properly typed Postgres realtime payloads
 interface PostgresChangePayload<T = Record<string, unknown>> {
   new: T
   old?: T
@@ -44,6 +46,28 @@ interface LotUpdatePayload {
 interface BidInsertPayload {
   amount: number
   lot_id: string
+}
+
+// Type guard functions for safe type checking
+function isValidLotData(data: unknown): data is LotData {
+  if (!data || typeof data !== 'object') return false;
+  const lot = data as Record<string, unknown>;
+  
+  return (
+    typeof lot.status === 'string' &&
+    (lot.ends_at === null || typeof lot.ends_at === 'string') &&
+    typeof lot.reserve_met === 'boolean' &&
+    (lot.current_price === null || typeof lot.current_price === 'number') &&
+    (lot.high_bidder === null || typeof lot.high_bidder === 'string') &&
+    (lot.high_bidder_id === null || typeof lot.high_bidder_id === 'string')
+  );
+}
+
+function isValidBidData(data: unknown): data is BidData {
+  if (!data || typeof data !== 'object') return false;
+  const bid = data as Record<string, unknown>;
+  
+  return typeof bid.amount === 'number';
 }
 
 export function useLotRealtime(lotId: string) {
@@ -66,8 +90,9 @@ export function useLotRealtime(lotId: string) {
 
       if (!mounted) return
       
-      const lotData = lot as LotData | null
-      const topBid = top as BidData | null
+      // Use type guards instead of unsafe casting
+      const lotData = isValidLotData(lot) ? lot : null;
+      const topBid = isValidBidData(top) ? top : null;
       
       setState({
         status: lotData?.status,
