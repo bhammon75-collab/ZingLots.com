@@ -19,16 +19,38 @@ interface OrderRow {
   label_url: string | null;
 }
 
+interface SellerData {
+  kyc_status: string;
+  stripe_account_id: string | null;
+  connect_details_submitted: boolean | null;
+  connect_charges_enabled: boolean | null;
+  connect_payouts_enabled: boolean | null;
+  connect_requirements: string[] | null;
+}
+
+interface SellerInfo {
+  verified: boolean;
+  hasStripe: boolean;
+  connectDetailsSubmitted?: boolean;
+  connectChargesEnabled?: boolean;
+  connectPayoutsEnabled?: boolean;
+  connectRequirements?: string[] | null;
+}
+
+interface ShowData {
+  id: string;
+}
+
+interface OnboardingResponse {
+  url?: string;
+}
+
+interface ErrorWithMessage {
+  message: string;
+}
 
 const DashboardSeller = () => {
-  const [sellerInfo, setSellerInfo] = useState<{
-    verified: boolean;
-    hasStripe: boolean;
-    connectDetailsSubmitted?: boolean;
-    connectChargesEnabled?: boolean;
-    connectPayoutsEnabled?: boolean;
-    connectRequirements?: any;
-  } | null>(null);
+  const [sellerInfo, setSellerInfo] = useState<SellerInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [paidOrders, setPaidOrders] = useState<OrderRow[]>([]);
   const [onboardingLoading, setOnboardingLoading] = useState(false);
@@ -55,18 +77,27 @@ const DashboardSeller = () => {
           .eq('id', uid)
           .maybeSingle();
         if (error) throw error;
-        const details = Boolean((data as any)?.connect_details_submitted);
-        const charges = Boolean((data as any)?.connect_charges_enabled);
-        const payouts = Boolean((data as any)?.connect_payouts_enabled);
-        const hasStripe = Boolean((data as any)?.stripe_account_id);
-        const verified = ((data as any)?.kyc_status === 'verified') || details;
+        
+        const sellerData = data as SellerData | null;
+        if (!sellerData) {
+          setSellerInfo(null);
+          setLoading(false);
+          return;
+        }
+
+        const details = Boolean(sellerData.connect_details_submitted);
+        const charges = Boolean(sellerData.connect_charges_enabled);
+        const payouts = Boolean(sellerData.connect_payouts_enabled);
+        const hasStripe = Boolean(sellerData.stripe_account_id);
+        const verified = (sellerData.kyc_status === 'verified') || details;
+        
         setSellerInfo({
           verified,
           hasStripe,
           connectDetailsSubmitted: details,
           connectChargesEnabled: charges,
           connectPayoutsEnabled: payouts,
-          connectRequirements: (data as any)?.connect_requirements ?? null,
+          connectRequirements: sellerData.connect_requirements ?? null,
         });
 
         // Find running show for this seller
@@ -78,7 +109,8 @@ const DashboardSeller = () => {
           .eq('status', 'running')
           .order('created_at', { ascending: false })
           .maybeSingle();
-        if ((srow as any)?.id) setRunningShowId((srow as any).id);
+        const showData = srow as ShowData | null;
+        if (showData?.id) setRunningShowId(showData.id);
 
         // Attempt to fetch paid orders (visible if permitted by RLS)
         const { data: orders } = await sb
@@ -86,7 +118,7 @@ const DashboardSeller = () => {
           .from('orders')
           .select('id, status, subtotal, fees_bps, shipping_cents, shipping_tracking, shipping_carrier, label_url, lot_id')
           .eq('status', 'paid');
-        setPaidOrders(((orders as any) || []));
+        setPaidOrders((orders as OrderRow[]) || []);
       } catch {
         setSellerInfo(null);
       } finally {
@@ -108,15 +140,17 @@ const DashboardSeller = () => {
       if (!uid) throw new Error('Not signed in');
 
       const { data, error } = await sb.functions.invoke('stripe-connect-onboard', { body: {} });
-      if (error) throw error as any;
-      const url = (data as any)?.url;
+      if (error) throw error;
+      const response = data as OnboardingResponse;
+      const url = response?.url;
       if (url) {
         window.open(url, '_blank');
       } else {
         toast({ variant: 'destructive', title: 'Onboarding error', description: 'No onboarding URL returned.' });
       }
-    } catch (e: any) {
-      toast({ variant: 'destructive', title: 'Onboarding failed', description: e?.message || 'Please try again.' });
+    } catch (e) {
+      const errorMsg = (e as ErrorWithMessage)?.message || 'Please try again.';
+      toast({ variant: 'destructive', title: 'Onboarding failed', description: errorMsg });
     } finally {
       setOnboardingLoading(false);
     }
@@ -132,8 +166,9 @@ const DashboardSeller = () => {
         toast({ title: 'Show is live', description: 'You can now start lots.' });
         setRunningShowId(data as string);
       }
-    } catch (e: any) {
-      toast({ variant: 'destructive', title: 'Go live failed', description: e?.message || 'Please complete onboarding.' });
+    } catch (e) {
+      const errorMsg = (e as ErrorWithMessage)?.message || 'Please complete onboarding.';
+      toast({ variant: 'destructive', title: 'Go live failed', description: errorMsg });
     }
   };
 
@@ -146,8 +181,9 @@ const DashboardSeller = () => {
       const lotId = data as string;
       toast({ title: 'Lot started', description: 'Redirecting to auction room…' });
       if (lotId) navigate(`/auction/${lotId}`);
-    } catch (e: any) {
-      toast({ variant: 'destructive', title: 'Start lot failed', description: e?.message || 'Please try again.' });
+    } catch (e) {
+      const errorMsg = (e as ErrorWithMessage)?.message || 'Please try again.';
+      toast({ variant: 'destructive', title: 'Start lot failed', description: errorMsg });
     }
   };
 
@@ -173,7 +209,7 @@ const DashboardSeller = () => {
       .from('orders')
       .select('id, status, subtotal, fees_bps, shipping_cents, shipping_tracking, shipping_carrier, label_url, lot_id')
       .eq('status', 'paid');
-    setPaidOrders(((orders as any) || []));
+    setPaidOrders((orders as OrderRow[]) || []);
   };
 
   const netDue = (o: OrderRow) => {
@@ -205,8 +241,8 @@ const DashboardSeller = () => {
               <div>Details submitted: {sellerInfo?.connectDetailsSubmitted ? 'Yes' : 'No'}</div>
               <div>Charges enabled: {sellerInfo?.connectChargesEnabled ? 'Yes' : 'No'}</div>
               <div>Payouts enabled: {sellerInfo?.connectPayoutsEnabled ? 'Yes' : 'No'}</div>
-              {Array.isArray(sellerInfo?.connectRequirements) && (sellerInfo!.connectRequirements as any[])?.length > 0 && (
-                <div>Action required: {(sellerInfo!.connectRequirements as any[]).join(', ')}</div>
+              {Array.isArray(sellerInfo?.connectRequirements) && sellerInfo.connectRequirements?.length > 0 && (
+                <div>Action required: {sellerInfo.connectRequirements.join(', ')}</div>
               )}
             </div>
             {!sellerInfo?.verified && (
