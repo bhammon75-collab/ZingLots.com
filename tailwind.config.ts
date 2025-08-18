@@ -110,11 +110,25 @@ export default {
 				}
 			},
 			borderRadius: {
+				// Design token mappings
+				zl: 'var(--radius-lg)',
+				// Keep existing tokens while adding design token mappings
 				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)',
+				md: 'var(--radius-md)',
+				sm: 'var(--radius-sm)',
 				xl: '14px',  // Professional design system
 				'2xl': '16px', // Professional design system
+			},
+			spacing: {
+				// Design token mappings for consistent spacing
+				0.5: 'var(--s-25)',
+				1: 'var(--s-50)',
+				2: 'var(--s-100)',
+				4: 'var(--s-200)',
+				6: 'var(--s-300)',
+				8: 'var(--s-400)',
+				12: 'var(--s-600)',
+				16: 'var(--s-800)',
 			},
 			boxShadow: {
 				// Professional design system shadows
