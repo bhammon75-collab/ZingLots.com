@@ -15,6 +15,18 @@ import { useEffect, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
 
+interface UserMetadata {
+  roles?: string[];
+  is_admin?: boolean;
+  full_name?: string;
+  first_name?: string;
+  name?: string;
+}
+
+interface AppMetadata {
+  roles?: string[];
+  is_admin?: boolean;
+}
 
 const ZingNav = () => {
   const [open, setOpen] = useState(false);
@@ -22,30 +34,45 @@ const ZingNav = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [displayName, setDisplayName] = useState<string | null>(null);
 
-useEffect(() => {
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-    setIsAuthed(!!session);
-    const meta = session?.user?.user_metadata || session?.user?.app_metadata || {};
-    const roles: string[] | undefined = (meta as any)?.roles || (session?.user?.app_metadata?.roles as any);
-    setIsAdmin(!!((meta as any)?.is_admin || roles?.includes?.("admin")));
-    const name = (meta as any)?.full_name || (meta as any)?.first_name || (meta as any)?.name || session?.user?.email?.split("@")[0] || null;
-    setDisplayName(name);
-  });
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    setIsAuthed(!!session);
-    const meta = session?.user?.user_metadata || session?.user?.app_metadata || {};
-    const roles: string[] | undefined = (meta as any)?.roles || (session?.user?.app_metadata?.roles as any);
-    setIsAdmin(!!((meta as any)?.is_admin || roles?.includes?.("admin")));
-    const name = (meta as any)?.full_name || (meta as any)?.first_name || (meta as any)?.name || session?.user?.email?.split("@")[0] || null;
-    setDisplayName(name);
-  });
-  return () => subscription.unsubscribe();
-}, []);
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthed(!!session);
+      const userMeta = (session?.user?.user_metadata || {}) as UserMetadata;
+      const appMeta = (session?.user?.app_metadata || {}) as AppMetadata;
+      
+      const roles = userMeta.roles || appMeta.roles;
+      setIsAdmin(!!(userMeta.is_admin || appMeta.is_admin || roles?.includes?.("admin")));
+      
+      const name = userMeta.full_name || 
+                   userMeta.first_name || 
+                   userMeta.name || 
+                   session?.user?.email?.split("@")[0] || 
+                   null;
+      setDisplayName(name);
+    });
+    
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthed(!!session);
+      const userMeta = (session?.user?.user_metadata || {}) as UserMetadata;
+      const appMeta = (session?.user?.app_metadata || {}) as AppMetadata;
+      
+      const roles = userMeta.roles || appMeta.roles;
+      setIsAdmin(!!(userMeta.is_admin || appMeta.is_admin || roles?.includes?.("admin")));
+      
+      const name = userMeta.full_name || 
+                   userMeta.first_name || 
+                   userMeta.name || 
+                   session?.user?.email?.split("@")[0] || 
+                   null;
+      setDisplayName(name);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, []);
 
-
-const handleSignOut = async () => {
-  await supabase.auth.signOut();
-};
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white backdrop-blur supports-[backdrop-filter]:bg-white/95 pointer-events-auto">
