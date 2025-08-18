@@ -19,7 +19,16 @@ export default {
 		},
 		extend: {
 			colors: {
-				// New professional design system
+				// Premium brand design system
+				brand: { 
+					primary: "#E53935", 
+					dark: "#B71C1C" 
+				},
+				ink: "#0F172A",
+				paper: "#FAFAFA",
+				line: "#E5E7EB",
+				
+				// New professional design system (existing)
 				bg: {
 					DEFAULT: '#0B0C0E',
 					light: '#F8FAFC'
@@ -68,10 +77,6 @@ export default {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))'
                 },
-                brand: {
-                    blue: 'hsl(var(--brand-blue))',
-                    'blue-foreground': 'hsl(var(--brand-blue-foreground))'
-                },
 				zing: {
 					50:  '#FFF3EC',
 					100: '#FFE4D2',
@@ -83,18 +88,6 @@ export default {
 					700: '#B94C12',
 					800: '#8F3C14',
 					900: '#6F2F13',
-				},
-				ink: {
-					50: '#F7F8FA',
-					100:'#EEF0F5',
-					200:'#DADDE8',
-					300:'#B3B9D1',
-					400:'#8B93B3',
-					500:'#5C658B',
-					600:'#424A75',
-					700:'#323A64',
-					800:'#272F53',
-					900:'#1D233D',
 				},
 				success: '#16A34A',
 				warning: '#F59E0B',
@@ -109,16 +102,22 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			fontFamily: {
+				sans: ['Inter','system-ui','Segoe UI','Arial','sans-serif'],
+			},
 			borderRadius: {
-				lg: 'var(--radius)',
+				xl: "18px",
+				lg: "12px",
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)',
-				xl: '14px',  // Professional design system
-				'2xl': '16px', // Professional design system
+				'2xl': '16px',
 			},
 			boxShadow: {
-				// Professional design system shadows
-				card: '0 6px 24px rgba(0,0,0,0.18)',
+				// Premium shadows
+				card: "0 8px 24px rgba(17,24,39,.06)",
+				cardHover: "0 10px 30px rgba(17,24,39,.10)",
+				
+				// Professional design system shadows (existing)
 				inset: 'inset 0 0 0 1px rgba(255,255,255,0.04)',
 				
 				// Legacy shadows (for compatibility)
