@@ -61,6 +61,7 @@ export default defineConfig(({ mode }) => ({
     drop: ['console', 'debugger'] 
   } : {},
   test: {
+    globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
   },
