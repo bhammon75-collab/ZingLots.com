@@ -59,6 +59,10 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom"],
   },
+  // Strip console.log and debugger statements in production builds
+  esbuild: mode === 'production' ? { 
+    drop: ['console', 'debugger'] 
+  } : {},
   test: {
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
