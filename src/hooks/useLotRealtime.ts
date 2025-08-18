@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getSupabase } from '@/lib/supabaseClient'
 
 import type { LotStatus } from '@/types/auction'
+
 interface State {
   status?: LotStatus
   endsAt?: string | null
@@ -10,6 +11,39 @@ interface State {
   highBidder?: string | null
   highBidderId?: string | null
   extendedPing?: number
+}
+
+interface LotData {
+  status: LotStatus
+  ends_at: string | null
+  reserve_met: boolean
+  current_price: number | null
+  high_bidder: string | null
+  high_bidder_id: string | null
+}
+
+interface BidData {
+  amount: number
+}
+
+interface PostgresChangePayload<T = Record<string, unknown>> {
+  new: T
+  old?: T
+  eventType: 'INSERT' | 'UPDATE' | 'DELETE'
+}
+
+interface LotUpdatePayload {
+  status: LotStatus
+  ends_at: string | null
+  reserve_met: boolean
+  current_price: number | null
+  high_bidder: string | null
+  high_bidder_id: string | null
+}
+
+interface BidInsertPayload {
+  amount: number
+  lot_id: string
 }
 
 export function useLotRealtime(lotId: string) {
@@ -31,27 +65,31 @@ export function useLotRealtime(lotId: string) {
         .order('amount', { ascending: false }).limit(1).maybeSingle()
 
       if (!mounted) return
+      
+      const lotData = lot as LotData | null
+      const topBid = top as BidData | null
+      
       setState({
-        status: (lot as any)?.status,
-        endsAt: (lot as any)?.ends_at ?? null,
-        reserveMet: !!(lot as any)?.reserve_met,
-        topBid: (top as any)?.amount ?? (lot as any)?.current_price ?? null,
-        highBidder: (lot as any)?.high_bidder ?? null,
-        highBidderId: (lot as any)?.high_bidder_id ?? null,
+        status: lotData?.status,
+        endsAt: lotData?.ends_at ?? null,
+        reserveMet: !!(lotData?.reserve_met),
+        topBid: topBid?.amount ?? lotData?.current_price ?? null,
+        highBidder: lotData?.high_bidder ?? null,
+        highBidderId: lotData?.high_bidder_id ?? null,
       })
-      lastEndsAtRef.current = (lot as any)?.ends_at ?? null
+      lastEndsAtRef.current = lotData?.ends_at ?? null
     })()
 
     const ch = sb.channel(`lot-${lotId}`)
       .on('postgres_changes',
         { event: 'UPDATE', schema: 'app', table: 'lots', filter: `id=eq.${lotId}` },
-        (payload: any) => {
-          const ends = payload.new.ends_at as string | null
+        (payload: PostgresChangePayload<LotUpdatePayload>) => {
+          const ends = payload.new.ends_at
           const prev = lastEndsAtRef.current
           lastEndsAtRef.current = ends ?? null
           setState(s => ({
             ...s,
-            status: payload.new.status as LotStatus,
+            status: payload.new.status,
             endsAt: ends,
             reserveMet: !!payload.new.reserve_met,
             topBid: typeof payload.new.current_price === 'number' ? Number(payload.new.current_price) : s.topBid,
@@ -62,7 +100,7 @@ export function useLotRealtime(lotId: string) {
         })
       .on('postgres_changes',
         { event: 'INSERT', schema: 'app', table: 'bids', filter: `lot_id=eq.${lotId}` },
-        (payload: any) => {
+        (payload: PostgresChangePayload<BidInsertPayload>) => {
           const amount = Number(payload.new.amount)
           setState(s => ({ ...s, topBid: Math.max(s.topBid ?? 0, amount) }))
         })
