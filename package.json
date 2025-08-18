@@ -14,7 +14,8 @@
     "test:smoke": "vitest -c vitest.smoke.config.ts run",
     "prebuild": "node scripts/check-ellipsis.mjs",
     "ci": "eslint . && vite build",
-    "generate:icons": "node scripts/generate-icons.mjs"
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "check:branding": "node scripts/check-branding.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
