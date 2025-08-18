@@ -119,6 +119,7 @@
 
   /* Base styles */
   html, body { 
+    height: 100%;
     background: var(--bg); 
     color: var(--text);
   }
@@ -128,7 +129,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-paper text-ink antialiased;
   }
 }
 
