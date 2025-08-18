@@ -23,7 +23,24 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
-      "@typescript-eslint/no-unused-vars": "off",
+      // Improved TypeScript and code quality rules
+      "@typescript-eslint/no-unused-vars": [
+        "warn", 
+        { 
+          "argsIgnorePattern": "^_", 
+          "varsIgnorePattern": "^_" 
+        }
+      ],
+      "no-console": [
+        "warn", 
+        { 
+          "allow": ["error", "warn"] 
+        }
+      ],
+      // Additional helpful rules
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/prefer-const": "error",
+      "prefer-const": "off", // Let TS version handle this
     },
   }
 );
