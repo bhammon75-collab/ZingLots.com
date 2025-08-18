@@ -42,11 +42,15 @@ useEffect(() => {
   try {
     const qp = searchParams.get("q") || "";
     setQ(qp);
-  } catch {}
+  } catch (error) {
+    console.error("Failed to parse search params:", error);
+  }
   try {
     const raw = localStorage.getItem("recently_viewed");
     setRecent(raw ? JSON.parse(raw) : []);
-  } catch {}
+  } catch (error) {
+    console.error("Failed to load recent items from localStorage:", error);
+  }
 }, [searchParams]);
 
   const recentLots = useMemo(() => DEMO_LOTS.filter((l) => recent.includes(l.id)), [recent]);
