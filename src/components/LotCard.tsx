@@ -47,9 +47,9 @@ const LotCard = ({ item }: { item: LotItem }) => {
         url,
       };
 
-      // @ts-ignore
+      // @ts-expect-error - navigator.share is not available in all browsers
       if (navigator.share) {
-        // @ts-ignore
+        // @ts-expect-error - navigator.share is experimental API
         await navigator.share(shareData);
       } else {
         await navigator.clipboard.writeText(url);
