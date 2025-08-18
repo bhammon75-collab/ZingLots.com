@@ -12,13 +12,33 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: '1rem',
 			screens: {
-				'2xl': '1400px'
+				'2xl': '1280px'
 			}
 		},
 		extend: {
 			colors: {
+				// New professional design system
+				bg: {
+					DEFAULT: '#0B0C0E',
+					light: '#F8FAFC'
+				},
+				surface: {
+					DEFAULT: '#111316',
+					light: '#FFFFFF'
+				},
+				text: {
+					DEFAULT: '#E7EAF0',
+					muted: '#A5ACB8',
+					dark: '#0B0C0E',
+					darkMuted: '#64748B'
+				},
+				accent: '#22C55E',
+				warn: '#F59E0B',
+				danger: '#EF4444',
+
+				// Legacy shadcn tokens (for compatibility)
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -39,10 +59,6 @@ export default {
 				muted: {
 					DEFAULT: 'hsl(var(--muted))',
 					foreground: 'hsl(var(--muted-foreground))'
-				},
-				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -82,7 +98,6 @@ export default {
 				},
 				success: '#16A34A',
 				warning: '#F59E0B',
-				danger:  '#EF4444',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -98,11 +113,15 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)',
-				xl: '1rem',
-				'2xl': '1.25rem',
+				xl: '14px',  // Professional design system
+				'2xl': '16px', // Professional design system
 			},
 			boxShadow: {
-				card: '0 10px 28px rgba(10, 16, 34, 0.12)',
+				// Professional design system shadows
+				card: '0 6px 24px rgba(0,0,0,0.18)',
+				inset: 'inset 0 0 0 1px rgba(255,255,255,0.04)',
+				
+				// Legacy shadows (for compatibility)
 				glow: '0 0 0 3px rgba(255,107,26,0.25)',
 			},
 			animation: {

@@ -38,7 +38,7 @@ const Index = () => {
         <PayPalSmokeTest />
       </>)}
 
-      <main className="min-h-screen">
+      <main className="pt-16">
         {/* Hero section with auction focus */}
         <section className="bg-white text-gray-900">
           <div className="container mx-auto px-4 py-16 md:py-24">

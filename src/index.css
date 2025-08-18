@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ZingLots Professional Design System */
 
 @layer base {
   :root {
-    /* ZingLots Brand Tokens (HSL) */
+    /* Professional Design System - Light Mode */
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --border: #E5E7EB;
+    --text: #0B0C0E;
+    --text-muted: #64748B;
+    --accent: #22C55E;
+    --warn: #F59E0B;
+    --danger: #EF4444;
+
+    /* Legacy ZingLots Brand Tokens (HSL) - for compatibility */
     --brand-orange: 14 100% 61%; /* #FF5A36 */
     --brand-ink: 0 0% 11%; /* #1C1C1C */
     --brand-mint: 170 64% 52%; /* #2DD4BF */
@@ -35,13 +43,9 @@ All colors MUST be HSL.
     --muted: 36 28% 94%;
     --muted-foreground: 215 16% 35%;
 
-    --accent: var(--brand-mint);
-    --accent-foreground: 170 100% 12%;
-
     --destructive: 2 84% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 20% 88%;
     --input: 30 20% 88%;
     --ring: var(--brand-ink);
 
@@ -68,6 +72,17 @@ All colors MUST be HSL.
   }
 
   .dark {
+    /* Professional Design System - Dark Mode */
+    --bg: #0B0C0E;
+    --surface: #111316;
+    --border: #1F2329;
+    --text: #E7EAF0;
+    --text-muted: #A5ACB8;
+    --accent: #22C55E;
+    --warn: #F59E0B;
+    --danger: #EF4444;
+
+    /* Legacy tokens for dark mode */
     --background: 222 50% 6%;
     --foreground: 210 40% 98%;
 
@@ -86,13 +101,9 @@ All colors MUST be HSL.
     --muted: 217 28% 16%;
     --muted-foreground: 215 18% 72%;
 
-    --accent: 171 60% 46%;
-    --accent-foreground: 170 100% 12%;
-
     --destructive: 2 70% 40%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 28% 20%;
     --input: 217 28% 20%;
     --ring: 212 27% 84%;
 
@@ -105,9 +116,13 @@ All colors MUST be HSL.
     --sidebar-border: 217 24% 14%;
     --sidebar-ring: 217 91% 60%;
   }
-}
 
-@layer base {
+  /* Base styles */
+  html, body { 
+    background: var(--bg); 
+    color: var(--text);
+  }
+
   * {
     @apply border-border;
   }
@@ -117,23 +132,45 @@ All colors MUST be HSL.
   }
 }
 
-/* Hero gradient background helper */
-.gradient-hero {
-  background:
-    radial-gradient(900px 400px at 10% -10%, rgba(255,107,26,0.12), transparent),
-    linear-gradient(180deg, #0C1124 0%, #121833 100%);
+@layer components {
+  /* Professional focus ring */
+  :focus-visible { 
+    outline: 2px solid var(--accent); 
+    outline-offset: 2px; 
+  }
+
+  /* Card surface */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  }
+
+  /* Subtle separators */
+  .hr { 
+    height: 1px; 
+    background: var(--border); 
+  }
+
+  /* Hero gradient background helper */
+  .gradient-hero {
+    background:
+      radial-gradient(900px 400px at 10% -10%, rgba(255,107,26,0.12), transparent),
+      linear-gradient(180deg, #0C1124 0%, #121833 100%);
+  }
+
+  /* Countdown color helpers */
+  .time-pill    { @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums; }
+  .time-ok      { @apply bg-ink-800 text-white; }
+  .time-soon    { @apply bg-warning text-black; }
+  .time-urgent  { @apply bg-danger text-white; }
 }
 
-/* Countdown color helpers */
-.time-pill    { @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums; }
-.time-ok      { @apply bg-ink-800 text-white; }
-.time-soon    { @apply bg-warning text-black; }
-.time-urgent  { @apply bg-danger text-white; }
-
-/* Focus ring for keyboard users */
-:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,107,26,0.35) !important; border-radius: .5rem; }
-
-/* Keep header clickable above overlays */
-header.sticky { z-index: 9999 !important; pointer-events: auto !important; }
-/* If any hero/overlay spans the page, add class overlay-blocker to it */
-.overlay-blocker { pointer-events: none; }
+@layer utilities {
+  /* Keep header clickable above overlays */
+  header.sticky { z-index: 9999 !important; pointer-events: auto !important; }
+  
+  /* If any hero/overlay spans the page, add class overlay-blocker to it */
+  .overlay-blocker { pointer-events: none; }
+}

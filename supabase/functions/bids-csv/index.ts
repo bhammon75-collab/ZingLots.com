@@ -2,6 +2,20 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 type Row = { created_at: string; alias: string; amount: number; is_proxy: boolean };
+
+interface LotData {
+  id: string;
+  show_id: string;
+}
+
+interface ShowData {
+  seller_id: string;
+}
+
+interface ProfileData {
+  role: string;
+}
+
 type Deps = {
   getUser(req: Request): Promise<{ id: string } | null>;
   getLot(id: string): Promise<{ seller_id: string; auction_id: string } | null>;
@@ -10,7 +24,7 @@ type Deps = {
 };
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") || "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
 };
@@ -75,15 +89,21 @@ async function getRealDeps() {
       const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false }, db: { schema: "app" } });
       const { data: lot, error: lErr } = await admin.from("lots").select("id, show_id").eq("id", id).maybeSingle();
       if (lErr || !lot) return null;
-      const { data: show } = await admin.from("shows").select("seller_id").eq("id", (lot as any).show_id).maybeSingle();
+      
+      const lotData = lot as LotData;
+      const { data: show } = await admin.from("shows").select("seller_id").eq("id", lotData.show_id).maybeSingle();
       if (!show) return null;
-      return { seller_id: (show as any).seller_id, auction_id: (lot as any).show_id };
+      
+      const showData = show as ShowData;
+      return { seller_id: showData.seller_id, auction_id: lotData.show_id };
     },
     async getProfile(uid: string) {
       const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false }, db: { schema: "app" } });
       const { data } = await admin.from("profiles").select("role").eq("id", uid).maybeSingle();
       if (!data) return null;
-      return { role: (data as any).role } as any;
+      
+      const profileData = data as ProfileData;
+      return { role: profileData.role };
     },
     async getRows(id: string) {
       const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false }, db: { schema: "app" } });
