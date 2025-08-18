@@ -45,8 +45,76 @@ interface OnboardingResponse {
   url?: string;
 }
 
+// Proper error handling instead of unsafe casting
 interface ErrorWithMessage {
   message: string;
+}
+
+function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  );
+}
+
+function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
+  if (isErrorWithMessage(maybeError)) return maybeError;
+  
+  try {
+    return new Error(JSON.stringify(maybeError));
+  } catch {
+    return new Error(String(maybeError));
+  }
+}
+
+// Type guards for safe data validation
+function isValidSellerData(data: unknown): data is SellerData {
+  if (!data || typeof data !== 'object') return false;
+  const seller = data as Record<string, unknown>;
+  
+  return (
+    typeof seller.kyc_status === 'string' &&
+    (seller.stripe_account_id === null || typeof seller.stripe_account_id === 'string') &&
+    (seller.connect_details_submitted === null || typeof seller.connect_details_submitted === 'boolean') &&
+    (seller.connect_charges_enabled === null || typeof seller.connect_charges_enabled === 'boolean') &&
+    (seller.connect_payouts_enabled === null || typeof seller.connect_payouts_enabled === 'boolean') &&
+    (seller.connect_requirements === null || Array.isArray(seller.connect_requirements))
+  );
+}
+
+function isValidShowData(data: unknown): data is ShowData {
+  if (!data || typeof data !== 'object') return false;
+  const show = data as Record<string, unknown>;
+  
+  return typeof show.id === 'string';
+}
+
+function isValidOrdersArray(data: unknown): data is OrderRow[] {
+  if (!Array.isArray(data)) return false;
+  
+  return data.every(order => 
+    order &&
+    typeof order === 'object' &&
+    typeof order.id === 'string' &&
+    typeof order.status === 'string' &&
+    typeof order.subtotal === 'number' &&
+    typeof order.fees_bps === 'number' &&
+    typeof order.shipping_cents === 'number' &&
+    (order.shipping_tracking === null || typeof order.shipping_tracking === 'string') &&
+    (order.shipping_carrier === null || typeof order.shipping_carrier === 'string') &&
+    (order.label_url === null || typeof order.label_url === 'string')
+  );
+}
+
+function isValidOnboardingResponse(data: unknown): data is OnboardingResponse {
+  if (!data || typeof data !== 'object') return false;
+  const response = data as Record<string, unknown>;
+  
+  return (
+    response.url === undefined || typeof response.url === 'string'
+  );
 }
 
 const DashboardSeller = () => {
@@ -70,6 +138,7 @@ const DashboardSeller = () => {
         const uid = u.user?.id;
         if (!uid) { setSellerInfo(null); setLoading(false); return; }
         setSellerId(uid);
+        
         const { data, error } = await sb
           .schema('app')
           .from('sellers')
@@ -78,18 +147,18 @@ const DashboardSeller = () => {
           .maybeSingle();
         if (error) throw error;
         
-        const sellerData = data as SellerData | null;
-        if (!sellerData) {
+        // Use type guard instead of unsafe casting
+        if (!isValidSellerData(data)) {
           setSellerInfo(null);
           setLoading(false);
           return;
         }
 
-        const details = Boolean(sellerData.connect_details_submitted);
-        const charges = Boolean(sellerData.connect_charges_enabled);
-        const payouts = Boolean(sellerData.connect_payouts_enabled);
-        const hasStripe = Boolean(sellerData.stripe_account_id);
-        const verified = (sellerData.kyc_status === 'verified') || details;
+        const details = Boolean(data.connect_details_submitted);
+        const charges = Boolean(data.connect_charges_enabled);
+        const payouts = Boolean(data.connect_payouts_enabled);
+        const hasStripe = Boolean(data.stripe_account_id);
+        const verified = (data.kyc_status === 'verified') || details;
         
         setSellerInfo({
           verified,
@@ -97,10 +166,10 @@ const DashboardSeller = () => {
           connectDetailsSubmitted: details,
           connectChargesEnabled: charges,
           connectPayoutsEnabled: payouts,
-          connectRequirements: sellerData.connect_requirements ?? null,
+          connectRequirements: data.connect_requirements ?? null,
         });
 
-        // Find running show for this seller
+        // Find running show for this seller with type safety
         const { data: srow } = await sb
           .schema('app')
           .from('shows')
@@ -109,16 +178,23 @@ const DashboardSeller = () => {
           .eq('status', 'running')
           .order('created_at', { ascending: false })
           .maybeSingle();
-        const showData = srow as ShowData | null;
-        if (showData?.id) setRunningShowId(showData.id);
+        
+        if (isValidShowData(srow)) {
+          setRunningShowId(srow.id);
+        }
 
-        // Attempt to fetch paid orders (visible if permitted by RLS)
+        // Attempt to fetch paid orders with type safety
         const { data: orders } = await sb
           .schema('app')
           .from('orders')
           .select('id, status, subtotal, fees_bps, shipping_cents, shipping_tracking, shipping_carrier, label_url, lot_id')
           .eq('status', 'paid');
-        setPaidOrders((orders as OrderRow[]) || []);
+        
+        if (isValidOrdersArray(orders)) {
+          setPaidOrders(orders);
+        } else {
+          setPaidOrders([]);
+        }
       } catch {
         setSellerInfo(null);
       } finally {
@@ -141,16 +217,21 @@ const DashboardSeller = () => {
 
       const { data, error } = await sb.functions.invoke('stripe-connect-onboard', { body: {} });
       if (error) throw error;
-      const response = data as OnboardingResponse;
-      const url = response?.url;
+      
+      // Type-safe response handling
+      if (!isValidOnboardingResponse(data)) {
+        throw new Error('Invalid onboarding response format');
+      }
+      
+      const url = data.url;
       if (url) {
         window.open(url, '_blank');
       } else {
         toast({ variant: 'destructive', title: 'Onboarding error', description: 'No onboarding URL returned.' });
       }
-    } catch (e) {
-      const errorMsg = (e as ErrorWithMessage)?.message || 'Please try again.';
-      toast({ variant: 'destructive', title: 'Onboarding failed', description: errorMsg });
+    } catch (error: unknown) {
+      const errorWithMessage = toErrorWithMessage(error);
+      toast({ variant: 'destructive', title: 'Onboarding failed', description: errorWithMessage.message });
     } finally {
       setOnboardingLoading(false);
     }
@@ -162,13 +243,13 @@ const DashboardSeller = () => {
     try {
       const { data, error } = await sb.rpc('go_live');
       if (error) throw error;
-      if (data) {
+      if (data && typeof data === 'string') {
         toast({ title: 'Show is live', description: 'You can now start lots.' });
-        setRunningShowId(data as string);
+        setRunningShowId(data);
       }
-    } catch (e) {
-      const errorMsg = (e as ErrorWithMessage)?.message || 'Please complete onboarding.';
-      toast({ variant: 'destructive', title: 'Go live failed', description: errorMsg });
+    } catch (error: unknown) {
+      const errorWithMessage = toErrorWithMessage(error);
+      toast({ variant: 'destructive', title: 'Go live failed', description: errorWithMessage.message || 'Please complete onboarding.' });
     }
   };
 
@@ -178,12 +259,13 @@ const DashboardSeller = () => {
     try {
       const { data, error } = await sb.rpc('start_lot', { p_title: 'Quick Lot', p_starting: 10, p_duration_secs: 60 });
       if (error) throw error;
-      const lotId = data as string;
-      toast({ title: 'Lot started', description: 'Redirecting to auction room…' });
-      if (lotId) navigate(`/auction/${lotId}`);
-    } catch (e) {
-      const errorMsg = (e as ErrorWithMessage)?.message || 'Please try again.';
-      toast({ variant: 'destructive', title: 'Start lot failed', description: errorMsg });
+      if (data && typeof data === 'string') {
+        toast({ title: 'Lot started', description: 'Redirecting to auction room…' });
+        navigate(`/auction/${data}`);
+      }
+    } catch (error: unknown) {
+      const errorWithMessage = toErrorWithMessage(error);
+      toast({ variant: 'destructive', title: 'Start lot failed', description: errorWithMessage.message || 'Please try again.' });
     }
   };
 
@@ -203,13 +285,16 @@ const DashboardSeller = () => {
       return;
     }
     toast({ title: 'Tracking saved', description: 'Order marked as shipped.' });
-    // Refresh list
+    // Refresh list with type safety
     const { data: orders } = await sb
       .schema('app')
       .from('orders')
       .select('id, status, subtotal, fees_bps, shipping_cents, shipping_tracking, shipping_carrier, label_url, lot_id')
       .eq('status', 'paid');
-    setPaidOrders((orders as OrderRow[]) || []);
+    
+    if (isValidOrdersArray(orders)) {
+      setPaidOrders(orders);
+    }
   };
 
   const netDue = (o: OrderRow) => {
