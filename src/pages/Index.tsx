@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import ZingNav from "@/components/ZingNav";
+import Header from "@/components/layout/Header";
 import SignatureGlow from "@/components/SignatureGlow";
 import CategoryPills from "@/components/CategoryPills";
 import LotCard from "@/components/LotCard";
@@ -12,6 +12,7 @@ import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { Hero } from "@/components/Hero";
 
 const Index = () => {
   const showDev = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('dev') === '1';
@@ -23,7 +24,7 @@ const Index = () => {
     navigate(`/discover${q ? `?q=${encodeURIComponent(q)}` : ""}`);
   };
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-paper">
       <Helmet>
         <title>ZingLots | Live Toy Auctions & Shows</title>
         <meta name="description" content="The marketplace where collectors buy, sell, and discover rare collectibles. Auction-style bidding, instant Buy Now, and secure checkout." />
@@ -32,77 +33,51 @@ const Index = () => {
         <meta property="og:description" content="Discover live shows and bid on collectible toys with soft-close and Buy Now." />
       </Helmet>
 
-      <ZingNav />
+      <Header />
       {showDev && (<>
         <StripeOnboardSmokeTest />
         <PayPalSmokeTest />
       </>)}
 
       <main className="pt-16">
-        {/* Hero section with auction focus */}
-        <section className="bg-white text-gray-900">
-          <div className="container mx-auto px-4 py-16 md:py-24">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight max-w-3xl">
-              Bid. Win. Save.
-            </h1>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl">
-              Real auctions with proxy bidding, anti-snipe soft-close, and secure checkout. Built for power sellers & savvy buyers.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild className="bg-zing-500 hover:bg-zing-600 text-white rounded-xl">
-                <Link to="/discover">Browse auctions</Link>
-              </Button>
-              <Button asChild variant="outline" className="rounded-xl border-gray-300 text-gray-900 hover:bg-gray-50">
-                <Link to="/discover?endingWithin=1hour">Ending soon</Link>
-              </Button>
-              <Button asChild variant="outline" className="rounded-xl border-gray-300 text-gray-900 hover:bg-gray-50">
-                <Link to="/dashboard/seller">Sell now</Link>
-              </Button>
-            </div>
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-gray-600">
-              <div>✅ Proxy bidding</div>
-              <div>⏱ Soft-close (+2:00)</div>
-              <div>🛡️ Escrow on high-value</div>
-              <div>✔️ Verified sellers</div>
-            </div>
-            
-            {/* Search bar moved under hero text */}
-            <div className="mt-12 max-w-2xl">
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <Input
-                  type="text"
-                  placeholder="Search for collectibles..."
-                  value={term}
-                  onChange={(e) => setTerm(e.target.value)}
-                  className="w-full h-14 pl-4 pr-12 text-lg bg-gray-50 text-black border border-gray-200 rounded-xl"
-                />
-                <Button 
-                  type="submit" 
-                  size="icon" 
-                  className="absolute right-2 top-2 bg-zing-500 hover:bg-zing-600 rounded-lg"
-                >
-                  <Search className="h-5 w-5" />
-                </Button>
-              </form>
-            </div>
-          </div>
+        {/* Hero section with premium polish */}
+        <Hero />
+
+        {/* Search bar section */}
+        <section className="mx-auto max-w-screen-2xl px-4 pb-12">
+          <form onSubmit={handleSearchSubmit} className="relative max-w-2xl">
+            <Input
+              type="text"
+              placeholder="Search for collectibles..."
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              className="w-full h-14 pl-4 pr-12 text-lg bg-white border border-line rounded-xl"
+            />
+            <Button 
+              type="submit" 
+              size="icon" 
+              className="absolute right-2 top-2 bg-brand-primary hover:bg-brand-dark rounded-lg"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+          </form>
         </section>
 
         {/* Categories */}
-        <section aria-labelledby="categories" className="border-t bg-card/40">
-          <div className="container mx-auto px-4 py-6">
+        <section aria-labelledby="categories" className="border-t border-line bg-white">
+          <div className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">
             <h2 id="categories" className="sr-only">Categories</h2>
             <CategoryPills />
           </div>
         </section>
 
-        {/* Discovery Feed */}
-        <section aria-labelledby="discover" className="">
-          <div className="container mx-auto px-4 py-10">
-            <div className="mb-4 flex items-end justify-between">
+        {/* Discovery Feed with consistent gutters */}
+        <section aria-labelledby="discover" className="bg-paper">
+          <div className="mx-auto max-w-screen-2xl px-4 md:px-6 py-10">
+            <div className="mb-6 flex items-end justify-between">
               <div>
-                <h2 id="discover" className="text-2xl font-bold">Discover Lots</h2>
-                <p className="text-sm text-muted-foreground">Fresh picks across categories</p>
+                <h2 id="discover" className="text-2xl font-bold text-ink">Discover Lots</h2>
+                <p className="text-sm text-zinc-600">Fresh picks across categories</p>
               </div>
               <Button variant="ghost" asChild>
                 <Link to="/discover">See all</Link>
