@@ -66,12 +66,12 @@ const LotCard = ({ item }: { item: LotItem }) => {
   };
 
   return (
-    <div className="group rounded-2xl border bg-card shadow-card hover:shadow-lg transition-shadow overflow-hidden">
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+    <article className="group rounded-xl border border-line bg-white shadow-card hover:shadow-cardHover transition overflow-hidden">
+      <div className="relative aspect-[4/3] bg-zinc-100">
         <img 
           src={item.image_url || lotImage} 
           alt={item.title}
-          className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform"
+          className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
         />
         
         {/* Reserve status and countdown */}
@@ -109,11 +109,11 @@ const LotCard = ({ item }: { item: LotItem }) => {
         </div>
       </div>
 
-      <div className="p-3 space-y-2">
-        <div className="line-clamp-2 font-medium">{item.title}</div>
-        <div className="flex items-center justify-between text-sm">
-          <div className="font-semibold">{priceLabel}</div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+      <div className="p-4 space-y-2">
+        <h3 className="font-semibold leading-snug line-clamp-2">{item.title}</h3>
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-zinc-600">{priceLabel}</div>
+          <div className="flex items-center gap-1 text-xs text-zinc-500">
             <Eye className="h-4 w-4" />
             <span>{item.watchers ?? 0} watching</span>
           </div>
@@ -126,7 +126,7 @@ const LotCard = ({ item }: { item: LotItem }) => {
           </Button>
         )}
       </div>
-    </div>
+    </article>
   );
 };
 
