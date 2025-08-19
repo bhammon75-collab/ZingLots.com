@@ -9,9 +9,23 @@ function getEnv() {
 
 let _client: SupabaseClient | null = null;
 
+function makeTestClient(): SupabaseClient {
+  // Vitest exposes vi globally in the test environment
+  const viAny = (globalThis as any)?.vi || (global as any)?.vi;
+  const mockInvoke =
+    viAny && typeof viAny.fn === "function" ? viAny.fn() : (async () => ({ data: null, error: null }));
+  // Minimal shape needed by your tests
+  const client = {
+    functions: {
+      invoke: mockInvoke,
+    },
+  } as unknown as SupabaseClient;
+  return client;
+}
+
 /** Lazily returns a Supabase client.
- * - In test mode, falls back to placeholders if env missing.
- * - Otherwise, throws exactly 'Supabase not configured' if missing.
+ * - In test mode, if env is missing, returns a mockable client with invoke as vi.fn()
+ * - Otherwise, throws exactly 'Supabase not configured' when missing.
  */
 export function getSupabase(): SupabaseClient {
   if (_client) return _client;
@@ -19,9 +33,8 @@ export function getSupabase(): SupabaseClient {
 
   const isTest = String(mode).toLowerCase() === "test";
   if ((!url || !anon) && isTest) {
-    // test-safe placeholders; lets tests run without real env
-    url = "http://localhost:54321";
-    anon = "test-anon-key";
+    _client = makeTestClient();
+    return _client;
   }
 
   if (!url || !anon) {
@@ -38,24 +51,26 @@ export function ensureSupabase(): SupabaseClient {
 
 /**
  * Invoke a Supabase Edge Function by name, optionally with a JSON body.
- * - Honors a test override: (globalThis as any).getSupabase
- * - Throws exactly 'Supabase not configured' if client unavailable.
+ * - Honors a test override: (globalThis as any).getSupabase (or global.getSupabase)
+ * - If override exists and returns null/undefined, throw 'Supabase not configured'
+ * - Otherwise uses real getSupabase()
  */
 export async function invokeFn<T = unknown>(
   name: string,
   body?: unknown
 ): Promise<T> {
-  const override = (globalThis as any)?.getSupabase as (() => SupabaseClient | null | undefined) | undefined;
-  const client = (override?.() ?? (() => {
-    try { return getSupabase(); } catch { return null; }
-  })());
+  const g: any = (typeof globalThis !== "undefined" ? globalThis : (typeof global !== "undefined" ? global : {}));
+  const override = g?.getSupabase as (undefined | (() => SupabaseClient | null | undefined));
 
-  if (!client) {
+  // IMPORTANT: if override exists, use its return value *even if it's null*
+  const chosenClient = override ? override() : getSupabase();
+
+  if (!chosenClient) {
     throw new Error("Supabase not configured");
   }
 
   const opts = body === undefined ? undefined : { body };
-  const { data, error } = await client.functions.invoke<T>(name, opts as any);
+  const { data, error } = await chosenClient.functions.invoke<T>(name, opts as any);
   if (error) throw error;
   return data as T;
 }
