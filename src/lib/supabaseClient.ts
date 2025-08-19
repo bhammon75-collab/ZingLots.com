@@ -41,7 +41,7 @@ export function getSupabase(): SupabaseClient {
   if (!url || !anon) {
     throw new Error("Supabase not configured");
   }
-  _client = createClient(url, anon);
+ _client = createClient(url, anon, { db: { schema: 'app' } });
   return _client;
 }
 

@@ -1,26 +1,7 @@
-import {
-  getCorsHeaders,
-  handleCorsPreflightRequest,
-  createCorsSuccessResponse,
-  createCorsErrorResponse,
-} from "../_shared/cors.ts";
+import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 
-Deno.serve(async (req: Request) => {
-  const origin = req.headers.get("Origin");
-
-  if (req.method === "OPTIONS") {
-    // Preflight (no auth required)  great for testing CORS
-    return handleCorsPreflightRequest(undefined, origin);
-  }
-
-  try {
-    if (req.method !== "GET") {
-      return createCorsErrorResponse("Method not allowed", 405, undefined, origin);
-    }
-
-    // If verify_jwt=true, this will be 200 only when a valid Authorization token is sent.
-    return createCorsSuccessResponse({ ok: true, ping: "pong" }, 200, undefined, origin);
-  } catch (err) {
-    return createCorsErrorResponse(err instanceof Error ? err.message : String(err), 500, undefined, origin);
-  }
+serve((_req) => {
+  return new Response(JSON.stringify({ ok: true, ping: "pong" }), {
+    headers: { "Content-Type": "application/json" },
+  });
 });
