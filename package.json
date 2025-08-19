@@ -13,7 +13,11 @@
     "test:ui": "vitest --ui",
     "test:smoke": "vitest -c vitest.smoke.config.ts run",
     "prebuild": "node scripts/check-ellipsis.mjs",
-    "ci": "eslint . && vite build",
+    "typecheck": "tsc --noEmit",
+    "ci": "npm run typecheck && eslint . && vite build",
+    "ci:typecheck": "tsc --noEmit",
+    "ci:lint": "eslint .",
+    "ci:build": "vite build",
     "generate:icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {

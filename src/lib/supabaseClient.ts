@@ -41,7 +41,19 @@ export function getSupabase(): SupabaseClient {
   if (!url || !anon) {
     throw new Error("Supabase not configured");
   }
-  _client = createClient(url, anon);
+  
+  // Configure client to use 'app' schema instead of default 'public'
+  _client = createClient(url, anon, {
+    db: {
+      schema: 'app'
+    },
+    auth: {
+      persistSession: true,
+      storageKey: 'zinglots-auth',
+      storage: window?.localStorage
+    }
+  });
+  
   return _client;
 }
 
