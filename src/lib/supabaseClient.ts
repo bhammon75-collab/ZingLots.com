@@ -10,22 +10,23 @@ function getEnv() {
 let _client: SupabaseClient | null = null;
 
 function makeTestClient(): SupabaseClient {
-  // Vitest exposes vi globally in the test environment
+  // Provide a mockable client for tests with the minimal shape the suite expects.
   const viAny = (globalThis as any)?.vi || (global as any)?.vi;
   const mockInvoke =
     viAny && typeof viAny.fn === "function" ? viAny.fn() : (async () => ({ data: null, error: null }));
-  // Minimal shape needed by your tests
+
+  // Include 'auth' because tests assert it exists.
   const client = {
-    functions: {
-      invoke: mockInvoke,
-    },
+    functions: { invoke: mockInvoke },
+    auth: {}, // shape not used by tests, presence is enough
   } as unknown as SupabaseClient;
+
   return client;
 }
 
 /** Lazily returns a Supabase client.
- * - In test mode, if env is missing, returns a mockable client with invoke as vi.fn()
- * - Otherwise, throws exactly 'Supabase not configured' when missing.
+ * - In test mode, if env missing, returns a mockable client (functions.invoke is vi.fn()).
+ * - Otherwise, throws exactly 'Supabase not configured' if missing.
  */
 export function getSupabase(): SupabaseClient {
   if (_client) return _client;
@@ -53,7 +54,7 @@ export function ensureSupabase(): SupabaseClient {
  * Invoke a Supabase Edge Function by name, optionally with a JSON body.
  * - Honors a test override: (globalThis as any).getSupabase (or global.getSupabase)
  * - If override exists and returns null/undefined, throw 'Supabase not configured'
- * - Otherwise uses real getSupabase()
+ * - Always passes an options object: { body } (even when body is undefined)
  */
 export async function invokeFn<T = unknown>(
   name: string,
@@ -62,15 +63,15 @@ export async function invokeFn<T = unknown>(
   const g: any = (typeof globalThis !== "undefined" ? globalThis : (typeof global !== "undefined" ? global : {}));
   const override = g?.getSupabase as (undefined | (() => SupabaseClient | null | undefined));
 
-  // IMPORTANT: if override exists, use its return value *even if it's null*
+  // If override exists, use its return value even if it's null; otherwise use real client.
   const chosenClient = override ? override() : getSupabase();
 
   if (!chosenClient) {
     throw new Error("Supabase not configured");
   }
 
-  const opts = body === undefined ? undefined : { body };
-  const { data, error } = await chosenClient.functions.invoke<T>(name, opts as any);
+  // Always pass an options object so tests can assert { body: undefined } calls.
+  const { data, error } = await chosenClient.functions.invoke<T>(name, { body } as any);
   if (error) throw error;
   return data as T;
 }
