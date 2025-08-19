@@ -8,13 +8,11 @@ function resolveAllowedOrigin(requestOrigin: string | null) {
   const siteUrl = Deno.env.get("SITE_URL") ?? "";
   const allowedList = siteOriginsRaw.split(",").map(s => s.trim()).filter(Boolean);
 
-  // If multi-origin list is present, try to echo the caller
   if (allowedList.length > 0) {
     if (requestOrigin && allowedList.includes(requestOrigin)) return requestOrigin;
-    return allowedList[0]; // safe fallback to your first allowed origin
+    return allowedList[0];
   }
 
-  // Legacy single-origin or permissive fallback
   if (siteUrl) return siteUrl;
   return "*";
 }
@@ -31,21 +29,11 @@ export function getCorsHeaders(
       : "authorization, x-client-info, apikey, content-type";
 
   return {
-    // *** Always present: this is what your browser is looking for ***
     "Access-Control-Allow-Origin": allowedOrigin,
-
-    // Help proxies/caches keep variants per origin
     "Vary": "Origin",
-
-    // Required by preflight: echo requested headers if provided
     "Access-Control-Allow-Headers": allowHeaders,
-
-    // Required by preflight
     "Access-Control-Allow-Methods": methods,
-
-    // Keep if you ever use cookies with cross-site requests
     "Access-Control-Allow-Credentials": "true",
-
     "Access-Control-Max-Age": "86400",
   };
 }

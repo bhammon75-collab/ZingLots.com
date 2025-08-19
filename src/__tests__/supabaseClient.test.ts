@@ -66,14 +66,22 @@ describe('Supabase Client', () => {
     });
 
     it('should throw error when supabase is not configured', async () => {
-      // Mock getSupabase to return null
-      const originalGetSupabase = getSupabase;
-      (global as any).getSupabase = () => null;
+      // Store original getSupabase function
+      const originalGlobalGetSupabase = (global as any).getSupabase;
+      
+      try {
+        // Mock global getSupabase to return null
+        (global as any).getSupabase = () => null;
 
-      await expect(invokeFn('test-function')).rejects.toThrow('Supabase not configured');
-
-      // Restore original function
-      (global as any).getSupabase = originalGetSupabase;
+        await expect(invokeFn('test-function')).rejects.toThrow('Supabase not configured');
+      } finally {
+        // Restore original function
+        if (originalGlobalGetSupabase) {
+          (global as any).getSupabase = originalGlobalGetSupabase;
+        } else {
+          delete (global as any).getSupabase;
+        }
+      }
     });
 
     it('should handle function calls without body parameter', async () => {
