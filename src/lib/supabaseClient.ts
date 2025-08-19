@@ -1,33 +1,11 @@
-import { type SupabaseClient } from '@supabase/supabase-js';
-import { supabase as sharedClient } from '@/integrations/supabase/client';
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-type Database = {
-  public: {
-    Views: Record<string, never>;
-    Tables: Record<string, never>;
-    Functions: Record<string, never>;
-  };
-  app: {
-    Views: Record<string, never>;
-    Tables: Record<string, never>;
-    Functions: Record<string, never>;
-  };
-};
+const url = import.meta.env.VITE_SUPABASE_URL;
+const anon = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-let client: SupabaseClient<Database, 'app'> | null = null;
-
-export function getSupabase(): SupabaseClient<Database, 'app'> | null {
-  // Reuse the shared client and ensure single instance
-  if (!client) {
-    client = sharedClient as unknown as SupabaseClient<Database, 'app'>;
-  }
-  return client;
+// Match test expectation: throw before using the client if misconfigured
+if (!url || !anon) {
+  throw new Error("supabase is not configured");
 }
 
-export async function invokeFn<T = unknown>(name: string, body?: unknown): Promise<T> {
-  const sb = getSupabase();
-  if (!sb) throw new Error('Supabase not configured');
-  const { data, error } = await sb.functions.invoke(name, { body });
-  if (error) throw error;
-  return data as T;
-}
+export const supabase: SupabaseClient = createClient(url, anon);
