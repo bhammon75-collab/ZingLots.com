@@ -1,4 +1,4 @@
-# Supabase CLI configuration file
+# Supabase CLI Configuration - Production Ready
 project_id = "huebxglhbenulbcftzdq"
 
 [api]
@@ -11,25 +11,64 @@ max_rows = 1000
 [auth]
 enabled = true
 port = 54324
-site_url = "http://localhost:3000"
-additional_redirect_urls = ["https://zing-lots-com.vercel.app", "https://zinglots.com"]
+site_url = "${SITE_URL}"
+additional_redirect_urls = ["https://zing-lots-com.vercel.app", "https://zinglots.com", "https://www.zinglots.com"]
 jwt_expiry = 3600
+enable_signup = true
 external_email_enabled = true
 external_phone_enabled = false
 
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
+enable_confirmations = true
+secure_email_change_enabled = true
+mailer_secure_email_change_enabled = true
+mailer_autoconfirm = false
+mailer_otp_exp = 86400
+template.invite = "https://zinglots.com/auth/accept-invite"
+template.confirmation = "https://zinglots.com/auth/confirm"
+template.recovery = "https://zinglots.com/auth/reset-password"
+template.email_change = "https://zinglots.com/auth/confirm-email-change"
+
+[auth.sms]
+enable_signup = false
 enable_confirmations = false
+template = "Your ZingLots code is {{ .Code }}"
+max_frequency = 5s
+
+[auth.security]
+refresh_token_rotation_enabled = true
+refresh_token_reuse_interval = 10
+enable_manual_linking = false
+
+[auth.sessions]
+timebox = 3600
+inactivity_timeout = 0
 
 [db]
 port = 54322
 shadow_port = 54320
 major_version = 15
+pool_size = 20
+max_connections = 100
+
+[db.pooler]
+enabled = true
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[realtime]
+enabled = true
+ip_version = "IPv4"
+max_events_per_second = 100
 
 [studio]
 enabled = true
 port = 54323
+api_url = "http://localhost"
 
 [inbucket]
 enabled = true
@@ -43,9 +82,19 @@ port = 54325
 file_size_limit = "50MiB"
 image_transformation = true
 
+[storage.image_transformation]
+enabled = true
+
 [edge_functions]
 enabled = true
 port = 54326
+verify_jwt = true
 
 [analytics]
 enabled = false
+port = 54327
+backend = "postgres"
+
+[experimental]
+webhooks.enabled = true
+orioledb.enabled = false
