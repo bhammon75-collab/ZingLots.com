@@ -111,6 +111,8 @@ jobs:
         run: npm run test --if-present
         env:
           NODE_ENV: test
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Upload coverage (if available)
         if: matrix.node == 20 && hashFiles('coverage/lcov.info') != ''
@@ -152,6 +154,9 @@ jobs:
           deno test --allow-all --coverage=coverage
         env:
           DENO_ENV: test
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Generate Deno coverage report
         if: steps.check-deno.outputs.has-tests == 'true'
@@ -205,6 +210,8 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Check build output
         run: |
@@ -278,6 +285,8 @@ jobs:
           fi
         env:
           NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Skip message
         if: steps.check-smoke.outputs.has-smoke-tests == 'false'
