@@ -3,24 +3,35 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 function getEnv() {
   const url = import.meta.env?.VITE_SUPABASE_URL as string | undefined;
   const anon = import.meta.env?.VITE_SUPABASE_ANON_KEY as string | undefined;
-  return { url, anon };
+  const mode = (import.meta as any)?.env?.MODE ?? process.env.NODE_ENV;
+  return { url, anon, mode };
 }
 
 let _client: SupabaseClient | null = null;
 
-/** Lazily returns a Supabase client; throws if env is missing. */
+/** Lazily returns a Supabase client.
+ * - In test mode, falls back to placeholders if env missing.
+ * - Otherwise, throws exactly 'Supabase not configured' if missing.
+ */
 export function getSupabase(): SupabaseClient {
   if (_client) return _client;
-  const { url, anon } = getEnv();
+  let { url, anon, mode } = getEnv();
+
+  const isTest = String(mode).toLowerCase() === "test";
+  if ((!url || !anon) && isTest) {
+    // test-safe placeholders; lets tests run without real env
+    url = "http://localhost:54321";
+    anon = "test-anon-key";
+  }
+
   if (!url || !anon) {
-    // NOTE: exact message to satisfy tests
     throw new Error("Supabase not configured");
   }
   _client = createClient(url, anon);
   return _client;
 }
 
-/** Convenience getter that throws with old message (if any legacy code expects it). */
+/** Back-compat alias */
 export function ensureSupabase(): SupabaseClient {
   return getSupabase();
 }
@@ -28,7 +39,7 @@ export function ensureSupabase(): SupabaseClient {
 /**
  * Invoke a Supabase Edge Function by name, optionally with a JSON body.
  * - Honors a test override: (globalThis as any).getSupabase
- * - Throws exactly "Supabase not configured" if client is unavailable.
+ * - Throws exactly 'Supabase not configured' if client unavailable.
  */
 export async function invokeFn<T = unknown>(
   name: string,
@@ -40,7 +51,6 @@ export async function invokeFn<T = unknown>(
   })());
 
   if (!client) {
-    // NOTE: exact message to satisfy tests
     throw new Error("Supabase not configured");
   }
 
@@ -50,7 +60,7 @@ export async function invokeFn<T = unknown>(
   return data as T;
 }
 
-/** Back-compat: a proxy that initializes on first property access. */
+/** Proxy that initializes on first property access. */
 export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
   get(_t, p) { return (getSupabase() as any)[p]; },
   apply(_t, thisArg, args) { return (getSupabase() as any).apply(thisArg, args); },
