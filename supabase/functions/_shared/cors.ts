@@ -1,43 +1,62 @@
 /**
  * Shared CORS configuration for all Edge Functions
- * Ensures consistent CORS handling across the application
+ * Multi-origin aware via SITE_ORIGINS, backward-compatible with SITE_URL
  */
+
+function resolveAllowedOrigin(requestOrigin: string | null) {
+  const siteOriginsRaw = Deno.env.get("SITE_ORIGINS") ?? "";
+  const siteUrl = Deno.env.get("SITE_URL") ?? ""; // legacy single-origin fallback
+
+  const allowedList = siteOriginsRaw
+    .split(",")
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  // If multi-origin list is present, echo back the matching origin
+  if (allowedList.length > 0) {
+    if (requestOrigin && allowedList.includes(requestOrigin)) {
+      return requestOrigin; // echo caller when allowed
+    }
+    // Fallback to first allowed origin (safer than "*")
+    return allowedList[0];
+  }
+
+  // Legacy behavior: prefer SITE_URL if set, else "*"
+  if (siteUrl) return siteUrl;
+  return "*";
+}
 
 /**
  * Get properly configured CORS headers
- * In production, restricts to SITE_URL
- * In development/testing, allows localhost origins
+ * If origin is passed, we can echo it when allowed.
+ * Default methods: "GET,POST,PUT,DELETE,OPTIONS"
  */
-export function getCorsHeaders(methods: string = "POST, OPTIONS"): Record<string, string> {
-  const siteUrl = Deno.env.get("SITE_URL");
-  const isDevelopment = Deno.env.get("ENVIRONMENT") === "development";
-  
-  // In production, use SITE_URL; in dev or if not set, be more permissive
-  let allowedOrigin = siteUrl || "*";
-  
-  // If SITE_URL is set but we're in development, also allow localhost
-  if (siteUrl && isDevelopment) {
-    // This would require more complex handling for multiple origins
-    // For now, we'll keep it simple
-    allowedOrigin = siteUrl;
-  }
-  
+export function getCorsHeaders(
+  methods: string = "GET, POST, PUT, DELETE, OPTIONS",
+  origin?: string | null
+): Record<string, string> {
+  const allowedOrigin = resolveAllowedOrigin(origin ?? null);
   return {
     "Access-Control-Allow-Origin": allowedOrigin,
+    "Vary": "Origin",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
     "Access-Control-Allow-Methods": methods,
+    // If you are not using cookies with fetch(), feel free to set this to "false" or remove it.
     "Access-Control-Allow-Credentials": "true",
-    "Access-Control-Max-Age": "86400", // Cache preflight for 24 hours
+    "Access-Control-Max-Age": "86400",
   };
 }
 
 /**
  * Handle OPTIONS preflight requests
  */
-export function handleCorsPreflightRequest(methods: string = "POST, OPTIONS"): Response {
-  return new Response(null, { 
+export function handleCorsPreflightRequest(
+  methods: string = "GET, POST, PUT, DELETE, OPTIONS",
+  origin?: string | null
+): Response {
+  return new Response(null, {
     status: 204,
-    headers: getCorsHeaders(methods) 
+    headers: getCorsHeaders(methods, origin),
   });
 }
 
@@ -45,22 +64,19 @@ export function handleCorsPreflightRequest(methods: string = "POST, OPTIONS"): R
  * Create an error response with CORS headers
  */
 export function createCorsErrorResponse(
-  error: string | Error, 
+  error: string | Error,
   status: number = 400,
-  methods: string = "POST, OPTIONS"
+  methods: string = "GET, POST, PUT, DELETE, OPTIONS",
+  origin?: string | null
 ): Response {
   const errorMessage = error instanceof Error ? error.message : error;
-  
-  return new Response(
-    JSON.stringify({ error: errorMessage }), 
-    {
-      status,
-      headers: { 
-        ...getCorsHeaders(methods), 
-        "Content-Type": "application/json" 
-      },
-    }
-  );
+  return new Response(JSON.stringify({ error: errorMessage }), {
+    status,
+    headers: {
+      ...getCorsHeaders(methods, origin),
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 /**
@@ -69,16 +85,14 @@ export function createCorsErrorResponse(
 export function createCorsSuccessResponse(
   data: any,
   status: number = 200,
-  methods: string = "POST, OPTIONS"
+  methods: string = "GET, POST, PUT, DELETE, OPTIONS",
+  origin?: string | null
 ): Response {
-  return new Response(
-    JSON.stringify(data),
-    {
-      status,
-      headers: {
-        ...getCorsHeaders(methods),
-        "Content-Type": "application/json"
-      },
-    }
-  );
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      ...getCorsHeaders(methods, origin),
+      "Content-Type": "application/json",
+    },
+  });
 }
