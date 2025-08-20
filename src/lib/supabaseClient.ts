@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 /**
  * Frontend Supabase client (Vite)
@@ -14,3 +15,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: { persistSession: true, autoRefreshToken: true },
 });
+
+/**
+ * Getter used throughout the app so callsites can gracefully handle
+ * missing env configuration (returns null when not configured).
+ */
+export function getSupabase(): SupabaseClient | null {
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+  return supabase as SupabaseClient;
+}
