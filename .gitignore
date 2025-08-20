@@ -26,3 +26,7 @@ dist-ssr
 !supabase/functions/**
 
 !supabase/functions/**
+.serena/
+.serena-key.txt
+openapi.serena.json
+openapi.serena.final.json
