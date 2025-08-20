@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { getSupabase, invokeFn } from "@/lib/supabaseClient";
 
 describe("Supabase Client", () => {
@@ -13,32 +13,32 @@ describe("Supabase Client", () => {
   });
 
   describe("invokeFn", () => {
+    const originalGet = (globalThis as any).getSupabase;
+
+    afterEach(() => {
+      (globalThis as any).getSupabase = originalGet;
+      vi.restoreAllMocks();
+    });
+
     it("should successfully invoke a function with data", async () => {
-      const client = getSupabase();
       const mockData = { ok: true, ping: "pong" };
+      const fakeInvoke = vi.fn().mockResolvedValue({ data: mockData, error: null });
+      (globalThis as any).getSupabase = () =>
+        ({ functions: { invoke: fakeInvoke } } as any);
 
-      const spy = vi
-        .spyOn((client as any).functions, "invoke")
-        .mockResolvedValueOnce({ data: mockData, error: null } as any);
+      const out = await invokeFn<typeof mockData>("ping", { a: 1 });
 
-      const res = await invokeFn<typeof mockData>("ping", { a: 1 });
-      expect(res).toEqual(mockData);
-      expect(spy).toHaveBeenCalledWith("ping", { body: { a: 1 } });
-
-      spy.mockRestore();
+      expect(out).toEqual(mockData);
+      expect(fakeInvoke).toHaveBeenCalledWith("ping", { body: { a: 1 } });
     });
 
     it("should throw error when function invocation fails", async () => {
-      const client = getSupabase();
       const boom = new Error("boom");
-
-      const spy = vi
-        .spyOn((client as any).functions, "invoke")
-        .mockResolvedValueOnce({ data: null, error: boom } as any);
+      const fakeInvoke = vi.fn().mockResolvedValue({ data: null, error: boom });
+      (globalThis as any).getSupabase = () =>
+        ({ functions: { invoke: fakeInvoke } } as any);
 
       await expect(invokeFn("ping", { a: 1 })).rejects.toThrow("boom");
-
-      spy.mockRestore();
     });
 
     it("should throw error when supabase is not configured", async () => {
@@ -52,19 +52,15 @@ describe("Supabase Client", () => {
     });
 
     it("should handle function calls without body parameter", async () => {
-      const client = getSupabase();
       const mockData = { ok: true };
+      const fakeInvoke = vi.fn().mockResolvedValue({ data: mockData, error: null });
+      (globalThis as any).getSupabase = () =>
+        ({ functions: { invoke: fakeInvoke } } as any);
 
-      const spy = vi
-        .spyOn((client as any).functions, "invoke")
-        .mockResolvedValueOnce({ data: mockData, error: null } as any);
+      const out = await invokeFn("no-body");
 
-      const res = await invokeFn("no-body");
-      expect(res).toEqual(mockData);
-      // When no body is given, the second arg should be undefined
-      expect(spy).toHaveBeenCalledWith("no-body", undefined);
-
-      spy.mockRestore();
+      expect(out).toEqual(mockData);
+      expect(fakeInvoke).toHaveBeenCalledWith("no-body", undefined);
     });
   });
 });
