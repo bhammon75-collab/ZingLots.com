@@ -1,21 +1,17 @@
-import { type SupabaseClient } from '@supabase/supabase-js';
-import { supabase as sharedClient } from '@/integrations/supabase/client';
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { supabase as baseClient } from "@/integrations/supabase/client";
 
-let client: SupabaseClient<any, 'app'> | null = null;
+const singletonClient: SupabaseClient | null = baseClient as SupabaseClient;
 
-export function getSupabase(): SupabaseClient<any, 'app'> | null {
-  // Reuse the shared client and ensure single instance
-  if (!client) {
-    client = sharedClient as unknown as SupabaseClient<any, 'app'>;
-  }
-  return client;
+export function getSupabase(): SupabaseClient | null {
+  return singletonClient;
 }
 
-export async function invokeFn<T = any>(name: string, body?: unknown): Promise<T> {
-  const sb = getSupabase();
-  if (!sb) throw new Error('Supabase not configured');
-  const { data, error } = await sb.functions.invoke(name, { body });
+export async function invokeFn<T = unknown>(name: string, body?: unknown): Promise<T> {
+  const client = getSupabase();
+  if (!client) throw new Error("Supabase not configured");
+  const opts = body === undefined ? undefined : { body };
+  const { data, error } = await client.functions.invoke<T>(name, opts as any);
   if (error) throw error;
   return data as T;
 }
-

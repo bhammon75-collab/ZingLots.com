@@ -33,6 +33,9 @@ import QRScannerPage from "./pages/QRScannerPage";
 
 const queryClient = new QueryClient();
 
+// Feature flags
+const LIVE_SHOWS_ENABLED = import.meta.env.VITE_FEATURE_LIVE_SHOWS === 'true';
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
@@ -53,7 +56,6 @@ const App = () => (
               
               {/* Legacy Routes (transitioning) */}
               <Route path="/shows" element={<Shows />} />
-              <Route path="/live" element={<Live />} />
               <Route path="/discover" element={<Discover />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/category/:slug" element={<Category />} />
@@ -63,13 +65,20 @@ const App = () => (
               <Route path="/cart" element={<CartInvoice />} />
               <Route path="/dashboard/buyer" element={<DashboardBuyer />} />
               <Route path="/dashboard/seller" element={<DashboardSeller />} />
-              <Route path="/seller/live" element={<GoLive />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/qa" element={<QA />} />
               <Route path="/login" element={<Login />} />
               <Route path="/auction/:lotId" element={<AuctionRoom />} />
               <Route path="/help" element={<Help />} />
               <Route path="/pricing" element={<PricingPage />} />
+              
+              {/* Feature-flagged LiveKit routes */}
+              {LIVE_SHOWS_ENABLED && (
+                <>
+                  <Route path="/live" element={<Live />} />
+                  <Route path="/seller/live" element={<GoLive />} />
+                </>
+              )}
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

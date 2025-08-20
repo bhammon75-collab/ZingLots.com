@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import Header from "@/components/layout/Header";
+import SignatureGlow from "@/components/SignatureGlow";
+import CategoryPills from "@/components/CategoryPills";
+import LotCard from "@/components/LotCard";
+import heroImage from "@/assets/hero-zinglots.jpg";
 import { Button } from "@/components/ui/button";
+import { DEMO_LOTS, DEMO_SHOWS } from "@/data/demo";
+import { Link, useNavigate } from "react-router-dom";
+import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
+import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Search, MapPin, Truck, Shield, Clock, Building2, Wrench, UtensilsCrossed, Briefcase } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
+import { useState } from "react";
+import { Hero } from "@/components/Hero";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -91,56 +99,60 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Link to="/" className="text-2xl font-bold text-blue-600">
-                ZingLots
-              </Link>
-              <Badge variant="outline" className="text-xs">
-                B2B Surplus
-              </Badge>
-            </div>
-            <div className="hidden md:flex items-center space-x-6">
-              <Link to="/browse" className="text-gray-700 hover:text-blue-600">Browse</Link>
-              <Link to="/sell" className="text-gray-700 hover:text-blue-600">Sell</Link>
-              <Link to="/help" className="text-gray-700 hover:text-blue-600">Help</Link>
-              <Button variant="outline" asChild>
-                <Link to="/login">Sign In</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/seller/apply">Start Selling</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-paper">
+      <Helmet>
+        <title>ZingLots | Live Toy Auctions & Shows</title>
+        <meta name="description" content="The marketplace where collectors buy, sell, and discover rare collectibles. Auction-style bidding, instant Buy Now, and secure checkout." />
+        <link rel="canonical" href="/" />
+        <meta property="og:title" content="ZingLots | Live Toy Auctions" />
+        <meta property="og:description" content="Discover live shows and bid on collectible toys with soft-close and Buy Now." />
+      </Helmet>
 
-      {/* Hero Section */}
-      <section className="relative py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            ZingLots — Bid. Win. Save.
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            The Hyperlocal Marketplace for Business Surplus. 
-            Find commercial equipment, construction materials, and office furniture with guaranteed local pickup.
-          </p>
-          
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-4 p-2 bg-white rounded-lg shadow-lg">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input
-                  placeholder="Search lumber, commercial ovens, office furniture..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 border-0 focus:ring-0"
-                />
+      <Header />
+      {showDev && (<>
+        <StripeOnboardSmokeTest />
+        <PayPalSmokeTest />
+      </>)}
+
+      <main className="pt-16">
+        {/* Hero section with premium polish */}
+        <Hero />
+
+        {/* Search bar section */}
+        <section className="mx-auto max-w-screen-2xl px-4 pb-12">
+          <form onSubmit={handleSearchSubmit} className="relative max-w-2xl">
+            <Input
+              type="text"
+              placeholder="Search for collectibles..."
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              className="w-full h-14 pl-4 pr-12 text-lg bg-white border border-line rounded-xl"
+            />
+            <Button 
+              type="submit" 
+              size="icon" 
+              className="absolute right-2 top-2 bg-brand-primary hover:bg-brand-dark rounded-lg"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+          </form>
+        </section>
+
+        {/* Categories */}
+        <section aria-labelledby="categories" className="border-t border-line bg-white">
+          <div className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">
+            <h2 id="categories" className="sr-only">Categories</h2>
+            <CategoryPills />
+          </div>
+        </section>
+
+        {/* Discovery Feed with consistent gutters */}
+        <section aria-labelledby="discover" className="bg-paper">
+          <div className="mx-auto max-w-screen-2xl px-4 md:px-6 py-10">
+            <div className="mb-6 flex items-end justify-between">
+              <div>
+                <h2 id="discover" className="text-2xl font-bold text-ink">Discover Lots</h2>
+                <p className="text-sm text-zinc-600">Fresh picks across categories</p>
               </div>
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />

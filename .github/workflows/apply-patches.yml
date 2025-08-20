@@ -8,6 +8,9 @@ on:
 jobs:
   apply:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,16 +38,18 @@ jobs:
           git add -A
           git commit -m "Apply patch: $(basename "${{ steps.p.outputs.file }}")"
           git push origin "$BR"
+          echo "BR=$BR" >> $GITHUB_ENV
 
       - name: Open PR
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: ${{ github.ref_name }} # not used, but required by action inputs
-          base: main
-          title: "Apply patch: ${{ steps.p.outputs.file }}"
-          body: |
-            Applied patch `${{ steps.p.outputs.file }}`.
-          labels: bot, patch
-          author: patch-bot <patch-bot@users.noreply.github.com>
-          committer: patch-bot <patch-bot@users.noreply.github.com>
-          branch-suffix: timestamp
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          TITLE="Apply patch: ${{ steps.p.outputs.file }}"
+          BODY="Applied patch '${{ steps.p.outputs.file }}'."
+          gh pr create \
+            --base main \
+            --head "$BR" \
+            --title "$TITLE" \
+            --body "$BODY" \
+            --label bot --label patch || echo "PR may already exist for $BR"

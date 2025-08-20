@@ -6,6 +6,64 @@ import { useEffect, useRef, useState } from "react";
 import { getSupabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
+// Properly typed interfaces instead of any
+interface LiveKitTokenResponse {
+  url: string;
+  token: string;
+}
+
+interface LiveKitTrack {
+  kind: 'audio' | 'video';
+  attach: (element: HTMLVideoElement) => void;
+}
+
+interface LiveKitRoom {
+  connect: (url: string, token: string) => Promise<void>;
+  localParticipant: {
+    publishTrack: (track: LiveKitTrack) => Promise<void>;
+  };
+  disconnect: () => void;
+}
+
+interface LiveKitStatic {
+  Room: new () => LiveKitRoom;
+  createLocalTracks: (options: { audio: boolean; video: { facingMode: string } }) => Promise<LiveKitTrack[]>;
+}
+
+interface EgressStartResponse {
+  egress_id?: string;
+  room_composite_id?: string;
+}
+
+// Proper error handling
+interface ErrorWithMessage {
+  message: string;
+}
+
+function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  );
+}
+
+function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
+  if (isErrorWithMessage(maybeError)) return maybeError;
+  
+  try {
+    return new Error(JSON.stringify(maybeError));
+  } catch {
+    return new Error(String(maybeError));
+  }
+}
+
+// Type guard for LiveKit track
+function isVideoTrack(track: LiveKitTrack): track is LiveKitTrack & { kind: 'video' } {
+  return track.kind === 'video';
+}
+
 export default function GoLive() {
   const { toast } = useToast();
   const sb = getSupabase();
@@ -16,11 +74,16 @@ export default function GoLive() {
   const [egressId, setEgressId] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const roomRef = useRef<any>(null);
+  // Properly typed room ref instead of any
+  const roomRef = useRef<LiveKitRoom | null>(null);
 
   useEffect(() => {
     return () => {
-      try { roomRef.current?.disconnect?.(); } catch {}
+      try { 
+        roomRef.current?.disconnect?.(); 
+      } catch {
+        // Silent cleanup
+      }
     };
   }, []);
 
@@ -35,28 +98,41 @@ export default function GoLive() {
         body: { roomName, identity: 'seller', isPublisher: true },
       });
       if (error) throw error;
-      const { url, token } = data as any;
+      
+      // Properly type the response instead of any
+      const response = data as LiveKitTokenResponse;
+      const { url, token } = response;
       if (!url || !token) throw new Error('Missing LiveKit credentials');
 
-      const LiveKit = await import('livekit-client');
+      // Type the LiveKit import properly
+      const LiveKit = await import('livekit-client') as LiveKitStatic;
       const room = new LiveKit.Room();
       await room.connect(url, token);
       roomRef.current = room;
-      const tracks = await LiveKit.createLocalTracks({ audio: true, video: { facingMode: 'user' } });
-      for (const t of tracks) {
-        await room.localParticipant.publishTrack(t);
+      
+      const tracks = await LiveKit.createLocalTracks({ 
+        audio: true, 
+        video: { facingMode: 'user' } 
+      });
+      
+      for (const track of tracks) {
+        await room.localParticipant.publishTrack(track);
       }
 
-      const videoTrack = tracks.find((t) => (t as any).kind === 'video') as any;
+      // Properly find and handle video track
+      const videoTrack = tracks.find(isVideoTrack);
       if (videoTrack && videoRef.current) {
         videoTrack.attach(videoRef.current);
         videoRef.current.muted = true;
-        await videoRef.current.play().catch(() => {});
+        await videoRef.current.play().catch(() => {
+          // Silent fail for autoplay issues
+        });
       }
 
       toast({ description: 'Connected to LiveKit. You are publishing.' });
-    } catch (e: any) {
-      toast({ variant: 'destructive', description: e.message || 'Failed to connect' });
+    } catch (error: unknown) {
+      const errorWithMessage = toErrorWithMessage(error);
+      toast({ variant: 'destructive', description: errorWithMessage.message || 'Failed to connect' });
     } finally {
       setConnecting(false);
     }
@@ -69,21 +145,29 @@ export default function GoLive() {
         body: { roomName, destinations: destinations.filter(d => d.url && d.key) },
       });
       if (error) throw error;
-      setEgressId((data as any)?.egress_id || (data as any)?.room_composite_id || null);
+      
+      // Properly type the egress response
+      const egressResponse = data as EgressStartResponse;
+      const responseEgressId = egressResponse?.egress_id || egressResponse?.room_composite_id || null;
+      setEgressId(responseEgressId);
       toast({ description: 'Simulcast started' });
-    } catch (e: any) {
-      toast({ variant: 'destructive', description: e.message || 'Failed to start simulcast' });
+    } catch (error: unknown) {
+      const errorWithMessage = toErrorWithMessage(error);
+      toast({ variant: 'destructive', description: errorWithMessage.message || 'Failed to start simulcast' });
     }
   };
 
   const stopSimulcast = async () => {
     if (!sb || !egressId) return;
     try {
-      const { error } = await sb.functions.invoke('livekit-stop-egress', { body: { egress_id: egressId } });
+      const { error } = await sb.functions.invoke('livekit-stop-egress', { 
+        body: { egress_id: egressId } 
+      });
       if (error) throw error;
       toast({ description: 'Simulcast stop requested' });
-    } catch (e: any) {
-      toast({ variant: 'destructive', description: e.message || 'Failed to stop simulcast' });
+    } catch (error: unknown) {
+      const errorWithMessage = toErrorWithMessage(error);
+      toast({ variant: 'destructive', description: errorWithMessage.message || 'Failed to stop simulcast' });
     }
   };
 
@@ -114,9 +198,13 @@ export default function GoLive() {
               <Button variant="outline" onClick={addDest}>Add destination</Button>
             </div>
             <div className="flex gap-3">
-              <Button onClick={connectPublisher} disabled={connecting} aria-disabled={connecting}>{connecting ? 'Connecting…' : 'Connect & Publish'}</Button>
+              <Button onClick={connectPublisher} disabled={connecting} aria-disabled={connecting}>
+                {connecting ? 'Connecting…' : 'Connect & Publish'}
+              </Button>
               <Button variant="secondary" onClick={startSimulcast}>Start Simulcast</Button>
-              <Button variant="outline" onClick={stopSimulcast} disabled={!egressId} aria-disabled={!egressId}>Stop Simulcast</Button>
+              <Button variant="outline" onClick={stopSimulcast} disabled={!egressId} aria-disabled={!egressId}>
+                Stop Simulcast
+              </Button>
             </div>
           </div>
           <div className="rounded-lg border bg-card p-2">
