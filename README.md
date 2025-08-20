@@ -1,104 +1,173 @@
-# Welcome to your Lovable project
+# ZingLots - Live Auction Platform
 
-## Project info
+ZingLots is a modern B2B surplus marketplace and live auction platform built with React, TypeScript, and Supabase. Experience real-time bidding, secure payments, and transparent transactions.
 
-**URL**: https://lovable.dev/projects/5b8b2dd9-158b-4a75-8931-da6f67e1f936
+## 🚀 Features
 
-## How can I edit this code?
+- **Live Auctions**: Real-time bidding with instant updates
+- **Secure Payments**: Stripe integration with escrow protection
+- **B2B Marketplace**: Specialized for surplus and business inventory
+- **User Dashboards**: Separate buyer and seller interfaces
+- **Real-time Communication**: LiveKit integration for live streams
+- **Mobile Responsive**: Works seamlessly across all devices
 
-There are several ways of editing your application.
+## 🛠️ Technology Stack
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript, Vite
+- **UI Framework**: Tailwind CSS, shadcn/ui components
+- **Backend**: Supabase (PostgreSQL, Auth, Realtime, Storage)
+- **Payments**: Stripe Connect, PayPal integration
+- **Real-time**: LiveKit for video/audio streaming
+- **State Management**: TanStack Query
+- **Testing**: Vitest, Testing Library
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5b8b2dd9-158b-4a75-8931-da6f67e1f936) and start prompting.
+## 📦 Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18+ (use nvm for version management)
+- npm or bun package manager
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd ZingLots.com
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Environment Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. **Supabase Configuration**: Set up your Supabase project and configure:
+   - SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+   - STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+   - LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_URL
+   - SITE_URL (frontend origin), STRIPE_PLATFORM_FEE_BPS=1200
 
-**Use GitHub Codespaces**
+2. **Database Setup**: Run migrations in SQL Editor:
+   - `docs/migrations/0001_app_schema.sql`
+   - `docs/migrations/0002_end_lot.sql`
+   - `docs/migrations/0003_seed_demo.sql`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+3. **Supabase Configuration**:
+   - Enable Auth: Email (magic link or password)
+   - Create Storage buckets: lot-photos (public), evidence (private)
+   - Enable Realtime for tables: app.lots and app.bids
 
-## What technologies are used for this project?
+4. **Deploy Edge Functions** (Dashboard → Edge Functions):
+   - `livekit-token` - Generate LiveKit access tokens
+   - `stripe-onboard` - Stripe Connect onboarding
+   - `checkout-create-session` - Create Stripe checkout sessions
+   - `stripe-webhook` - Handle Stripe webhook events
+   - `admin-settle` - Administrative settlement
 
-This project is built with:
+## 📱 PWA Support
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+ZingLots includes Progressive Web App features:
 
-## How can I deploy this project?
+```bash
+# Generate app icons from SVG
+npm run generate:icons
+```
 
-Simply open [Lovable](https://lovable.dev/projects/5b8b2dd9-158b-4a75-8931-da6f67e1f936) and click on Share -> Publish.
+Icons are automatically generated in multiple sizes for:
+- PWA/Android (192x192, 512x512)
+- iOS (various sizes)
+- Favicons (16x16, 32x32, etc.)
+- Social sharing (256x256, 512x512, 1024x1024)
 
-## Can I connect a custom domain to my Lovable project?
+## 🧪 Testing
 
-Yes, you can!
+```bash
+# Run tests in watch mode
+npm run test
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# Run tests with UI
+npm run test:ui
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Run smoke tests
+npm run test:smoke
+```
+
+## 🏗️ Development Workflow
+
+### Package Manager
+
+Choose one for consistent builds:
+- **NPM**: `npm ci && npm run dev` (remove bun.lockb)
+- **Bun**: `bun install && bun run dev` (remove package-lock.json)
+
+### Build & Deploy
+
+```bash
+npm run lint        # ESLint check
+npm run build       # Production build
+npm run ci          # Full CI: lint + build
+npm run preview     # Preview production build
+```
+
+## 🔧 Quick Test Flow
+
+1. Open `/qa` in two browser tabs
+2. Set a Lot ID and place sample bids
+3. Use "Shorten Soft-Close (20s)" to test real-time extensions
+4. End Lot (demo) to generate invoiced orders
+5. Test payment flow with `checkout-create-session`
+6. Set shipping tracking with `orders-set-tracking`
+7. Complete settlement with `admin-settle`
+
+## 📚 Key Directories
+
+```
+├── public/
+│   ├── icons/           # App icons and favicons
+│   └── site.webmanifest # PWA manifest
+├── src/
+│   ├── components/      # React components
+│   ├── pages/          # Route components
+│   ├── integrations/   # Supabase client
+│   ├── hooks/          # Custom React hooks
+│   └── lib/            # Utility functions
+├── supabase/           # Database schema and functions
+├── docs/               # Documentation and migrations
+└── scripts/            # Build and utility scripts
+```
+
+## 🎨 Branding
+
+The ZingLots brand uses a red bolt logo (#E53935). To regenerate brand assets:
+
+```bash
+npm run generate:icons
+```
+
+This creates all necessary icon sizes from the source SVG at `public/icons/bolt.svg`.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and test thoroughly
+4. Commit with clear messages: `git commit -m 'feat: add amazing feature'`
+5. Push to your branch: `git push origin feature/amazing-feature`
+6. Open a Pull Request
+
+## 📄 License
+
+This project is proprietary software. All rights reserved.
+
+## 📞 Support
+
+For technical support or questions, please contact the development team or create an issue in this repository.
 
 ---
 
-## Quick Test (ZingLots MVP)
-
-1) Supabase Edge Secrets to set:
-- SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
-- STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
-- LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_URL
-- SITE_URL (frontend origin), STRIPE_PLATFORM_FEE_BPS=1200
-
-2) Run migrations (SQL Editor):
-- Paste and run docs/migrations/0001_app_schema.sql
-- Paste and run docs/migrations/0002_end_lot.sql
-- Paste and run docs/migrations/0003_seed_demo.sql
-
-3) Enable:
-- Auth: Email (magic link or password)
-- Storage buckets: lot-photos (public), evidence (private)
-- Realtime: tables app.lots and app.bids
-
-4) Deploy Edge Functions (Dashboard → Edge Functions):
-- livekit-token, stripe-onboard, checkout-create-session, stripe-webhook, shipping-create-label, admin-settle
-
-5) Test flow:
-- Open /qa in two tabs; set a Lot ID; place sample bids; use “Shorten Soft-Close (20s)” to see realtime extend ping
-- End Lot (demo) to generate invoiced order via RPC
-- Call checkout-create-session to pay; webhook marks order paid and creates pending payout
-- Call shipping-create-label to get label URL + tracking; include $1 platform label margin
-- Call admin-settle to transfer payout and mark order settled
-
+**ZingLots** - Revolutionizing B2B surplus auctions with modern technology.
