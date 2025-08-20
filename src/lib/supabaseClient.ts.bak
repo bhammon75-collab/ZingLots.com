@@ -1,15 +1,8 @@
-﻿import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 let _client: SupabaseClient | null = null;
-let _envOverride: { url?: string; anon?: string } | null = null;
 
-/** Test-only: override env seen by getSupabase() */
-export function __setEnvForTests(env: { url?: string; anon?: string } | null) {
-  _envOverride = env;
-  _client = null;
-}
-
-/** Test-only: inject a fake client / reset */
+/** Test-only hook to inject a fake client or reset to null */
 export function __setClientForTests(client: SupabaseClient | null) {
   _client = client;
 }
@@ -17,8 +10,8 @@ export function __setClientForTests(client: SupabaseClient | null) {
 export function getSupabase(): SupabaseClient | null {
   if (_client) return _client;
 
-  const url  = (_envOverride?.url  ?? (import.meta as any)?.env?.VITE_SUPABASE_URL);
-  const anon = (_envOverride?.anon ?? (import.meta as any)?.env?.VITE_SUPABASE_ANON_KEY);
+  const url  = (import.meta as any)?.env?.VITE_SUPABASE_URL;
+  const anon = (import.meta as any)?.env?.VITE_SUPABASE_ANON_KEY;
 
   if (!url || !anon) return null;
 
