@@ -111,12 +111,14 @@ jobs:
         run: npm run test --if-present
         env:
           NODE_ENV: test
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://example.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'anon-key-placeholder' }}
 
       - name: Upload coverage (if available)
         if: matrix.node == 20 && hashFiles('coverage/lcov.info') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           flags: frontend
           name: frontend-coverage
           fail_ci_if_error: false
@@ -152,6 +154,9 @@ jobs:
           deno test --allow-all --coverage=coverage
         env:
           DENO_ENV: test
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Generate Deno coverage report
         if: steps.check-deno.outputs.has-tests == 'true'
@@ -162,9 +167,9 @@ jobs:
 
       - name: Upload Deno coverage
         if: steps.check-deno.outputs.has-tests == 'true' && hashFiles('supabase/functions/coverage.lcov') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          file: ./supabase/functions/coverage.lcov
+          files: ./supabase/functions/coverage.lcov
           flags: edge-functions
           name: edge-functions-coverage
           fail_ci_if_error: false
@@ -205,6 +210,8 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://example.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'anon-key-placeholder' }}
 
       - name: Check build output
         run: |
@@ -278,6 +285,8 @@ jobs:
           fi
         env:
           NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://example.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'anon-key-placeholder' }}
 
       - name: Skip message
         if: steps.check-smoke.outputs.has-smoke-tests == 'false'
