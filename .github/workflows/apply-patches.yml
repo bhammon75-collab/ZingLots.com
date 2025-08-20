@@ -24,22 +24,17 @@ jobs:
           fi
           echo "file=$(cat .patchfile)" >> $GITHUB_OUTPUT
 
-      - name: Create branch and apply
+      - name: Apply patch
         run: |
           set -e
-          BR="patch-$(date +%Y%m%d-%H%M%S)"
-          git checkout -b "$BR"
           git config user.name "patch-bot"
           git config user.email "patch-bot@users.noreply.github.com"
           git apply --whitespace=fix --ignore-space-change "${{ steps.p.outputs.file }}"
           git add -A
-          git commit -m "Apply patch: $(basename "${{ steps.p.outputs.file }}")"
-          git push origin "$BR"
 
       - name: Open PR
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: ${{ github.ref_name }} # not used, but required by action inputs
           base: main
           title: "Apply patch: ${{ steps.p.outputs.file }}"
           body: |
@@ -47,4 +42,6 @@ jobs:
           labels: bot, patch
           author: patch-bot <patch-bot@users.noreply.github.com>
           committer: patch-bot <patch-bot@users.noreply.github.com>
+          branch: patch/apply-patches
           branch-suffix: timestamp
+          commit-message: "Apply patch: ${{ steps.p.outputs.file }}"
