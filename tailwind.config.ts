@@ -18,7 +18,15 @@ const config: Config = {
         accent:{ DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
         popover:{ DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
         card:{ DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
-        brand:{ blue:"hsl(var(--brand-blue))", "blue-foreground":"hsl(var(--brand-blue-foreground))" },
+        brand:{ 
+          blue:"hsl(var(--brand-blue))", 
+          "blue-foreground":"hsl(var(--brand-blue-foreground))",
+          red: "#E53935",
+          "red-dark": "#C62828",
+          "red-light": "#EF5350",
+          primary: "#E53935",
+          dark: "#111111"
+        },
         zing:{50:"#F1F8FC",100:"#E8F2FA",200:"#D6E8F3",300:"#B4D6EC",400:"#86BDE3",500:"#5EA6DA",600:"#2A99D8",700:"#1E7DB8",800:"#166092",900:"#124D77",950:"#0D3857"},
         ink:{50:"#F8FAFB",100:"#EEF5F8",200:"#DEE9F0",300:"#CBD8E5",400:"#A8BACF",500:"#8DA3BD",600:"#6B869F",700:"#4E6B82",800:"#3A566B",900:"#2A4354",950:"#1E2F3D"},
         success:{ DEFAULT:"#16A34A" }, warning:{ DEFAULT:"#F59E0B" }, error:{ DEFAULT:"#EF4444" }
@@ -28,6 +36,7 @@ const config: Config = {
       animation:{ "accordion-down":"accordion-down 0.2s ease-out", "accordion-up":"accordion-up 0.2s ease-out" }
     }
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins:[require("tailwindcss-animate")]
 };
 export default config;

@@ -9,10 +9,9 @@ import { DEMO_LOTS, DEMO_SHOWS } from "@/data/demo";
 import { Link, useNavigate } from "react-router-dom";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import PayPalSmokeTest from "@/components/PayPalSmokeTest";
-import { useState } from "react";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { SearchBar } from "@/components/ui/search-bar";
-import { MapPin, Truck, Shield, Clock } from "lucide-react";
+import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hero } from "@/components/Hero";
@@ -33,6 +32,14 @@ const Index = () => {
   const navigate = useNavigate();
   const [term, setTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
+  const showDev = false; // Set to true to show dev components
+  
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (term.trim()) {
+      navigate(`/browse?q=${encodeURIComponent(term)}`);
+    }
+  };
 
   const regions = [
     { id: "seattle", name: "Seattle", count: 127 },
@@ -188,7 +195,8 @@ const Index = () => {
               </Button>
             </div>
           </div>
-        </section>
+      </section>
+      
 
       {/* Value Props */}
       <section className="py-16 bg-gray-50">
@@ -198,8 +206,8 @@ const Index = () => {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Local Pickup Only</h3>
-              <p className="text-gray-600">All items within driving distance. No shipping hassles or hidden freight costs.</p>
+              <h3 className="text-xl font-semibold mb-2">Local Marketplace</h3>
+              <p className="text-gray-600">All items within driving distance. Shipping handled directly between buyers and sellers.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -324,15 +332,14 @@ const Index = () => {
       </section>
 
       </main>
-
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="text-2xl font-bold mb-4">ZingLots</div>
-              <p className="text-gray-400">
-                The hyperlocal marketplace for business surplus
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+            <div className="lg:col-span-1">
+              <div className="text-2xl font-bold mb-4 text-white">ZingLots</div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                The hyperlocal marketplace for business surplus and equipment
               </p>
             </div>
             <div>

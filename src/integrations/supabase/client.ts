@@ -5,7 +5,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  */
 function readEnv() {
   // Vite injects import.meta.env.* at build time
-  // @ts-ignore - import.meta may not exist in tests
+  // @ts-expect-error - import.meta may not exist in tests
   const viteEnv = typeof import.meta !== "undefined" ? (import.meta as any).env : undefined;
 
   const url =
