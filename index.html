@@ -3,18 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ZingLots – Live Auction Platform</title>
+    <title>ZingLots ï¿½ Live Auction Platform</title>
     <meta name="description" content="Zinglots: The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
     <meta name="author" content="ZingLots" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-    <meta name="theme-color" content="#ffffff" />
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- PWA and Icon Links -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Sitewide JSON-LD -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Zinglots","url":"https://www.zinglots.com","logo":"https://www.zinglots.com/icons/social-512.png"}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://www.zinglots.com","name":"Zinglots","potentialAction":{"@type":"SearchAction","target":"https://www.zinglots.com/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; connect-src 'self' https://huebxglhbenulbcftzdq.supabase.co https://huebxglhbenulbcftzdq.functions.supabase.co https://*.supabase.co https://api.stripe.com https://js.stripe.com https://api-m.paypal.com https://api-m.sandbox.paypal.com https://*.vercel.app https://*.zinglots.com; script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.paypal.com https://www.sandbox.paypal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; frame-src https://js.stripe.com https://hooks.stripe.com https://www.paypal.com https://www.sandbox.paypal.com; worker-src 'self' blob:; object-src 'none'; upgrade-insecure-requests;" />
+
+    <!-- Content Security Policy for enhanced security -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   base-uri 'self';
+                   form-action 'self';
+                   script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.paypal.com https://*.paypal.com;
+                   connect-src 'self' ws: wss: https://*.supabase.co https://api.stripe.com https://api-m.paypal.com https://api-m.sandbox.paypal.com https://*.vercel.app https://*.zinglots.com;
+                   img-src 'self' data: blob: https:;
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                   font-src 'self' https://fonts.gstatic.com;
+                   frame-src https://js.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com;
+                   worker-src 'self' blob:;
+                   object-src 'none';
+                   upgrade-insecure-requests;">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="ZingLots - Live Auction Platform" />
+    <meta property="og:description" content="The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icons/social-512.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@zinglots" />
+    <meta name="twitter:title" content="ZingLots - Live Auction Platform" />
+    <meta name="twitter:description" content="The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
+    <meta name="twitter:image" content="/icons/social-512.png" />
   </head>
   <body>
     <div id="root"></div>
