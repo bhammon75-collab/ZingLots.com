@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img">
+  <title>ZingLots Logo</title>
+  <desc>Full logo: red bolt icon + ZingLots text</desc>
+  <style>
+    .wordmark { font-family: "Inter","Segoe UI",Arial,sans-serif; fill: #111111; }
+  </style>
+  <rect width="1200" height="400" fill="none"/>
+  <!-- Red bolt (exact as specified) -->
+  <path d="M 80,120 L 168,120 L 136,200 L 208,200 L 120,280 L 152,208 L 80,208 Z" fill="#E53935"/>
+  <!-- Wordmark -->
+  <text x="280" y="210" class="wordmark" font-size="120" font-weight="600" style="letter-spacing:.5px">ZingLots</text>
+</svg>
