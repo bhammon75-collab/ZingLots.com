@@ -167,7 +167,7 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     try {
       const { data: sess } = await sb.auth.getSession();
       const token = sess?.session?.access_token;
-      const fnUrl = `https://huebxglhbenulbcftzdq.functions.supabase.co/bids-csv?lot_id=${encodeURIComponent(lot.id)}`;
+      const fnUrl = `https://huebxglhbenulbcftzdq.functions.supabase.co/functions/v1/bids-csv?lot_id=${encodeURIComponent(lot.id)}`;
       const res = await fetch(fnUrl, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
@@ -280,3 +280,4 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     </section>
   );
 }
+
