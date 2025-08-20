@@ -159,15 +159,67 @@ const ModernIndex = () => {
     }
   ];
 
+  // Helper function to parse time string to seconds
+  const parseTimeToSeconds = (timeStr) => {
+    const parts = timeStr.split(' ');
+    let totalSeconds = 0;
+    
+    parts.forEach(part => {
+      const value = parseInt(part);
+      if (part.includes('d')) {
+        totalSeconds += value * 24 * 60 * 60;
+      } else if (part.includes('h')) {
+        totalSeconds += value * 60 * 60;
+      } else if (part.includes('m')) {
+        totalSeconds += value * 60;
+      } else if (part.includes('s')) {
+        totalSeconds += value;
+      }
+    });
+    
+    return totalSeconds;
+  };
+
+  // Helper function to format seconds to time string
+  const formatTimeLeft = (seconds) => {
+    if (seconds <= 0) return 'Ended';
+    
+    const days = Math.floor(seconds / (24 * 60 * 60));
+    const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
+    const minutes = Math.floor((seconds % (60 * 60)) / 60);
+    const secs = seconds % 60;
+    
+    if (days > 0) {
+      return `${days}d ${hours}h`;
+    } else if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${secs}s`;
+    } else {
+      return `${secs}s`;
+    }
+  };
+
+  // Initialize timeLeft state with parsed seconds
+  useEffect(() => {
+    const initialTimeLeft = {};
+    featuredLots.forEach(lot => {
+      initialTimeLeft[lot.id] = parseTimeToSeconds(lot.timeLeft);
+    });
+    setTimeLeft(initialTimeLeft);
+  }, []);
+
   // Countdown timer effect
   useEffect(() => {
     const timer = setInterval(() => {
-      const newTimeLeft = {};
-      featuredLots.forEach(lot => {
-        // Simple countdown logic (would be more complex in production)
-        newTimeLeft[lot.id] = lot.timeLeft;
+      setTimeLeft(prevTimeLeft => {
+        const newTimeLeft = {};
+        Object.keys(prevTimeLeft).forEach(lotId => {
+          const remaining = prevTimeLeft[lotId] - 1;
+          newTimeLeft[lotId] = remaining > 0 ? remaining : 0;
+        });
+        return newTimeLeft;
       });
-      setTimeLeft(newTimeLeft);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -380,7 +432,7 @@ const ModernIndex = () => {
                   </div>
                   <div className={`absolute bottom-2 left-2 timer-badge ${lot.urgent ? 'urgent' : ''}`}>
                     <Clock className="h-3 w-3" />
-                    {lot.timeLeft}
+                    {timeLeft[lot.id] !== undefined ? formatTimeLeft(timeLeft[lot.id]) : lot.timeLeft}
                   </div>
                 </div>
                 
