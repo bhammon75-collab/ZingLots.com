@@ -10,7 +10,9 @@ import { Link, useNavigate } from "react-router-dom";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Building2, UtensilsCrossed, Briefcase, Wrench, Truck, Shield, Clock, MapPin } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Hero } from "@/components/Hero";
 
@@ -29,6 +31,16 @@ const listJsonLd = (items: {id:string; title:string}[]) => ({
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
+  const [term, setTerm] = useState("");
+  const navigate = useNavigate();
+  const showDev = false; // Set to true to show dev components
+  
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (term.trim()) {
+      navigate(`/browse?q=${encodeURIComponent(term)}`);
+    }
+  };
 
   const regions = [
     { id: "seattle", name: "Seattle", count: 127 },
@@ -199,8 +211,8 @@ const Index = () => {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Local Pickup Only</h3>
-              <p className="text-gray-600">All items within driving distance. No shipping hassles or hidden freight costs.</p>
+              <h3 className="text-xl font-semibold mb-2">Local Marketplace</h3>
+              <p className="text-gray-600">All items within driving distance. Shipping handled directly between buyers and sellers.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -325,37 +337,39 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="text-2xl font-bold mb-4">ZingLots</div>
-              <p className="text-gray-400">
-                The hyperlocal marketplace for business surplus
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+            <div className="lg:col-span-1">
+              <div className="text-2xl font-bold mb-4 text-white">ZingLots</div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                The hyperlocal marketplace for business surplus and equipment
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Marketplace</h4>
-              <div className="space-y-2 text-gray-400">
-                <Link to="/browse" className="block hover:text-white">Browse Lots</Link>
-                <Link to="/categories" className="block hover:text-white">Categories</Link>
-                <Link to="/regions" className="block hover:text-white">Regions</Link>
+              <h4 className="font-semibold mb-4">Discover</h4>
+              <div className="space-y-3 text-gray-400">
+                <Link to="/browse" className="block hover:text-white transition-colors">Browse Lots</Link>
+                <Link to="/categories" className="block hover:text-white transition-colors">Categories</Link>
+                <Link to="/regions" className="block hover:text-white transition-colors">Regions</Link>
               </div>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Selling</h4>
-              <div className="space-y-2 text-gray-400">
-                <Link to="/seller/apply" className="block hover:text-white">Apply to Sell</Link>
-                <Link to="/seller/dashboard" className="block hover:text-white">Seller Dashboard</Link>
-                <Link to="/help/selling" className="block hover:text-white">Selling Guide</Link>
+              <div className="space-y-3 text-gray-400">
+                <Link to="/seller/apply" className="block hover:text-white transition-colors">Apply to Sell</Link>
+                <Link to="/seller/dashboard" className="block hover:text-white transition-colors">Seller Dashboard</Link>
+                <Link to="/pricing" className="block hover:text-white transition-colors">Pricing</Link>
+                <Link to="/help/selling" className="block hover:text-white transition-colors">Selling Guide</Link>
               </div>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
-              <div className="space-y-2 text-gray-400">
-                <Link to="/help" className="block hover:text-white">Help Center</Link>
-                <Link to="/contact" className="block hover:text-white">Contact Us</Link>
-                <Link to="/terms" className="block hover:text-white">Terms</Link>
+              <div className="space-y-3 text-gray-400">
+                <Link to="/help" className="block hover:text-white transition-colors">Help Center</Link>
+                <Link to="/contact" className="block hover:text-white transition-colors">Contact Us</Link>
+                <Link to="/terms" className="block hover:text-white transition-colors">Terms of Service</Link>
+                <Link to="/privacy" className="block hover:text-white transition-colors">Privacy Policy</Link>
               </div>
             </div>
           </div>
