@@ -58,7 +58,7 @@ export default function ExplorePage() {
           {loading ? Array.from({length:8}).map((_,i)=>(
             <div key={i} className="h-60 rounded-2xl border bg-muted animate-pulse" />
           )) : lots.length > 0 ? lots.map((l:any)=>(
-            <LotCard key={l.id} {...l} />
+            <LotCard key={l.id} item={l} />
           )) : (
             <div className="col-span-full text-center py-12 text-muted-foreground">
               No auctions found. Try adjusting your filters.

@@ -1,1 +1,11 @@
 project_id = "huebxglhbenulbcftzdq"
+
+[api]
+# Schemas to expose in the API
+schemas = ["public", "graphql_public", "app"]
+
+# Extra search path for PostgREST
+extra_search_path = ["public", "extensions", "app"]
+
+# (optional, but recommended)
+max_rows = 1000

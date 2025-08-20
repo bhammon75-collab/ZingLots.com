@@ -1,18 +1,42 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.55.0";
 
+interface PayPalTokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
+interface PayPalPurchaseUnit {
+  custom_id?: string;
+  amount?: {
+    currency_code: string;
+    value: string;
+  };
+}
+
+interface PayPalCaptureResponse {
+  id: string;
+  status: string;
+  purchase_units?: PayPalPurchaseUnit[];
+}
+
+interface RequestBody {
+  orderId: string;
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const getEnv = (name: string, fallback?: string) => {
+const getEnv = (name: string, fallback?: string): string => {
   const v = Deno.env.get(name);
   if (!v && !fallback) throw new Error(`${name} is not set`);
   return v ?? fallback!;
 };
 
-async function getAccessToken(baseUrl: string, clientId: string, secret: string) {
+async function getAccessToken(baseUrl: string, clientId: string, secret: string): Promise<string> {
   const creds = btoa(`${clientId}:${secret}`);
   const resp = await fetch(`${baseUrl}/v1/oauth2/token`, {
     method: 'POST',
@@ -26,8 +50,8 @@ async function getAccessToken(baseUrl: string, clientId: string, secret: string)
     const t = await resp.text();
     throw new Error(`PayPal token error: ${resp.status} ${t}`);
   }
-  const json = await resp.json();
-  return json.access_token as string;
+  const json = await resp.json() as PayPalTokenResponse;
+  return json.access_token;
 }
 
 serve(async (req) => {
@@ -37,7 +61,8 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId } = await req.json();
+    const body = await req.json() as RequestBody;
+    const { orderId } = body;
     if (!orderId) throw new Error('orderId is required');
 
     const baseUrl = getEnv('PAYPAL_API_BASE', 'https://api-m.sandbox.paypal.com');
@@ -59,14 +84,20 @@ serve(async (req) => {
       throw new Error(`PayPal capture error: ${capResp.status} ${t}`);
     }
 
-    const data = await capResp.json();
+    const data = await capResp.json() as PayPalCaptureResponse;
 
     // Attempt to mark our app order as paid via custom_id
     try {
-      const customId = data?.purchase_units?.[0]?.custom_id as string | undefined;
+      const customId = data?.purchase_units?.[0]?.custom_id;
       if (customId) {
-        const supabase = createClient(getEnv('SUPABASE_URL'), getEnv('SUPABASE_SERVICE_ROLE_KEY'), { auth: { persistSession: false }, db: { schema: 'app' } });
-        await supabase.from('orders').update({ paid_at: new Date().toISOString(), status: 'paid' }).eq('id', customId);
+        const supabase = createClient(getEnv('SUPABASE_URL'), getEnv('SUPABASE_SERVICE_ROLE_KEY'), { 
+          auth: { persistSession: false }, 
+          db: { schema: 'app' } 
+        });
+        await supabase.from('orders').update({ 
+          paid_at: new Date().toISOString(), 
+          status: 'paid' 
+        }).eq('id', customId);
       }
     } catch (e) {
       console.error('[paypal-capture-order] db update error', e);

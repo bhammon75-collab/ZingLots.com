@@ -1,265 +1,173 @@
-# ZingLots.com - AI-Powered B2B Surplus Marketplace
+# ZingLots - Live Auction Platform
 
-## 🚀 Overview
+ZingLots is a modern B2B surplus marketplace and live auction platform built with React, TypeScript, and Supabase. Experience real-time bidding, secure payments, and transparent transactions.
 
-ZingLots is a next-generation hyperlocal B2B surplus marketplace that leverages AI agents to automate operations, enhance user experience, and scale efficiently. Built with React, Supabase, and powered by Claude AI.
+## 🚀 Features
 
-## 🤖 AI Agent Architecture
+- **Live Auctions**: Real-time bidding with instant updates
+- **Secure Payments**: Stripe integration with escrow protection
+- **B2B Marketplace**: Specialized for surplus and business inventory
+- **User Dashboards**: Separate buyer and seller interfaces
+- **Real-time Communication**: LiveKit integration for live streams
+- **Mobile Responsive**: Works seamlessly across all devices
 
-### Core AI Agents
+## 🛠️ Technology Stack
 
-1. **KYB Onboarding Agent** - Automated business verification
-   - Document OCR and validation
-   - Risk scoring and compliance checks
-   - Real-time verification decisions
+- **Frontend**: React 18, TypeScript, Vite
+- **UI Framework**: Tailwind CSS, shadcn/ui components
+- **Backend**: Supabase (PostgreSQL, Auth, Realtime, Storage)
+- **Payments**: Stripe Connect, PayPal integration
+- **Real-time**: LiveKit for video/audio streaming
+- **State Management**: TanStack Query
+- **Testing**: Vitest, Testing Library
 
-2. **Listing Copilot** - AI-powered listing creation
-   - Computer vision for product categorization
-   - SEO-optimized title and description generation
-   - Automatic hazmat and compliance detection
-   - Dimension and weight estimation
+## 📦 Getting Started
 
-3. **Valuation Agent** - Data-driven pricing
-   - Comparable sales analysis
-   - Market trend detection
-   - Dynamic pricing recommendations
-   - Stale inventory management
+### Prerequisites
 
-4. **Trust & Safety Agent** - 24/7 content moderation
-   - Prohibited item detection
-   - PII scrubbing
-   - Fraud prevention
+- Node.js 18+ (use nvm for version management)
+- npm or bun package manager
 
-5. **Support & Dispute Agent** - Automated customer service
-   - FAQ handling
-   - Dispute resolution suggestions
-   - Intelligent ticket routing
-
-6. **Lead Generation Agent** - Growth automation
-   - Business prospect identification
-   - Personalized outreach campaigns
-   - Regional market analysis
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React + TypeScript + Vite
-- **UI Components**: shadcn/ui + Tailwind CSS
-- **Backend**: Supabase (PostgreSQL + Edge Functions)
-- **AI**: Claude 3.5 Sonnet (Anthropic)
-- **Maps**: PostGIS for geospatial queries
-- **Payments**: Stripe Connect
-- **Storage**: Supabase Storage
-
-## 📋 Prerequisites
-
-- Node.js 18+ 
-- Supabase account
-- Anthropic API key
-- Stripe account (for payments)
-
-## 🚀 Quick Start
-
-### 1. Clone and Install
+### Installation
 
 ```bash
-git clone https://github.com/bhammon75-collab/ZingLots.com.git
+# Clone the repository
+git clone <YOUR_GIT_URL>
+
+# Navigate to project directory
 cd ZingLots.com
+
+# Install dependencies
 npm install
-```
 
-### 2. Environment Setup
-
-Create a `.env.local` file:
-
-```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### 3. Supabase Setup
-
-#### Database Migrations
-
-1. Go to your Supabase project SQL Editor
-2. Run the migrations in order:
-   - `supabase/migrations/001_core_marketplace_schema.sql`
-
-#### Edge Function Secrets
-
-Set these in Supabase Dashboard → Settings → Edge Functions:
-
-```
-ANTHROPIC_API_KEY=your_anthropic_api_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-```
-
-#### Deploy Edge Functions
-
-```bash
-supabase functions deploy listing-copilot
-supabase functions deploy kyb-verify
-supabase functions deploy valuation-agent
-```
-
-### 4. Run Development Server
-
-```bash
+# Start development server
 npm run dev
 ```
 
-Visit `http://localhost:5173`
+### Environment Setup
 
-## 📁 Project Structure
+1. **Supabase Configuration**: Set up your Supabase project and configure:
+   - SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+   - STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+   - LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_URL
+   - SITE_URL (frontend origin), STRIPE_PLATFORM_FEE_BPS=1200
+
+2. **Database Setup**: Run migrations in SQL Editor:
+   - `docs/migrations/0001_app_schema.sql`
+   - `docs/migrations/0002_end_lot.sql`
+   - `docs/migrations/0003_seed_demo.sql`
+
+3. **Supabase Configuration**:
+   - Enable Auth: Email (magic link or password)
+   - Create Storage buckets: lot-photos (public), evidence (private)
+   - Enable Realtime for tables: app.lots and app.bids
+
+4. **Deploy Edge Functions** (Dashboard → Edge Functions):
+   - `livekit-token` - Generate LiveKit access tokens
+   - `stripe-onboard` - Stripe Connect onboarding
+   - `checkout-create-session` - Create Stripe checkout sessions
+   - `stripe-webhook` - Handle Stripe webhook events
+   - `admin-settle` - Administrative settlement
+
+## 📱 PWA Support
+
+ZingLots includes Progressive Web App features:
+
+```bash
+# Generate app icons from SVG
+npm run generate:icons
+```
+
+Icons are automatically generated in multiple sizes for:
+- PWA/Android (192x192, 512x512)
+- iOS (various sizes)
+- Favicons (16x16, 32x32, etc.)
+- Social sharing (256x256, 512x512, 1024x1024)
+
+## 🧪 Testing
+
+```bash
+# Run tests in watch mode
+npm run test
+
+# Run tests with UI
+npm run test:ui
+
+# Run smoke tests
+npm run test:smoke
+```
+
+## 🏗️ Development Workflow
+
+### Package Manager
+
+Choose one for consistent builds:
+- **NPM**: `npm ci && npm run dev` (remove bun.lockb)
+- **Bun**: `bun install && bun run dev` (remove package-lock.json)
+
+### Build & Deploy
+
+```bash
+npm run lint        # ESLint check
+npm run build       # Production build
+npm run ci          # Full CI: lint + build
+npm run preview     # Preview production build
+```
+
+## 🔧 Quick Test Flow
+
+1. Open `/qa` in two browser tabs
+2. Set a Lot ID and place sample bids
+3. Use "Shorten Soft-Close (20s)" to test real-time extensions
+4. End Lot (demo) to generate invoiced orders
+5. Test payment flow with `checkout-create-session`
+6. Set shipping tracking with `orders-set-tracking`
+7. Complete settlement with `admin-settle`
+
+## 📚 Key Directories
 
 ```
+├── public/
+│   ├── icons/           # App icons and favicons
+│   └── site.webmanifest # PWA manifest
 ├── src/
-│   ├── components/
-│   │   ├── marketplace/
-│   │   │   ├── AIListingCreator.tsx    # AI-powered listing creation
-│   │   │   ├── BusinessVerification.tsx # KYB onboarding flow
-│   │   │   └── ValuationDisplay.tsx    # Pricing recommendations
-│   │   └── ui/                         # shadcn/ui components
-│   ├── pages/
-│   │   ├── CreateListing.tsx
-│   │   ├── Marketplace.tsx
-│   │   └── SellerDashboard.tsx
-│   └── integrations/
-│       └── supabase/
-├── supabase/
-│   ├── functions/
-│   │   ├── listing-copilot/           # AI listing generation
-│   │   ├── kyb-verify/                # Business verification
-│   │   ├── valuation-agent/           # Pricing engine
-│   │   └── _shared/                   # Shared utilities
-│   └── migrations/                    # Database schema
+│   ├── components/      # React components
+│   ├── pages/          # Route components
+│   ├── integrations/   # Supabase client
+│   ├── hooks/          # Custom React hooks
+│   └── lib/            # Utility functions
+├── supabase/           # Database schema and functions
+├── docs/               # Documentation and migrations
+└── scripts/            # Build and utility scripts
 ```
 
-## 🔑 Key Features
+## 🎨 Branding
 
-### For Sellers
-- **AI-Powered Listings**: Upload photos and let AI generate professional listings
-- **Smart Pricing**: Get data-driven pricing recommendations
-- **Automated Verification**: Quick business verification with AI document analysis
-- **Inventory Management**: Track listings, bids, and pickups
-
-### For Buyers
-- **Hyperlocal Search**: Find surplus within your pickup radius
-- **Verified Sellers**: All businesses are KYB-verified
-- **Inspection Scheduling**: Schedule on-site inspections
-- **QR Pickup Flow**: Secure pickup verification with QR codes
-
-### Platform Features
-- **Real-time Bidding**: WebSocket-powered live bidding
-- **Anti-Snipe Protection**: Automatic time extensions
-- **Escrow Payments**: Secure payment handling via Stripe
-- **Regional Marketplaces**: City-specific surplus hubs
-
-## 🧪 Testing AI Features
-
-### Test Listing Creation
-1. Navigate to `/create-listing`
-2. Upload product photos
-3. Click "Generate with AI"
-4. Review AI suggestions
-5. Get valuation estimate
-
-### Test Business Verification
-1. Go to seller onboarding
-2. Upload business documents
-3. Submit for verification
-4. Check verification status
-
-## 📊 Database Schema
-
-Key tables with AI integration:
-
-- `marketplace.businesses` - Verified seller accounts
-- `marketplace.kyb_applications` - Verification records with AI analysis
-- `marketplace.items` - Listings with AI-generated content
-- `marketplace.valuations` - AI pricing recommendations
-- `marketplace.ai_agent_logs` - Complete AI activity audit trail
-
-## 🚀 Deployment
-
-### Vercel Deployment
+The ZingLots brand uses a red bolt logo (#E53935). To regenerate brand assets:
 
 ```bash
-npm run build
-vercel --prod
+npm run generate:icons
 ```
 
-### Environment Variables (Production)
-
-Set in Vercel Dashboard:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-
-### Supabase Edge Functions (Production)
-
-```bash
-supabase functions deploy --project-ref your-project-ref
-```
-
-## 📈 Monitoring & Analytics
-
-### AI Agent Metrics
-- Agent response times
-- Token usage per agent
-- Success/failure rates
-- Cost per operation
-
-### Marketplace KPIs
-- Unique bidders per lot
-- Sell-through rate
-- Average time to first bid
-- Pickup completion rate
-
-## 🔒 Security Considerations
-
-- All AI agents use service role keys (never exposed to client)
-- RLS policies enforce data access controls
-- PII is automatically scrubbed from logs
-- Document uploads are virus-scanned
-- Rate limiting on all AI endpoints
+This creates all necessary icon sizes from the source SVG at `public/icons/bolt.svg`.
 
 ## 🤝 Contributing
 
-1. Create a feature branch
-2. Make your changes
-3. Test AI agents locally
-4. Submit a pull request
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and test thoroughly
+4. Commit with clear messages: `git commit -m 'feat: add amazing feature'`
+5. Push to your branch: `git push origin feature/amazing-feature`
+6. Open a Pull Request
 
-## 📝 License
+## 📄 License
 
-Private repository - All rights reserved
+This project is proprietary software. All rights reserved.
 
-## 💬 Support
+## 📞 Support
 
-For issues or questions:
-- Open an issue on GitHub
-- Contact: support@zinglots.com
-
-## 🎯 Roadmap
-
-### Phase 1 (Current)
-- ✅ Core marketplace functionality
-- ✅ AI listing generation
-- ✅ KYB verification
-- ✅ Valuation engine
-
-### Phase 2 (Q2 2025)
-- [ ] Mobile app
-- [ ] Advanced fraud detection
-- [ ] Multi-language support
-- [ ] Bulk import tools
-
-### Phase 3 (Q3 2025)
-- [ ] Predictive demand forecasting
-- [ ] Automated inventory sourcing
-- [ ] White-label solution
-- [ ] API marketplace
+For technical support or questions, please contact the development team or create an issue in this repository.
 
 ---
 
-Built with ❤️ by the ZingLots Team
+**ZingLots** - Revolutionizing B2B surplus auctions with modern technology.
