@@ -181,11 +181,12 @@ const RegionPage = () => {
           return a.currentPrice - b.currentPrice;
         case 'price_high':
           return b.currentPrice - a.currentPrice;
-        case 'distance':
+        case 'distance': {
           if (!userLocation) return 0;
           const distA = calculateDistance(userLocation.lat, userLocation.lon, a.coordinates.lat, a.coordinates.lon);
           const distB = calculateDistance(userLocation.lat, userLocation.lon, b.coordinates.lat, b.coordinates.lon);
           return distA - distB;
+        }
         default:
           return 0;
       }
