@@ -7,36 +7,15 @@
     <meta name="description" content="ZingLots - The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
     <meta name="author" content="ZingLots" />
 
-    <!-- PWA and Favicon Links -->
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- PWA and Icon Links -->
     <link rel="manifest" href="/site.webmanifest">
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
     <meta name="theme-color" content="#ffffff">
-
-    <!-- ZingLots basic structured data -->
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Organization",
-      "name":"ZingLots",
-      "url":"https://www.zinglots.com",
-      "logo":"https://www.zinglots.com/icons/social-512.png"
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"WebSite",
-      "url":"https://www.zinglots.com",
-      "name":"ZingLots",
-      "potentialAction":{
-        "@type":"SearchAction",
-        "target":"https://www.zinglots.com/search?q={search_term_string}",
-        "query-input":"required name=search_term_string"
-      }
-    }
-    </script>
 
     <!-- Content Security Policy for enhanced security -->
     <meta http-equiv="Content-Security-Policy" 
@@ -44,7 +23,8 @@
                    script-src 'self' 'unsafe-inline' https://js.stripe.com;
                    connect-src 'self' https://*.supabase.co https://api.stripe.com https://api-m.paypal.com https://api-m.sandbox.paypal.com;
                    img-src 'self' data: blob:;
-                   style-src 'self' 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                   font-src 'self' https://fonts.gstatic.com;
                    frame-src https://js.stripe.com https://*.paypal.com;">
 
     <meta property="og:title" content="ZingLots - Live Auction Platform" />

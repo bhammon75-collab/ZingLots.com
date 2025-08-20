@@ -39,8 +39,7 @@ export default tseslint.config(
       ],
       // Additional helpful rules
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-const": "error",
-      "prefer-const": "off", // Let TS version handle this
+      "prefer-const": "error", // Use the standard ESLint rule instead
     },
   }
 );
