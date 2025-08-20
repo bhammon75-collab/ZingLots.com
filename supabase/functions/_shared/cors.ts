@@ -75,3 +75,4 @@ export function createCorsSuccessResponse(
     headers: { ...getCorsHeaders(methods, origin, requestHeaders), "Content-Type": "application/json" },
   });
 }
+export const corsHeaders = getCorsHeaders();
