@@ -9,7 +9,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   config.headers = config.headers ?? {};
   config.headers["apikey"] = ANON;
-  config.headers["Authorization"] = \Bearer \eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1ZWJ4Z2xoYmVudWxiY2Z0emRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5NjQwMjcsImV4cCI6MjA3MDU0MDAyN30.j7GjRfvZbG6RwUPAYbFr1czTzPNISFPubOLK-Ciq2ZU\;
+  config.headers["Authorization"] = `Bearer ${ANON}`;
   return config;
 });
 
