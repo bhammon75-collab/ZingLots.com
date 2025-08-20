@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+
+import { supaFetch } from '@/lib/supaFetchVite';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -167,8 +169,8 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     try {
       const { data: sess } = await sb.auth.getSession();
       const token = sess?.session?.access_token;
-      const fnUrl = `https://huebxglhbenulbcftzdq.functions.supabase.co/bids-csv?lot_id=${encodeURIComponent(lot.id)}`;
-      const res = await fetch(fnUrl, {
+      const fnUrl = `bids-csv?lot_id=${encodeURIComponent(lot.id)}`;
+      const res = await supaFetch(fnUrl, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
       if (res.status === 401) return toast({ description: 'Unauthorized' });
@@ -280,3 +282,5 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     </section>
   );
 }
+
+
