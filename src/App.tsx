@@ -26,6 +26,11 @@ import Help from "./pages/Help";
 import PricingPage from "./pages/pricing";
 import ExplorePage from "./pages/explore";
 
+// B2B Marketplace Pages
+import RegionPage from "./pages/RegionPage";
+import CreateLotPage from "./pages/CreateLotPage";
+import QRScannerPage from "./pages/QRScannerPage";
+
 const queryClient = new QueryClient();
 
 // Feature flags
@@ -41,6 +46,15 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              
+              {/* B2B Marketplace Routes */}
+              <Route path="/r/:regionSlug" element={<RegionPage />} />
+              <Route path="/sell/new" element={<CreateLotPage />} />
+              <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
+              <Route path="/lot/:id" element={<ProductDetail />} />
+              <Route path="/browse" element={<RegionPage />} />
+              
+              {/* Legacy Routes (transitioning) */}
               <Route path="/shows" element={<Shows />} />
               <Route path="/discover" element={<Discover />} />
               <Route path="/explore" element={<ExplorePage />} />
