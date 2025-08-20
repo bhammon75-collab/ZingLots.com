@@ -53,6 +53,7 @@ const App = () => (
               <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
               <Route path="/lot/:id" element={<ProductDetail />} />
               <Route path="/browse" element={<RegionPage />} />
+              <Route path="/regions" element={<RegionPage />} />
               
               {/* Legacy Routes (transitioning) */}
               <Route path="/shows" element={<Shows />} />
@@ -71,6 +72,9 @@ const App = () => (
               <Route path="/auction/:lotId" element={<AuctionRoom />} />
               <Route path="/help" element={<Help />} />
               <Route path="/pricing" element={<PricingPage />} />
+              {/* Simple terms/contact placeholders to ensure links resolve */}
+              <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
+              <Route path="/contact" element={<Help />} />
               
               {/* Feature-flagged LiveKit routes */}
               {LIVE_SHOWS_ENABLED && (

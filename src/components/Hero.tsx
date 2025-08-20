@@ -9,13 +9,13 @@ export function Hero() {
         Built for power sellers & savvy buyers.
       </p>
       <div className="mt-8 flex flex-wrap gap-3">
-        <a href="/auctions" className="rounded-full bg-brand-primary px-5 py-3 text-white font-medium hover:bg-brand-dark transition">
+        <a href="/browse" className="rounded-full bg-brand-primary px-5 py-3 text-white font-medium hover:bg-brand-dark transition">
           Browse auctions
         </a>
-        <a href="/ending-soon" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
+        <a href="/discover" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
           Ending soon
         </a>
-        <a href="/sell" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
+        <a href="/seller/apply" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
           Sell now
         </a>
       </div>

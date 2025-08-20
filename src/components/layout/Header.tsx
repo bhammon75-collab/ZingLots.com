@@ -16,7 +16,7 @@ export default function Header() {
           <a href="/discover" className="hover:opacity-80">Discover</a>
           <a href="/pricing" className="hover:opacity-80">Pricing</a>
           <a href="/help" className="hover:opacity-80">Help & Contact</a>
-          <a href="/sell" className="ml-2 rounded-full bg-brand-primary px-4 py-2 text-white hover:bg-brand-dark transition">
+          <a href="/seller/apply" className="ml-2 rounded-full bg-brand-primary px-4 py-2 text-white hover:bg-brand-dark transition">
             Start Selling
           </a>
         </nav>
