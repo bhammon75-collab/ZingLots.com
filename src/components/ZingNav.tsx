@@ -75,44 +75,54 @@ const ZingNav = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white backdrop-blur supports-[backdrop-filter]:bg-white/95 pointer-events-auto">
-      <div className="container mx-auto px-4">
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex h-40 items-start justify-between pt-4">
-          {/* Left Nav */}
-          <nav className="flex items-center gap-6 mt-2">
-            <NavLink to="/discover" className="text-sm text-gray-600 hover:text-gray-900">
-              Discover
-            </NavLink>
-            <NavLink to="/pricing" className="text-sm text-gray-600 hover:text-gray-900">
-              Pricing
-            </NavLink>
-            <NavLink to="/help" className="text-sm text-gray-600 hover:text-gray-900">
-              Help & Contact
-            </NavLink>
-            {(() => {
-              const showDrops = typeof window !== 'undefined' && (isAdmin || new URLSearchParams(window.location.search).get('dev') === '1');
-              return showDrops ? (
-                <NavLink to="/live" className="inline-flex items-center text-sm">
-                  <Badge variant="secondary">Drops</Badge>
-                </NavLink>
-              ) : null;
-            })()}
-          </nav>
+    <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <div className="mx-auto flex h-16 items-center justify-between px-4">
+        {/* Left Nav - Desktop Only */}
+        <nav className="hidden md:flex items-center gap-6">
+          <NavLink to="/discover" className="text-sm text-gray-600 hover:text-gray-900">
+            Discover
+          </NavLink>
+          <NavLink to="/pricing" className="text-sm text-gray-600 hover:text-gray-900">
+            Pricing
+          </NavLink>
+          <NavLink to="/help" className="text-sm text-gray-600 hover:text-gray-900">
+            Help & Contact
+          </NavLink>
+          {(() => {
+            const showDrops = typeof window !== 'undefined' && (isAdmin || new URLSearchParams(window.location.search).get('dev') === '1');
+            return showDrops ? (
+              <NavLink to="/live" className="inline-flex items-center text-sm">
+                <Badge variant="secondary">Drops</Badge>
+              </NavLink>
+            ) : null;
+          })()}
+        </nav>
 
-          {/* Centered Logo */}
-          <div className="flex-1 flex justify-center">
-            <Link to="/">
-              <img 
-                src="/lovable-uploads/9500d176-1bca-4494-936a-0978e437e2d8.png" 
-                alt="ZingLots - B2B Surplus Marketplace" 
-                className="h-32 w-auto"
-              />
-            </Link>
-          </div>
+        {/* Centered Logo */}
+        <div className="flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+          <Link to="/" className="flex items-center gap-2">
+            <img 
+              src="/icons/bolt.svg" 
+              alt="ZingLots Bolt Logo" 
+              className="h-8 w-8"
+            />
+            <span className="text-xl font-bold text-gray-900">ZingLots</span>
+          </Link>
+        </div>
 
-          {/* Right Nav */}
-          <div className="flex items-center gap-2 mt-2">
+        {/* Right Nav */}
+        <div className="flex items-center gap-2">
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border"
+            aria-label="Toggle menu"
+            onClick={() => setOpen((o) => !o)}
+          >
+            <Menu className="h-5 w-5 text-gray-900" />
+          </button>
+
+          {/* Desktop Right Nav */}
+          <div className="hidden md:flex items-center gap-2">
             {isAuthed ? (
               <>
                 <Button variant="ghost" size="icon" asChild aria-label="Cart">
@@ -121,7 +131,7 @@ const ZingNav = () => {
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
+                    <Button variant="ghost" size="sm">
                       Hi, {displayName || 'there'}!
                     </Button>
                   </DropdownMenuTrigger>
@@ -138,59 +148,43 @@ const ZingNav = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button variant="hero" size="sm" className="bg-none bg-brand-blue text-brand-blue-foreground" asChild>
+                <Button variant="hero" size="sm" className="bg-brand-blue text-brand-blue-foreground" asChild>
                   <Link to="/dashboard/seller">Sell now</Link>
                 </Button>
               </>
             ) : (
               <>
-                <Button variant="ghost" asChild>
+                <Button variant="ghost" size="sm" asChild>
                   <Link to="/login">Sign In</Link>
                 </Button>
-                <Button variant="ghost" asChild>
+                <Button variant="ghost" size="sm" asChild>
                   <Link to="/seller/apply">Apply</Link>
                 </Button>
-
                 <Button variant="ghost" size="icon" asChild aria-label="Cart">
                   <Link to="/cart"><ShoppingCart className="h-5 w-5" /></Link>
                 </Button>
-
-                <Button variant="hero" size="sm" className="bg-none bg-brand-blue text-brand-blue-foreground" asChild>
+                <Button variant="hero" size="sm" className="bg-brand-blue text-brand-blue-foreground" asChild>
                   <Link to="/dashboard/seller">Start Selling</Link>
                 </Button>
               </>
             )}
           </div>
         </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex h-32 items-start justify-between pt-4">
-          <div className="flex-1 flex justify-center">
-            <Link to="/">
-              <img 
-                src="/lovable-uploads/9500d176-1bca-4494-936a-0978e437e2d8.png" 
-                alt="ZingLots - B2B Surplus Marketplace" 
-                className="h-24 w-auto"
-              />
-            </Link>
-          </div>
-          <button
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md border mt-2"
-            aria-label="Toggle menu"
-            onClick={() => setOpen((o) => !o)}
-          >
-            <Menu className="text-gray-900" />
-          </button>
-        </div>
       </div>
 
       {/* Mobile Menu */}
       {open && (
         <div className="border-t bg-white md:hidden">
-          <div className="container mx-auto flex flex-col gap-3 px-4 py-4">
-            <NavLink to="/discover" onClick={() => setOpen(false)} className="text-sm text-gray-600">Discover</NavLink>
-            <NavLink to="/pricing" onClick={() => setOpen(false)} className="text-sm text-gray-600">Pricing</NavLink>
-            <NavLink to="/help" onClick={() => setOpen(false)} className="text-sm text-gray-600">Help & Contact</NavLink>
+          <div className="flex flex-col gap-3 px-4 py-4">
+            <NavLink to="/discover" onClick={() => setOpen(false)} className="text-sm text-gray-600">
+              Discover
+            </NavLink>
+            <NavLink to="/pricing" onClick={() => setOpen(false)} className="text-sm text-gray-600">
+              Pricing
+            </NavLink>
+            <NavLink to="/help" onClick={() => setOpen(false)} className="text-sm text-gray-600">
+              Help & Contact
+            </NavLink>
             {(() => {
               const showDrops = typeof window !== 'undefined' && (isAdmin || new URLSearchParams(window.location.search).get('dev') === '1');
               return showDrops ? (
@@ -199,28 +193,35 @@ const ZingNav = () => {
                 </NavLink>
               ) : null;
             })()}
+            
             <div className="flex gap-2 pt-2 flex-wrap">
               {isAuthed ? (
                 <>
-                  <Button variant="ghost" asChild>
+                  <Button variant="ghost" size="sm" asChild>
                     <Link to="/dashboard/buyer" onClick={() => setOpen(false)}>Dashboard</Link>
                   </Button>
-                  <Button variant="secondary" onClick={() => { handleSignOut(); setOpen(false); }}>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/cart" onClick={() => setOpen(false)}>Cart</Link>
+                  </Button>
+                  <Button variant="secondary" size="sm" onClick={() => { handleSignOut(); setOpen(false); }}>
                     Sign out
                   </Button>
-                  <Button variant="hero" size="sm" className="bg-none bg-brand-blue text-brand-blue-foreground" asChild>
+                  <Button variant="hero" size="sm" className="bg-brand-blue text-brand-blue-foreground" asChild>
                     <Link to="/dashboard/seller" onClick={() => setOpen(false)}>Sell now</Link>
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button variant="ghost" asChild>
+                  <Button variant="ghost" size="sm" asChild>
                     <Link to="/login" onClick={() => setOpen(false)}>Sign In</Link>
                   </Button>
-                  <Button variant="ghost" asChild>
+                  <Button variant="ghost" size="sm" asChild>
                     <Link to="/seller/apply" onClick={() => setOpen(false)}>Apply</Link>
                   </Button>
-                  <Button variant="hero" size="sm" className="bg-none bg-brand-blue text-brand-blue-foreground" asChild>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/cart" onClick={() => setOpen(false)}>Cart</Link>
+                  </Button>
+                  <Button variant="hero" size="sm" className="bg-brand-blue text-brand-blue-foreground" asChild>
                     <Link to="/dashboard/seller" onClick={() => setOpen(false)}>Start Selling</Link>
                   </Button>
                 </>

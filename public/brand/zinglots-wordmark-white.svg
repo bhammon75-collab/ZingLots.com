@@ -1,0 +1,7 @@
+<svg width="140" height="32" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red bolt icon (same) -->
+  <path d="M13 2L3 18h8l-1 12L21 14h-8l1-12z" fill="#E53935"/>
+  
+  <!-- White text "ZingLots" -->
+  <text x="28" y="23" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">ZingLots</text>
+</svg>

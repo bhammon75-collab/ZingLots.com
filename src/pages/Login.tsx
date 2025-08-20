@@ -20,7 +20,9 @@ const Login = () => {
     try {
       const handle = email.split('@')[0];
       await sb!.schema('app').from('profiles').upsert({ id: uid, handle, display_name: handle }, { onConflict: 'id' });
-    } catch {}
+    } catch (error) {
+      console.error("Failed to create user profile:", error);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -146,7 +148,7 @@ const Login = () => {
               </button>
             ) : (
               <button className="underline" onClick={() => setIsSignUp(true)}>
-                Don’t have an account? Create one
+                Don't have an account? Create one
               </button>
             )}
           </div>
