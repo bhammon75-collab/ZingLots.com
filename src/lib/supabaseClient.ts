@@ -1,26 +1,17 @@
-import { createClient } from "@supabase/supabase-js";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { supabase as baseClient } from "@/integrations/supabase/client";
 
-/**
- * Frontend Supabase client (Vite)
- * Requires VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
- */
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const singletonClient: SupabaseClient | null = baseClient as SupabaseClient;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error("Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. Check your Vercel/ENV settings.");
+export function getSupabase(): SupabaseClient | null {
+  return singletonClient;
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: { persistSession: true, autoRefreshToken: true },
-});
-
-/**
- * Getter used throughout the app so callsites can gracefully handle
- * missing env configuration (returns null when not configured).
- */
-export function getSupabase(): SupabaseClient | null {
-  if (!supabaseUrl || !supabaseAnonKey) return null;
-  return supabase as SupabaseClient;
+export async function invokeFn<T = unknown>(name: string, body?: unknown): Promise<T> {
+  const client = getSupabase();
+  if (!client) throw new Error("Supabase not configured");
+  const opts = body === undefined ? undefined : { body };
+  const { data, error } = await client.functions.invoke<T>(name, opts as any);
+  if (error) throw error;
+  return data as T;
 }
