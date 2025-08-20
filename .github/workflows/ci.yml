@@ -110,9 +110,9 @@ jobs:
 
       - name: Upload coverage (if available)
         if: matrix.node == 20 && hashFiles('coverage/lcov.info') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           flags: frontend
           name: frontend-coverage
           fail_ci_if_error: false
@@ -161,9 +161,9 @@ jobs:
 
       - name: Upload Deno coverage
         if: steps.check-deno.outputs.has-tests == 'true' && hashFiles('supabase/functions/coverage.lcov') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          file: ./supabase/functions/coverage.lcov
+          files: ./supabase/functions/coverage.lcov
           flags: edge-functions
           name: edge-functions-coverage
           fail_ci_if_error: false
