@@ -517,7 +517,7 @@ const ModernIndex = () => {
                 <Link to="/browse" className="footer-link">Browse Lots</Link>
                 <Link to="/categories" className="footer-link">Categories</Link>
                 <Link to="/regions" className="footer-link">Regions</Link>
-                <Link to="/live" className="footer-link">Live Auctions</Link>
+                <Link to="/discover" className="footer-link">Discover</Link>
               </div>
             </div>
             

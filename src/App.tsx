@@ -8,6 +8,8 @@ import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import ModernIndex from "./pages/ModernIndex";
 import ModernProductDetail from "./pages/ModernProductDetail";
+import Browse from "./pages/Browse";
+import Categories from "./pages/Categories";
 import NotFound from "./pages/NotFound";
 import Shows from "./pages/Shows";
 import Category from "./pages/Category";
@@ -57,13 +59,15 @@ const App = () => (
               <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
               <Route path="/lot/:id" element={<ModernProductDetail />} />
               <Route path="/classic-lot/:id" element={<ProductDetail />} />
-              <Route path="/browse" element={<RegionPage />} />
+              <Route path="/browse" element={<Browse />} />
+              <Route path="/region-page" element={<RegionPage />} />
               
               {/* Legacy Routes (transitioning) */}
               <Route path="/shows" element={<Shows />} />
               <Route path="/discover" element={<Discover />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/category/:slug" element={<Category />} />
+              <Route path="/categories" element={<Categories />} />
               <Route path="/seller/:id" element={<SellerProfile />} />
               <Route path="/seller/apply" element={<SellerApply />} />
               <Route path="/product/:id" element={<ProductDetail />} />

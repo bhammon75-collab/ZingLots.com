@@ -114,11 +114,6 @@ const ModernNav = () => {
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/live" className="flex items-center gap-1 hover:text-brand-red transition-colors">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-              Live Auctions
-            </Link>
-            <span className="text-gray-400">|</span>
             <Link to="/seller/apply" className="hover:text-brand-red transition-colors">
               Sell with us
             </Link>
@@ -134,15 +129,15 @@ const ModernNav = () => {
             <Link to="/" className="flex items-center group">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 320 100" 
-                className="h-12 w-auto"
+                viewBox="0 0 340 100" 
+                className="h-14 w-auto"
                 role="img"
                 aria-label="ZingLots Logo"
               >
                 <title>ZingLots</title>
                 <desc>ZingLots marketplace logo</desc>
                 {/* Exact bolt from user's specification */}
-                <g transform="scale(0.4)">
+                <g transform="translate(10, 10) scale(0.35)">
                   <path 
                     d="M 80,120 L 168,120 L 136,200 L 208,200 L 120,280 L 152,208 L 80,208 Z" 
                     fill="#E53935"
@@ -150,7 +145,7 @@ const ModernNav = () => {
                   />
                 </g>
                 <text 
-                  x="65" 
+                  x="75" 
                   y="60" 
                   style={{
                     fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
@@ -337,11 +332,11 @@ const ModernNav = () => {
             <NavLink to="/discover" className="nav-link">
               Discover
             </NavLink>
-            <NavLink to="/shows" className="nav-link">
-              Live Shows
-            </NavLink>
             <NavLink to="/explore" className="nav-link">
               Trending
+            </NavLink>
+            <NavLink to="/browse" className="nav-link">
+              Browse All
             </NavLink>
             <NavLink to="/pricing" className="nav-link">
               Pricing
@@ -418,11 +413,11 @@ const ModernNav = () => {
                 <Link to="/discover" onClick={() => setOpen(false)} className="py-2 font-medium">
                   Discover
                 </Link>
-                <Link to="/shows" onClick={() => setOpen(false)} className="py-2 font-medium">
-                  Live Shows
-                </Link>
                 <Link to="/explore" onClick={() => setOpen(false)} className="py-2 font-medium">
                   Trending
+                </Link>
+                <Link to="/browse" onClick={() => setOpen(false)} className="py-2 font-medium">
+                  Browse All
                 </Link>
                 <Link to="/pricing" onClick={() => setOpen(false)} className="py-2 font-medium">
                   Pricing

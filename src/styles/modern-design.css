@@ -221,12 +221,13 @@ h6 { font-size: var(--font-size-lg); }
 
 .search-modern input {
   width: 100%;
-  padding: 1rem 3rem 1rem 1.25rem;
-  font-size: var(--font-size-lg);
+  padding: 0.875rem 8rem 0.875rem 1.25rem; /* Increased right padding for button */
+  font-size: var(--font-size-base);
   border: 2px solid var(--gray-200);
   border-radius: var(--radius-full);
   background: white;
   transition: all var(--transition-base);
+  height: 3.5rem; /* Fixed height */
 }
 
 .search-modern input:focus {
@@ -237,16 +238,22 @@ h6 { font-size: var(--font-size-lg); }
 
 .search-modern button {
   position: absolute;
-  right: 0.25rem;
+  right: 0.375rem;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0.75rem 1.5rem;
+  padding: 0.625rem 1.25rem;
   background: var(--brand-red);
   color: white;
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all var(--transition-base);
+  height: 2.75rem; /* Slightly smaller than input */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
 }
 
 .search-modern button:hover {
