@@ -89,14 +89,8 @@ jobs:
       - name: Generate brand icons
         run: npm run generate:icons
 
-      - name: Run TypeScript check (if available)
-        run: |
-          if npx tsc --version >/dev/null 2>&1; then
-            npx tsc --noEmit
-          else
-            echo "TypeScript not available, skipping type check"
-          fi
-        continue-on-error: true
+      - name: Run TypeScript check
+        run: npm run typecheck
 
       - name: Run linting (if configured)
         run: |
@@ -206,6 +200,9 @@ jobs:
       - name: Generate brand icons
         run: npm run generate:icons
 
+      - name: Run TypeScript check
+        run: npm run typecheck
+
       - name: Build application
         run: npm run build
         env:
@@ -274,14 +271,20 @@ jobs:
           path: dist/
         continue-on-error: true
 
-      - name: Run smoke tests
+      - name: Run smoke tests (PR only) or full tests (main branch)
         if: steps.check-smoke.outputs.has-smoke-tests == 'true'
         run: |
-          if [ -f package.json ] && jq -e '.scripts["test:smoke"]' package.json >/dev/null 2>&1; then
-            npm run test:smoke
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Running smoke tests for pull request"
+            if [ -f package.json ] && jq -e '.scripts["test:smoke"]' package.json >/dev/null 2>&1; then
+              npm run test:smoke
+            else
+              # Run directly without script
+              npx vitest run --config vitest.smoke.config.ts || (echo "Smoke tests failed" && exit 1)
+            fi
           else
-            # Run directly without script
-            npx vitest run --config vitest.smoke.config.ts || (echo "Smoke tests failed" && exit 1)
+            echo "Running full tests for main branch push"
+            npm run test
           fi
         env:
           NODE_ENV: production
