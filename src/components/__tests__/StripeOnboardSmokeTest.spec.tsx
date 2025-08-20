@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+﻿import { render } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import React from "react";
@@ -10,3 +10,4 @@ describe("StripeOnboardSmokeTest", () => {
     expect(getByRole('button', { name: /Run Test/i })).toBeTruthy();
   });
 });
+

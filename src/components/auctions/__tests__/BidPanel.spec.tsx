@@ -1,8 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+﻿import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import BidPanel from '../BidPanel'
+import { act } from "react-dom/test-utils";
+import { afterEach } from "vitest";
+
+afterEach(async () => {
+  await act(async () => { await Promise.resolve(); });
+});
 
 // Toast mock
 const toastSpy = vi.fn()
@@ -59,7 +65,7 @@ describe('BidPanel', () => {
   })
 
   it('Under-minimum error surfaces server hint', async () => {
-    rpcMock.mockResolvedValue({ error: { message: 'Bid must be ≥ 110' } })
+    rpcMock.mockResolvedValue({ error: { message: 'Bid must be â‰¥ 110' } })
     const { getByPlaceholderText, getByRole } = render(<BidPanel {...baseProps} />)
 
     const input = getByPlaceholderText(/Enter/i) as HTMLInputElement
