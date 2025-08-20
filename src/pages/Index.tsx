@@ -1,16 +1,15 @@
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
-import SignatureGlow from "@/components/SignatureGlow";
 import CategoryPills from "@/components/CategoryPills";
-import LotCard from "@/components/LotCard";
-import heroImage from "@/assets/hero-zinglots.jpg";
 import { Button } from "@/components/ui/button";
-import { DEMO_LOTS, DEMO_SHOWS } from "@/data/demo";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { DEMO_LOTS } from "@/data/demo";
 import { Link, useNavigate } from "react-router-dom";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, MapPin, Truck, Building2, UtensilsCrossed, Briefcase, Wrench, Shield, Clock } from "lucide-react";
 import { useState } from "react";
 import { Hero } from "@/components/Hero";
 
@@ -29,6 +28,14 @@ const listJsonLd = (items: {id:string; title:string}[]) => ({
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
+  const navigate = useNavigate();
+  const showDev = false;
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q) navigate(`/search?q=${encodeURIComponent(q)}`);
+  };
 
   const regions = [
     { id: "seattle", name: "Seattle", count: 127 },
@@ -139,8 +146,8 @@ const Index = () => {
             <Input
               type="text"
               placeholder="Search for collectibles..."
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-14 pl-4 pr-12 text-lg bg-white border border-line rounded-xl"
             />
             <Button 
@@ -188,8 +195,7 @@ const Index = () => {
               </Button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Value Props */}
       <section className="py-16 bg-gray-50">
@@ -323,6 +329,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
