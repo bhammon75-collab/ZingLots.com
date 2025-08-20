@@ -14,6 +14,18 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { Hero } from "@/components/Hero";
 
+// Helper for ItemList JSON-LD
+const listJsonLd = (items: {id:string; title:string}[]) => ({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": items.map((it, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "url": `https://www.zinglots.com/product/${it.id}`,
+    "name": it.title
+  }))
+});
+
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
@@ -106,6 +118,9 @@ const Index = () => {
         <link rel="canonical" href="/" />
         <meta property="og:title" content="ZingLots | Live Toy Auctions" />
         <meta property="og:description" content="Discover live shows and bid on collectible toys with soft-close and Buy Now." />
+        <script type="application/ld+json">
+          {JSON.stringify(listJsonLd((DEMO_LOTS ?? []).slice(0, 12)))}
+        </script>
       </Helmet>
 
       <Header />
