@@ -25,6 +25,7 @@ describe('Bidding concurrency simulation', () => {
     )
 
     const out = computeProxyOutcome(start, proxies)
+    // Derive expected outcome by deterministic sort
     const sorted = [...proxies].sort((a, b) => (b.max - a.max) || (a.createdAt - b.createdAt))
     const top = sorted[0]
     const second = sorted[1]

@@ -152,6 +152,7 @@ describe('Bidding Math', () => {
         { bidderId: 'A', max: 150, createdAt: 1 },
         { bidderId: 'B', max: 120, createdAt: 2 }
       ]);
+      // increment at 120 is $10 per INCREMENTS ($100-$500)
       expect(out.leaderId).toBe('A');
       expect(out.displayPrice).toBe(130);
     });
