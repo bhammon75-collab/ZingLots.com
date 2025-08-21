@@ -4,3 +4,157 @@
   border-bottom: 1px solid var(--gray-100);
   box-shadow: var(--shadow-xs);
 }
+
+/* Hero Search Bar */
+.search-modern {
+  @apply flex gap-2 max-w-2xl bg-white rounded-lg p-2 shadow-xl border border-gray-200;
+}
+
+.search-modern input {
+  @apply flex-1 px-4 py-3 bg-transparent outline-none text-lg text-gray-900 placeholder-gray-500;
+}
+
+.search-modern button {
+  @apply px-6 py-3 bg-brand-red text-white rounded-md hover:bg-brand-red-dark transition-colors flex items-center font-medium;
+}
+
+/* Button Styles */
+.btn-modern {
+  @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105;
+}
+
+.btn-primary {
+  @apply bg-brand-red text-white hover:bg-brand-red-dark shadow-md hover:shadow-lg;
+}
+
+.btn-secondary {
+  @apply bg-white text-gray-800 hover:bg-gray-50 border border-gray-200;
+}
+
+/* Lot Card Styles */
+.lot-card {
+  @apply bg-white rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100;
+}
+
+.lot-card-image {
+  @apply w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300;
+}
+
+.lot-card-title {
+  @apply font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-brand-red transition-colors;
+}
+
+.lot-card-price {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+/* Badge Styles */
+.badge-hot {
+  @apply bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm;
+}
+
+/* Timer Badge */
+.timer-badge {
+  @apply bg-gray-900/80 text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm;
+}
+
+.timer-badge.urgent {
+  @apply bg-red-600/90 animate-pulse;
+}
+
+/* Featured Lots Container */
+.featured-lots-container {
+  @apply snap-x snap-mandatory scroll-smooth;
+}
+
+.featured-lots-container > * {
+  @apply snap-start;
+}
+
+/* Category Cards */
+.category-card {
+  @apply bg-white rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100;
+}
+
+/* Location Cards */
+.location-card {
+  @apply bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100;
+}
+
+.location-link {
+  @apply block py-2 px-3 rounded hover:bg-white transition-colors;
+}
+
+/* Trust Indicator Icons */
+.trust-icon-wrapper {
+  @apply w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg;
+}
+
+/* Footer Link Styles */
+.footer-link {
+  @apply text-gray-400 hover:text-white transition-colors;
+}
+
+/* Animation Classes */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.6s ease-out;
+}
+
+/* Hero Section Styles */
+.hero-content-wrapper {
+  min-height: 320px; /* Prevents content jumping */
+}
+
+.hero-title {
+  @apply text-5xl font-bold text-gray-900 mb-4;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  @apply text-xl text-gray-700;
+  line-height: 1.4;
+}
+
+/* Section Backgrounds */
+.section-light {
+  @apply bg-white;
+}
+
+.section-light-gray {
+  @apply bg-gray-50;
+}
+
+/* Card Hover Effects */
+.card-hover-light {
+  @apply hover:bg-gray-50 transition-colors;
+}
+
+/* Text Styles for Light Backgrounds */
+.text-on-light {
+  @apply text-gray-900;
+}
+
+.text-on-light-secondary {
+  @apply text-gray-600;
+}
+
+/* Border Styles */
+.border-light {
+  @apply border border-gray-100;
+}
+
+/* Shadow Styles */
+.shadow-light {
+  @apply shadow-sm hover:shadow-lg transition-shadow;
+}
