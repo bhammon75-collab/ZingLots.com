@@ -30,6 +30,9 @@ import SellerApply from "./pages/sellers/Apply";
 import Help from "./pages/Help";
 import PricingPage from "./pages/pricing";
 import ExplorePage from "./pages/explore";
+import Accessibility from "./pages/Accessibility";
+import Sitemap from "./pages/Sitemap";
+import Security from "./pages/Security";
 import "./styles/modern-design.css";
 
 // B2B Marketplace Pages
@@ -84,11 +87,14 @@ const App = () => (
               <Route path="/auction/active" element={<DashboardBuyer />} />
               <Route path="/help" element={<Help />} />
               <Route path="/pricing" element={<PricingPage />} />
-              {/* Simple terms/contact placeholders to ensure links resolve */}
+              {/* Legal and Support Pages */}
               <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
               <Route path="/privacy" element={<div className="p-6">Privacy Policy coming soon.</div>} />
               <Route path="/contact" element={<Help />} />
               <Route path="/help/selling" element={<Help />} />
+              <Route path="/accessibility" element={<Accessibility />} />
+              <Route path="/sitemap" element={<Sitemap />} />
+              <Route path="/security" element={<Security />} />
               
               {/* Feature-flagged LiveKit routes */}
               {LIVE_SHOWS_ENABLED && (
