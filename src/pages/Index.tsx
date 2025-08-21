@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
+import Logo from "@/components/brand/Logo";
 import CategoryPills from "@/components/CategoryPills";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -343,7 +344,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             <div className="lg:col-span-1">
-              <div className="text-2xl font-bold mb-4 text-white">ZingLots</div>
+              <Logo size="lg" withText onDark className="mb-3" />
               <p className="text-gray-400 text-sm leading-relaxed">
                 The hyperlocal marketplace for business surplus and equipment
               </p>
