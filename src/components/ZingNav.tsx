@@ -33,6 +33,7 @@ const ZingNav = () => {
   const [isAuthed, setIsAuthed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [displayName, setDisplayName] = useState<string | null>(null);
+  const [impersonating, setImpersonating] = useState<string | null>(null);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -49,6 +50,8 @@ const ZingNav = () => {
                    session?.user?.email?.split("@")[0] || 
                    null;
       setDisplayName(name);
+      const imp = (session?.user?.user_metadata as any)?.impersonate_user_id as string | undefined;
+      setImpersonating(imp || null);
     });
     
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -65,6 +68,8 @@ const ZingNav = () => {
                    session?.user?.email?.split("@")[0] || 
                    null;
       setDisplayName(name);
+      const imp = (session?.user?.user_metadata as any)?.impersonate_user_id as string | undefined;
+      setImpersonating(imp || null);
     });
     
     return () => subscription.unsubscribe();
@@ -76,6 +81,11 @@ const ZingNav = () => {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      {impersonating && (
+        <div className="bg-amber-100 text-amber-900 text-xs px-4 py-1 text-center">
+          Admin impersonating user {impersonating.slice(0,8)}… (read-only)
+        </div>
+      )}
       <div className="mx-auto flex h-16 items-center justify-between px-4">
         {/* Left Nav - Desktop Only */}
         <nav className="hidden md:flex items-center gap-6">

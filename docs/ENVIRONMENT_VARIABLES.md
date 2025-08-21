@@ -12,6 +12,7 @@ This document outlines all required environment variables for ZingLots.com produ
 # Supabase Configuration
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_FUNCTIONS_BASE=https://<ref>.functions.supabase.co/functions/v1  # Optional; auto-derived from VITE_SUPABASE_URL if omitted
 
 # Feature Flags  
 VITE_FEATURE_LIVE_SHOWS=false  # Set to true to enable LiveKit features
@@ -28,6 +29,8 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 # Security (CRITICAL for production)
 SITE_URL=https://your-domain.com  # Locks CORS to your domain
+EMAIL_FROM=noreply@your-domain.com  # Required if email function is used
+RESEND_API_KEY=re_XXXXXXXXXXXXXXXX  # Or POSTMARK_API_TOKEN / SENDGRID_API_KEY
 ```
 
 ### **Stripe Integration**

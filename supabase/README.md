@@ -170,6 +170,8 @@ Regional marketplace health:
 4. **Enable Storage Buckets**:
    - `lot-photos` (public)
    - `evidence` (private)
+   - `lot-images` (public)
+   - `lot-docs` (private)
    - `proof-photos` (private)
 
 ## 🎯 Next Steps
