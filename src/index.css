@@ -6,6 +6,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Footer Styles */
+.footer-modern {
+  @apply bg-gray-900 text-gray-300 py-12 mt-auto;
+}
+
+.footer-links {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8;
+}
+
+.footer-links h4 {
+  @apply text-white text-base font-semibold mb-4;
+}
+
+.footer-link {
+  @apply block text-gray-400 hover:text-white transition-colors py-1;
+}
+
 /* Design tokens: HSL variables (required by shadcn/ui) */
 @layer base {
   :root {
