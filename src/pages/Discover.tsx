@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/data/categories";
 import { Link, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
+import { canonicalizeParams } from "@/lib/query";
 
 const Discover = () => {
   const [q, setQ] = useState("");
@@ -15,7 +16,7 @@ const Discover = () => {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
   const [view, setView] = useState<"all" | "new" | "ending" | "priceDrops">("all");
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const filtered = useMemo(() => {
     const toCents = (v: string) => (v ? Math.round(parseFloat(v) * 100) : undefined);
@@ -51,6 +52,17 @@ useEffect(() => {
     console.error("Failed to load recent items from localStorage:", error);
   }
 }, [searchParams]);
+
+useEffect(() => {
+  const params = canonicalizeParams({
+    q: q || undefined,
+    category: category || undefined,
+    min: min || undefined,
+    max: max || undefined,
+    view: view !== 'all' ? view : undefined,
+  })
+  setSearchParams(params)
+}, [q, category, min, max, view, setSearchParams])
 
   const recentLots = useMemo(() => DEMO_LOTS.filter((l) => recent.includes(l.id)), [recent]);
 

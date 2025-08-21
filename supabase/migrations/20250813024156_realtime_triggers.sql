@@ -15,7 +15,8 @@ ALTER TABLE app.lots
   ADD COLUMN IF NOT EXISTS shipping_flat_cents integer NOT NULL DEFAULT 0 CHECK (shipping_flat_cents >= 0),
   ADD COLUMN IF NOT EXISTS handling_days integer NOT NULL DEFAULT 2 CHECK (handling_days BETWEEN 0 AND 30),
   ADD COLUMN IF NOT EXISTS fee_applies_to_shipping boolean NOT NULL DEFAULT true,
-  ADD COLUMN IF NOT EXISTS ship_from_address jsonb;
+  ADD COLUMN IF NOT EXISTS ship_from_address jsonb,
+  ADD COLUMN IF NOT EXISTS pickup_only boolean NOT NULL DEFAULT false;
 
 -- 3) Extend orders with snapshot fields and timestamps
 ALTER TABLE app.orders

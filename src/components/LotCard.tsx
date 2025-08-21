@@ -19,7 +19,11 @@ export interface LotItem {
   image_url?: string;
   reserve_met?: boolean;
   watchers?: number;
-  seller_verified?: boolean;
+  volume?: number;
+  unit?: string;
+  pickup_only?: boolean;
+  verified_seller?: boolean;
+  seller_verified?: boolean; // Legacy field for backward compatibility
 }
 
 const LotCard = ({ item }: { item: LotItem }) => {
@@ -81,6 +85,9 @@ const LotCard = ({ item }: { item: LotItem }) => {
           <Badge variant={item.reserve_met ? 'default' : 'outline'}>
             {item.reserve_met ? 'Reserve met ✅' : 'Reserve not met'}
           </Badge>
+          {item.pickup_only && (
+            <Badge variant="secondary">Pickup only</Badge>
+          )}
         </div>
         <div className="absolute right-3 bottom-3">
           <CountdownPill endsAt={item.endsIn} />
@@ -113,13 +120,21 @@ const LotCard = ({ item }: { item: LotItem }) => {
 
       <div className="p-4 space-y-2">
         <h3 className="font-semibold leading-snug line-clamp-2">{item.title}</h3>
-        {item.seller_verified && <VerifiedSMEBadge />}
+        {(item.seller_verified || item.verified_seller) && <VerifiedSMEBadge />}
         <div className="flex items-center justify-between">
           <div className="text-sm text-zinc-600">{priceLabel}</div>
           <div className="flex items-center gap-1 text-xs text-zinc-500">
             <Eye className="h-4 w-4" />
             <span>{item.watchers ?? 0} watching</span>
           </div>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-zinc-500">
+          {item.volume && item.unit && (
+            <span>{item.volume.toLocaleString()} {item.unit}</span>
+          )}
+          {item.verified_seller && (
+            <Badge variant="outline">Verified</Badge>
+          )}
         </div>
         
         {/* Buy Now button - less prominent */}

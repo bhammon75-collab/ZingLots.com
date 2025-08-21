@@ -1,4 +1,4 @@
-﻿import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
 import CategoryPills from "@/components/CategoryPills";
 import { Button } from "@/components/ui/button";
@@ -130,6 +130,8 @@ const Index = () => {
         <link rel="canonical" href="/" />
         <meta property="og:title" content="ZingLots | Live Toy Auctions" />
         <meta property="og:description" content="Discover live shows and bid on collectible toys with soft-close and Buy Now." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.zinglots.com/`} />
         <script type="application/ld+json">
           {JSON.stringify(listJsonLd((DEMO_LOTS ?? []).slice(0, 12)))}
         </script>
@@ -220,7 +222,7 @@ const Index = () => {
               <p className="text-gray-600">All sellers are verified businesses. Secure escrow until pickup confirmation.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="W-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="h-8 w-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Always-On Auctions</h3>

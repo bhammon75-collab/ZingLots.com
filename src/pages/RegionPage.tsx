@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { canonicalizeParams, parseQuery } from "@/lib/query";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -206,8 +208,53 @@ const RegionPage = () => {
     );
   };
 
+  // sync state from URL on first load
+  useEffect(() => {
+    const qp = parseQuery(window.location.search)
+    if (typeof qp.q === 'string') setSearchQuery(qp.q)
+    if (typeof qp.vertical === 'string') setSelectedVertical(qp.vertical)
+    if (typeof qp.radius === 'string') setRadiusFilter([Number(qp.radius) || 25])
+    if (typeof qp.sort === 'string') setSortBy(qp.sort)
+    // listen for back/forward
+    const onPop = () => {
+      const cur = parseQuery(window.location.search)
+      if (typeof cur.q === 'string') setSearchQuery(cur.q)
+      if (typeof cur.vertical === 'string') setSelectedVertical(cur.vertical)
+      if (typeof cur.radius === 'string') setRadiusFilter([Number(cur.radius) || 25])
+      if (typeof cur.sort === 'string') setSortBy(cur.sort)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  // whenever state changes, write canonical querystring
+  useEffect(() => {
+    const params = canonicalizeParams({
+      q: searchQuery || undefined,
+      vertical: selectedVertical !== 'all' ? selectedVertical : undefined,
+      radius: radiusFilter?.[0] && radiusFilter[0] !== 25 ? radiusFilter[0] : undefined,
+      sort: sortBy !== 'ending_soon' ? sortBy : undefined,
+    })
+    setSearchParams(params)
+  }, [searchQuery, selectedVertical, radiusFilter, sortBy, setSearchParams])
+
+  const canonicalUrl = `/r/${regionSlug}?${canonicalizeParams({
+    q: searchQuery || undefined,
+    vertical: selectedVertical !== 'all' ? selectedVertical : undefined,
+    radius: radiusFilter?.[0] && radiusFilter[0] !== 25 ? radiusFilter[0] : undefined,
+    sort: sortBy !== 'ending_soon' ? sortBy : undefined,
+  }).toString()}`
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>{region.name} Surplus | ZingLots</title>
+        <meta name="description" content={`${region.name} marketplace: ${region.description}`} />
+        <link rel="canonical" href={canonicalUrl} />
+        <nav aria-label="breadcrumb">
+          <meta name="breadcrumbs" content={`Home > Regions > ${region.name}`} />
+        </nav>
+      </Helmet>
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -221,6 +268,15 @@ const RegionPage = () => {
               </Button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">{region.name} Surplus</h1>
+                <nav className="text-xs text-gray-500" aria-label="Breadcrumbs">
+                  <ol className="flex items-center gap-1">
+                    <li><Link to="/" className="hover:underline">Home</Link></li>
+                    <li>/</li>
+                    <li><Link to="/regions" className="hover:underline">Regions</Link></li>
+                    <li>/</li>
+                    <li aria-current="page">{region.name}</li>
+                  </ol>
+                </nav>
                 <p className="text-sm text-gray-600">{region.description}</p>
               </div>
             </div>
@@ -333,9 +389,7 @@ const RegionPage = () => {
                   value={searchQuery}
                   onChange={(v) => setSearchQuery(v)}
                   onSubmit={(v) => {
-                    const params = new URLSearchParams(searchParams);
-                    params.set('q', v);
-                    setSearchParams(params);
+                    setSearchQuery(v)
                   }}
                   placeholder="Search lots in this region..."
                 />

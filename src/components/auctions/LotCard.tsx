@@ -14,6 +14,10 @@ type LotCardProps = {
   current_price: number | null
   starting_bid: number | null
   watchers?: number
+  volume?: number | null
+  unit?: string | null
+  pickup_only?: boolean | null
+  verified_seller?: boolean | null
 }
 
 export default function LotCard(props: LotCardProps) {
@@ -43,6 +47,17 @@ export default function LotCard(props: LotCardProps) {
             <Eye className="h-4 w-4" />
             <span>{props.watchers ?? 0} watching</span>
           </div>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          {props.volume && props.unit && (
+            <span>{props.volume.toLocaleString()} {props.unit}</span>
+          )}
+          {props.pickup_only && (
+            <Badge variant="secondary">Pickup only</Badge>
+          )}
+          {props.verified_seller && (
+            <Badge variant="outline">Verified</Badge>
+          )}
         </div>
         <div className="pt-1">
           <div onClick={(e)=>e.preventDefault()}>

@@ -147,10 +147,12 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
       const offered2 = round2(offerNum);
       const max2 = max !== '' && maxNum != null ? round2(maxNum) : null;
 
-      const { data, error } = await sb.rpc('app.place_bid', {
+      const idempotencyKey = `${lot.id}:${uid}:${offered2}:${max2 ?? 'no-max'}`
+      const { data, error } = await sb.rpc('public.place_bid', {
         lot_id: lot.id,
         offered: offered2,
         max: max2,
+        idempotency_key: idempotencyKey,
       });
       if (error) {
         const code = (error as any).code || '';
