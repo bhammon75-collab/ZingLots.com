@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import lotImage from "@/assets/lot-generic.jpg";
 import { Button } from "@/components/ui/button";
+import { VerifiedSMEBadge } from "@/components/VerifiedSMEBadge";
 import BidPanel from "@/components/auctions/BidPanel";
 import { getSupabase } from "@/lib/supabaseClient";
 
@@ -43,6 +44,7 @@ const ProductDetail = () => {
   const [lot, setLot] = useState<LotRow | null>(null);
   const [topBid, setTopBid] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sellerVerified, setSellerVerified] = useState<boolean>(false);
 
   useEffect(() => {
     const run = async () => {
@@ -61,6 +63,11 @@ const ProductDetail = () => {
         .order('amount', { ascending: false })
         .limit(1);
       setTopBid(bids && bids.length ? Number(bids[0].amount) : null);
+      // Fetch seller verification via RPC
+      try {
+        const { data: v } = await sb.rpc('app.is_lot_seller_verified', { p_lot: id });
+        setSellerVerified(Boolean(v));
+      } catch {}
       setLoading(false);
     };
     run();
@@ -119,6 +126,8 @@ const ProductDetail = () => {
         </div>
         <div>
           <h1 className="text-3xl font-bold">{lot ? lot.title : 'Lot not found'}</h1>
+          {/* Placeholder badge; in Phase 2 we’ll fetch seller kyc_status to conditionally render */}
+          <div className="mt-2">{sellerVerified && <VerifiedSMEBadge />}</div>
           {lot && <p className="mt-1 text-sm text-muted-foreground">Category: {lot.category}</p>}
           <div className="mt-6">
             {bidPanelLot && bidPanelAuction ? (

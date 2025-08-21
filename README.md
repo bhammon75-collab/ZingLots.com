@@ -59,7 +59,7 @@ npm run dev
 
 3. **Supabase Configuration**:
    - Enable Auth: Email (magic link or password)
-   - Create Storage buckets: lot-photos (public), evidence (private)
+   - Create Storage buckets: lot-photos (public), evidence (private), lot-images (public), lot-docs (private)
    - Enable Realtime for tables: app.lots and app.bids
 
 4. **Deploy Edge Functions** (Dashboard → Edge Functions):
@@ -68,6 +68,7 @@ npm run dev
    - `checkout-create-session` - Create Stripe checkout sessions
    - `stripe-webhook` - Handle Stripe webhook events
    - `admin-settle` - Administrative settlement
+   - `email-send` - Dev/test email sending
 
 ## 📱 PWA Support
 
@@ -171,3 +172,4 @@ For technical support or questions, please contact the development team or creat
 ---
 
 **ZingLots** - Revolutionizing B2B surplus auctions with modern technology.
+
