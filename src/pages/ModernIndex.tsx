@@ -27,47 +27,105 @@ import {
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
-import FeaturedAuctionsMarquee from "@/features/auctions/FeaturedAuctionsMarquee";
+import HeroCarousel from "@/features/hero/HeroCarousel";
+import type { HeroSlideProps } from "@/features/hero/HeroSlide";
+import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [timeLeft, setTimeLeft] = useState({});
 
-  // Hero carousel data - Featured Active Auctions
-  const heroSlides = [
+  // Featured auctions for marquee
+  const featuredAuctions: AuctionPromo[] = [
     {
-      id: "auction-1",
-      title: "Restaurant Equipment Auction - Closing Today",
-      subtitle: "Complete kitchen liquidation from Seattle steakhouse - 45 lots available",
-      image: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=600&fit=crop", // Commercial kitchen with stainless steel equipment
-      cta: "View Auction",
-      badge: "Ending in 2h 15m",
-      currentBid: "$12,400",
-      totalLots: 45,
-      auctionNumber: "#A2024-1839"
+      id: "a1",
+      title: "Office Furniture Liquidation - Herman Miller Chairs",
+      imageUrl: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+      location: "Seattle, WA",
+      href: "/auction/a1",
     },
     {
-      id: "auction-2",
+      id: "a2",
+      title: "Commercial Kitchen Equipment Package",
+      imageUrl: "https://images.unsplash.com/photo-1574739782594-db4ead022697?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      location: "Tacoma, WA",
+      href: "/auction/a2",
+    },
+    {
+      id: "a3",
+      title: "Construction Equipment - Excavator & Tools",
+      imageUrl: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+      location: "Portland, OR",
+      href: "/auction/a3",
+    },
+    {
+      id: "a4",
+      title: "Premium Cedar Lumber Pallet - 150 pieces",
+      imageUrl: "https://images.unsplash.com/photo-1609205612107-e0ec2120f9de?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 45 * 60 * 1000).toISOString(),
+      location: "Bellevue, WA",
+      href: "/auction/a4",
+    },
+    {
+      id: "a5",
+      title: "Industrial Floor Scrubber Equipment",
+      imageUrl: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+      location: "Los Angeles, CA",
+      href: "/auction/a5",
+    },
+  ];
+
+  // Hero carousel data - Featured Active Auctions
+  const heroSlides: HeroSlideProps[] = [
+    {
       title: "Construction Equipment Auction",
       subtitle: "Heavy machinery and power tools from contractor liquidation",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=600&fit=crop", // Excavator and construction equipment
-      cta: "Place Bid",
-      badge: "Ending Tomorrow",
+      timeLabel: "Ending Tomorrow",
       currentBid: "$34,200",
-      totalLots: 28,
-      auctionNumber: "#A2024-1840"
+      lotsLabel: "28 Lots",
+      auctionId: "#A2024-1840",
+      image: { 
+        src: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=840&fit=crop",
+        width: 1920,
+        height: 840,
+        objectPosition: "60% 40%"
+      },
+      primaryHref: "/auction/a2024-1840",
+      onHowToBid: () => window.location.href = "/help"
     },
     {
-      id: "auction-3",
       title: "Office Furniture Liquidation Auction",
-      subtitle: "Herman Miller chairs, standing desks, conference tables - Tech startup closure",
-      image: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=600&fit=crop", // Modern office with Herman Miller chairs
-      cta: "Join Auction",
-      badge: "3 Days Left",
+      subtitle: "Herman Miller chairs, standing desks, conference tables – Tech startup closure",
+      timeLabel: "3 Days Left",
       currentBid: "$8,900",
-      totalLots: 62,
-      auctionNumber: "#A2024-1841"
+      lotsLabel: "62 Lots",
+      auctionId: "#A2024-1841",
+      image: {
+        src: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=840&fit=crop",
+        width: 1920,
+        height: 840
+      },
+      primaryHref: "/auction/a2024-1841",
+      onHowToBid: () => window.location.href = "/help"
+    },
+    {
+      title: "Restaurant Equipment Auction – Closing Today",
+      subtitle: "Complete kitchen liquidation from Seattle steakhouse – 45 lots available",
+      timeLabel: "Ends in 2h 15m",
+      currentBid: "$12,400",
+      lotsLabel: "45 Lots",
+      auctionId: "#A2024-1839",
+      image: {
+        src: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=840&fit=crop",
+        width: 1920,
+        height: 840
+      },
+      primaryHref: "/auction/a2024-1839",
+      onHowToBid: () => window.location.href = "/help"
     }
   ];
 
@@ -240,13 +298,7 @@ const ModernIndex = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Auto-rotate hero carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+
 
 
 
@@ -259,85 +311,11 @@ const ModernIndex = () => {
 
       <ModernNav />
 
-      {/* Hero Section with Carousel */}
-      <section className="relative h-[56vh] min-h-[400px] overflow-hidden bg-gradient-to-br from-gray-200 to-gray-100">
-        {heroSlides.map((slide, index) => (
-          <Link
-            key={index}
-            to={`/auction/${index + 1}`}
-            className={`absolute inset-0 transition-opacity duration-1000 cursor-pointer ${
-              index === currentSlide ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-            }`}
-          >
-            <div className="relative w-full h-full">
-              <img
-                src={slide.image}
-                alt="" // decorative hero → empty alt
-                className="block h-full w-full object-cover"
-                loading="eager"
-                fetchpriority={index === 0 ? "high" : "auto"}
-                decoding="async"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-[#111]/10 to-[#111]/70" />
-            </div>
-          </Link>
-        ))}
-        
-        <div className="absolute inset-x-0 bottom-0 z-10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 pb-10">
-            <div className="max-w-2xl">
-              <div className="mb-4">
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-[0_1px_3px_rgba(0,0,0,.25)] md:drop-shadow-[0_2px_6px_rgba(0,0,0,.35)]">
-                  {heroSlides[currentSlide].title}
-                </h1>
-                <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-white/90">
-                  <span className="rounded-full bg-[#E02020] px-3 py-1 text-sm font-semibold">{heroSlides[currentSlide].badge}</span>
-                  <span className="rounded bg-[#E02020] px-2.5 py-1 text-sm font-semibold">Current Bid: {heroSlides[currentSlide].currentBid}</span>
-                  <span className="text-sm/6 opacity-90">• {heroSlides[currentSlide].totalLots} Lots</span>
-                  <span className="text-sm/6 opacity-70">• {heroSlides[currentSlide].auctionNumber}</span>
-                </div>
-              </div>
-              <div className="mb-6">
-                <p className="text-xl text-white/90 drop-shadow-md">
-                  {heroSlides[currentSlide].subtitle}
-                </p>
-              </div>
-              
-              <div className="flex gap-4">
-                <Link 
-                  to={`/auction/${currentSlide + 1}`}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[#E02020] px-5 py-3 font-semibold text-white shadow-sm hover:brightness-95 transition-all"
-                >
-                  <Gavel className="h-4 w-4" />
-                  <span>{heroSlides[currentSlide].cta}</span>
-                </Link>
-                <Link 
-                  to="/help"
-                  className="inline-flex items-center rounded-2xl border border-zinc-300 px-5 py-3 font-semibold text-zinc-800 bg-white/90 hover:bg-white transition-all"
-                >
-                  How to Bid
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Carousel Controls */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2" role="tablist" aria-label="Hero slides">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              role="tab"
-              aria-selected={index === currentSlide}
-              onClick={() => setCurrentSlide(index)}
-              className={`h-3 w-3 rounded-full transition-all ${
-                index === currentSlide ? 'w-8 bg-white/90' : 'bg-white/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </section>
+      {/* LCP preload for first hero image */}
+      <link rel="preload" as="image" href={heroSlides[0].image.src} />
+      
+      {/* Hero Carousel */}
+      <HeroCarousel slides={heroSlides} />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
@@ -516,50 +494,7 @@ const ModernIndex = () => {
       <section className="bg-white py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <h2 className="mb-4 text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
-          <FeaturedAuctionsMarquee 
-            items={[
-              {
-                id: "a1",
-                title: "Office Furniture Liquidation - Herman Miller Chairs",
-                imageUrl: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=400&h=300&fit=crop",
-                closesAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // 2 hours from now
-                location: "Seattle, WA",
-                href: "/auction/1",
-              },
-              {
-                id: "a2",
-                title: "Commercial Kitchen Equipment Package",
-                imageUrl: "https://images.unsplash.com/photo-1574739782594-db4ead022697?w=400&h=300&fit=crop",
-                closesAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 1 day from now
-                location: "Tacoma, WA",
-                href: "/auction/2",
-              },
-              {
-                id: "a3",
-                title: "Construction Equipment - Excavator & Tools",
-                imageUrl: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop",
-                closesAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
-                location: "Portland, OR",
-                href: "/auction/3",
-              },
-              {
-                id: "a4",
-                title: "Premium Cedar Lumber Pallet - 150 pieces",
-                imageUrl: "https://images.unsplash.com/photo-1609205612107-e0ec2120f9de?w=400&h=300&fit=crop",
-                closesAt: new Date(Date.now() + 45 * 60 * 1000).toISOString(), // 45 minutes from now
-                location: "Bellevue, WA",
-                href: "/auction/4",
-              },
-              {
-                id: "a5",
-                title: "Industrial Floor Scrubber Equipment",
-                imageUrl: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop",
-                closesAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
-                location: "Los Angeles, CA",
-                href: "/auction/5",
-              },
-            ]}
-          />
+          <FeaturedAuctionsMarquee items={featuredAuctions} />
         </div>
       </section>
 
