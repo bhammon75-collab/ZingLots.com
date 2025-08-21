@@ -20,7 +20,8 @@ import {
   MapPin,
   Package,
   TrendingUp,
-  Gavel
+  Gavel,
+  Globe
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Logo from "@/components/brand/Logo";
@@ -42,6 +43,8 @@ const ModernNav = () => {
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCategories, setShowCategories] = useState(false);
+  const [showLocations, setShowLocations] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState("All Locations");
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -105,10 +108,67 @@ const ModernNav = () => {
       <div className="bg-gray-900 text-white py-2 px-4 text-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              <MapPin className="h-3 w-3" />
-              Seattle, WA
-            </span>
+            <DropdownMenu open={showLocations} onOpenChange={setShowLocations}>
+              <DropdownMenuTrigger className="flex items-center gap-1 hover:text-brand-red transition-colors cursor-pointer">
+                <MapPin className="h-3 w-3" />
+                <span>{selectedLocation}</span>
+                <ChevronDown className="h-3 w-3" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64">
+                <DropdownMenuLabel>Select Your Region</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => { setSelectedLocation("All Locations"); setShowLocations(false); }}>
+                  <Link to="/" className="flex items-center gap-2 w-full">
+                    <Globe className="h-4 w-4" />
+                    All Locations (Nationwide)
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-xs">West Coast</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Seattle, WA"); setShowLocations(false); }}>
+                  <Link to="/r/seattle" className="w-full">Seattle, WA</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Tacoma, WA"); setShowLocations(false); }}>
+                  <Link to="/r/tacoma" className="w-full">Tacoma, WA</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Portland, OR"); setShowLocations(false); }}>
+                  <Link to="/r/portland" className="w-full">Portland, OR</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Los Angeles, CA"); setShowLocations(false); }}>
+                  <Link to="/r/los-angeles" className="w-full">Los Angeles, CA</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("San Francisco, CA"); setShowLocations(false); }}>
+                  <Link to="/r/san-francisco" className="w-full">San Francisco, CA</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-xs">Midwest</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Chicago, IL"); setShowLocations(false); }}>
+                  <Link to="/r/chicago" className="w-full">Chicago, IL</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Detroit, MI"); setShowLocations(false); }}>
+                  <Link to="/r/detroit" className="w-full">Detroit, MI</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-xs">East Coast</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("New York, NY"); setShowLocations(false); }}>
+                  <Link to="/r/new-york" className="w-full">New York, NY</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Boston, MA"); setShowLocations(false); }}>
+                  <Link to="/r/boston" className="w-full">Boston, MA</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-xs">South</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Houston, TX"); setShowLocations(false); }}>
+                  <Link to="/r/houston" className="w-full">Houston, TX</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Dallas, TX"); setShowLocations(false); }}>
+                  <Link to="/r/dallas" className="w-full">Dallas, TX</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { setSelectedLocation("Atlanta, GA"); setShowLocations(false); }}>
+                  <Link to="/r/atlanta" className="w-full">Atlanta, GA</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <span className="text-gray-400">|</span>
             <Link to="/help" className="hover:text-brand-red transition-colors">
               Help & Contact
