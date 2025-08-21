@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
-  Search,
   MapPin,
   Clock,
   TrendingUp,
@@ -25,13 +24,11 @@ import {
   UtensilsCrossed,
   Briefcase,
   Wrench,
-  Zap,
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
 
 const ModernIndex = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [timeLeft, setTimeLeft] = useState({});
@@ -39,31 +36,37 @@ const ModernIndex = () => {
   // Hero carousel data - Featured Active Auctions
   const heroSlides = [
     {
+      id: "auction-1",
       title: "Restaurant Equipment Auction - Closing Today",
       subtitle: "Complete kitchen liquidation from Seattle steakhouse - 45 lots available",
       image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=600&fit=crop",
       cta: "View Auction",
       badge: "Ending in 2h 15m",
       currentBid: "$12,400",
-      totalLots: 45
+      totalLots: 45,
+      auctionNumber: "#A2024-1839"
     },
     {
+      id: "auction-2",
       title: "Construction Equipment Auction",
       subtitle: "Heavy machinery and power tools from contractor liquidation",
       image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=600&fit=crop",
       cta: "Place Bid",
       badge: "Ending Tomorrow",
       currentBid: "$34,200",
-      totalLots: 28
+      totalLots: 28,
+      auctionNumber: "#A2024-1840"
     },
     {
+      id: "auction-3",
       title: "Office Furniture Liquidation Auction",
       subtitle: "Herman Miller chairs, standing desks, conference tables - Tech startup closure",
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=600&fit=crop",
       cta: "Join Auction",
       badge: "3 Days Left",
       currentBid: "$8,900",
-      totalLots: 62
+      totalLots: 62,
+      auctionNumber: "#A2024-1841"
     }
   ];
 
@@ -244,12 +247,7 @@ const ModernIndex = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/discover?q=${encodeURIComponent(searchQuery)}`;
-    }
-  };
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -263,10 +261,11 @@ const ModernIndex = () => {
       {/* Hero Section with Carousel */}
       <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-gray-200 to-gray-100">
         {heroSlides.map((slide, index) => (
-          <div
+          <Link
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            to={`/auction/${index + 1}`}
+            className={`absolute inset-0 transition-opacity duration-1000 cursor-pointer ${
+              index === currentSlide ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
           >
             <img
@@ -275,7 +274,7 @@ const ModernIndex = () => {
               className="w-full h-full object-cover opacity-60"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/60 to-transparent" />
-          </div>
+          </Link>
         ))}
         
         <div className="relative z-10 h-full flex items-center">
@@ -294,6 +293,8 @@ const ModernIndex = () => {
                   <span className="text-brand-red font-bold">Current Bid: {heroSlides[currentSlide].currentBid}</span>
                   <span className="text-gray-600">•</span>
                   <span className="text-gray-700">{heroSlides[currentSlide].totalLots} Lots</span>
+                  <span className="text-gray-600">•</span>
+                  <span className="text-gray-600 text-sm">{heroSlides[currentSlide].auctionNumber}</span>
                 </div>
               </div>
               <div className="h-16 mb-8">
@@ -302,23 +303,8 @@ const ModernIndex = () => {
                 </p>
               </div>
               
-              {/* Search Bar */}
-              <form onSubmit={handleSearch} className="search-modern mb-6">
-                <input
-                  type="text"
-                  placeholder="Search active auctions..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="text-gray-900"
-                />
-                <button type="submit">
-                  <Search className="h-5 w-5" />
-                  <span className="hidden lg:inline ml-2">Search Auctions</span>
-                </button>
-              </form>
-              
               <div className="flex gap-4">
-                <Link to="/auction/active">
+                <Link to={`/auction/${currentSlide + 1}`}>
                   <Button className="btn-modern btn-primary">
                     <Gavel className="mr-2 h-4 w-4" />
                     <span className="inline-block min-w-[120px]">
@@ -374,11 +360,10 @@ const ModernIndex = () => {
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Gavel className="h-5 w-5 text-brand-red" />
-              <span className="text-sm font-medium">
-                Live Auctions: {featuredLots.length} Ending Today
-              </span>
+            <div className="flex items-center gap-6 text-sm">
+              <Link to="/browse" className="hover:text-brand-red transition-colors">Browse All Auctions</Link>
+              <Link to="/help" className="hover:text-brand-red transition-colors">How to Bid</Link>
+              <Link to="/seller/apply" className="hover:text-brand-red transition-colors">Consign Items</Link>
             </div>
           </div>
         </div>

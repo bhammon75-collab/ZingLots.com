@@ -191,19 +191,19 @@ const ModernNav = () => {
               <Logo size="lg" withText onDark={false} />
             </Link>
 
-            {/* Search Bar - More Prominent */}
+            {/* Search Bar - Enhanced Design */}
             <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-3xl mx-8">
-              <div className="relative w-full">
+              <div className="search-modern w-full">
                 <input
                   type="text"
-                  placeholder="Search for construction materials, restaurant equipment, office furniture..."
+                  placeholder="Search active auctions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-14 px-6 pr-32 text-lg border-2 border-gray-300 rounded-lg focus:border-brand-red focus:outline-none"
+                  className="text-gray-900"
                 />
-                <button type="submit" className="absolute right-2 top-2 h-10 px-6 bg-brand-red text-white rounded-md hover:bg-red-700 transition-colors flex items-center gap-2">
+                <button type="submit">
                   <Search className="h-5 w-5" />
-                  <span className="font-medium">Search</span>
+                  <span className="hidden lg:inline ml-2">Search Auctions</span>
                 </button>
               </div>
             </form>
@@ -305,7 +305,7 @@ const ModernNav = () => {
                       asChild
                     >
                       <Link to="/sell/new">
-                        List an Item
+                        Start Auction
                       </Link>
                     </Button>
                   </>
@@ -332,7 +332,7 @@ const ModernNav = () => {
                       asChild
                     >
                       <Link to="/seller/apply">
-                        Start Selling
+                        Start Auction
                       </Link>
                     </Button>
                   </>
@@ -358,7 +358,7 @@ const ModernNav = () => {
               className="flex items-center gap-1 font-medium hover:text-brand-red transition-colors"
             >
               <Menu className="h-4 w-4" />
-              Shop by Category
+              Auction Categories
               <ChevronDown className="h-3 w-3" />
             </button>
             
@@ -376,8 +376,8 @@ const ModernNav = () => {
             </NavLink>
             
             <div className="ml-auto flex items-center gap-2">
-              <Badge className="badge-hot">
-                🔥 Hot Deals
+              <Badge className="bg-red-500 text-white">
+                {categories.reduce((sum, cat) => sum + cat.count, 0)} Active Auctions
               </Badge>
             </div>
           </div>
@@ -404,7 +404,7 @@ const ModernNav = () => {
                         {cat.name}
                       </span>
                       <span className="text-sm text-gray-500">
-                        {cat.count} items
+                        {cat.count} auctions
                       </span>
                     </div>
                   </Link>
@@ -486,7 +486,7 @@ const ModernNav = () => {
                   asChild
                 >
                   <Link to="/sell/new" onClick={() => setOpen(false)}>
-                    Start Selling
+                    Start Auction
                   </Link>
                 </Button>
               </div>
