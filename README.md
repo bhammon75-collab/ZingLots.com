@@ -69,6 +69,7 @@ npm run dev
    - `stripe-webhook` - Handle Stripe webhook events
    - `admin-settle` - Administrative settlement
    - `email-send` - Dev/test email sending
+   - `close-lots` - Cron-safe closer that settles ended auctions (creates app.orders and sends notifications)
 
 ## 📱 PWA Support
 

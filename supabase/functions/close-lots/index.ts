@@ -1,125 +1,190 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.55.0";
+import { getCorsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+type CloseLotsResult = {
+  processed: number;
+  sold: number;
+  unsold: number;
+  skipped: number;
 };
 
-type LotRow = { id: string; show_id: string; ends_at: string | null; status: string };
+function computeFunctionsBase(): string {
+  const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+  try {
+    const u = new URL(supabaseUrl);
+    const isLocal = /localhost|127\.0\.0\.1/.test(u.hostname);
+    if (isLocal) return `${u.origin}/functions/v1`;
+    const projectRef = u.hostname.split(".")[0];
+    return `https://${projectRef}.functions.supabase.co/functions/v1`;
+  } catch {
+    return "/functions/v1";
+  }
+}
+
+async function postEmail(to: string, subject: string, text: string, html?: string) {
+  const base = computeFunctionsBase();
+  const anon = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+  const res = await fetch(`${base}/email-send`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: anon,
+      Authorization: `Bearer ${anon}`,
+    },
+    body: JSON.stringify({ to, subject, text, html: html ?? text }),
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    console.warn("email-send failed", res.status, errText);
+  }
+}
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: getCorsHeaders("POST, OPTIONS", req.headers.get("Origin"), req.headers.get("Access-Control-Request-Headers")) });
+  }
+
+  const cors = getCorsHeaders("POST, OPTIONS", req.headers.get("Origin"), req.headers.get("Access-Control-Request-Headers"));
+
   try {
-<<<<<<< HEAD
-=======
-    // Cron-safe: allow unauthenticated invocation with service role only
->>>>>>> origin/import-zla
+    // Service role client for system writes
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
-    if (!supabaseUrl || !serviceKey) throw new Error("Missing Supabase envs");
+    const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false }, db: { schema: "app" } });
 
-    const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false }, db: { schema: 'app' } });
-    const userClient = createClient(supabaseUrl, anonKey, { auth: { persistSession: false }, db: { schema: 'app' } });
+    // 1) Fetch overdue lots (batch)
+    const nowIso = new Date().toISOString();
+    const { data: lots, error: eLots } = await supabase
+      .from("lots")
+      .select("id, title, show_id, winner_id, current_price, reserve_price, reserve_met, status, ends_at")
+      .eq("status", "running")
+      .lt("ends_at", nowIso)
+      .limit(50);
+    if (eLots) throw new Error(`fetch lots: ${eLots.message}`);
 
-<<<<<<< HEAD
-=======
-    // 1) Find all running lots that have ended
->>>>>>> origin/import-zla
-    const { data: lots, error: lErr } = await admin
-      .from('lots')
-      .select('id, show_id, ends_at, status')
-      .eq('status', 'running')
-      .lte('ends_at', new Date().toISOString());
-    if (lErr) throw new Error(`Query lots error: ${lErr.message}`);
+    let sold = 0;
+    let unsold = 0;
+    let skipped = 0;
 
-    const endedLots = (lots || []) as LotRow[];
-    if (endedLots.length === 0) {
-      return new Response(JSON.stringify({ ok: true, processed: 0 }), { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 });
-    }
-
-    let processed = 0;
-    for (const lot of endedLots) {
-<<<<<<< HEAD
-      const { data: result, error: endErr } = await admin.rpc('end_lot', { p_lot: lot.id });
-      if (endErr) {
-=======
-      // 2) End lot using DB helper which also creates an order when winner exists
-      const { data: result, error: endErr } = await admin.rpc('end_lot', { p_lot: lot.id });
-      if (endErr) {
-        // Continue to next lot; log server-side
->>>>>>> origin/import-zla
-        console.error('end_lot error', lot.id, endErr.message);
-        continue;
-      }
-
-      processed += 1;
-
-<<<<<<< HEAD
-=======
-      // 3) Notify winner and seller; open lightweight message thread
->>>>>>> origin/import-zla
+    for (const lot of lots ?? []) {
       try {
-        const winnerId = (result as any)?.[0]?.winner_id as string | null | undefined;
-        const orderId = (result as any)?.[0]?.order_id as string | null | undefined;
-
-        if (winnerId) {
-<<<<<<< HEAD
-          const { data: show } = await admin.from('shows').select('seller_id').eq('id', lot.show_id).single();
-
-=======
-          // Get seller id for this lot's show
-          const { data: show } = await admin.from('shows').select('seller_id').eq('id', lot.show_id).single();
-
-          // Resolve recipient emails via Auth Admin
->>>>>>> origin/import-zla
-          const winnerUser = winnerId ? await admin.auth.admin.getUserById(winnerId) : null;
-          const sellerUser = show?.seller_id ? await admin.auth.admin.getUserById(show.seller_id) : null;
-          const winnerEmail = winnerUser?.data.user?.email ?? null;
-          const sellerEmail = sellerUser?.data.user?.email ?? null;
-
-          const siteUrl = Deno.env.get('SITE_URL') ?? '';
-          const orderUrl = orderId ? `${siteUrl}/cart?order=${orderId}` : `${siteUrl}/cart`;
-
-<<<<<<< HEAD
-=======
-          // Use functions.invoke to send emails (works locally and in prod)
->>>>>>> origin/import-zla
-          const send = async (to: string | null, subject: string, html: string) => {
-            if (!to) return;
-            await userClient.functions.invoke('email-send', { body: { to, subject, html } }).catch(() => {});
-          };
-          await Promise.all([
-            send(winnerEmail, 'You won an auction!', `<p>Congrats! View and pay your invoice: <a href="${orderUrl}">${orderUrl}</a></p>`),
-            send(sellerEmail, 'Your lot has sold', `<p>Your lot has a winner. Order ${orderId ?? ''} created.</p>`),
-          ]);
-
-<<<<<<< HEAD
-=======
-          // Seed a message into chat (optional)
->>>>>>> origin/import-zla
-          await admin.from('chat_messages').insert({
-            show_id: lot.show_id,
-            profile_id: winnerId,
-            message: `Order ${orderId ?? ''} created. Please coordinate pickup.`,
-          });
-        } else {
-<<<<<<< HEAD
-=======
-          // Mark unsold explicitly if helper didn't
->>>>>>> origin/import-zla
-          await admin.from('lots').update({ status: 'unsold' }).eq('id', lot.id);
+        // Idempotency: if an order already exists, skip creating another
+        const { data: existingOrder } = await supabase
+          .from("orders")
+          .select("id, buyer_id")
+          .eq("lot_id", lot.id)
+          .maybeSingle();
+        if (existingOrder) {
+          skipped++;
+          continue;
         }
-      } catch (notifyErr) {
-        console.error('Notification error', lot.id, (notifyErr as Error).message);
+
+        const reserveSatisfied = lot.reserve_price == null || lot.reserve_met === true;
+        if (lot.winner_id && reserveSatisfied) {
+          const subtotal = Number(lot.current_price ?? 0);
+
+          // Create order (invoice)
+          const { data: order, error: eOrder } = await supabase
+            .from("orders")
+            .insert({ lot_id: lot.id, buyer_id: lot.winner_id, status: "invoiced", subtotal })
+            .select("id")
+            .single();
+          if (eOrder) throw new Error(`create order: ${eOrder.message}`);
+
+          // Mark lot as sold
+          const { error: eSold } = await supabase
+            .from("lots")
+            .update({ status: "sold" })
+            .eq("id", lot.id);
+          if (eSold) throw new Error(`update lot(sold): ${eSold.message}`);
+
+          // Notify winner and seller
+          const { data: show, error: eShow } = await supabase
+            .from("shows")
+            .select("seller_id")
+            .eq("id", lot.show_id)
+            .single();
+          if (eShow) throw new Error(`fetch show: ${eShow.message}`);
+
+          const admin = supabase.auth.admin;
+          const [winnerRes, sellerRes] = await Promise.all([
+            admin.getUserById(lot.winner_id as string),
+            admin.getUserById(show.seller_id as string),
+          ]);
+          const siteUrl = Deno.env.get("SITE_URL") ?? "https://zinglots.com";
+
+          const lotTitle = lot.title || "your lot";
+          const orderUrl = `${siteUrl.replace(/\/$/, "")}/cart`;
+          if (winnerRes?.data?.user?.email) {
+            await postEmail(
+              winnerRes.data.user.email,
+              `You won: ${lotTitle}`,
+              `Congrats! You won ${lotTitle}. Pay your invoice: ${orderUrl}`,
+            );
+          }
+          if (sellerRes?.data?.user?.email) {
+            await postEmail(
+              sellerRes.data.user.email,
+              `Your lot sold: ${lotTitle}`,
+              `Your lot "${lotTitle}" sold. The buyer has been invoiced.`,
+            );
+          }
+
+          // Emit agent event
+          await supabase.from("agent_events").insert({ type: "close_lots", payload: { lot_id: lot.id, order_id: order.id, status: "sold" }, status: "done" as any }).select();
+
+          sold++;
+        } else {
+          // No winner or reserve not met -> unsold
+          const { error: eUnsold } = await supabase
+            .from("lots")
+            .update({ status: "unsold" })
+            .eq("id", lot.id);
+          if (eUnsold) throw new Error(`update lot(unsold): ${eUnsold.message}`);
+
+          // Notify seller only
+          const { data: show, error: eShow2 } = await supabase
+            .from("shows")
+            .select("seller_id")
+            .eq("id", lot.show_id)
+            .single();
+          if (!eShow2 && show?.seller_id) {
+            const sellerRes = await supabase.auth.admin.getUserById(show.seller_id as string);
+            const sellerEmail = sellerRes?.data?.user?.email;
+            if (sellerEmail) {
+              await postEmail(
+                sellerEmail,
+                `Your lot did not sell: ${lot.title}`,
+                `Your lot "${lot.title}" did not meet reserve or had no bids. You may relist it.`,
+              );
+            }
+          }
+
+          await supabase.from("agent_events").insert({ type: "close_lots", payload: { lot_id: lot.id, status: "unsold" }, status: "done" as any }).select();
+          unsold++;
+        }
+      } catch (lotErr) {
+        console.error("close-lots error for lot", lot?.id, lotErr);
+        // best-effort emit error event for observability
+        try {
+          await createClient(supabaseUrl, serviceKey, { auth: { persistSession: false }, db: { schema: "app" } })
+            .from("agent_events")
+            .insert({ type: "close_lots", payload: { lot_id: lot?.id }, status: "error", error: String(lotErr) as any });
+        } catch (_) {
+          // ignore
+        }
       }
     }
 
-    return new Response(JSON.stringify({ ok: true, processed }), { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 });
+    const result: CloseLotsResult = {
+      processed: (lots ?? []).length,
+      sold,
+      unsold,
+      skipped,
+    };
+    return new Response(JSON.stringify(result), { headers: { ...cors, "Content-Type": "application/json" }, status: 200 });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 });
+    return new Response(JSON.stringify({ error: (e as Error).message }), { headers: { ...cors, "Content-Type": "application/json" }, status: 500 });
   }
 });
-

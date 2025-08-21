@@ -96,6 +96,11 @@ LIVEKIT_REST_URL=https://your-livekit-url.com  # or LIVEKIT_URL
 - ✅ `SITE_URL`
 - ✅ `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
+### **close-lots / agents-dispatch**
+- ✅ `SITE_URL`
+- ✅ `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+- 🔐 `ZINGLOTS_AGENT_TOKEN` (for agents-dispatch)
+
 ---
 
 ## 🔐 **Security Best Practices**

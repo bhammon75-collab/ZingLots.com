@@ -35,6 +35,19 @@ This guide walks you through the MVP end-to-end using Supabase Edge Functions, S
 - Create shipping label: POST shipping-create-label (adds $1 platform label margin in UI)
 - Admin: POST admin-settle → creates Stripe transfer to seller → order becomes settled
 
+5) Close-Lots function (cron)
+
+- Deploy: `supabase functions deploy close-lots`
+- Local invoke (with service role):
+  ```bash
+  supabase functions serve close-lots --env-file .env.local
+  # Or call deployed:
+  curl -X POST "$SUPABASE_FUNCTIONS_BASE/close-lots" \
+    -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json"
+  ```
+  Tip: Set a lot to `status=running` and `ends_at=now()-interval '1 minute'` then run the function; it will create an `app.orders` row and mark the lot `sold` or `unsold`.
+
 Notes
 - Public read: shows, lots, bids
 - Profiles are auto-created on first auth user via trigger
