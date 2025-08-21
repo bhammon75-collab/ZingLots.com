@@ -57,7 +57,7 @@ export default function AuctionRoom() {
     const amt = desired ?? (Number(topBid ?? 0) + 1);
     const { data: user } = await sb.auth.getUser();
     if (!user?.user) return toast({ description: "Please sign in to bid" });
-    const { error } = await sb.rpc("place_bid", { p_lot: lotId, p_amount: amt });
+    const { error } = await sb.rpc("public.place_bid", { lot_id: lotId, offered: amt, max: null });
     if (error) return toast({ description: error.message });
     toast({ description: `Bid placed for $${amt.toFixed(2)}` });
   };

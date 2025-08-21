@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { stepFor, nextMinimum, INCREMENTS } from '@/lib/bidding';
+import { stepFor, nextMinimum, INCREMENTS, computeProxyOutcome, shouldExtend } from '@/lib/bidding';
 
 describe('Bidding Math', () => {
   describe('stepFor', () => {
@@ -136,6 +136,46 @@ describe('Bidding Math', () => {
       for (let i = 1; i < INCREMENTS.length; i++) {
         expect(INCREMENTS[i].step).toBeGreaterThan(INCREMENTS[i - 1].step);
       }
+    });
+  });
+
+  describe('Proxy bidding outcome', () => {
+    it('first proxy sets display to start price and leads', () => {
+      const out = computeProxyOutcome(50, [
+        { bidderId: 'A', max: 100, createdAt: 1 }
+      ]);
+      expect(out.leaderId).toBe('A');
+      expect(out.displayPrice).toBe(50);
+    });
+    it('second proxy raises to second+increment but not above top max', () => {
+      const out = computeProxyOutcome(10, [
+        { bidderId: 'A', max: 150, createdAt: 1 },
+        { bidderId: 'B', max: 120, createdAt: 2 }
+      ]);
+      expect(out.leaderId).toBe('A');
+      expect(out.displayPrice).toBe(130);
+    });
+    it('tie on max prefers earlier createdAt', () => {
+      const out = computeProxyOutcome(10, [
+        { bidderId: 'A', max: 200, createdAt: 1 },
+        { bidderId: 'B', max: 200, createdAt: 2 }
+      ]);
+      expect(out.leaderId).toBe('A');
+    });
+    it('never decreases below previous display', () => {
+      const out = computeProxyOutcome(10, [
+        { bidderId: 'A', max: 200, createdAt: 1 },
+      ], 80);
+      expect(out.displayPrice).toBe(80);
+    });
+  });
+
+  describe('Anti-snipe window', () => {
+    it('extends when inside final 120 seconds and under cap', () => {
+      expect(shouldExtend(30, 0)).toBe(true);
+      expect(shouldExtend(120, 4)).toBe(true);
+      expect(shouldExtend(121, 0)).toBe(false);
+      expect(shouldExtend(60, 5)).toBe(false);
     });
   });
 });
