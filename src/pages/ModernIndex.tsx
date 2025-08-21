@@ -297,13 +297,17 @@ const ModernIndex = () => {
               </form>
               
               <div className="flex gap-4">
-                <Button className="btn-modern btn-primary">
-                  {heroSlides[currentSlide].cta}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-                <Button className="btn-modern btn-secondary">
-                  How It Works
-                </Button>
+                <Link to="/discover">
+                  <Button className="btn-modern btn-primary">
+                    {heroSlides[currentSlide].cta}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link to="/help">
+                  <Button className="btn-modern btn-secondary">
+                    How It Works
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -404,16 +408,30 @@ const ModernIndex = () => {
               <p className="text-gray-600">Don't miss out on these incredible deals</p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="icon">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => {
+                  const container = document.querySelector('.featured-lots-container');
+                  if (container) container.scrollBy({ left: -300, behavior: 'smooth' });
+                }}
+              >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={() => {
+                  const container = document.querySelector('.featured-lots-container');
+                  if (container) container.scrollBy({ left: 300, behavior: 'smooth' });
+                }}
+              >
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto">
             {featuredLots.map((lot) => (
               <Card key={lot.id} className="lot-card group">
                 <div className="relative overflow-hidden">
@@ -473,9 +491,11 @@ const ModernIndex = () => {
                     </span>
                   </div>
                   
-                  <Button className="w-full btn-modern btn-primary">
-                    Place Bid
-                  </Button>
+                  <Link to={`/lot/${lot.id}`} className="block w-full">
+                    <Button className="w-full btn-modern btn-primary">
+                      Place Bid
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
@@ -520,12 +540,16 @@ const ModernIndex = () => {
             Join hundreds of verified businesses recovering capital from surplus inventory
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="btn-modern bg-white text-brand-red hover:bg-gray-100">
-              Apply to Sell
-            </Button>
-            <Button size="lg" className="btn-modern border-2 border-white bg-transparent hover:bg-white hover:text-brand-red">
-              Learn More
-            </Button>
+            <Link to="/seller/apply">
+              <Button size="lg" className="btn-modern bg-white text-brand-red hover:bg-gray-100">
+                Apply to Sell
+              </Button>
+            </Link>
+            <Link to="/pricing">
+              <Button size="lg" className="btn-modern border-2 border-white bg-transparent hover:bg-white hover:text-brand-red">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

@@ -81,11 +81,14 @@ const App = () => (
               <Route path="/qa" element={<QA />} />
               <Route path="/login" element={<Login />} />
               <Route path="/auction/:lotId" element={<AuctionRoom />} />
+              <Route path="/auction/active" element={<DashboardBuyer />} />
               <Route path="/help" element={<Help />} />
               <Route path="/pricing" element={<PricingPage />} />
               {/* Simple terms/contact placeholders to ensure links resolve */}
               <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
+              <Route path="/privacy" element={<div className="p-6">Privacy Policy coming soon.</div>} />
               <Route path="/contact" element={<Help />} />
+              <Route path="/help/selling" element={<Help />} />
               
               {/* Feature-flagged LiveKit routes */}
               {LIVE_SHOWS_ENABLED && (
