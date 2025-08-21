@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+﻿import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
 import CategoryPills from "@/components/CategoryPills";
 import { Button } from "@/components/ui/button";
@@ -8,17 +8,12 @@ import { DEMO_LOTS } from "@/data/demo";
 import { Link, useNavigate } from "react-router-dom";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import PayPalSmokeTest from "@/components/PayPalSmokeTest";
-<<<<<<< HEAD
-import { Input } from "@/components/ui/input";
-import { Search, MapPin, Truck, Building2, UtensilsCrossed, Briefcase, Wrench, Shield, Clock } from "lucide-react";
-import { useState } from "react";
-=======
+
 import { useState, useMemo } from "react";
 import { SearchBar } from "@/components/ui/search-bar";
 import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
->>>>>>> origin/import-zla
 import { Hero } from "@/components/Hero";
 
 // Helper for ItemList JSON-LD
@@ -37,15 +32,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [term, setTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
-<<<<<<< HEAD
-  const navigate = useNavigate();
-  const showDev = false;
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = searchQuery.trim();
-    if (q) navigate(`/search?q=${encodeURIComponent(q)}`);
-=======
   const showDev = false; // Set to true to show dev components
   
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -53,7 +40,6 @@ const Index = () => {
     if (term.trim()) {
       navigate(`/browse?q=${encodeURIComponent(term)}`);
     }
->>>>>>> origin/import-zla
   };
 
   const regions = [
@@ -161,24 +147,7 @@ const Index = () => {
 
         {/* Search bar section */}
         <section className="mx-auto max-w-screen-2xl px-4 pb-12">
-<<<<<<< HEAD
-          <form onSubmit={handleSearchSubmit} className="relative max-w-2xl">
-            <Input
-              type="text"
-              placeholder="Search for collectibles..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-14 pl-4 pr-12 text-lg bg-white border border-line rounded-xl"
-            />
-            <Button 
-              type="submit" 
-              size="icon" 
-              className="absolute right-2 top-2 bg-brand-primary hover:bg-brand-dark rounded-lg"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-          </form>
-=======
+
           <SearchBar
             value={term}
             onChange={setTerm}
@@ -191,7 +160,6 @@ const Index = () => {
             size="lg"
             className="max-w-2xl"
           />
->>>>>>> origin/import-zla
         </section>
 
         {/* Categories */}
@@ -229,12 +197,9 @@ const Index = () => {
               </Button>
             </div>
           </div>
-<<<<<<< HEAD
-        </section>
-=======
+
       </section>
       
->>>>>>> origin/import-zla
 
       {/* Value Props */}
       <section className="py-16 bg-gray-50">
@@ -339,7 +304,7 @@ const Index = () => {
                   </div>
                   <div className="flex items-center text-sm text-gray-500 mb-3">
                     <MapPin className="h-4 w-4 mr-1" />
-                    {lot.location} • {lot.distance}
+                    {lot.location} â€¢ {lot.distance}
                   </div>
                   <Button className="w-full" asChild>
                     <Link to={`/lot/${lot.id}`}>View & Bid</Link>
@@ -370,10 +335,7 @@ const Index = () => {
       </section>
 
       </main>
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/import-zla
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
