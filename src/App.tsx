@@ -37,7 +37,7 @@ import LinkTest from "./pages/LinkTest";
 import "./styles/modern-design.css";
 
 // B2B Marketplace Pages
-import RegionPage from "./pages/RegionPage";
+import RegionPage from "./pages/RegionPageFixed";
 import CreateLotPage from "./pages/CreateLotPage";
 import QRScannerPage from "./pages/QRScannerPage";
 
