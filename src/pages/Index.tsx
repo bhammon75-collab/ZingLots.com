@@ -8,9 +8,17 @@ import { DEMO_LOTS } from "@/data/demo";
 import { Link, useNavigate } from "react-router-dom";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import PayPalSmokeTest from "@/components/PayPalSmokeTest";
+<<<<<<< HEAD
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Truck, Building2, UtensilsCrossed, Briefcase, Wrench, Shield, Clock } from "lucide-react";
 import { useState } from "react";
+=======
+import { useState, useMemo } from "react";
+import { SearchBar } from "@/components/ui/search-bar";
+import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+>>>>>>> origin/import-zla
 import { Hero } from "@/components/Hero";
 
 // Helper for ItemList JSON-LD
@@ -26,8 +34,10 @@ const listJsonLd = (items: {id:string; title:string}[]) => ({
 });
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+  const [term, setTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
+<<<<<<< HEAD
   const navigate = useNavigate();
   const showDev = false;
 
@@ -35,6 +45,15 @@ const Index = () => {
     e.preventDefault();
     const q = searchQuery.trim();
     if (q) navigate(`/search?q=${encodeURIComponent(q)}`);
+=======
+  const showDev = false; // Set to true to show dev components
+  
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (term.trim()) {
+      navigate(`/browse?q=${encodeURIComponent(term)}`);
+    }
+>>>>>>> origin/import-zla
   };
 
   const regions = [
@@ -142,6 +161,7 @@ const Index = () => {
 
         {/* Search bar section */}
         <section className="mx-auto max-w-screen-2xl px-4 pb-12">
+<<<<<<< HEAD
           <form onSubmit={handleSearchSubmit} className="relative max-w-2xl">
             <Input
               type="text"
@@ -158,6 +178,20 @@ const Index = () => {
               <Search className="h-5 w-5" />
             </Button>
           </form>
+=======
+          <SearchBar
+            value={term}
+            onChange={setTerm}
+            onSubmit={(v) => {
+              const q = (v ?? term).trim();
+              if (!q) return;
+              navigate(`/discover?q=${encodeURIComponent(q)}`);
+            }}
+            placeholder="Search for collectibles..."
+            size="lg"
+            className="max-w-2xl"
+          />
+>>>>>>> origin/import-zla
         </section>
 
         {/* Categories */}
@@ -190,12 +224,17 @@ const Index = () => {
                   ))}
                 </select>
               </div>
-              <Button size="lg" className="px-8">
+              <Button size="lg" className="px-8" onClick={() => navigate(`/r/${selectedRegion}?q=${encodeURIComponent(term)}`)}>
                 Search
               </Button>
             </div>
           </div>
+<<<<<<< HEAD
         </section>
+=======
+      </section>
+      
+>>>>>>> origin/import-zla
 
       {/* Value Props */}
       <section className="py-16 bg-gray-50">
@@ -205,8 +244,8 @@ const Index = () => {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Local Pickup Only</h3>
-              <p className="text-gray-600">All items within driving distance. No shipping hassles or hidden freight costs.</p>
+              <h3 className="text-xl font-semibold mb-2">Local Marketplace</h3>
+              <p className="text-gray-600">All items within driving distance. Shipping handled directly between buyers and sellers.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -331,22 +370,25 @@ const Index = () => {
       </section>
 
       </main>
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/import-zla
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="text-2xl font-bold mb-4">ZingLots</div>
-              <p className="text-gray-400">
-                The hyperlocal marketplace for business surplus
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+            <div className="lg:col-span-1">
+              <div className="text-2xl font-bold mb-4 text-white">ZingLots</div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                The hyperlocal marketplace for business surplus and equipment
               </p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Marketplace</h4>
               <div className="space-y-2 text-gray-400">
                 <Link to="/browse" className="block hover:text-white">Browse Lots</Link>
-                <Link to="/categories" className="block hover:text-white">Categories</Link>
+                <Link to="/discover" className="block hover:text-white">Categories</Link>
                 <Link to="/regions" className="block hover:text-white">Regions</Link>
               </div>
             </div>
@@ -354,15 +396,15 @@ const Index = () => {
               <h4 className="font-semibold mb-4">Selling</h4>
               <div className="space-y-2 text-gray-400">
                 <Link to="/seller/apply" className="block hover:text-white">Apply to Sell</Link>
-                <Link to="/seller/dashboard" className="block hover:text-white">Seller Dashboard</Link>
-                <Link to="/help/selling" className="block hover:text-white">Selling Guide</Link>
+                <Link to="/dashboard/seller" className="block hover:text-white">Seller Dashboard</Link>
+                <Link to="/help" className="block hover:text-white">Selling Guide</Link>
               </div>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
               <div className="space-y-2 text-gray-400">
                 <Link to="/help" className="block hover:text-white">Help Center</Link>
-                <Link to="/contact" className="block hover:text-white">Contact Us</Link>
+                <Link to="/help" className="block hover:text-white">Contact Us</Link>
                 <Link to="/terms" className="block hover:text-white">Terms</Link>
               </div>
             </div>

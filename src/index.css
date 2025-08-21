@@ -1,3 +1,6 @@
+/* Import Modern Design System - must come before @tailwind */
+@import url('./styles/modern-design.css');
+
 /* Tailwind layers */
 @tailwind base;
 @tailwind components;
@@ -21,7 +24,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    --primary: 221.2 83.2% 53.3%;
+    --primary: 2 81% 56%; /* Brand Red #E53935 */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -33,7 +36,12 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 221.2 83.2% 53.3%;
+    --ring: 2 81% 56%; /* Brand Red */
+    
+    /* Brand Colors */
+    --brand-red: #E53935;
+    --brand-red-dark: #C62828;
+    --brand-red-light: #EF5350;
 
     --radius: 0.5rem;
   }

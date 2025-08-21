@@ -24,7 +24,9 @@ function pickOrigin(origin: string | null): string | null {
 
     // any *.zinglots.com (future subdomains)
     if (h === "zinglots.com" || h.endsWith(".zinglots.com")) return `${u.protocol}//${h}`;
-  } catch {}
+  } catch {
+    // Ignore errors
+  }
   return null;
 }
 
