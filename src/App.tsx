@@ -38,6 +38,7 @@ import "./styles/modern-design.css";
 
 // B2B Marketplace Pages
 import RegionPage from "./pages/RegionPage";
+import Regions from "./pages/Regions";
 import CreateLotPage from "./pages/CreateLotPage";
 import QRScannerPage from "./pages/QRScannerPage";
 
@@ -66,7 +67,7 @@ const App = () => (
               <Route path="/classic-lot/:id" element={<ProductDetail />} />
               <Route path="/browse" element={<Browse />} />
               <Route path="/region-page" element={<RegionPage />} />
-              <Route path="/regions" element={<RegionPage />} />
+              <Route path="/regions" element={<Regions />} />
               
               {/* Legacy Routes (transitioning) */}
               <Route path="/shows" element={<Shows />} />
