@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import ModernNav from "@/components/ModernNav";
 import { canonicalizeParams, parseQuery } from "@/lib/query";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
@@ -347,6 +348,7 @@ const RegionPage = () => {
         </nav>
       </Helmet>
       {/* Header */}
+      <ModernNav />
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
