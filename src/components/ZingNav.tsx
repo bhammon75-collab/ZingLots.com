@@ -110,13 +110,38 @@ const ZingNav = () => {
 
         {/* Centered Logo */}
         <div className="flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-          <Link to="/" className="flex items-center gap-2">
-            <img 
-              src="/icons/bolt.svg" 
-              alt="ZingLots Bolt Logo" 
-              className="h-8 w-8"
-            />
-            <span className="text-xl font-bold text-gray-900">ZingLots</span>
+          <Link to="/" className="flex items-center group">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 340 100" 
+              className="h-10 w-auto"
+              role="img"
+              aria-label="ZingLots Logo"
+            >
+              <title>ZingLots</title>
+              <desc>ZingLots marketplace logo</desc>
+              {/* Lightning bolt positioned correctly */}
+              <g transform="translate(10, 10) scale(0.35)">
+                <path 
+                  d="M 80,120 L 168,120 L 136,200 L 208,200 L 120,280 L 152,208 L 80,208 Z" 
+                  fill="#E53935"
+                  className="group-hover:fill-[#C62828] transition-colors"
+                />
+              </g>
+              <text 
+                x="75" 
+                y="60" 
+                style={{
+                  fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+                  fontSize: "36px",
+                  fontWeight: "600",
+                  letterSpacing: "2px",
+                  fill: "#111111"
+                }}
+              >
+                ZingLots
+              </text>
+            </svg>
           </Link>
         </div>
 
