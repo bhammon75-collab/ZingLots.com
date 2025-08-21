@@ -30,7 +30,7 @@ const QA = () => {
     if (!sb) return toast({ description: "Supabase not configured" });
     const { data: user } = await sb.auth.getUser();
     if (!user?.user) return toast({ description: "Sign in first" });
-    const { error } = await sb.rpc("place_bid", { p_lot: lotId, p_amount: 12.34 });
+    const { error } = await sb.rpc("public.place_bid", { lot_id: lotId, offered: 12.34, max: null });
     if (error) return toast({ description: error.message });
     toast({ description: `Bid placed for $12.34` });
     try { await sendEmail({ to: 'dev@localhost', type: 'bid_placed', input: { lotId, lotTitle: 'QA Lot' } }); } catch {}

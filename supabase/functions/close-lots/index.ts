@@ -188,4 +188,3 @@ serve(async (req) => {
     return new Response(JSON.stringify({ error: (e as Error).message }), { headers: { ...cors, "Content-Type": "application/json" }, status: 500 });
   }
 });
-

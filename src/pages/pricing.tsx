@@ -5,10 +5,12 @@ import { Helmet } from 'react-helmet-async'
 import ZingNav from '@/components/ZingNav'
 
 function calcZingLots(price: number, buyerPaysShipping: boolean, shipping: number) {
-  const rate = 0.10   // Launch/Beta example: 10% + $0.25 — adjust to your live fee
+  // Publish fee table: buyer premium 10%, seller fee 10% (example), $0.25 fixed
+  const buyerPremium = 0.10
+  const sellerFee = 0.10
   const perOrder = 0.25
   const base = price + (buyerPaysShipping ? shipping : 0)
-  return Math.max(0, base * rate + perOrder)
+  return Math.max(0, base * (buyerPremium + sellerFee) + perOrder)
 }
 function calcEbayTypical(price: number, buyerPaysShipping: boolean, shipping: number) {
   // Simplified "most categories": 13.6% + $0.40 if >$10 else $0.30

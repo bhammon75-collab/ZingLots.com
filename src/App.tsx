@@ -15,7 +15,7 @@ import Shows from "./pages/Shows";
 import Category from "./pages/Category";
 import SellerProfile from "./pages/SellerProfile";
 import ProductDetail from "./pages/ProductDetail";
-import CartInvoice from "./pages/CartInvoice";
+import Invoice from "./pages/Invoice";
 import DashboardBuyer from "./pages/DashboardBuyer";
 import DashboardSeller from "./pages/DashboardSeller";
 import Admin from "./pages/Admin";
@@ -73,7 +73,7 @@ const App = () => (
               <Route path="/seller/:id" element={<SellerProfile />} />
               <Route path="/seller/apply" element={<SellerApply />} />
               <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<CartInvoice />} />
+              <Route path="/cart" element={<Invoice />} />
               <Route path="/dashboard/buyer" element={<DashboardBuyer />} />
               <Route path="/dashboard/seller" element={<DashboardSeller />} />
               <Route path="/admin" element={<Admin />} />
