@@ -192,24 +192,31 @@ const ModernNav = () => {
             </a>
 
             {/* Search Bar - Enhanced Design */}
-            <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-3xl mx-8">
-              <div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
-                <input
-                  type="text"
-                  placeholder="Search active auctions..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 h-12 lg:h-14 px-4 outline-none rounded-l-xl"
-                />
-                <button 
-                  type="submit"
-                  className="h-12 lg:h-14 px-4 lg:px-6 bg-[#E02020] text-white font-semibold rounded-r-xl hover:brightness-95 transition-all flex items-center gap-2"
-                >
-                  <Search className="h-5 w-5" />
-                  <span className="hidden lg:inline">Search Auctions</span>
-                </button>
+            <div className="hidden md:flex flex-col flex-1 max-w-3xl mx-8">
+              <form onSubmit={handleSearch} className="w-full">
+                <div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
+                  <input
+                    type="text"
+                    placeholder="Search active auctions..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="flex-1 h-12 lg:h-14 px-4 outline-none rounded-l-xl"
+                  />
+                  <button 
+                    type="submit"
+                    className="h-12 lg:h-14 px-4 lg:px-6 bg-[#E02020] text-white font-semibold rounded-r-xl hover:brightness-95 transition-all flex items-center gap-2"
+                  >
+                    <Search className="h-5 w-5" />
+                    <span className="hidden lg:inline">Search Auctions</span>
+                  </button>
+                </div>
+              </form>
+              <div className="flex justify-end mt-2">
+                <Badge className="bg-zinc-100 text-zinc-700 text-xs px-2 py-1">
+                  {categories.reduce((sum, cat) => sum + cat.count, 0)} Active Auctions
+                </Badge>
               </div>
-            </form>
+            </div>
 
             {/* Right Navigation */}
             <div className="flex items-center gap-2">
@@ -354,36 +361,32 @@ const ModernNav = () => {
           </div>
 
           {/* Categories Bar */}
-          <div className="hidden md:flex items-center gap-6 pb-3 border-t pt-3">
-            <button
-              onMouseEnter={() => setShowCategories(true)}
-              onMouseLeave={() => setShowCategories(false)}
-              className="flex items-center gap-1 font-medium hover:text-brand-red transition-colors"
-            >
-              <Menu className="h-4 w-4" />
-              Auction Categories
-              <ChevronDown className="h-3 w-3" />
-            </button>
-            
-            <NavLink to="/discover" className="nav-link">
-              Discover
-            </NavLink>
-            <NavLink to="/explore" className="nav-link">
-              Trending
-            </NavLink>
-            <NavLink to="/browse" className="nav-link">
-              Browse All
-            </NavLink>
-            <NavLink to="/pricing" className="nav-link">
-              Pricing
-            </NavLink>
-            
-            <div className="ml-auto flex items-center gap-2">
-              <Badge className="bg-red-500 text-white">
-                {categories.reduce((sum, cat) => sum + cat.count, 0)} Active Auctions
-              </Badge>
+          <nav className="hidden md:block border-t border-zinc-200/70 -mx-4 px-4">
+            <div className="flex items-center gap-6 py-2.5 text-sm text-zinc-700">
+              <button
+                onMouseEnter={() => setShowCategories(true)}
+                onMouseLeave={() => setShowCategories(false)}
+                className="inline-flex items-center gap-2 font-medium hover:text-brand-red transition-colors"
+              >
+                <Menu className="h-4 w-4" />
+                Auction Categories
+                <ChevronDown className="h-3 w-3" />
+              </button>
+              
+              <NavLink to="/discover" className="hover:text-brand-red transition-colors">
+                Discover
+              </NavLink>
+              <NavLink to="/explore" className="hover:text-brand-red transition-colors">
+                Trending
+              </NavLink>
+              <NavLink to="/browse" className="hover:text-brand-red transition-colors">
+                Browse All
+              </NavLink>
+              <NavLink to="/pricing" className="hover:text-brand-red transition-colors">
+                Pricing
+              </NavLink>
             </div>
-          </div>
+          </nav>
         </div>
 
         {/* Categories Dropdown */}
