@@ -40,15 +40,106 @@ const RegionPage = () => {
       name: "Seattle",
       description: "Pacific Northwest's largest B2B surplus market",
       center: { lat: 47.6062, lon: -122.3321 },
-      activeLots: 127,
+      activeLots: 425,
       activeSellerCount: 34
     },
     tacoma: {
       name: "Tacoma", 
       description: "South Sound commercial equipment hub",
       center: { lat: 47.2529, lon: -122.4443 },
-      activeLots: 89,
+      activeLots: 187,
       activeSellerCount: 21
+    },
+    portland: {
+      name: "Portland",
+      description: "Oregon's premier B2B marketplace",
+      center: { lat: 45.5152, lon: -122.6784 },
+      activeLots: 312,
+      activeSellerCount: 28
+    },
+    "los-angeles": {
+      name: "Los Angeles",
+      description: "Southern California's largest B2B hub",
+      center: { lat: 34.0522, lon: -118.2437 },
+      activeLots: 892,
+      activeSellerCount: 67
+    },
+    "san-francisco": {
+      name: "San Francisco",
+      description: "Bay Area's tech and business equipment marketplace",
+      center: { lat: 37.7749, lon: -122.4194 },
+      activeLots: 567,
+      activeSellerCount: 45
+    },
+    chicago: {
+      name: "Chicago",
+      description: "Midwest's commercial equipment center",
+      center: { lat: 41.8781, lon: -87.6298 },
+      activeLots: 654,
+      activeSellerCount: 52
+    },
+    detroit: {
+      name: "Detroit",
+      description: "Motor City's industrial marketplace",
+      center: { lat: 42.3314, lon: -83.0458 },
+      activeLots: 298,
+      activeSellerCount: 24
+    },
+    "new-york": {
+      name: "New York",
+      description: "America's largest B2B marketplace",
+      center: { lat: 40.7128, lon: -74.0060 },
+      activeLots: 1245,
+      activeSellerCount: 98
+    },
+    boston: {
+      name: "Boston",
+      description: "New England's business equipment hub",
+      center: { lat: 42.3601, lon: -71.0589 },
+      activeLots: 432,
+      activeSellerCount: 36
+    },
+    philadelphia: {
+      name: "Philadelphia",
+      description: "Mid-Atlantic's commercial marketplace",
+      center: { lat: 39.9526, lon: -75.1652 },
+      activeLots: 378,
+      activeSellerCount: 31
+    },
+    houston: {
+      name: "Houston",
+      description: "Texas Gulf Coast's industrial hub",
+      center: { lat: 29.7604, lon: -95.3698 },
+      activeLots: 723,
+      activeSellerCount: 58
+    },
+    dallas: {
+      name: "Dallas",
+      description: "North Texas commercial marketplace",
+      center: { lat: 32.7767, lon: -96.7970 },
+      activeLots: 589,
+      activeSellerCount: 47
+    },
+    atlanta: {
+      name: "Atlanta",
+      description: "Southeast's B2B equipment center",
+      center: { lat: 33.7490, lon: -84.3880 },
+      activeLots: 467,
+      activeSellerCount: 38
+    },
+    miami: {
+      name: "Miami",
+      description: "South Florida's commercial hub",
+      center: { lat: 25.7617, lon: -80.1918 },
+      activeLots: 391,
+      activeSellerCount: 32
+    },
+    phoenix: {
+      name: "Phoenix",
+      description: "Southwest's growing B2B marketplace",
+      center: { lat: 33.4484, lon: -112.0740 },
+      activeLots: 445,
+      activeSellerCount: 36
     }
   };
 
