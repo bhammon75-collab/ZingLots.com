@@ -213,7 +213,7 @@ const Index = () => {
                 <Truck className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Local Marketplace</h3>
-              <p className="text-gray-600">All items within driving distance. Shipping handled directly between buyers and sellers.</p>
+              <p className="text-gray-600">Buyers and sellers arrange pickup or delivery terms directly.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">

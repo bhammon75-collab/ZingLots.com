@@ -29,7 +29,7 @@ const Help = () => {
             <h2 className="text-lg font-semibold">Selling</h2>
             <ul className="mt-3 list-inside list-disc text-sm text-muted-foreground">
               <li>Create a listing and set pricing</li>
-              <li>Shipping labels and tracking</li>
+              <li>Coordinate pickup and delivery</li>
               <li>Seller fees and payouts</li>
             </ul>
           </article>

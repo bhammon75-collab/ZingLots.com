@@ -518,8 +518,8 @@ const ModernIndex = () => {
               <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Truck className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Local Pickup</h3>
-              <p className="text-gray-600">No shipping hassles - all items available for local pickup</p>
+              <h3 className="text-xl font-semibold mb-2">Direct Transactions</h3>
+              <p className="text-gray-600">Arrange pickup or delivery directly with sellers</p>
             </div>
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">

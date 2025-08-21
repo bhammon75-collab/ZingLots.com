@@ -317,9 +317,6 @@ const ModernNav = () => {
               <Badge className="badge-hot">
                 🔥 Hot Deals
               </Badge>
-              <Badge variant="secondary">
-                Free Shipping Available
-              </Badge>
             </div>
           </div>
         </div>
