@@ -1,0 +1,39 @@
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+
+let _client: SupabaseClient | null = null;
+
+/** Test-only hook to inject a fake client or reset to null */
+export function __setClientForTests(client: SupabaseClient | null) {
+  _client = client;
+}
+
+export function getSupabase(): SupabaseClient | null {
+  if (_client) return _client;
+
+  const url  = (import.meta as any)?.env?.VITE_SUPABASE_URL;
+  const anon = (import.meta as any)?.env?.VITE_SUPABASE_ANON_KEY;
+
+  if (!url || !anon) return null;
+
+  _client = createClient(url, anon, {
+    auth: { persistSession: true, autoRefreshToken: true },
+  });
+
+  return _client;
+}
+
+/** Invoke a Supabase Edge Function with optional body, returning typed data */
+export async function invokeFn<T = unknown>(name: string, body?: unknown): Promise<T> {
+  const client = getSupabase();
+  if (!client) throw new Error("Supabase not configured");
+
+  const opts = body === undefined ? undefined : { body };
+  const { data, error } = await client.functions.invoke(name, opts as any);
+
+  if (error) {
+    const msg = (error as any)?.message ?? String(error);
+    throw new Error(msg);
+  }
+
+  return data as T;
+}

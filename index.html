@@ -1,24 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zinglots-live-auctions</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ZingLots – Live Auction Platform</title>
+    <meta name="description" content="ZingLots: The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
+    <meta name="author" content="ZingLots" />
 
-    <meta property="og:title" content="zinglots-live-auctions" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- PWA + Icons -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="ZingLots – Live Auction Platform" />
+    <meta property="og:description" content="The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:image" content="/icons/social-512.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+    <meta name="twitter:site" content="@zinglots" />
+    <meta name="twitter:title" content="ZingLots – Live Auction Platform" />
+    <meta name="twitter:description" content="The premier live auction platform for buyers and sellers. Real-time bidding, secure payments, and transparent transactions." />
+    <meta name="twitter:image" content="/icons/social-512.png" />
 
+    <!-- JSON-LD (Organization + WebSite via @graph) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "ZingLots",
+          "url": "https://www.zinglots.com",
+          "logo": "https://www.zinglots.com/icons/social-512.png"
+        },
+        {
+          "@type": "WebSite",
+          "url": "https://www.zinglots.com",
+          "name": "ZingLots",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.zinglots.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- CSP (single, merged: Supabase https/wss, Functions(wildcard), Stripe, PayPal, Google Fonts) -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      base-uri 'self';
+      object-src 'none';
+      upgrade-insecure-requests;
+      connect-src 'self'
+        https://huebxglhbenulbcftzdq.supabase.co
+        wss://huebxglhbenulbcftzdq.supabase.co
+        https://*.functions.supabase.co
+        https://api.stripe.com
+        https://m.stripe.network
+        https://api-m.paypal.com
+        https://api-m.sandbox.paypal.com;
+      img-src 'self' data: blob: https:;
+      script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.paypal.com https://*.paypal.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com data:;
+      frame-src https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://sandbox.paypal.com;
+      worker-src 'self' blob:;
+    ">
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+

@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client'
 import LotCard from '@/components/auctions/LotCard'
 import type { AuctionFilters } from '@/types/filters'
 import { Input } from '@/components/ui/input'
+import { SearchBar } from '@/components/ui/search-bar'
 import { Button } from '@/components/ui/button'
 import { Helmet } from 'react-helmet-async'
 import ZingNav from '@/components/ZingNav'
@@ -38,8 +39,15 @@ export default function ExplorePage() {
         <h1 className="text-2xl font-bold mb-6">Explore Auctions</h1>
         
         <div className="flex items-end gap-2 flex-wrap mb-6">
-          <Input placeholder="Search titles…" className="w-60"
-            value={filters.search ?? ''} onChange={e => setFilters({ ...filters, search: e.target.value })} />
+          <div className="w-60">
+            <SearchBar
+              value={filters.search ?? ''}
+              onChange={(v) => setFilters({ ...filters, search: v })}
+              onSubmit={() => load()}
+              placeholder="Search titles…"
+              size="md"
+            />
+          </div>
           <select className="border rounded px-2 py-1 h-10"
             value={filters.endingWithin ?? ''} onChange={e => setFilters({ ...filters, endingWithin: e.target.value as any })}>
             <option value="">Any time</option>
@@ -58,7 +66,7 @@ export default function ExplorePage() {
           {loading ? Array.from({length:8}).map((_,i)=>(
             <div key={i} className="h-60 rounded-2xl border bg-muted animate-pulse" />
           )) : lots.length > 0 ? lots.map((l:any)=>(
-            <LotCard key={l.id} {...l} />
+            <LotCard key={l.id} item={l} />
           )) : (
             <div className="col-span-full text-center py-12 text-muted-foreground">
               No auctions found. Try adjusting your filters.

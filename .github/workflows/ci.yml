@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, import-zla ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, import-zla ]
 
 env:
   NPM_CONFIG_LEGACY_PEER_DEPS: true
@@ -34,6 +34,9 @@ jobs:
 
       - name: Ellipsis check
         run: node scripts/check-ellipsis.mjs
+
+      - name: Check critical brand files
+        run: node scripts/check-brand-files.mjs
 
       - name: Run security audit (non-blocking)
         run: |
@@ -83,14 +86,17 @@ jobs:
             npm install
           fi
 
-      - name: Run TypeScript check (if available)
+      - name: Create test env
         run: |
-          if npx tsc --version >/dev/null 2>&1; then
-            npx tsc --noEmit
-          else
-            echo "TypeScript not available, skipping type check"
-          fi
-        continue-on-error: true
+          echo VITE_SUPABASE_URL=http://localhost > .env.local
+          echo VITE_SUPABASE_ANON_KEY=test >> .env.local
+          echo VITE_SITE_URL=http://localhost >> .env.local
+
+      - name: Generate brand icons
+        run: npm run generate:icons
+
+      - name: Typecheck
+        run: npm run typecheck
 
       - name: Run linting (if configured)
         run: |
@@ -101,16 +107,19 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Run Vitest tests
-        run: npm run test --if-present
-        env:
-          NODE_ENV: test
+      - name: Run tests (PR=smoke, push=full)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm run test:smoke
+          else
+            npm test
+          fi
 
       - name: Upload coverage (if available)
         if: matrix.node == 20 && hashFiles('coverage/lcov.info') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           flags: frontend
           name: frontend-coverage
           fail_ci_if_error: false
@@ -146,6 +155,9 @@ jobs:
           deno test --allow-all --coverage=coverage
         env:
           DENO_ENV: test
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Generate Deno coverage report
         if: steps.check-deno.outputs.has-tests == 'true'
@@ -156,9 +168,9 @@ jobs:
 
       - name: Upload Deno coverage
         if: steps.check-deno.outputs.has-tests == 'true' && hashFiles('supabase/functions/coverage.lcov') != ''
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          file: ./supabase/functions/coverage.lcov
+          files: ./supabase/functions/coverage.lcov
           flags: edge-functions
           name: edge-functions-coverage
           fail_ci_if_error: false
@@ -192,10 +204,18 @@ jobs:
             npm install
           fi
 
+      - name: Generate brand icons
+        run: npm run generate:icons
+
+      - name: Run TypeScript check
+        run: npm run typecheck
+
       - name: Build application
         run: npm run build
         env:
           NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://example.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'anon-key-placeholder' }}
 
       - name: Check build output
         run: |
@@ -238,6 +258,9 @@ jobs:
             npm install
           fi
 
+      - name: Generate brand icons
+        run: npm run generate:icons
+
       - name: Check for smoke test config
         id: check-smoke
         run: |
@@ -255,17 +278,25 @@ jobs:
           path: dist/
         continue-on-error: true
 
-      - name: Run smoke tests
+      - name: Run smoke tests (PR only) or full tests (main branch)
         if: steps.check-smoke.outputs.has-smoke-tests == 'true'
         run: |
-          if [ -f package.json ] && jq -e '.scripts["test:smoke"]' package.json >/dev/null 2>&1; then
-            npm run test:smoke
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Running smoke tests for pull request"
+            if [ -f package.json ] && jq -e '.scripts["test:smoke"]' package.json >/dev/null 2>&1; then
+              npm run test:smoke
+            else
+              # Run directly without script
+              npx vitest run --config vitest.smoke.config.ts || (echo "Smoke tests failed" && exit 1)
+            fi
           else
-            # Run directly without script
-            npx vitest run --config vitest.smoke.config.ts || (echo "Smoke tests failed" && exit 1)
+            echo "Running full tests for main branch push"
+            npm run test
           fi
         env:
           NODE_ENV: production
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://example.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'anon-key-placeholder' }}
 
       - name: Skip message
         if: steps.check-smoke.outputs.has-smoke-tests == 'false'
@@ -334,7 +365,7 @@ jobs:
     name: Notify on Success
     runs-on: ubuntu-latest
     needs: [audit, test, test-deno, build, smoke-tests]
-    if: success() && github.ref == 'refs/heads/main'
+    if: success() && contains(github.ref, 'refs/heads/')
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
@@ -346,11 +377,11 @@ jobs:
           channel: '#dev-updates'
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
           fields: repo,message,commit,author
-          text: "✅ ZingLots main branch build successful! Ready for deployment via Lovable."
+          text: "✅ ZingLots ${{ github.ref_name }} branch build successful! Ready for deployment."
         continue-on-error: true
 
       - name: Console success message
         run: |
           echo "::notice::🎉 ZingLots CI pipeline completed successfully!"
           echo "::notice::All tests passed across Node versions 18, 20, and 22"
-          echo "::notice::Ready for deployment via Lovable Publish"
+          echo "::notice::Branch ${{ github.ref_name }} is ready for deployment"

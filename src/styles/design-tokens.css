@@ -1,0 +1,24 @@
+:root {
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* Brand neutrals */
+  --zl-bg: #ffffff;
+  --zl-bg-subtle: #f7f7f7;
+  --zl-fg: #191919;
+
+  /* Accent */
+  --zl-accent: #0968f6;
+  --zl-accent-600: #0049b8;
+
+  /* States */
+  --zl-attention: #d50b0b;
+  --zl-success: #2fbf4a;
+
+  /* Spacing scale */
+  --s-25: 2px; --s-50: 4px; --s-100: 8px; --s-200: 16px;
+  --s-300: 24px; --s-400: 32px; --s-600: 48px; --s-800: 64px;
+}
+html { color: var(--zl-fg); background: var(--zl-bg); }

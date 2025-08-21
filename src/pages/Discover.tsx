@@ -3,10 +3,11 @@ import ZingNav from "@/components/ZingNav";
 import { DEMO_LOTS } from "@/data/demo";
 import LotCard from "@/components/LotCard";
 import { useMemo, useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { SearchBar } from "@/components/ui/search-bar";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/data/categories";
 import { Link, useSearchParams } from "react-router-dom";
+import { Input } from "@/components/ui/input";
 
 const Discover = () => {
   const [q, setQ] = useState("");
@@ -39,14 +40,16 @@ const Discover = () => {
 
 const [recent, setRecent] = useState<string[]>([]);
 useEffect(() => {
-  try {
-    const qp = searchParams.get("q") || "";
-    setQ(qp);
-  } catch {}
+  const qp = searchParams.get("q") || "";
+  const cq = searchParams.get("category") || "";
+  setQ(qp);
+  setCategory(cq);
   try {
     const raw = localStorage.getItem("recently_viewed");
     setRecent(raw ? JSON.parse(raw) : []);
-  } catch {}
+  } catch (error) {
+    console.error("Failed to load recent items from localStorage:", error);
+  }
 }, [searchParams]);
 
   const recentLots = useMemo(() => DEMO_LOTS.filter((l) => recent.includes(l.id)), [recent]);
@@ -59,86 +62,90 @@ useEffect(() => {
         <link rel="canonical" href="/discover" />
       </Helmet>
       <ZingNav />
-      <main className="container mx-auto px-4 py-10">
-        <header className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Discover</h1>
-            <p className="mt-2 text-muted-foreground">Trending across categories</p>
-          </div>
-          <form className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
-            <Input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search collectibles"
-              className="md:w-[280px]"
-              aria-label="Search"
-            />
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="h-10 rounded-md border bg-background px-3 text-sm"
-              aria-label="Filter by category"
-            >
-              <option value="">All categories</option>
-              {CATEGORIES.map((c) => (
-                <option key={c.slug} value={c.name}>{c.name}</option>
-              ))}
-            </select>
-            <Input
-              type="number"
-              inputMode="decimal"
-              placeholder="Min $"
-              value={min}
-              onChange={(e) => setMin(e.target.value)}
-              className="md:w-[120px]"
-              aria-label="Min price"
-            />
-            <Input
-              type="number"
-              inputMode="decimal"
-              placeholder="Max $"
-              value={max}
-              onChange={(e) => setMax(e.target.value)}
-              className="md:w-[120px]"
-              aria-label="Max price"
-            />
-            <select
-              value={view}
-              onChange={(e) => setView(e.target.value as any)}
-              className="h-10 rounded-md border bg-background px-3 text-sm"
-              aria-label="View"
-            >
-              <option value="all">All</option>
-              <option value="new">New Today</option>
-              <option value="ending">Ending Soon</option>
-              <option value="priceDrops">Price Drops</option>
-            </select>
-            <Button type="button" variant="ghost" onClick={() => { setQ(""); setCategory(""); setMin(""); setMax(""); setView("all"); }}>
-              Reset
-            </Button>
-          </form>
-        </header>
-
-        <div className="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((item) => (
-            <Link to={`/product/${item.id}`} key={item.id} aria-label={item.title}>
-              <LotCard item={item} />
-            </Link>
-          ))}
-        </div>
-
-        {recentLots.length > 0 && (
-          <section className="mt-12">
-            <h2 className="text-xl font-semibold">Recently viewed</h2>
-            <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-              {recentLots.map((item) => (
-                <Link to={`/product/${item.id}`} key={item.id} aria-label={item.title}>
-                  <LotCard item={item} />
-                </Link>
-              ))}
+      <main className="pt-16">
+        <div className="container mx-auto px-4 py-10">
+          <header className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold">Discover</h1>
+              <p className="mt-2 text-muted-foreground">Trending across categories</p>
             </div>
-          </section>
-        )}
+            <form className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
+              <div className="md:w-[280px]">
+                <SearchBar
+                  value={q}
+                  onChange={(v) => setQ(v)}
+                  onSubmit={(v) => setQ(v)}
+                  placeholder="Search collectibles"
+                  ariaLabel="Search"
+                />
+              </div>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="h-10 rounded-md border bg-background px-3 text-sm"
+                aria-label="Filter by category"
+              >
+                <option value="">All categories</option>
+                {CATEGORIES.map((c) => (
+                  <option key={c.slug} value={c.name}>{c.name}</option>
+                ))}
+              </select>
+              <Input
+                type="number"
+                inputMode="decimal"
+                placeholder="Min $"
+                value={min}
+                onChange={(e) => setMin(e.target.value)}
+                className="md:w-[120px]"
+                aria-label="Min price"
+              />
+              <Input
+                type="number"
+                inputMode="decimal"
+                placeholder="Max $"
+                value={max}
+                onChange={(e) => setMax(e.target.value)}
+                className="md:w-[120px]"
+                aria-label="Max price"
+              />
+              <select
+                value={view}
+                onChange={(e) => setView(e.target.value as any)}
+                className="h-10 rounded-md border bg-background px-3 text-sm"
+                aria-label="View"
+              >
+                <option value="all">All</option>
+                <option value="new">New Today</option>
+                <option value="ending">Ending Soon</option>
+                <option value="priceDrops">Price Drops</option>
+              </select>
+              <Button type="button" variant="ghost" onClick={() => { setQ(""); setCategory(""); setMin(""); setMax(""); setView("all"); }}>
+                Reset
+              </Button>
+            </form>
+          </header>
+
+          <div className="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filtered.map((item) => (
+              <Link to={`/product/${item.id}`} key={item.id} aria-label={item.title}>
+                <LotCard item={item} />
+              </Link>
+            ))}
+          </div>
+
+          {recentLots.length > 0 && (
+            <section className="mt-12">
+              <h2 className="text-xl font-semibold">Recently viewed</h2>
+              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                {recentLots.map((item) => (
+                  <Link to={`/product/${item.id}`} key={item.id} aria-label={item.title}>
+                    <LotCard item={item} />
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       </main>
     </div>
   );

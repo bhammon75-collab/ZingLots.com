@@ -11,10 +11,12 @@ interface LotRow {
   id: string;
   show_id: string;
   title: string;
+  subtitle?: string;
   category: string;
   start_price: number;
   ends_at: string | null;
   winner_id: string | null;
+  images?: string[];
 }
 
 const Evidence = () => (
@@ -48,7 +50,7 @@ const ProductDetail = () => {
       if (!sb || !id) return;
       setLoading(true);
       const { data: row } = await sb.schema('app').from('lots')
-        .select('id, show_id, title, category, start_price, ends_at, winner_id')
+        .select('id, show_id, title, subtitle, category, start_price, ends_at, winner_id, images')
         .eq('id', id)
         .maybeSingle();
       if (row) setLot(row as any);
@@ -96,13 +98,17 @@ const ProductDetail = () => {
           <script type="application/ld+json">{JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: lot.title,
-            offers: {
+            "name": lot.title,
+            "url": `https://www.zinglots.com/product/${lot.id}`,
+            "image": (lot.images?.length ? lot.images.slice(0,3) : [window.location.origin + "/assets/lot-generic.jpg"]),
+            "description": lot.subtitle || lot.title,
+            "offers": {
               "@type": "Offer",
-              priceCurrency: "USD",
-              price: (topBid ?? Number(lot.start_price ?? 0)).toFixed(2),
-              availability: "https://schema.org/InStock",
-            },
+              "priceCurrency": "USD",
+              "price": (topBid ?? Number(lot.start_price ?? 0)).toFixed(2),
+              "availability": "https://schema.org/InStock",
+              ...(lot.ends_at ? {"priceValidUntil": new Date(lot.ends_at).toISOString()} : {})
+            }
           })}</script>
         )}
       </Helmet>

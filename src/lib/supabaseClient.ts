@@ -1,21 +1,28 @@
-import { type SupabaseClient } from '@supabase/supabase-js';
-import { supabase as sharedClient } from '@/integrations/supabase/client';
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { supabase as baseClient } from "@/integrations/supabase/client";
 
-let client: SupabaseClient<any, 'app'> | null = null;
+// Test injection hooks (undefined means no override; null means force-null)
+let injectedClient: SupabaseClient | null | undefined = undefined;
+let _injectedEnv: { url?: string; anon?: string } | null = null;
 
-export function getSupabase(): SupabaseClient<any, 'app'> | null {
-  // Reuse the shared client and ensure single instance
-  if (!client) {
-    client = sharedClient as unknown as SupabaseClient<any, 'app'>;
-  }
-  return client;
+export function __setClientForTests(client: SupabaseClient | null) {
+  injectedClient = client;
 }
 
-export async function invokeFn<T = any>(name: string, body?: unknown): Promise<T> {
-  const sb = getSupabase();
-  if (!sb) throw new Error('Supabase not configured');
-  const { data, error } = await sb.functions.invoke(name, { body });
+export function __setEnvForTests(env: { url?: string; anon?: string } | null) {
+  _injectedEnv = env;
+}
+
+export function getSupabase(): SupabaseClient | null {
+  if (injectedClient !== undefined) return injectedClient;
+  return (baseClient as unknown as SupabaseClient) || null;
+}
+
+export async function invokeFn<T = unknown>(name: string, body?: unknown): Promise<T> {
+  const client = getSupabase();
+  if (!client) throw new Error("Supabase not configured (missing envs).");
+  const opts = body === undefined ? undefined : { body };
+  const { data, error } = await client.functions.invoke<T>(name, opts as any);
   if (error) throw error;
   return data as T;
 }
-
