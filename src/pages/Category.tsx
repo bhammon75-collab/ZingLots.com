@@ -17,6 +17,19 @@ const Category = () => {
         <title>{title} | ZingLots</title>
         <meta name="description" content={`Bid on ${title} lots on ZingLots.`} />
         <link rel="canonical" href={`/category/${slug}`} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": `Auctions in ${title}`,
+            "itemListElement": (lots ?? []).map((it:any, i:number) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "url": `https://www.zinglots.com/product/${it.id}`,
+              "name": it.title
+            }))
+          })}
+        </script>
       </Helmet>
       <ZingNav />
       <main className="container mx-auto px-4 py-10">

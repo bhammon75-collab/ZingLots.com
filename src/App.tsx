@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
+import ModernIndex from "./pages/ModernIndex";
+import ModernProductDetail from "./pages/ModernProductDetail";
+import Browse from "./pages/Browse";
+import Categories from "./pages/Categories";
 import NotFound from "./pages/NotFound";
 import Shows from "./pages/Shows";
 import Category from "./pages/Category";
@@ -25,6 +29,12 @@ import SellerApply from "./pages/sellers/Apply";
 import Help from "./pages/Help";
 import PricingPage from "./pages/pricing";
 import ExplorePage from "./pages/explore";
+import "./styles/modern-design.css";
+
+// B2B Marketplace Pages
+import RegionPage from "./pages/RegionPage";
+import CreateLotPage from "./pages/CreateLotPage";
+import QRScannerPage from "./pages/QRScannerPage";
 
 const queryClient = new QueryClient();
 
@@ -40,11 +50,25 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<ModernIndex />} />
+              <Route path="/classic" element={<Index />} />
+              
+              {/* B2B Marketplace Routes */}
+              <Route path="/r/:regionSlug" element={<RegionPage />} />
+              <Route path="/sell/new" element={<CreateLotPage />} />
+              <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
+              <Route path="/lot/:id" element={<ModernProductDetail />} />
+              <Route path="/classic-lot/:id" element={<ProductDetail />} />
+              <Route path="/browse" element={<Browse />} />
+              <Route path="/region-page" element={<RegionPage />} />
+              <Route path="/regions" element={<RegionPage />} />
+              
+              {/* Legacy Routes (transitioning) */}
               <Route path="/shows" element={<Shows />} />
               <Route path="/discover" element={<Discover />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/category/:slug" element={<Category />} />
+              <Route path="/categories" element={<Categories />} />
               <Route path="/seller/:id" element={<SellerProfile />} />
               <Route path="/seller/apply" element={<SellerApply />} />
               <Route path="/product/:id" element={<ProductDetail />} />
@@ -57,6 +81,9 @@ const App = () => (
               <Route path="/auction/:lotId" element={<AuctionRoom />} />
               <Route path="/help" element={<Help />} />
               <Route path="/pricing" element={<PricingPage />} />
+              {/* Simple terms/contact placeholders to ensure links resolve */}
+              <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
+              <Route path="/contact" element={<Help />} />
               
               {/* Feature-flagged LiveKit routes */}
               {LIVE_SHOWS_ENABLED && (

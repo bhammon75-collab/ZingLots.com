@@ -1,19 +1,34 @@
-﻿import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { getSupabase, invokeFn, __setClientForTests, __setEnvForTests } from "@/lib/supabaseClient";
 
 afterEach(() => { __setClientForTests(null); __setEnvForTests(null); vi.clearAllMocks(); });
 
-describe("Supabase Client", () => {
-  it("getSupabase returns a client (when env present) or null", () => {
-    const c = getSupabase();
-    expect(c === null || typeof c === "object").toBe(true);
-  });
+describe('Supabase Client', () => {
+  describe('getSupabase', () => {
+    it('should return a supabase client instance or null if envs are missing', () => {
+      const client = getSupabase();
+      // In test environment without VITE_* envs, it should return null
+      if (client === null) {
+        expect(client).toBeNull();
+      } else {
+        expect(client).toBeTruthy();
+        expect(client).toHaveProperty('functions');
+        expect(client).toHaveProperty('auth');
+      }
+    });
 
-  it("getSupabase keeps same instance when injected", () => {
-    const fake = { functions: { invoke: vi.fn() } } as any;
-    __setClientForTests(fake);
-    expect(getSupabase()).toBe(fake);
-    expect(getSupabase()).toBe(fake);
+    it('should return the same instance on multiple calls', () => {
+      const client1 = getSupabase();
+      const client2 = getSupabase();
+      expect(client1).toBe(client2);
+    });
+
+    it("getSupabase keeps same instance when injected", () => {
+      const fake = { functions: { invoke: vi.fn() } } as any;
+      __setClientForTests(fake);
+      expect(getSupabase()).toBe(fake);
+      expect(getSupabase()).toBe(fake);
+    });
   });
 
   describe("invokeFn", () => {
@@ -33,10 +48,10 @@ describe("Supabase Client", () => {
       await expect(invokeFn("ping", { a: 1 })).rejects.toThrow("boom");
     });
 
-    it("should throw error when supabase is not configured", async () => {
+    it('should throw error when supabase is not configured', async () => {
       __setClientForTests(null);
       __setEnvForTests({ url: "", anon: "" });
-      await expect(invokeFn("some-fn")).rejects.toThrow("Supabase not configured");
+      await expect(invokeFn('test-function')).rejects.toThrow('Supabase not configured (missing envs).');
     });
 
     it("should handle function calls without body parameter", async () => {
