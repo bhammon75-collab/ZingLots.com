@@ -1,16 +1,13 @@
+import Logo from "@/components/brand/Logo";
+import { Link } from "react-router-dom";
+
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-neutral-200 dark:border-neutral-800">
       <div className="mx-auto max-w-screen-2xl h-16 px-4 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-3">
-          {/* Full wordmark; scales crisply on retina */}
-          <img
-            src="/brand/zinglots-wordmark.svg"
-            alt="ZingLots"
-            className="h-8 w-auto"
-            height={32}
-          />
-        </a>
+        <Link to="/" aria-label="Go to home" className="inline-flex">
+          <Logo size="md" withText onDark={false} />
+        </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-[15px]">
           <a href="/discover" className="hover:opacity-80">Discover</a>

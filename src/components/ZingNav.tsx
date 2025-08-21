@@ -12,6 +12,7 @@ import {
 
 import { Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
+import Logo from "@/components/brand/Logo";
 
 import { supabase } from "@/integrations/supabase/client";
 
@@ -80,7 +81,7 @@ const ZingNav = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-neutral-200 dark:border-neutral-800">
       {impersonating && (
         <div className="bg-amber-100 text-amber-900 text-xs px-4 py-1 text-center">
           Admin impersonating user {impersonating.slice(0,8)}… (read-only)
@@ -110,38 +111,8 @@ const ZingNav = () => {
 
         {/* Centered Logo */}
         <div className="flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-          <Link to="/" className="flex items-center group">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 340 100" 
-              className="h-10 w-auto"
-              role="img"
-              aria-label="ZingLots Logo"
-            >
-              <title>ZingLots</title>
-              <desc>ZingLots marketplace logo</desc>
-              {/* Lightning bolt positioned correctly */}
-              <g transform="translate(10, 10) scale(0.35)">
-                <path 
-                  d="M 80,120 L 168,120 L 136,200 L 208,200 L 120,280 L 152,208 L 80,208 Z" 
-                  fill="#E53935"
-                  className="group-hover:fill-[#C62828] transition-colors"
-                />
-              </g>
-              <text 
-                x="75" 
-                y="60" 
-                style={{
-                  fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-                  fontSize: "36px",
-                  fontWeight: "600",
-                  letterSpacing: "2px",
-                  fill: "#111111"
-                }}
-              >
-                ZingLots
-              </text>
-            </svg>
+          <Link to="/" className="flex items-center group" aria-label="Go to home">
+            <Logo size="md" withText onDark={false} />
           </Link>
         </div>
 
