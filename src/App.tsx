@@ -19,6 +19,7 @@ import CartInvoice from "./pages/CartInvoice";
 import DashboardBuyer from "./pages/DashboardBuyer";
 import DashboardSeller from "./pages/DashboardSeller";
 import Admin from "./pages/Admin";
+import ReviewSellers from "./pages/admin/ReviewSellers";
 import Discover from "./pages/Discover";
 import QA from "./pages/QA";
 import Login from "./pages/Login";
@@ -75,6 +76,7 @@ const App = () => (
               <Route path="/dashboard/buyer" element={<DashboardBuyer />} />
               <Route path="/dashboard/seller" element={<DashboardSeller />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/review-sellers" element={<ReviewSellers />} />
               <Route path="/qa" element={<QA />} />
               <Route path="/login" element={<Login />} />
               <Route path="/auction/:lotId" element={<AuctionRoom />} />

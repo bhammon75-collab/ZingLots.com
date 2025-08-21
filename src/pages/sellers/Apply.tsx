@@ -26,6 +26,7 @@ export default function SellerApply() {
     preferred_slots: "",
     notes: ""
   });
+  const [docFile, setDocFile] = useState<File | null>(null);
 
   function set<K extends keyof typeof form>(k: K, v: string) { setForm({ ...form, [k]: v }); }
 
@@ -33,6 +34,16 @@ export default function SellerApply() {
     if (!sb) return;
     setLoading(true);
     try {
+      // Optional: upload doc to lot-docs under user folder
+      let doc_paths: string[] = [];
+      const { data: sess } = await sb.auth.getSession();
+      const uid = sess?.session?.user?.id;
+      if (docFile && uid) {
+        const key = `${uid}/kyb_${Date.now()}_${docFile.name}`;
+        const up = await sb.storage.from('lot-docs').upload(key, docFile, { upsert: false });
+        if (up.error) throw up.error;
+        doc_paths.push(key);
+      }
       const shop_links = form.shop_links
         ? form.shop_links.split(/\s*,\s*|\s*\n\s*/).filter(Boolean)
         : [];
@@ -57,10 +68,12 @@ export default function SellerApply() {
           timezone: form.timezone,
           preferred_slots,
           notes: form.notes || null,
+          doc_paths,
         });
       if (error) throw error;
       toast({ title: 'Application submitted', description: 'We’ll review and email you shortly.' });
       setForm({ ...form, full_name:"", email:"", phone:"", avg_sell_price_cents:"", lots_per_show_est:"", shop_links:"", preferred_slots:"", notes:"" });
+      setDocFile(null);
     } catch (e: any) {
       toast({ variant: 'destructive', title: 'Submission failed', description: e?.message || String(e) });
     } finally { setLoading(false); }
@@ -136,6 +149,11 @@ export default function SellerApply() {
           <div className="space-y-2">
             <Label>Preferred live slots (comma-separated)</Label>
             <Input value={form.preferred_slots} onChange={(e)=>set("preferred_slots", e.target.value)} placeholder="Tue 7–9pm PT, Thu 6–8pm PT" />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Upload business documentation (optional)</Label>
+            <Input type="file" accept="image/*,application/pdf" onChange={(e)=>setDocFile(e.target.files?.[0] || null)} />
           </div>
 
           <div className="space-y-2">

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import lotImage from "@/assets/lot-generic.jpg";
 import { Button } from "@/components/ui/button";
+import { VerifiedSMEBadge } from "@/components/VerifiedSMEBadge";
 import BidPanel from "@/components/auctions/BidPanel";
 import { getSupabase } from "@/lib/supabaseClient";
 
@@ -119,6 +120,8 @@ const ProductDetail = () => {
         </div>
         <div>
           <h1 className="text-3xl font-bold">{lot ? lot.title : 'Lot not found'}</h1>
+          {/* Placeholder badge; in Phase 2 we’ll fetch seller kyc_status to conditionally render */}
+          <div className="mt-2"><VerifiedSMEBadge className="hidden" /></div>
           {lot && <p className="mt-1 text-sm text-muted-foreground">Category: {lot.category}</p>}
           <div className="mt-6">
             {bidPanelLot && bidPanelAuction ? (
