@@ -39,7 +39,7 @@ const ModernIndex = () => {
       id: "auction-1",
       title: "Restaurant Equipment Auction - Closing Today",
       subtitle: "Complete kitchen liquidation from Seattle steakhouse - 45 lots available",
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=600&fit=crop",
+      image: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=600&fit=crop", // Commercial kitchen with stainless steel equipment
       cta: "View Auction",
       badge: "Ending in 2h 15m",
       currentBid: "$12,400",
@@ -50,7 +50,7 @@ const ModernIndex = () => {
       id: "auction-2",
       title: "Construction Equipment Auction",
       subtitle: "Heavy machinery and power tools from contractor liquidation",
-      image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=600&fit=crop",
+      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=600&fit=crop", // Excavator and construction equipment
       cta: "Place Bid",
       badge: "Ending Tomorrow",
       currentBid: "$34,200",
@@ -61,7 +61,7 @@ const ModernIndex = () => {
       id: "auction-3",
       title: "Office Furniture Liquidation Auction",
       subtitle: "Herman Miller chairs, standing desks, conference tables - Tech startup closure",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=600&fit=crop",
+      image: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=600&fit=crop", // Modern office with Herman Miller chairs
       cta: "Join Auction",
       badge: "3 Days Left",
       currentBid: "$8,900",
@@ -114,7 +114,7 @@ const ModernIndex = () => {
       timeLeft: "2h 15m",
       location: "Seattle, WA",
       distance: "3.2 mi",
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1574739782594-db4ead022697?w=400&h=300&fit=crop", // Actual commercial range
       seller: "Restaurant Supply Co",
       rating: 4.8,
       watchers: 34,
@@ -131,7 +131,7 @@ const ModernIndex = () => {
       timeLeft: "45m",
       location: "Tacoma, WA",
       distance: "12.4 mi",
-      image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1609205612107-e0ec2120f9de?w=400&h=300&fit=crop", // Stacked lumber
       seller: "BuildPro Materials",
       rating: 4.9,
       watchers: 18,
@@ -148,7 +148,7 @@ const ModernIndex = () => {
       timeLeft: "6h 30m",
       location: "Bellevue, WA",
       distance: "8.1 mi",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400&h=300&fit=crop", // Office chairs
       seller: "Office Liquidators",
       rating: 4.7,
       watchers: 42,
@@ -164,7 +164,7 @@ const ModernIndex = () => {
       timeLeft: "1d 4h",
       location: "Kent, WA",
       distance: "15.3 mi",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop", // Industrial equipment
       seller: "Municipal Surplus",
       rating: 4.6,
       watchers: 22,
@@ -268,12 +268,14 @@ const ModernIndex = () => {
               index === currentSlide ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
           >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className="w-full h-full object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/60 to-transparent" />
+            <div className="relative w-full h-full">
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            </div>
           </Link>
         ))}
         
@@ -281,24 +283,24 @@ const ModernIndex = () => {
           <div className="max-w-7xl mx-auto px-4 w-full">
             <div className="max-w-2xl">
               <div className="h-8 mb-4">
-                <Badge className="badge-hot">
+                <Badge className="bg-red-600 text-white text-sm px-4 py-2">
                   {heroSlides[currentSlide].badge}
                 </Badge>
               </div>
               <div className="h-32">
-                <h1 className="text-5xl font-bold text-gray-900 mb-2">
+                <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg">
                   {heroSlides[currentSlide].title}
                 </h1>
                 <div className="flex items-center gap-4 text-lg">
-                  <span className="text-brand-red font-bold">Current Bid: {heroSlides[currentSlide].currentBid}</span>
-                  <span className="text-gray-600">•</span>
-                  <span className="text-gray-700">{heroSlides[currentSlide].totalLots} Lots</span>
-                  <span className="text-gray-600">•</span>
-                  <span className="text-gray-600 text-sm">{heroSlides[currentSlide].auctionNumber}</span>
+                  <span className="text-white font-bold bg-brand-red px-3 py-1 rounded">Current Bid: {heroSlides[currentSlide].currentBid}</span>
+                  <span className="text-white">•</span>
+                  <span className="text-white">{heroSlides[currentSlide].totalLots} Lots</span>
+                  <span className="text-white">•</span>
+                  <span className="text-white text-sm">{heroSlides[currentSlide].auctionNumber}</span>
                 </div>
               </div>
               <div className="h-16 mb-8">
-                <p className="text-xl text-gray-700">
+                <p className="text-xl text-white drop-shadow-md">
                   {heroSlides[currentSlide].subtitle}
                 </p>
               </div>
@@ -329,7 +331,7 @@ const ModernIndex = () => {
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`w-2 h-2 rounded-full transition-all ${
-                index === currentSlide ? 'w-8 bg-gray-800' : 'bg-gray-500'
+                index === currentSlide ? 'w-8 bg-white' : 'bg-white/50'
               }`}
             />
           ))}
