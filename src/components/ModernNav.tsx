@@ -193,17 +193,20 @@ const ModernNav = () => {
 
             {/* Search Bar - Enhanced Design */}
             <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-3xl mx-8">
-              <div className="search-modern w-full">
+              <div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
                 <input
                   type="text"
                   placeholder="Search active auctions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="text-gray-900"
+                  className="flex-1 h-12 lg:h-14 px-4 outline-none rounded-l-xl"
                 />
-                <button type="submit">
+                <button 
+                  type="submit"
+                  className="h-12 lg:h-14 px-4 lg:px-6 bg-[#E02020] text-white font-semibold rounded-r-xl hover:brightness-95 transition-all flex items-center gap-2"
+                >
                   <Search className="h-5 w-5" />
-                  <span className="hidden lg:inline ml-2">Search Auctions</span>
+                  <span className="hidden lg:inline">Search Auctions</span>
                 </button>
               </div>
             </form>
