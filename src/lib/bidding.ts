@@ -53,7 +53,7 @@ export type PlaceBidResult = { ok: boolean; current_amount: number; winner_id: s
 export async function placeBidRPC(args: PlaceBidArgs): Promise<PlaceBidResult> {
   const sb = getSupabase();
   if (!sb) throw new Error('Supabase not configured');
-  const { data, error } = await sb.rpc('app.place_bid', { lot_id: args.lot_id, offered: args.offered, max: args.max ?? null } as any);
+  const { data, error } = await sb.rpc('public.place_bid', { lot_id: args.lot_id, offered: args.offered, max: args.max ?? null } as any);
   if (error) throw error as any;
   return data as unknown as PlaceBidResult;
 }

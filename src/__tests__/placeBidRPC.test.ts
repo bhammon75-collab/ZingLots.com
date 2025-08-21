@@ -9,7 +9,7 @@ vi.mock('@/lib/supabaseClient', () => {
 describe('placeBidRPC', () => {
   afterEach(() => vi.resetAllMocks())
 
-  it('calls app.place_bid with the right payload', async () => {
+  it('calls public.place_bid with the right payload', async () => {
     const res = await placeBidRPC({ lot_id: 'L1', offered: 50, max: 75 })
     expect(res.ok).toBe(true)
   })
