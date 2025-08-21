@@ -15,7 +15,7 @@ interface OrderRow {
   label_url: string | null;
 }
 
-const CartInvoice = () => {
+const Invoice = () => {
   const [orders, setOrders] = useState<OrderRow[]>([]);
 
   useEffect(() => {
@@ -40,14 +40,14 @@ const CartInvoice = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Cart & Invoice | ZingLots</title>
-        <meta name="description" content="Review your Buy Now items and invoices. Secure checkout with Stripe." />
+        <title>Invoices | ZingLots</title>
+        <meta name="description" content="Review invoices and complete secure checkout with Stripe." />
         <link rel="canonical" href="/cart" />
       </Helmet>
       <ZingNav />
       <main className="container mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold">Cart & Invoice</h1>
-        <p className="mt-2 text-muted-foreground">Your Buy Now items and open invoices will appear here.</p>
+        <h1 className="text-3xl font-bold">Invoices</h1>
+        <p className="mt-2 text-muted-foreground">Your open and paid invoices will appear here.</p>
 
         <section className="mt-6 rounded-lg border bg-card p-6">
           <h2 className="font-semibold mb-3">Unpaid Invoices</h2>
@@ -103,4 +103,5 @@ const CartInvoice = () => {
   );
 };
 
-export default CartInvoice;
+export default Invoice;
+
