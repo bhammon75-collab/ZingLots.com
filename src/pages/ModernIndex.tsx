@@ -251,7 +251,7 @@ const ModernIndex = () => {
       <ModernNav />
 
       {/* Hero Section with Carousel */}
-      <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-gray-900 to-gray-700">
+      <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-gray-200 to-gray-100">
         {heroSlides.map((slide, index) => (
           <div
             key={index}
@@ -262,24 +262,30 @@ const ModernIndex = () => {
             <img
               src={slide.image}
               alt={slide.title}
-              className="w-full h-full object-cover opacity-40"
+              className="w-full h-full object-cover opacity-60"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/60 to-transparent" />
           </div>
         ))}
         
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 w-full">
-            <div className="max-w-2xl animate-slide-in">
-              <Badge className="badge-hot mb-4">
-                {heroSlides[currentSlide].badge}
-              </Badge>
-              <h1 className="text-5xl font-bold text-white mb-4">
-                {heroSlides[currentSlide].title}
-              </h1>
-              <p className="text-xl text-gray-200 mb-8">
-                {heroSlides[currentSlide].subtitle}
-              </p>
+            <div className="max-w-2xl">
+              <div className="h-8 mb-4">
+                <Badge className="badge-hot">
+                  {heroSlides[currentSlide].badge}
+                </Badge>
+              </div>
+              <div className="h-32">
+                <h1 className="text-5xl font-bold text-gray-900 mb-4">
+                  {heroSlides[currentSlide].title}
+                </h1>
+              </div>
+              <div className="h-16 mb-8">
+                <p className="text-xl text-gray-700">
+                  {heroSlides[currentSlide].subtitle}
+                </p>
+              </div>
               
               {/* Search Bar */}
               <form onSubmit={handleSearch} className="search-modern mb-6">
@@ -299,7 +305,9 @@ const ModernIndex = () => {
               <div className="flex gap-4">
                 <Link to="/discover">
                   <Button className="btn-modern btn-primary">
-                    {heroSlides[currentSlide].cta}
+                    <span className="inline-block min-w-[120px]">
+                      {heroSlides[currentSlide].cta}
+                    </span>
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -320,7 +328,7 @@ const ModernIndex = () => {
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`w-2 h-2 rounded-full transition-all ${
-                index === currentSlide ? 'w-8 bg-white' : 'bg-white/50'
+                index === currentSlide ? 'w-8 bg-gray-800' : 'bg-gray-500'
               }`}
             />
           ))}
