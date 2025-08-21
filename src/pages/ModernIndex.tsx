@@ -36,28 +36,34 @@ const ModernIndex = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [timeLeft, setTimeLeft] = useState({});
 
-  // Hero carousel data
+  // Hero carousel data - Featured Active Auctions
   const heroSlides = [
     {
-      title: "Your Local B2B Surplus Marketplace",
-      subtitle: "Trusted by 10,000+ small businesses for equipment, materials, and inventory",
-      image: "https://images.unsplash.com/photo-1565799000-5bb97ef47e8b?w=1920&h=600&fit=crop",
-      cta: "Browse Auctions",
-      badge: "New Lots Daily"
-    },
-    {
-      title: "Restaurant Equipment Liquidation",
-      subtitle: "Commercial kitchen equipment at 30-70% below retail",
+      title: "Restaurant Equipment Auction - Closing Today",
+      subtitle: "Complete kitchen liquidation from Seattle steakhouse - 45 lots available",
       image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=600&fit=crop",
-      cta: "View Equipment",
-      badge: "Weekly Auctions"
+      cta: "View Auction",
+      badge: "Ending in 2h 15m",
+      currentBid: "$12,400",
+      totalLots: 45
     },
     {
-      title: "Construction & Industrial Surplus",
-      subtitle: "Quality tools, materials, and machinery from verified businesses",
+      title: "Construction Equipment Auction",
+      subtitle: "Heavy machinery and power tools from contractor liquidation",
       image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=600&fit=crop",
-      cta: "Start Bidding",
-      badge: "Verified Sellers"
+      cta: "Place Bid",
+      badge: "Ending Tomorrow",
+      currentBid: "$34,200",
+      totalLots: 28
+    },
+    {
+      title: "Office Furniture Liquidation Auction",
+      subtitle: "Herman Miller chairs, standing desks, conference tables - Tech startup closure",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=600&fit=crop",
+      cta: "Join Auction",
+      badge: "3 Days Left",
+      currentBid: "$8,900",
+      totalLots: 62
     }
   ];
 
@@ -94,7 +100,7 @@ const ModernIndex = () => {
     }
   ];
 
-  // Featured lots data
+  // Featured lots data - Active Auctions
   const featuredLots = [
     {
       id: "1",
@@ -109,8 +115,9 @@ const ModernIndex = () => {
       seller: "Restaurant Supply Co",
       rating: 4.8,
       watchers: 34,
-      category: "Restaurant",
-      hot: true
+      category: "Restaurant Equipment",
+      hot: true,
+      auctionNumber: "#A2024-1842"
     },
     {
       id: "2",
@@ -125,8 +132,9 @@ const ModernIndex = () => {
       seller: "BuildPro Materials",
       rating: 4.9,
       watchers: 18,
-      category: "Construction",
-      urgent: true
+      category: "Construction Materials",
+      urgent: true,
+      auctionNumber: "#A2024-1843"
     },
     {
       id: "3",
@@ -141,7 +149,8 @@ const ModernIndex = () => {
       seller: "Office Liquidators",
       rating: 4.7,
       watchers: 42,
-      category: "Office"
+      category: "Office Furniture",
+      auctionNumber: "#A2024-1844"
     },
     {
       id: "4",
@@ -156,7 +165,8 @@ const ModernIndex = () => {
       seller: "Municipal Surplus",
       rating: 4.6,
       watchers: 22,
-      category: "Municipal"
+      category: "Industrial Equipment",
+      auctionNumber: "#A2024-1845"
     }
   ];
 
@@ -277,9 +287,14 @@ const ModernIndex = () => {
                 </Badge>
               </div>
               <div className="h-32">
-                <h1 className="text-5xl font-bold text-gray-900 mb-4">
+                <h1 className="text-5xl font-bold text-gray-900 mb-2">
                   {heroSlides[currentSlide].title}
                 </h1>
+                <div className="flex items-center gap-4 text-lg">
+                  <span className="text-brand-red font-bold">Current Bid: {heroSlides[currentSlide].currentBid}</span>
+                  <span className="text-gray-600">•</span>
+                  <span className="text-gray-700">{heroSlides[currentSlide].totalLots} Lots</span>
+                </div>
               </div>
               <div className="h-16 mb-8">
                 <p className="text-xl text-gray-700">
@@ -291,29 +306,29 @@ const ModernIndex = () => {
               <form onSubmit={handleSearch} className="search-modern mb-6">
                 <input
                   type="text"
-                  placeholder="Search for equipment, materials, furniture..."
+                  placeholder="Search active auctions..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="text-gray-900"
                 />
                 <button type="submit">
                   <Search className="h-5 w-5" />
-                  <span className="hidden lg:inline ml-2">Search</span>
+                  <span className="hidden lg:inline ml-2">Search Auctions</span>
                 </button>
               </form>
               
               <div className="flex gap-4">
-                <Link to="/discover">
+                <Link to="/auction/active">
                   <Button className="btn-modern btn-primary">
+                    <Gavel className="mr-2 h-4 w-4" />
                     <span className="inline-block min-w-[120px]">
                       {heroSlides[currentSlide].cta}
                     </span>
-                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/help">
                   <Button className="btn-modern btn-secondary">
-                    How It Works
+                    How to Bid
                   </Button>
                 </Link>
               </div>
@@ -341,28 +356,28 @@ const ModernIndex = () => {
           <div className="flex justify-between items-center">
             <div className="flex gap-8">
               <div className="flex items-center gap-2">
+                <Gavel className="h-5 w-5 text-gray-500" />
+                <span className="text-sm">
+                  <strong>47</strong> Live Auctions
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-gray-500" />
                 <span className="text-sm">
                   <strong>2,847</strong> Active Bidders
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Package className="h-5 w-5 text-gray-500" />
+                <Clock className="h-5 w-5 text-gray-500" />
                 <span className="text-sm">
-                  <strong>1,234</strong> Lots Available
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>$4.2M</strong> Saved This Month
+                  <strong>12</strong> Closing Today
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-yellow-500" />
+              <Gavel className="h-5 w-5 text-brand-red" />
               <span className="text-sm font-medium">
-                Flash Sale: Extra 10% Off Electronics
+                Live Auctions: {featuredLots.length} Ending Today
               </span>
             </div>
           </div>
@@ -373,9 +388,9 @@ const ModernIndex = () => {
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold">Shop by Category</h2>
+            <h2 className="text-3xl font-bold">Auction Categories</h2>
             <Link to="/categories" className="text-brand-red hover:underline flex items-center">
-              View All Categories
+              Browse All Auctions
               <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
@@ -398,7 +413,7 @@ const ModernIndex = () => {
                       )}
                     </div>
                     <h3 className="font-semibold text-lg mb-1">{category.name}</h3>
-                    <p className="text-sm text-gray-500">{category.count} active lots</p>
+                    <p className="text-sm text-gray-500">{category.count} active auctions</p>
                   </div>
                 </Link>
               );
@@ -411,8 +426,8 @@ const ModernIndex = () => {
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-3">Browse by Location</h2>
-            <p className="text-gray-600">Find auctions and surplus near you</p>
+            <h2 className="text-3xl font-bold mb-3">Auctions by Location</h2>
+            <p className="text-gray-600">Find live auctions in your area</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -425,23 +440,23 @@ const ModernIndex = () => {
               <div className="space-y-2">
                 <Link to="/r/seattle" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Seattle, WA</span>
-                  <span className="text-sm text-gray-500 ml-2">425 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">425 auctions</span>
                 </Link>
                 <Link to="/r/tacoma" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Tacoma, WA</span>
-                  <span className="text-sm text-gray-500 ml-2">187 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">187 auctions</span>
                 </Link>
                 <Link to="/r/portland" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Portland, OR</span>
-                  <span className="text-sm text-gray-500 ml-2">312 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">312 auctions</span>
                 </Link>
                 <Link to="/r/los-angeles" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Los Angeles, CA</span>
-                  <span className="text-sm text-gray-500 ml-2">892 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">892 auctions</span>
                 </Link>
                 <Link to="/r/san-francisco" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">San Francisco, CA</span>
-                  <span className="text-sm text-gray-500 ml-2">567 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">567 auctions</span>
                 </Link>
               </div>
             </div>
@@ -455,23 +470,23 @@ const ModernIndex = () => {
               <div className="space-y-2">
                 <Link to="/r/chicago" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Chicago, IL</span>
-                  <span className="text-sm text-gray-500 ml-2">654 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">654 auctions</span>
                 </Link>
                 <Link to="/r/detroit" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Detroit, MI</span>
-                  <span className="text-sm text-gray-500 ml-2">298 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">298 auctions</span>
                 </Link>
                 <Link to="/r/new-york" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">New York, NY</span>
-                  <span className="text-sm text-gray-500 ml-2">1,245 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">1,245 auctions</span>
                 </Link>
                 <Link to="/r/boston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Boston, MA</span>
-                  <span className="text-sm text-gray-500 ml-2">432 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">432 auctions</span>
                 </Link>
                 <Link to="/r/philadelphia" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Philadelphia, PA</span>
-                  <span className="text-sm text-gray-500 ml-2">378 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">378 auctions</span>
                 </Link>
               </div>
             </div>
@@ -485,23 +500,23 @@ const ModernIndex = () => {
               <div className="space-y-2">
                 <Link to="/r/houston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Houston, TX</span>
-                  <span className="text-sm text-gray-500 ml-2">723 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">723 auctions</span>
                 </Link>
                 <Link to="/r/dallas" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Dallas, TX</span>
-                  <span className="text-sm text-gray-500 ml-2">589 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">589 auctions</span>
                 </Link>
                 <Link to="/r/atlanta" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Atlanta, GA</span>
-                  <span className="text-sm text-gray-500 ml-2">467 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">467 auctions</span>
                 </Link>
                 <Link to="/r/miami" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Miami, FL</span>
-                  <span className="text-sm text-gray-500 ml-2">391 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">391 auctions</span>
                 </Link>
                 <Link to="/r/phoenix" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Phoenix, AZ</span>
-                  <span className="text-sm text-gray-500 ml-2">445 active lots</span>
+                  <span className="text-sm text-gray-500 ml-2">445 auctions</span>
                 </Link>
               </div>
             </div>
@@ -521,8 +536,8 @@ const ModernIndex = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Hot Auctions Ending Soon</h2>
-              <p className="text-gray-600">Don't miss out on these incredible deals</p>
+              <h2 className="text-3xl font-bold mb-2">Active Auctions</h2>
+              <p className="text-gray-600">Place your bids before these auctions close</p>
             </div>
             <div className="flex gap-2">
               <Button 
@@ -558,8 +573,8 @@ const ModernIndex = () => {
                     className="lot-card-image"
                   />
                   <div className="absolute top-2 left-2 flex flex-col gap-2">
-                    {lot.hot && <Badge className="badge-hot">🔥 Hot</Badge>}
-                    {lot.urgent && <Badge className="bg-red-500 text-white">Urgent</Badge>}
+                    {lot.hot && <Badge className="bg-red-500 text-white">Ending Soon</Badge>}
+                    {lot.urgent && <Badge className="bg-orange-500 text-white">Final Hour</Badge>}
                   </div>
                   <div className="absolute top-2 right-2">
                     <button className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors">
@@ -578,12 +593,9 @@ const ModernIndex = () => {
                   
                   <div className="flex items-baseline gap-2 mb-3">
                     <span className="lot-card-price">${lot.currentPrice.toLocaleString()}</span>
-                    <span className="text-sm text-gray-500 line-through">
-                      ${lot.retailPrice.toLocaleString()}
+                    <span className="text-sm text-gray-500">
+                      Est. Value: ${lot.retailPrice.toLocaleString()}
                     </span>
-                    <Badge variant="outline" className="text-green-600 border-green-600">
-                      {Math.round((1 - lot.currentPrice / lot.retailPrice) * 100)}% Off
-                    </Badge>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
@@ -608,8 +620,12 @@ const ModernIndex = () => {
                     </span>
                   </div>
                   
-                  <Link to={`/lot/${lot.id}`} className="block w-full">
+                  <div className="text-xs text-gray-500 mb-2">
+                    Auction {lot.auctionNumber}
+                  </div>
+                  <Link to={`/auction/${lot.id}`} className="block w-full">
                     <Button className="w-full btn-modern btn-primary">
+                      <Gavel className="mr-2 h-4 w-4" />
                       Place Bid
                     </Button>
                   </Link>
@@ -628,22 +644,22 @@ const ModernIndex = () => {
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Shield className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Verified Sellers</h3>
-              <p className="text-gray-600">All sellers are verified businesses with proven track records</p>
+              <h3 className="text-xl font-semibold mb-2">Verified Auctioneers</h3>
+              <p className="text-gray-600">All auctions are managed by verified businesses with proven track records</p>
             </div>
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Truck className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Direct Transactions</h3>
-              <p className="text-gray-600">Arrange pickup or delivery directly with sellers</p>
+              <h3 className="text-xl font-semibold mb-2">Secure Bidding</h3>
+              <p className="text-gray-600">Transparent auction process with secure payment handling</p>
             </div>
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Clock className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">24/7 Bidding</h3>
-              <p className="text-gray-600">Bid anytime, anywhere on thousands of surplus items</p>
+              <h3 className="text-xl font-semibold mb-2">24/7 Live Auctions</h3>
+              <p className="text-gray-600">Place bids anytime on active auctions from your phone or computer</p>
             </div>
           </div>
         </div>
@@ -652,19 +668,20 @@ const ModernIndex = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-brand-red to-brand-red-dark text-white">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-4xl font-bold mb-4">Ready to Start Selling?</h2>
+          <h2 className="text-4xl font-bold mb-4">Have Equipment to Auction?</h2>
           <p className="text-xl mb-8 text-red-100">
-            Join hundreds of verified businesses recovering capital from surplus inventory
+            Turn your surplus inventory into cash through our trusted auction platform
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/seller/apply">
               <Button size="lg" className="btn-modern bg-white text-brand-red hover:bg-gray-100">
-                Apply to Sell
+                <Gavel className="mr-2 h-5 w-5" />
+                Start an Auction
               </Button>
             </Link>
-            <Link to="/pricing">
+            <Link to="/help">
               <Button size="lg" className="btn-modern border-2 border-white bg-transparent hover:bg-white hover:text-brand-red">
-                Learn More
+                How Auctions Work
               </Button>
             </Link>
           </div>
