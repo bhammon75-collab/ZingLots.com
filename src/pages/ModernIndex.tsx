@@ -272,9 +272,11 @@ const ModernIndex = () => {
             <div className="relative w-full h-full">
               <img
                 src={slide.image}
-                alt={slide.title}
-                className="h-full w-full object-cover"
+                alt="" // decorative hero → empty alt
+                className="block h-full w-full object-cover"
                 loading="eager"
+                fetchpriority={index === 0 ? "high" : "auto"}
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-[#111]/10 to-[#111]/70" />
             </div>
@@ -285,20 +287,14 @@ const ModernIndex = () => {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 pb-10">
             <div className="max-w-2xl">
               <div className="mb-4">
-                <Badge className="bg-red-600 text-white text-sm px-4 py-2">
-                  {heroSlides[currentSlide].badge}
-                </Badge>
-              </div>
-              <div className="mb-4">
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-[0_2px_6px_rgba(0,0,0,.35)]">
+                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-[0_1px_3px_rgba(0,0,0,.25)] md:drop-shadow-[0_2px_6px_rgba(0,0,0,.35)]">
                   {heroSlides[currentSlide].title}
                 </h1>
-                <div className="flex items-center gap-4 text-lg">
-                  <span className="text-white font-bold bg-brand-red px-3 py-1 rounded">Current Bid: {heroSlides[currentSlide].currentBid}</span>
-                  <span className="text-white">•</span>
-                  <span className="text-white">{heroSlides[currentSlide].totalLots} Lots</span>
-                  <span className="text-white">•</span>
-                  <span className="text-white text-sm">{heroSlides[currentSlide].auctionNumber}</span>
+                <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-white/90">
+                  <span className="rounded-full bg-[#E02020] px-3 py-1 text-sm font-semibold">{heroSlides[currentSlide].badge}</span>
+                  <span className="rounded bg-[#E02020] px-2.5 py-1 text-sm font-semibold">Current Bid: {heroSlides[currentSlide].currentBid}</span>
+                  <span className="text-sm/6 opacity-90">• {heroSlides[currentSlide].totalLots} Lots</span>
+                  <span className="text-sm/6 opacity-70">• {heroSlides[currentSlide].auctionNumber}</span>
                 </div>
               </div>
               <div className="mb-6">
@@ -327,13 +323,15 @@ const ModernIndex = () => {
         </div>
         
         {/* Carousel Controls */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-2" role="tablist" aria-label="Hero slides">
           {heroSlides.map((_, index) => (
             <button
               key={index}
+              role="tab"
+              aria-selected={index === currentSlide}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2.5 w-2.5 rounded-full transition-all ${
-                index === currentSlide ? 'w-8 bg-white' : 'bg-white/50'
+              className={`h-3 w-3 rounded-full transition-all ${
+                index === currentSlide ? 'w-8 bg-white/90' : 'bg-white/50'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -342,34 +340,27 @@ const ModernIndex = () => {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-8">
-              <div className="flex items-center gap-2">
-                <Gavel className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>47</strong> Live Auctions
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>2,847</strong> Active Bidders
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>12</strong> Closing Today
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 text-sm">
-              <Link to="/browse" className="hover:text-brand-red transition-colors">Browse All Auctions</Link>
+      <section className="border-t border-zinc-200/70 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm">
+            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+              <Gavel className="h-4 w-4" />
+              <span><strong>47</strong> Live Auctions</span>
+            </Link>
+            <span className="h-4 w-px bg-zinc-200 hidden sm:block"></span>
+            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+              <Users className="h-4 w-4" />
+              <span><strong>2,847</strong> Active Bidders</span>
+            </Link>
+            <span className="h-4 w-px bg-zinc-200 hidden sm:block"></span>
+            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+              <Clock className="h-4 w-4" />
+              <span><strong>12</strong> Closing Today</span>
+            </Link>
+            <span className="ml-auto hidden lg:flex items-center gap-4">
               <Link to="/help" className="hover:text-brand-red transition-colors">How to Bid</Link>
               <Link to="/seller/apply" className="hover:text-brand-red transition-colors">Consign Items</Link>
-            </div>
+            </span>
           </div>
         </div>
       </section>

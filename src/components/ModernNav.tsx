@@ -212,9 +212,9 @@ const ModernNav = () => {
                 </div>
               </form>
               <div className="flex justify-end mt-2">
-                <Badge className="bg-zinc-100 text-zinc-700 text-xs px-2 py-1">
-                  {categories.reduce((sum, cat) => sum + cat.count, 0)} Active Auctions
-                </Badge>
+                <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700">
+                  {categories.reduce((sum, cat) => sum + cat.count, 0).toLocaleString()} Active Auctions
+                </span>
               </div>
             </div>
 
@@ -310,14 +310,12 @@ const ModernNav = () => {
                       </Link>
                     </Button>
 
-                    <Button 
-                      className="btn-modern btn-primary ml-2"
-                      asChild
+                    <Link 
+                      to="/sell/new"
+                      className="inline-flex items-center gap-2 rounded-2xl bg-[#E02020] px-5 py-3 font-semibold text-white shadow-sm hover:brightness-95 transition-all ml-2"
                     >
-                      <Link to="/sell/new">
-                        Start Auction
-                      </Link>
-                    </Button>
+                      Start Auction
+                    </Link>
                   </>
                 ) : (
                   <>
@@ -337,14 +335,12 @@ const ModernNav = () => {
                         <ShoppingCart className="h-5 w-5" />
                       </Link>
                     </Button>
-                    <Button 
-                      className="btn-modern btn-primary ml-2"
-                      asChild
+                    <Link 
+                      to="/seller/apply"
+                      className="inline-flex items-center gap-2 rounded-2xl bg-[#E02020] px-5 py-3 font-semibold text-white shadow-sm hover:brightness-95 transition-all ml-2"
                     >
-                      <Link to="/seller/apply">
-                        Start Auction
-                      </Link>
-                    </Button>
+                      Start Auction
+                    </Link>
                   </>
                 )}
               </nav>
