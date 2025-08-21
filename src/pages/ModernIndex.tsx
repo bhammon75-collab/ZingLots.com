@@ -308,18 +308,18 @@ const ModernIndex = () => {
               </div>
               
               <div className="flex gap-4">
-                <Link to={`/auction/${currentSlide + 1}`}>
-                  <Button className="btn-modern btn-primary">
-                    <Gavel className="mr-2 h-4 w-4" />
-                    <span className="inline-block min-w-[120px]">
-                      {heroSlides[currentSlide].cta}
-                    </span>
-                  </Button>
+                <Link 
+                  to={`/auction/${currentSlide + 1}`}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-[#E02020] px-5 py-3 font-semibold text-white shadow-sm hover:brightness-95 transition-all"
+                >
+                  <Gavel className="h-4 w-4" />
+                  <span>{heroSlides[currentSlide].cta}</span>
                 </Link>
-                <Link to="/help">
-                  <Button className="btn-modern btn-secondary">
-                    How to Bid
-                  </Button>
+                <Link 
+                  to="/help"
+                  className="inline-flex items-center rounded-2xl border border-zinc-300 px-5 py-3 font-semibold text-zinc-800 bg-white/90 hover:bg-white transition-all"
+                >
+                  How to Bid
                 </Link>
               </div>
             </div>
