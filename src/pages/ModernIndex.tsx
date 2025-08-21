@@ -27,6 +27,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
+import FeaturedAuctionsMarquee from "@/features/auctions/FeaturedAuctionsMarquee";
 
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -517,6 +518,57 @@ const ModernIndex = () => {
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Moving Auctions Marquee */}
+      <section className="bg-white py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <h2 className="mb-4 text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
+          <FeaturedAuctionsMarquee 
+            items={[
+              {
+                id: "a1",
+                title: "Office Furniture Liquidation - Herman Miller Chairs",
+                imageUrl: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=400&h=300&fit=crop",
+                closesAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // 2 hours from now
+                location: "Seattle, WA",
+                href: "/auction/1",
+              },
+              {
+                id: "a2",
+                title: "Commercial Kitchen Equipment Package",
+                imageUrl: "https://images.unsplash.com/photo-1574739782594-db4ead022697?w=400&h=300&fit=crop",
+                closesAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 1 day from now
+                location: "Tacoma, WA",
+                href: "/auction/2",
+              },
+              {
+                id: "a3",
+                title: "Construction Equipment - Excavator & Tools",
+                imageUrl: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop",
+                closesAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+                location: "Portland, OR",
+                href: "/auction/3",
+              },
+              {
+                id: "a4",
+                title: "Premium Cedar Lumber Pallet - 150 pieces",
+                imageUrl: "https://images.unsplash.com/photo-1609205612107-e0ec2120f9de?w=400&h=300&fit=crop",
+                closesAt: new Date(Date.now() + 45 * 60 * 1000).toISOString(), // 45 minutes from now
+                location: "Bellevue, WA",
+                href: "/auction/4",
+              },
+              {
+                id: "a5",
+                title: "Industrial Floor Scrubber Equipment",
+                imageUrl: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop",
+                closesAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
+                location: "Los Angeles, CA",
+                href: "/auction/5",
+              },
+            ]}
+          />
         </div>
       </section>
 
