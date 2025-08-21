@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { getSupabase } from "@/lib/supabaseClient";
 import LiveLotTicker from "@/components/auctions/LiveLotTicker";
+import { supaFetch } from "@/lib/supaFetchVite";
 
 const QA = () => {
   const [lotId, setLotId] = useState("");
@@ -49,6 +50,37 @@ const QA = () => {
     toast({ description: "Lot ended (if you have permission)" });
   };
 
+  const [imgFile, setImgFile] = useState<File | null>(null);
+  const uploadImage = async () => {
+    const sb = getSupabase();
+    if (!sb) return toast({ description: "Supabase not configured" });
+    if (!imgFile) return toast({ description: "Choose a file first" });
+    const { data: sess } = await sb.auth.getSession();
+    const uid = sess?.session?.user?.id;
+    if (!uid) return toast({ description: "Sign in first" });
+    const path = `${uid}/${Date.now()}_${imgFile.name}`;
+    const { error } = await sb.storage.from('lot-images').upload(path, imgFile, { upsert: false, cacheControl: '3600' });
+    if (error) return toast({ description: error.message });
+    toast({ description: `Uploaded to lot-images/${path}` });
+  };
+
+  const sendTestEmail = async () => {
+    try {
+      await supaFetch('email-send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: 'dev@localhost',
+          subject: 'ZingLots Dev Test',
+          text: 'Hello from QA smoke test. If you see this, email is wired.',
+        }),
+      });
+      toast({ description: 'Email sent (check provider logs/inbox)' });
+    } catch (e: any) {
+      toast({ description: e.message || 'Failed to send email' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -71,6 +103,21 @@ const QA = () => {
             <Button onClick={placeSampleBid}>Place Sample Bid ($12.34)</Button>
             <Button variant="outline" onClick={shortenSoftClose}>Shorten Soft-Close (20s)</Button>
             <Button variant="destructive" onClick={endLotNow}>End Lot (demo)</Button>
+          </div>
+        </div>
+
+        <div className="rounded-lg border bg-card p-4 space-y-3">
+          <h2 className="text-lg font-semibold">Phase 0: Smoke Tests</h2>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <div className="space-y-2">
+              <label className="text-sm text-muted-foreground">Upload to lot-images</label>
+              <input type="file" accept="image/*" onChange={(e)=>setImgFile(e.target.files?.[0] || null)} />
+              <Button onClick={uploadImage} disabled={!imgFile}>Upload image</Button>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm text-muted-foreground">Send test email</label>
+              <Button variant="outline" onClick={sendTestEmail}>Send email via provider</Button>
+            </div>
           </div>
         </div>
 

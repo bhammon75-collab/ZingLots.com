@@ -39,7 +39,7 @@ import QRScannerPage from "./pages/QRScannerPage";
 const queryClient = new QueryClient();
 
 // Feature flags
-const LIVE_SHOWS_ENABLED = import.meta.env.VITE_FEATURE_LIVE_SHOWS === 'true';
+const LIVE_SHOWS_ENABLED = (import.meta as any)?.env?.VITE_FEATURE_LIVE_SHOWS === 'true';
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

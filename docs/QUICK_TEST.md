@@ -39,4 +39,4 @@ Notes
 - Public read: shows, lots, bids
 - Profiles are auto-created on first auth user via trigger
 - RLS enforces buyer/seller/admin access; service role is used in functions for administrative writes
-- Storage buckets: lot-photos (public read), evidence (private, signed URLs)
+- Storage buckets: lot-photos (public read), evidence (private, signed URLs), lot-images (public), lot-docs (private)
