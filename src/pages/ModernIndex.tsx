@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/brand/Logo";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -534,16 +535,7 @@ const ModernIndex = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="footer-links">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 128 160" 
-                  className="h-10 w-8"
-                >
-                  <path d="M 0,0 L 88,0 L 56,80 L 128,80 L 40,160 L 72,88 L 0,88 Z" fill="#E53935"/>
-                </svg>
-                <span className="text-2xl font-bold">ZingLots</span>
-              </div>
+              <Logo size="lg" withText onDark className="mb-3" />
               <p className="text-gray-400 mb-4">
                 Seattle's premier B2B surplus marketplace
               </p>

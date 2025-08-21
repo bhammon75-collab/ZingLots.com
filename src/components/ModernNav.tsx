@@ -23,6 +23,7 @@ import {
   Gavel
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import Logo from "@/components/brand/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
 
@@ -122,42 +123,12 @@ const ModernNav = () => {
       </div>
 
       {/* Main Navigation */}
-      <header className="nav-modern">
+      <header className="nav-modern sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-neutral-200 dark:border-neutral-800">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex h-20 items-center justify-between">
             {/* Logo - Consistent and Large */}
-            <Link to="/" className="flex items-center group">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="0 0 340 100" 
-                className="h-14 w-auto"
-                role="img"
-                aria-label="ZingLots Logo"
-              >
-                <title>ZingLots</title>
-                <desc>ZingLots marketplace logo</desc>
-                {/* Exact bolt from user's specification */}
-                <g transform="translate(10, 10) scale(0.35)">
-                  <path 
-                    d="M 80,120 L 168,120 L 136,200 L 208,200 L 120,280 L 152,208 L 80,208 Z" 
-                    fill="#E53935"
-                    className="group-hover:fill-[#C62828] transition-colors"
-                  />
-                </g>
-                <text 
-                  x="75" 
-                  y="60" 
-                  style={{
-                    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-                    fontSize: "36px",
-                    fontWeight: "600",
-                    letterSpacing: "2px",
-                    fill: "#111111"
-                  }}
-                >
-                  ZingLots
-                </text>
-              </svg>
+            <Link to="/" className="flex items-center group" aria-label="Go to home">
+              <Logo size="md" withText onDark={false} />
             </Link>
 
             {/* Search Bar */}
