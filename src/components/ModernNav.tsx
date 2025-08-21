@@ -151,7 +151,7 @@ const ModernNav = () => {
                     fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
                     fontSize: "36px",
                     fontWeight: "600",
-                    letterSpacing: "0.5px",
+                    letterSpacing: "2px",
                     fill: "#111111"
                   }}
                 >
