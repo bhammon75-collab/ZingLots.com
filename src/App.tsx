@@ -33,6 +33,7 @@ import ExplorePage from "./pages/explore";
 import Accessibility from "./pages/Accessibility";
 import Sitemap from "./pages/Sitemap";
 import Security from "./pages/Security";
+import LinkTest from "./pages/LinkTest";
 import "./styles/modern-design.css";
 
 // B2B Marketplace Pages

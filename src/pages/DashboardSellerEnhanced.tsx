@@ -181,7 +181,7 @@ const DashboardSellerEnhanced = () => {
         {sellerVerified && (
           <div className="grid gap-4 md:grid-cols-3 mb-8">
             <Button 
-              onClick={() => navigate('/seller/create-lot')}
+              onClick={() => navigate('/sell/new')}
               className="h-auto py-4 flex flex-col items-center gap-2"
             >
               <Plus className="h-5 w-5" />
@@ -189,7 +189,7 @@ const DashboardSellerEnhanced = () => {
             </Button>
             
             <Button 
-              onClick={() => navigate('/seller/go-live')}
+              onClick={() => navigate('/seller/live')}
               variant="outline"
               className="h-auto py-4 flex flex-col items-center gap-2"
             >
