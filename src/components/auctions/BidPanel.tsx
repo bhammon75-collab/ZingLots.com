@@ -9,6 +9,7 @@ import { getSupabase } from "@/lib/supabaseClient";
 import { nextMinimum } from "@/lib/bidding";
 import { VerifyModal } from "./VerifyModal";
 import { useLotRealtime } from "@/hooks/useLotRealtime";
+import { sendEmail } from "@/lib/notify";
 
 export type BidPanelProps = {
   lot: {
@@ -102,9 +103,22 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     const leading = isLeading;
     if (wasLeadingRef.current && !leading && realtime.highBidderId) {
       toast({ description: "You've been outbid" });
+      // Notify via email (demo)
+      try { sendEmail({ to: 'dev@localhost', type: 'outbid', input: { lotId: lot.id, lotTitle: lot.title } }); } catch {}
     }
     wasLeadingRef.current = leading;
   }, [isLeading, realtime.highBidderId, uid, toast]);
+
+  // Reserve met notify once
+  const prevReserveRef = useRef<boolean>(lot.reserve_met);
+  useEffect(() => {
+    const nowMet = Boolean(realtime.reserveMet || lot.reserve_met);
+    const prevMet = prevReserveRef.current;
+    if (!prevMet && nowMet) {
+      try { sendEmail({ to: 'dev@localhost', type: 'reserve_met', input: { lotId: lot.id, lotTitle: lot.title } }); } catch {}
+    }
+    prevReserveRef.current = nowMet;
+  }, [realtime.reserveMet, lot.reserve_met, lot.id, lot.title]);
 
   const isEnded = useMemo(() => new Date(realtime.endsAt ?? auction.ends_at).getTime() <= Date.now(), [realtime.endsAt, auction.ends_at]);
 
@@ -133,7 +147,7 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
       const offered2 = round2(offerNum);
       const max2 = max !== '' && maxNum != null ? round2(maxNum) : null;
 
-      const { error } = await sb.rpc('app.place_bid', {
+      const { data, error } = await sb.rpc('app.place_bid', {
         lot_id: lot.id,
         offered: offered2,
         max: max2,
@@ -159,6 +173,10 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
       setOffered("");
       setMax("");
       toast({ description: `Bid placed: up to ${formatUSD(max2 ?? offered2)}` });
+      // Fire-and-forget client-side email for demo (server should normally do this)
+      try {
+        await sendEmail({ to: 'dev@localhost', type: 'bid_placed', input: { lotId: lot.id, lotTitle: lot.title } });
+      } catch {}
     } finally {
       setSubmitting(false);
     }
