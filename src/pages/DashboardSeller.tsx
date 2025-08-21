@@ -10,6 +10,9 @@ import CSVImport from "@/components/lots/CSVImport";
 import { Button as UIButton } from "@/components/ui/button";
 import { getSupabase as getSb } from "@/lib/supabaseClient";
 import { toast as showToast } from "@/components/ui/use-toast";
+import AnalyticsDashboard from "@/components/seller/AnalyticsDashboard";
+import BulkLotManager from "@/components/seller/BulkLotManager";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface OrderRow {
   id: string;
