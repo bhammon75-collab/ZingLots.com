@@ -1,19 +1,19 @@
-import { Helmet } from "react-helmet-async";
+﻿import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
-import SignatureGlow from "@/components/SignatureGlow";
 import CategoryPills from "@/components/CategoryPills";
-import LotCard from "@/components/LotCard";
-import heroImage from "@/assets/hero-zinglots.jpg";
 import { Button } from "@/components/ui/button";
-import { DEMO_LOTS, DEMO_SHOWS } from "@/data/demo";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { DEMO_LOTS } from "@/data/demo";
 import { Link, useNavigate } from "react-router-dom";
 import StripeOnboardSmokeTest from "@/components/StripeOnboardSmokeTest";
 import PayPalSmokeTest from "@/components/PayPalSmokeTest";
-import { Input } from "@/components/ui/input";
-import { Search, Building2, UtensilsCrossed, Briefcase, Wrench, Truck, Shield, Clock, MapPin } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+
+import { useState, useMemo } from "react";
+import { SearchBar } from "@/components/ui/search-bar";
+import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hero } from "@/components/Hero";
 
 // Helper for ItemList JSON-LD
@@ -29,10 +29,10 @@ const listJsonLd = (items: {id:string; title:string}[]) => ({
 });
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("seattle");
-  const [term, setTerm] = useState("");
   const navigate = useNavigate();
+  const [term, setTerm] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("seattle");
+
   const showDev = false; // Set to true to show dev components
   
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -147,22 +147,19 @@ const Index = () => {
 
         {/* Search bar section */}
         <section className="mx-auto max-w-screen-2xl px-4 pb-12">
-          <form onSubmit={handleSearchSubmit} className="relative max-w-2xl">
-            <Input
-              type="text"
-              placeholder="Search for collectibles..."
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
-              className="w-full h-14 pl-4 pr-12 text-lg bg-white border border-line rounded-xl"
-            />
-            <Button 
-              type="submit" 
-              size="icon" 
-              className="absolute right-2 top-2 bg-brand-primary hover:bg-brand-dark rounded-lg"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-          </form>
+
+          <SearchBar
+            value={term}
+            onChange={setTerm}
+            onSubmit={(v) => {
+              const q = (v ?? term).trim();
+              if (!q) return;
+              navigate(`/discover?q=${encodeURIComponent(q)}`);
+            }}
+            placeholder="Search for collectibles..."
+            size="lg"
+            className="max-w-2xl"
+          />
         </section>
 
         {/* Categories */}
@@ -195,12 +192,14 @@ const Index = () => {
                   ))}
                 </select>
               </div>
-              <Button size="lg" className="px-8">
+              <Button size="lg" className="px-8" onClick={() => navigate(`/r/${selectedRegion}?q=${encodeURIComponent(term)}`)}>
                 Search
               </Button>
             </div>
           </div>
+
       </section>
+      
 
       {/* Value Props */}
       <section className="py-16 bg-gray-50">
@@ -305,7 +304,7 @@ const Index = () => {
                   </div>
                   <div className="flex items-center text-sm text-gray-500 mb-3">
                     <MapPin className="h-4 w-4 mr-1" />
-                    {lot.location} • {lot.distance}
+                    {lot.location} â€¢ {lot.distance}
                   </div>
                   <Button className="w-full" asChild>
                     <Link to={`/lot/${lot.id}`}>View & Bid</Link>
@@ -336,6 +335,7 @@ const Index = () => {
       </section>
 
       </main>
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -347,29 +347,27 @@ const Index = () => {
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Discover</h4>
-              <div className="space-y-3 text-gray-400">
-                <Link to="/browse" className="block hover:text-white transition-colors">Browse Lots</Link>
-                <Link to="/categories" className="block hover:text-white transition-colors">Categories</Link>
-                <Link to="/regions" className="block hover:text-white transition-colors">Regions</Link>
+              <h4 className="font-semibold mb-4">Marketplace</h4>
+              <div className="space-y-2 text-gray-400">
+                <Link to="/browse" className="block hover:text-white">Browse Lots</Link>
+                <Link to="/discover" className="block hover:text-white">Categories</Link>
+                <Link to="/regions" className="block hover:text-white">Regions</Link>
               </div>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Selling</h4>
-              <div className="space-y-3 text-gray-400">
-                <Link to="/seller/apply" className="block hover:text-white transition-colors">Apply to Sell</Link>
-                <Link to="/seller/dashboard" className="block hover:text-white transition-colors">Seller Dashboard</Link>
-                <Link to="/pricing" className="block hover:text-white transition-colors">Pricing</Link>
-                <Link to="/help/selling" className="block hover:text-white transition-colors">Selling Guide</Link>
+              <div className="space-y-2 text-gray-400">
+                <Link to="/seller/apply" className="block hover:text-white">Apply to Sell</Link>
+                <Link to="/dashboard/seller" className="block hover:text-white">Seller Dashboard</Link>
+                <Link to="/help" className="block hover:text-white">Selling Guide</Link>
               </div>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
-              <div className="space-y-3 text-gray-400">
-                <Link to="/help" className="block hover:text-white transition-colors">Help Center</Link>
-                <Link to="/contact" className="block hover:text-white transition-colors">Contact Us</Link>
-                <Link to="/terms" className="block hover:text-white transition-colors">Terms of Service</Link>
-                <Link to="/privacy" className="block hover:text-white transition-colors">Privacy Policy</Link>
+              <div className="space-y-2 text-gray-400">
+                <Link to="/help" className="block hover:text-white">Help Center</Link>
+                <Link to="/help" className="block hover:text-white">Contact Us</Link>
+                <Link to="/terms" className="block hover:text-white">Terms</Link>
               </div>
             </div>
           </div>
