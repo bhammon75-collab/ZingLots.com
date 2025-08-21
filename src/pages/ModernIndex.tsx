@@ -39,25 +39,25 @@ const ModernIndex = () => {
   // Hero carousel data
   const heroSlides = [
     {
-      title: "Seattle's Largest B2B Surplus Marketplace",
-      subtitle: "Join 10,000+ businesses buying and selling locally",
+      title: "Your Local B2B Surplus Marketplace",
+      subtitle: "Trusted by 10,000+ small businesses for equipment, materials, and inventory",
       image: "https://images.unsplash.com/photo-1565799000-5bb97ef47e8b?w=1920&h=600&fit=crop",
-      cta: "Start Bidding",
+      cta: "Browse Auctions",
       badge: "New Lots Daily"
     },
     {
-      title: "Restaurant Equipment Clearance",
-      subtitle: "Save up to 70% on commercial kitchen equipment",
+      title: "Restaurant Equipment Liquidation",
+      subtitle: "Commercial kitchen equipment at 30-70% below retail",
       image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&h=600&fit=crop",
-      cta: "Browse Restaurant",
-      badge: "Limited Time"
+      cta: "View Equipment",
+      badge: "Weekly Auctions"
     },
     {
-      title: "Construction Materials Auction",
-      subtitle: "Premium lumber, tools, and equipment from verified sellers",
+      title: "Construction & Industrial Surplus",
+      subtitle: "Quality tools, materials, and machinery from verified businesses",
       image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=600&fit=crop",
-      cta: "View Construction",
-      badge: "Ending Soon"
+      cta: "Start Bidding",
+      badge: "Verified Sellers"
     }
   ];
 

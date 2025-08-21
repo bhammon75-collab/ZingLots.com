@@ -183,27 +183,29 @@ const ModernNav = () => {
       </div>
 
       {/* Main Navigation */}
-      <header className="nav-modern sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-neutral-200 dark:border-neutral-800">
+      <header className="nav-modern bg-white border-b-2 border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex h-20 items-center justify-between">
-            {/* Logo - Consistent and Large */}
+          <div className="flex h-28 items-center justify-between">
+            {/* Logo - Larger for B2B */}
             <Link to="/" className="flex items-center group" aria-label="Go to home">
-              <Logo size="md" withText onDark={false} />
+              <Logo size="lg" withText onDark={false} />
             </Link>
 
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="search-modern hidden md:flex flex-1 max-w-2xl mx-8">
-              <input
-                type="text"
-                placeholder="Search for construction materials, restaurant equipment, office furniture..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full"
-              />
-              <button type="submit" className="flex items-center gap-2">
-                <Search className="h-5 w-5" />
-                <span className="hidden lg:inline">Search</span>
-              </button>
+            {/* Search Bar - More Prominent */}
+            <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-3xl mx-8">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search for construction materials, restaurant equipment, office furniture..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-14 px-6 pr-32 text-lg border-2 border-gray-300 rounded-lg focus:border-brand-red focus:outline-none"
+                />
+                <button type="submit" className="absolute right-2 top-2 h-10 px-6 bg-brand-red text-white rounded-md hover:bg-red-700 transition-colors flex items-center gap-2">
+                  <Search className="h-5 w-5" />
+                  <span className="font-medium">Search</span>
+                </button>
+              </div>
             </form>
 
             {/* Right Navigation */}

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   onDark?: boolean;
   withText?: boolean;
   className?: string;
@@ -12,7 +12,8 @@ type LogoProps = {
 const BOLT_PX: Record<NonNullable<LogoProps["size"]>, number> = {
   sm: 18,
   md: 22,
-  lg: 28,
+  lg: 32,
+  xl: 40,
 };
 
 export function Logo({
@@ -29,7 +30,9 @@ export function Logo({
       ? "text-[16px]"
       : size === "md"
       ? "text-[19px]"
-      : "text-[23px]";
+      : size === "lg"
+      ? "text-[28px]"
+      : "text-[34px]";
 
   return (
     <div className={cn("flex items-center gap-2 select-none", className)} aria-label="ZingLots">
