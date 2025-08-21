@@ -7,6 +7,9 @@ import { getSupabase } from "@/lib/supabaseClient";
 import { useToast } from "@/components/ui/use-toast";
 import ShippingTrackingDialog from "@/components/ShippingTrackingDialog";
 import CSVImport from "@/components/lots/CSVImport";
+import { Button as UIButton } from "@/components/ui/button";
+import { getSupabase as getSb } from "@/lib/supabaseClient";
+import { toast as showToast } from "@/components/ui/use-toast";
 
 interface OrderRow {
   id: string;
@@ -393,6 +396,33 @@ const DashboardSeller = () => {
           </div>
         </aside>
       </main>
+      {/* Simple pickup scheduler for sellers (structured message) */}
+      <div className="container mx-auto px-4 pb-10">
+        <div className="rounded-lg border bg-card p-4 mt-2">
+          <h2 className="font-semibold">Pickup Scheduler</h2>
+          <p className="text-sm text-muted-foreground">Send a structured pickup window message to your buyer.</p>
+          <div className="mt-3 flex flex-col sm:flex-row gap-2">
+            <input id="pickupLotId" className="rounded-md border bg-background px-3 py-2" placeholder="Lot ID" />
+            <input id="pickupWindowText" className="rounded-md border bg-background px-3 py-2" placeholder="Pickup window (e.g., Dec 15–17, 9–3)" />
+            <UIButton onClick={async ()=>{
+              const sb = getSb();
+              if (!sb) return;
+              const lotIdInput = document.getElementById('pickupLotId') as HTMLInputElement | null;
+              const windowInput = document.getElementById('pickupWindowText') as HTMLInputElement | null;
+              const lotId = lotIdInput?.value || '';
+              const windowText = windowInput?.value || '';
+              if (!lotId || !windowText) return showToast({ description: 'Enter lot and window' });
+              try {
+                const { error } = await sb.schema('public').from('pickups').upsert({ lot_id: lotId, status: 'pending', pickup_notes: `Pickup window: ${windowText}` }, { onConflict: 'lot_id' });
+                if (error) throw error;
+                showToast({ description: 'Pickup window posted to thread' });
+              } catch (e:any) {
+                showToast({ description: e.message || 'Failed to post pickup window' });
+              }
+            }}>Post Window</UIButton>
+          </div>
+        </div>
+      </div>
       <ShippingTrackingDialog
         open={trackingOpen}
         onOpenChange={setTrackingOpen}

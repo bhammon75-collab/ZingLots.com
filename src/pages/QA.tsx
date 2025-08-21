@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/use-toast";
 import { getSupabase } from "@/lib/supabaseClient";
 import LiveLotTicker from "@/components/auctions/LiveLotTicker";
 import { supaFetch } from "@/lib/supaFetchVite";
+import { sendEmail } from "@/lib/notify";
 
 const QA = () => {
   const [lotId, setLotId] = useState("");
@@ -32,6 +33,7 @@ const QA = () => {
     const { error } = await sb.rpc("place_bid", { p_lot: lotId, p_amount: 12.34 });
     if (error) return toast({ description: error.message });
     toast({ description: `Bid placed for $12.34` });
+    try { await sendEmail({ to: 'dev@localhost', type: 'bid_placed', input: { lotId, lotTitle: 'QA Lot' } }); } catch {}
   };
 
   const shortenSoftClose = async () => {
@@ -48,6 +50,7 @@ const QA = () => {
     const { error } = await sb.rpc("end_lot", { p_lot: lotId });
     if (error) return toast({ description: error.message });
     toast({ description: "Lot ended (if you have permission)" });
+    try { await sendEmail({ to: 'dev@localhost', type: 'win', input: { lotId, lotTitle: 'QA Lot' } }); } catch {}
   };
 
   const [imgFile, setImgFile] = useState<File | null>(null);
@@ -66,14 +69,10 @@ const QA = () => {
 
   const sendTestEmail = async () => {
     try {
-      await supaFetch('email-send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: 'dev@localhost',
-          subject: 'ZingLots Dev Test',
-          text: 'Hello from QA smoke test. If you see this, email is wired.',
-        }),
+      await sendEmail({
+        to: 'dev@localhost',
+        type: 'bid_placed',
+        input: { lotId, lotTitle: 'QA Smoke Lot' },
       });
       toast({ description: 'Email sent (check provider logs/inbox)' });
     } catch (e: any) {
@@ -118,6 +117,11 @@ const QA = () => {
               <label className="text-sm text-muted-foreground">Send test email</label>
               <Button variant="outline" onClick={sendTestEmail}>Send email via provider</Button>
             </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            <Button variant="outline" onClick={async ()=>{ try { await sendEmail({ to: 'dev@localhost', type: 'outbid', input: { lotId, lotTitle: 'QA Lot' } }); toast({ description: 'Outbid email sent' }); } catch(e:any){ toast({ description: e.message || 'Failed' }); } }}>Send outbid</Button>
+            <Button variant="outline" onClick={async ()=>{ try { await sendEmail({ to: 'dev@localhost', type: 'reserve_met', input: { lotId, lotTitle: 'QA Lot' } }); toast({ description: 'Reserve met email sent' }); } catch(e:any){ toast({ description: e.message || 'Failed' }); } }}>Send reserve met</Button>
+            <Button variant="outline" onClick={async ()=>{ try { await sendEmail({ to: 'dev@localhost', type: 'pickup_reminder', input: { lotId, lotTitle: 'QA Lot', pickupWindowText: 'Tomorrow 9–3' } }); toast({ description: 'Pickup reminder sent' }); } catch(e:any){ toast({ description: e.message || 'Failed' }); } }}>Send pickup reminder</Button>
           </div>
         </div>
 
