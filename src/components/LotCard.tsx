@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, Share2, Eye } from "lucide-react";
+import { VerifiedSMEBadge } from "@/components/VerifiedSMEBadge";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useWatchlist } from "@/hooks/useWatchlist";
@@ -18,6 +19,7 @@ export interface LotItem {
   image_url?: string;
   reserve_met?: boolean;
   watchers?: number;
+  seller_verified?: boolean;
 }
 
 const LotCard = ({ item }: { item: LotItem }) => {
@@ -111,6 +113,7 @@ const LotCard = ({ item }: { item: LotItem }) => {
 
       <div className="p-4 space-y-2">
         <h3 className="font-semibold leading-snug line-clamp-2">{item.title}</h3>
+        {item.seller_verified && <VerifiedSMEBadge />}
         <div className="flex items-center justify-between">
           <div className="text-sm text-zinc-600">{priceLabel}</div>
           <div className="flex items-center gap-1 text-xs text-zinc-500">
