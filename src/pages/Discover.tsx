@@ -3,10 +3,11 @@ import ZingNav from "@/components/ZingNav";
 import { DEMO_LOTS } from "@/data/demo";
 import LotCard from "@/components/LotCard";
 import { useMemo, useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { SearchBar } from "@/components/ui/search-bar";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/data/categories";
 import { Link, useSearchParams } from "react-router-dom";
+import { Input } from "@/components/ui/input";
 
 const Discover = () => {
   const [q, setQ] = useState("");
@@ -39,12 +40,10 @@ const Discover = () => {
 
 const [recent, setRecent] = useState<string[]>([]);
 useEffect(() => {
-  try {
-    const qp = searchParams.get("q") || "";
-    setQ(qp);
-  } catch (error) {
-    console.error("Failed to parse search params:", error);
-  }
+  const qp = searchParams.get("q") || "";
+  const cq = searchParams.get("category") || "";
+  setQ(qp);
+  setCategory(cq);
   try {
     const raw = localStorage.getItem("recently_viewed");
     setRecent(raw ? JSON.parse(raw) : []);
@@ -71,13 +70,15 @@ useEffect(() => {
               <p className="mt-2 text-muted-foreground">Trending across categories</p>
             </div>
             <form className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
-              <Input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search collectibles"
-                className="md:w-[280px]"
-                aria-label="Search"
-              />
+              <div className="md:w-[280px]">
+                <SearchBar
+                  value={q}
+                  onChange={(v) => setQ(v)}
+                  onSubmit={(v) => setQ(v)}
+                  placeholder="Search collectibles"
+                  ariaLabel="Search"
+                />
+              </div>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}

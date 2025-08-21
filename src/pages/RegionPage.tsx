@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SearchBar } from "@/components/ui/search-bar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -328,13 +328,16 @@ const RegionPage = () => {
           <div className="lg:col-span-3">
             {/* Search Bar */}
             <div className="flex gap-4 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input
-                  placeholder="Search lots in this region..."
+              <div className="flex-1">
+                <SearchBar
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  onChange={(v) => setSearchQuery(v)}
+                  onSubmit={(v) => {
+                    const params = new URLSearchParams(searchParams);
+                    params.set('q', v);
+                    setSearchParams(params);
+                  }}
+                  placeholder="Search lots in this region..."
                 />
               </div>
             </div>

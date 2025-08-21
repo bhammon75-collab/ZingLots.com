@@ -22,7 +22,7 @@ const CategoryPills = () => (
       const label = ACTIVE_COUNTS[c.name] ? `${c.name} (${ACTIVE_COUNTS[c.name]})` : c.name;
       return (
         <Button key={c.slug} variant="pill" size="sm" asChild>
-          <Link to={`/category/${c.slug}`}>{label}</Link>
+          <Link to={`/discover?category=${encodeURIComponent(c.name)}`}>{label}</Link>
         </Button>
       );
     })}
