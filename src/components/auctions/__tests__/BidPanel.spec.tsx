@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
@@ -60,7 +60,7 @@ describe('BidPanel', () => {
     await flush()
     expect(rpcMock).toHaveBeenCalled()
     const [fnName, payload] = rpcMock.mock.calls[0]
-    expect(fnName).toBe('app.place_bid')
+    expect(fnName).toBe('public.place_bid')
     expect(payload.offered).toBe(50)
   })
 

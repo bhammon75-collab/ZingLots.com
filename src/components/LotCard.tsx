@@ -18,6 +18,10 @@ export interface LotItem {
   image_url?: string;
   reserve_met?: boolean;
   watchers?: number;
+  volume?: number;
+  unit?: string;
+  pickup_only?: boolean;
+  verified_seller?: boolean;
 }
 
 const LotCard = ({ item }: { item: LotItem }) => {
@@ -79,6 +83,9 @@ const LotCard = ({ item }: { item: LotItem }) => {
           <Badge variant={item.reserve_met ? 'default' : 'outline'}>
             {item.reserve_met ? 'Reserve met ✅' : 'Reserve not met'}
           </Badge>
+          {item.pickup_only && (
+            <Badge variant="secondary">Pickup only</Badge>
+          )}
         </div>
         <div className="absolute right-3 bottom-3">
           <CountdownPill endsAt={item.endsIn} />
@@ -117,6 +124,14 @@ const LotCard = ({ item }: { item: LotItem }) => {
             <Eye className="h-4 w-4" />
             <span>{item.watchers ?? 0} watching</span>
           </div>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-zinc-500">
+          {item.volume && item.unit && (
+            <span>{item.volume.toLocaleString()} {item.unit}</span>
+          )}
+          {item.verified_seller && (
+            <Badge variant="outline">Verified</Badge>
+          )}
         </div>
         
         {/* Buy Now button - less prominent */}

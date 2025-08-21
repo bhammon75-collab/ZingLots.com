@@ -28,6 +28,7 @@ import {
   SortDesc
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "../styles/modern-design.css";
 
 const Browse = () => {
@@ -160,6 +161,7 @@ const Browse = () => {
       <Helmet>
         <title>Browse All Lots - ZingLots</title>
         <meta name="description" content="Browse all available surplus lots. Find great deals on restaurant equipment, office furniture, construction materials, and more." />
+        <link rel="canonical" href="/browse" />
       </Helmet>
 
       <ModernNav />

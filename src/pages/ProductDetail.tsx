@@ -95,6 +95,16 @@ const ProductDetail = () => {
         <meta name="description" content={lot ? `Bid on ${lot.title} on ZingLots. Soft-close bidding and Buy Now available.` : 'ZingLots lot'} />
         {id && <link rel="canonical" href={`/product/${id}`} />}
         {lot && (
+          <>
+            <meta property="og:title" content={`${lot.title} | ZingLots`} />
+            <meta property="og:type" content="product" />
+            <meta property="og:url" content={`https://www.zinglots.com/product/${lot.id}`} />
+            <meta property="og:description" content={lot.subtitle || lot.title} />
+            <meta property="og:image" content={(lot.images?.[0]) || (window.location.origin + '/assets/lot-generic.jpg')} />
+            <meta name="twitter:card" content="summary_large_image" />
+          </>
+        )}
+        {lot && (
           <script type="application/ld+json">{JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",

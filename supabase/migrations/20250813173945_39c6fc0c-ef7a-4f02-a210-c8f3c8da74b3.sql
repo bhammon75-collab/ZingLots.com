@@ -47,7 +47,7 @@ alter table app.email_jobs disable row level security;
 
 -- SEARCH RPC
 create or replace function app.search_lots(p jsonb)
-returns table(id uuid, title text, image_url text, ends_at timestamptz, reserve_met boolean, current_price numeric, starting_bid numeric, watchers int)
+returns table(id uuid, title text, image_url text, ends_at timestamptz, reserve_met boolean, current_price numeric, starting_bid numeric, watchers int, volume numeric, unit text, pickup_only boolean, verified_seller boolean)
 language sql security definer set search_path=app, public as $$
   with q as (
     select
@@ -61,9 +61,14 @@ language sql security definer set search_path=app, public as $$
   select
     l.id, l.title, l.image_url, a.ends_at, l.reserve_met,
     l.current_price, l.starting_bid,
-    coalesce((select count(*) from app.lot_watches w where w.lot_id=l.id),0) as watchers
+    coalesce((select count(*) from app.lot_watches w where w.lot_id=l.id),0) as watchers,
+    l.quantity as volume,
+    null::text as unit,
+    l.pickup_only,
+    (exists (select 1 from app.sellers s where s.id = sh.seller_id and s.kyc_status = 'verified')) as verified_seller
   from app.lots l
   join app.auctions a on a.id=l.auction_id
+  join app.shows sh on sh.id = l.show_id
   cross join q
   where (q.search is null or l.title ilike '%'||q.search||'%' or l.description ilike '%'||q.search||'%')
     and (q.min_price is null or coalesce(l.current_price,l.starting_bid) >= q.min_price)

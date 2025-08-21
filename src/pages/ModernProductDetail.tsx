@@ -129,6 +129,13 @@ const ModernProductDetail = () => {
       <Helmet>
         <title>{product.title} - ZingLots</title>
         <meta name="description" content={product.description} />
+        {id && <link rel="canonical" href={`/lot/${id}`} />}
+        <meta property="og:title" content={`${product.title} | ZingLots`} />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={`https://www.zinglots.com/lot/${id}`} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:image" content={product.images?.[0]} />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <ModernNav />
