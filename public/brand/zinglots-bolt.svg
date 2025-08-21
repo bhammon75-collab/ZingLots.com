@@ -1,0 +1,6 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-label="ZingLots Bolt">
+  <style>.bolt{fill:#E02020}</style>
+  <g transform="translate(51.2,25.6) scale(1.4222222) translate(-76,-8)">
+    <path class="bolt" d="M140 8 L76 96 H120 L100 152 L184 64 H140 Z"/>
+  </g>
+</svg>

@@ -24,7 +24,6 @@ import {
   Globe
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import Logo from "@/components/brand/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
 
@@ -187,9 +186,10 @@ const ModernNav = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex h-28 items-center justify-between">
             {/* Logo - Larger for B2B */}
-            <Link to="/" className="flex items-center group" aria-label="Go to home">
-              <Logo size="lg" withText onDark={false} />
-            </Link>
+            <a href="/" className="flex items-center gap-2" aria-label="ZingLots Home">
+              <img src="/brand/zinglots-bolt.svg" className="h-6 md:h-7" alt="" />
+              <img src="/brand/zinglots-wordmark-tight.svg" className="hidden md:block h-7" alt="ZingLots" />
+            </a>
 
             {/* Search Bar - Enhanced Design */}
             <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-3xl mx-8">
