@@ -1,7 +1,7 @@
 // src/features/auctions/FeaturedAuctionsMarquee.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-type AuctionPromo = {
+export type AuctionPromo = {
   id: string;
   title: string;
   imageUrl: string;
@@ -38,13 +38,13 @@ export default function FeaturedAuctionsMarquee({
     if (!track) return;
 
     let x = 0;
-    let lastTs = performance.now();
+    let last = performance.now();
     let raf = 0;
     const cycleWidth = items.length * (cardWidth + gapPx);
 
     const step = (ts: number) => {
-      const dt = (ts - lastTs) / 1000;
-      lastTs = ts;
+      const dt = (ts - last) / 1000;
+      last = ts;
       if (!paused) {
         x -= speedPxPerSec * dt;
         if (-x >= cycleWidth) x += cycleWidth; // wrap at one cycle
@@ -77,8 +77,8 @@ export default function FeaturedAuctionsMarquee({
       onBlurCapture={() => setPaused(false)}
       aria-label="Featured auctions"
     >
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
 
       <div
         ref={trackRef}
@@ -98,11 +98,8 @@ export default function FeaturedAuctionsMarquee({
       </div>
 
       <div className="absolute right-3 top-3 hidden gap-2 md:flex">
-        <button
-          className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-sm font-medium shadow-sm hover:bg-zinc-50"
-          onClick={() => setPaused((v) => !v)}
-          aria-label={paused ? "Play carousel" : "Pause carousel"}
-        >
+        <button className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-sm font-medium shadow-sm"
+                onClick={() => setPaused((v) => !v)}>
           {paused ? "Play" : "Pause"}
         </button>
       </div>
@@ -127,7 +124,7 @@ function AuctionCard({
       aria-hidden={ariaHidden}
       tabIndex={ariaHidden ? -1 : 0}
       href={a.href}
-      className="group relative block shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#E02020]/50 transition-shadow"
+      className="group relative block shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#E02020]/50"
       style={{ width }}
     >
       <div className="relative h-44 w-full overflow-hidden">
