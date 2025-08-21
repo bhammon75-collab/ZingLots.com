@@ -242,7 +242,7 @@ const ModernIndex = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Helmet>
         <title>ZingLots - Seattle's Premier B2B Surplus Marketplace</title>
         <meta name="description" content="Buy and sell business surplus locally. Construction materials, restaurant equipment, office furniture, and more. Verified sellers, secure transactions, local pickup only." />
@@ -362,7 +362,7 @@ const ModernIndex = () => {
       </section>
 
       {/* Categories Grid */}
-      <section className="py-12">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Shop by Category</h2>
@@ -400,7 +400,7 @@ const ModernIndex = () => {
       </section>
 
       {/* Browse by Location */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-3">Browse by Location</h2>
@@ -409,29 +409,29 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* West Coast */}
-            <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
               <h3 className="font-bold text-lg mb-4 flex items-center">
                 <MapPin className="h-5 w-5 text-brand-red mr-2" />
                 West Coast
               </h3>
               <div className="space-y-2">
-                <Link to="/r/seattle" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/seattle" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Seattle, WA</span>
                   <span className="text-sm text-gray-500 ml-2">425 active lots</span>
                 </Link>
-                <Link to="/r/tacoma" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/tacoma" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Tacoma, WA</span>
                   <span className="text-sm text-gray-500 ml-2">187 active lots</span>
                 </Link>
-                <Link to="/r/portland" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/portland" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Portland, OR</span>
                   <span className="text-sm text-gray-500 ml-2">312 active lots</span>
                 </Link>
-                <Link to="/r/los-angeles" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/los-angeles" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Los Angeles, CA</span>
                   <span className="text-sm text-gray-500 ml-2">892 active lots</span>
                 </Link>
-                <Link to="/r/san-francisco" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/san-francisco" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">San Francisco, CA</span>
                   <span className="text-sm text-gray-500 ml-2">567 active lots</span>
                 </Link>
@@ -439,29 +439,29 @@ const ModernIndex = () => {
             </div>
 
             {/* Midwest & East */}
-            <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
               <h3 className="font-bold text-lg mb-4 flex items-center">
                 <MapPin className="h-5 w-5 text-brand-red mr-2" />
                 Midwest & East
               </h3>
               <div className="space-y-2">
-                <Link to="/r/chicago" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/chicago" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Chicago, IL</span>
                   <span className="text-sm text-gray-500 ml-2">654 active lots</span>
                 </Link>
-                <Link to="/r/detroit" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/detroit" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Detroit, MI</span>
                   <span className="text-sm text-gray-500 ml-2">298 active lots</span>
                 </Link>
-                <Link to="/r/new-york" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/new-york" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">New York, NY</span>
                   <span className="text-sm text-gray-500 ml-2">1,245 active lots</span>
                 </Link>
-                <Link to="/r/boston" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/boston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Boston, MA</span>
                   <span className="text-sm text-gray-500 ml-2">432 active lots</span>
                 </Link>
-                <Link to="/r/philadelphia" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/philadelphia" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Philadelphia, PA</span>
                   <span className="text-sm text-gray-500 ml-2">378 active lots</span>
                 </Link>
@@ -469,29 +469,29 @@ const ModernIndex = () => {
             </div>
 
             {/* South */}
-            <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
               <h3 className="font-bold text-lg mb-4 flex items-center">
                 <MapPin className="h-5 w-5 text-brand-red mr-2" />
                 South
               </h3>
               <div className="space-y-2">
-                <Link to="/r/houston" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/houston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Houston, TX</span>
                   <span className="text-sm text-gray-500 ml-2">723 active lots</span>
                 </Link>
-                <Link to="/r/dallas" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/dallas" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Dallas, TX</span>
                   <span className="text-sm text-gray-500 ml-2">589 active lots</span>
                 </Link>
-                <Link to="/r/atlanta" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/atlanta" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Atlanta, GA</span>
                   <span className="text-sm text-gray-500 ml-2">467 active lots</span>
                 </Link>
-                <Link to="/r/miami" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/miami" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Miami, FL</span>
                   <span className="text-sm text-gray-500 ml-2">391 active lots</span>
                 </Link>
-                <Link to="/r/phoenix" className="block py-2 px-3 rounded hover:bg-gray-50 transition-colors">
+                <Link to="/r/phoenix" className="block py-2 px-3 rounded hover:bg-white transition-colors">
                   <span className="font-medium">Phoenix, AZ</span>
                   <span className="text-sm text-gray-500 ml-2">445 active lots</span>
                 </Link>
@@ -509,7 +509,7 @@ const ModernIndex = () => {
       </section>
 
       {/* Featured Lots */}
-      <section className="py-12 bg-gray-100">
+      <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <div>
