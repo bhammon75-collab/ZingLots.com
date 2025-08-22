@@ -1,13 +1,11 @@
-import Logo from "@/components/brand/Logo";
-import { Link, NavLink } from "react-router-dom";
+import Brand from "../Brand";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
     <header className="relative bg-white">
       <div className="mx-auto max-w-screen-2xl h-16 px-4 flex items-center justify-between">
-        <Link to="/" aria-label="Go to home" className="inline-flex">
-          <Logo size="md" withText onDark={false} />
-        </Link>
+        <Brand variant="header" className="shrink-0" />
 
         <nav className="hidden md:flex items-center gap-6 text-[15px]">
           <NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>

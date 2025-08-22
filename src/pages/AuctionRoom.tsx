@@ -77,10 +77,10 @@ export default function AuctionRoom() {
       <Helmet>
         <title>Live Auction Room | ZingLots</title>
         <meta name="description" content="Join the live auction: real-time bids, countdown timer, and participant activity." />
-        <link rel="canonical" href={`/auction/${lotId}`} />
+        <link rel="canonical" href={`/live/${lotId}`} />
         <meta property="og:title" content={`Live Auction ${lotId} | ZingLots`} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://www.zinglots.com/auction/${lotId}`} />
+        <meta property="og:url" content={`https://www.zinglots.com/live/${lotId}`} />
         <meta property="og:description" content="Live auction room with realtime bidding." />
       </Helmet>
       <ZingNav />

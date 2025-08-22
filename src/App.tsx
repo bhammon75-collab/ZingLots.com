@@ -107,8 +107,20 @@ const App = () => (
                   <Route path="/admin/review-sellers" element={<ReviewSellers />} />
                   <Route path="/qa" element={<QA />} />
                   <Route path="/login" element={<Login />} />
-                  <Route path="/auction/:lotId" element={<AuctionRoom />} />
-                  <Route path="/auction/:id" element={<RouteErrorBoundary><AuctionPage /></RouteErrorBoundary>} />
+                  
+                  {/* Fixed routes - auction detail and live room separated */}
+                  <Route
+                    path="/auction/:id"
+                    element={
+                      <RouteErrorBoundary>
+                        <AuctionPage />
+                      </RouteErrorBoundary>
+                    }
+                  />
+                  
+                  {/* Renamed live room path so it doesn't grab /auction/:id */}
+                  <Route path="/live/:lotId" element={<AuctionRoom />} />
+                  
                   <Route path="/auction/active" element={<DashboardBuyer />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/pricing" element={<PricingPage />} />

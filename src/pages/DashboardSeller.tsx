@@ -267,7 +267,7 @@ const DashboardSeller = () => {
       if (error) throw error;
       if (data && typeof data === 'string') {
         toast({ title: 'Lot started', description: 'Redirecting to auction room…' });
-        navigate(`/auction/${data}`);
+        navigate(`/live/${data}`);
       }
     } catch (error: unknown) {
       const errorWithMessage = toErrorWithMessage(error);

@@ -1,9 +1,10 @@
 import { useState } from "react";
+
 export default function ImageWithFallback(
-  { src, alt="", fallback="/placeholder-hero.jpg", onError, ...rest }:
+  { src, alt = "", fallback = "/placeholder.jpg", onError, ...rest }:
   React.ImgHTMLAttributes<HTMLImageElement> & { fallback?: string }
-){
-  const [err,setErr] = useState(false);
+) {
+  const [err, setErr] = useState(false);
   const final = !err && src ? src : fallback;
   return <img src={final} alt={alt} onError={(e)=>{ setErr(true); onError?.(e); }} {...rest} />;
 }
