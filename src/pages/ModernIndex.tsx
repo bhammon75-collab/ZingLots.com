@@ -27,8 +27,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
-import HeroCarousel from "@/features/hero/HeroCarousel";
-import type { HeroSlideProps } from "@/features/hero/HeroSlide";
+import HeroRotator, { HeroSlide } from "@/components/HeroRotator";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 
 const ModernIndex = () => {
@@ -80,52 +79,33 @@ const ModernIndex = () => {
   ];
 
   // Hero carousel data - Featured Active Auctions
-  const heroSlides: HeroSlideProps[] = [
+  const heroSlides: HeroSlide[] = [
     {
+      id: "a2024-1840",
+      href: "/auction/a2024-1840",
       title: "Construction Equipment Auction",
-      subtitle: "Heavy machinery and power tools from contractor liquidation",
-      timeLabel: "Ending Tomorrow",
-      currentBid: "$34,200",
-      lotsLabel: "28 Lots",
-      auctionId: "#A2024-1840",
-      image: { 
-        src: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=840&fit=crop",
-        width: 1920,
-        height: 840,
-        objectPosition: "60% 40%"
-      },
-      primaryHref: "/auction/a2024-1840",
-      onHowToBid: () => window.location.href = "/help"
+      sub: "Heavy machinery and power tools from contractor liquidation",
+      badge: "Ending Tomorrow",
+      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=840&fit=crop",
+      imageMobile: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=640&h=480&fit=crop"
     },
     {
+      id: "a2024-1841",
+      href: "/auction/a2024-1841",
       title: "Office Furniture Liquidation Auction",
-      subtitle: "Herman Miller chairs, standing desks, conference tables – Tech startup closure",
-      timeLabel: "3 Days Left",
-      currentBid: "$8,900",
-      lotsLabel: "62 Lots",
-      auctionId: "#A2024-1841",
-      image: {
-        src: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=840&fit=crop",
-        width: 1920,
-        height: 840
-      },
-      primaryHref: "/auction/a2024-1841",
-      onHowToBid: () => window.location.href = "/help"
+      sub: "Herman Miller chairs, standing desks, conference tables – Tech startup closure",
+      badge: "3 Days Left",
+      image: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=840&fit=crop",
+      imageMobile: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=640&h=480&fit=crop"
     },
     {
+      id: "a2024-1839-rest",
+      href: "/auction/a2024-1839",
       title: "Restaurant Equipment Auction – Closing Today",
-      subtitle: "Complete kitchen liquidation from Seattle steakhouse – 45 lots available",
-      timeLabel: "Ends in 2h 15m",
-      currentBid: "$12,400",
-      lotsLabel: "45 Lots",
-      auctionId: "#A2024-1839",
-      image: {
-        src: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=840&fit=crop",
-        width: 1920,
-        height: 840
-      },
-      primaryHref: "/auction/a2024-1839",
-      onHowToBid: () => window.location.href = "/help"
+      sub: "Complete kitchen liquidation from Seattle steakhouse – 45 lots available",
+      badge: "Ends in 2h 15m",
+      image: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=840&fit=crop",
+      imageMobile: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=640&h=480&fit=crop"
     }
   ];
 
@@ -312,10 +292,10 @@ const ModernIndex = () => {
       <ModernNav />
 
       {/* LCP preload for first hero image */}
-      <link rel="preload" as="image" href={heroSlides[0].image.src} />
+      <link rel="preload" as="image" href={heroSlides[0].image} />
       
       {/* Hero Carousel */}
-      <HeroCarousel slides={heroSlides} />
+      <HeroRotator slides={heroSlides} className="mb-6" />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">

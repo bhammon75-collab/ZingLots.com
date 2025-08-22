@@ -43,7 +43,7 @@ const Regions = () => {
               className="block rounded-xl border p-5 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition h-full"
             >
               <div className="text-lg font-semibold">{region.name}</div>
-              <div className="opacity-70 text-sm mt-1">Browse local auctions →</div>
+              <div className="text-neutral-700 text-sm mt-1">Browse local auctions →</div>
             </Link>
           ))}
         </div>

@@ -46,6 +46,7 @@ const Regions = lazy(() => import("./pages/Regions"));
 const Alerts = lazy(() => import("./pages/Alerts"));
 const CreateLotPage = lazy(() => import("./pages/CreateLotPage"));
 const QRScannerPage = lazy(() => import("./pages/QRScannerPage"));
+const AuctionPage = lazy(() => import("./pages/AuctionPage"));
 
 import AppShell from "@/components/layout/AppShell";
 import { RouteErrorBoundary } from "./components/RouteErrorBoundary";
@@ -70,6 +71,9 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <a href="#main" className="sr-only focus:not-sr-only fixed left-4 top-4 z-50 bg-white px-3 py-2 rounded shadow">
+              Skip to content
+            </a>
             <AppShell>
               <Suspense fallback={<PageLoader />}>
                 <Routes>
@@ -104,6 +108,7 @@ const App = () => (
                   <Route path="/qa" element={<QA />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/auction/:lotId" element={<AuctionRoom />} />
+                  <Route path="/auction/:id" element={<RouteErrorBoundary><AuctionPage /></RouteErrorBoundary>} />
                   <Route path="/auction/active" element={<DashboardBuyer />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/pricing" element={<PricingPage />} />
