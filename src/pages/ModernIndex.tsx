@@ -291,6 +291,13 @@ const ModernIndex = () => {
 
       <ModernNav />
 
+      {/* Top Headline */}
+      <div className="bg-white border-b border-zinc-200/70">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900">B2B auctions, small business focused</h1>
+        </div>
+      </div>
+
       {/* LCP preload for first hero image */}
       <link rel="preload" as="image" href={heroSlides[0].image} />
       
@@ -639,11 +646,8 @@ const ModernIndex = () => {
       <footer className="footer-modern">
         <div className="max-w-7xl mx-auto px-4">
           <div className="footer-links">
-            <div className="lg:col-span-1">
-              <Logo size="lg" withText={true} onDark={true} className="mb-4" />
-              <p className="text-gray-400 mb-4 text-sm">
-                Seattle's premier B2B surplus marketplace
-              </p>
+            <div className="lg:col-span-1 flex flex-col items-center">
+              <Logo size="xl" withText={false} variant="monogram" onDark={true} className="mb-4" />
               <div className="flex gap-3">
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors text-gray-400 hover:text-white">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
