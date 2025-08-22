@@ -17,7 +17,7 @@ export class RouteErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.error) {
       return (
-        <main style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
+        <main id="main" style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
           <h1>Something went wrong</h1>
           <p style={{ opacity: 0.7 }}>
             The page failed to load. Try again or pick another region.

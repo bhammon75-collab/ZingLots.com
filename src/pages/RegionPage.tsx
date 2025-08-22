@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const KNOWN_REGIONS = [
   "seattle","tacoma","portland","los-angeles","san-francisco",
@@ -18,13 +19,19 @@ export default function RegionPage() {
   const known = useMemo(() => KNOWN_REGIONS.includes(slug), [slug]);
   if (!known) {
     return (
-      <main style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
-        <h1>Region not found</h1>
-        <p>
-          We don’t have a page for “{slug}” yet. Pick another region from{" "}
-          <Link to="/regions">All Regions</Link>.
-        </p>
-      </main>
+      <>
+        <Helmet>
+          <title>{`Region not found — ZingLots`}</title>
+          <meta name="robots" content="noindex,follow" />
+        </Helmet>
+        <main id="main" style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
+          <h1>Region not found</h1>
+          <p>
+            We don’t have a page for “{slug}” yet. Pick another region from{" "}
+            <Link to="/regions">All Regions</Link>.
+          </p>
+        </main>
+      </>
     );
   }
 
@@ -46,26 +53,39 @@ export default function RegionPage() {
     return () => { on = false; };
   }, [slug]);
 
+  const title = `${titleize(slug)} — Auctions`;
+
   return (
-    <main style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
-      <h1>{titleize(slug)}</h1>
+    <>
+      <Helmet>
+        <title>{`${title} — ZingLots`}</title>
+        <meta name="robots" content="index,follow" />
+      </Helmet>
 
-      {state.loading && <p style={{ opacity: 0.7 }}>Loading region…</p>}
+      <main id="main" style={{ maxWidth: 960, margin: "0 auto", padding: 24 }}>
+        <nav aria-label="Breadcrumb" className="mb-3 text-sm opacity-70">
+          <Link to="/">Home</Link> &nbsp;›&nbsp; <Link to="/regions">Regions</Link> &nbsp;›&nbsp; {titleize(slug)}
+        </nav>
 
-      {state.error && (
-        <p style={{ color: "crimson" }}>
-          Couldn’t load listings for this region. Please try again later.
-        </p>
-      )}
+        <h1>{titleize(slug)}</h1>
 
-      {!state.loading && !state.error && state.items.length === 0 && (
-        <p style={{ opacity: 0.7 }}>
-          No active auctions in this region yet. Check back soon or explore{" "}
-          <Link to="/regions">other regions</Link>.
-        </p>
-      )}
+        {state.loading && <p style={{ opacity: 0.7 }}>Loading region…</p>}
 
-      {/* TODO: render items here */}
-    </main>
+        {state.error && (
+          <p style={{ color: "crimson" }}>
+            Couldn’t load listings for this region. Please try again later.
+          </p>
+        )}
+
+        {!state.loading && !state.error && state.items.length === 0 && (
+          <p style={{ opacity: 0.7 }}>
+            No active auctions in this region yet. Check back soon or explore{" "}
+            <Link to="/regions">other regions</Link>.
+          </p>
+        )}
+
+        {/* TODO: render items here when wired up */}
+      </main>
+    </>
   );
 }
