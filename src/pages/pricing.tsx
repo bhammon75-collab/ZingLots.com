@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Helmet } from 'react-helmet-async'
-import ZingNav from '@/components/ZingNav'
 
 function calcZingLots(price: number, buyerPaysShipping: boolean, shipping: number) {
   // Publish fee table: buyer premium 10%, seller fee 10% (example), $0.25 fixed
@@ -25,9 +24,13 @@ export default function PricingPage() {
   const [shipping, setShipping] = React.useState(0)
   const [buyerPaysShipping, setBps] = React.useState(true)
 
-  const zl = calcZingLots(price, buyerPaysShipping, shipping)
-  const eb = calcEbayTypical(price, buyerPaysShipping, shipping)
-  const save = Math.max(0, eb - zl)
+  const zingLotsFee = calcZingLots(price, buyerPaysShipping, shipping)
+  const ebayTypical = calcEbayTypical(price, buyerPaysShipping, shipping)
+  const diff = (ebayTypical ?? 0) - (zingLotsFee ?? 0)
+  const msg = diff >= 0
+    ? `You save ≈ $${diff.toFixed(2)} per order`
+    : `You pay ≈ $${Math.abs(diff).toFixed(2)} more per order`
+  const msgClass = diff >= 0 ? 'text-green-600' : 'text-red-600'
 
   return (
     <>
@@ -35,7 +38,6 @@ export default function PricingPage() {
         <title>Pricing - ZingLots</title>
         <meta name="description" content="Simple, transparent marketplace fees designed for auctions. Compare our rates with eBay and see how much you can save." />
       </Helmet>
-      <ZingNav />
       <div className="container mx-auto px-4 py-10">
         <h1 className="text-3xl font-semibold mb-2">Pricing</h1>
         <p className="text-muted-foreground mb-6">
@@ -60,11 +62,11 @@ export default function PricingPage() {
           </div>
           <div className="border rounded-lg p-4">
             <div className="text-sm">ZingLots fee</div>
-            <div className="text-2xl font-semibold">${zl.toFixed(2)}</div>
+            <div className="text-2xl font-semibold">${zingLotsFee.toFixed(2)}</div>
             <div className="text-sm mt-3">eBay typical</div>
-            <div className="text-2xl font-semibold">${eb.toFixed(2)}</div>
-            <div className="text-sm mt-3 text-green-600">
-              You save ≈ <strong>${save.toFixed(2)}</strong> per order
+            <div className="text-2xl font-semibold">${ebayTypical.toFixed(2)}</div>
+            <div className={`text-sm mt-3 ${msgClass}`}>
+              {msg}
             </div>
           </div>
         </div>

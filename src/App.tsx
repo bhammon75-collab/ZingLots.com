@@ -43,6 +43,7 @@ import Alerts from "./pages/Alerts";
 import CreateLotPage from "./pages/CreateLotPage";
 import QRScannerPage from "./pages/QRScannerPage";
 import AppShell from "@/components/layout/AppShell";
+import { RouteErrorBoundary } from "./components/RouteErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -63,7 +64,7 @@ const App = () => (
                 <Route path="/classic" element={<Index />} />
                 
                 {/* B2B Marketplace Routes */}
-                <Route path="/r/:regionSlug" element={<RegionPage />} />
+                <Route path="/r/:region" element={<RouteErrorBoundary><RegionPage /></RouteErrorBoundary>} />
                 <Route path="/sell/new" element={<CreateLotPage />} />
                 <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
                 <Route path="/lot/:id" element={<ModernProductDetail />} />

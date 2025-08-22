@@ -36,13 +36,14 @@ const Regions = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {regions.map((region) => (
-            <Link key={region.slug} to={`/r/${region.slug}`} aria-label={`View ${region.name}`}>
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-4">
-                  <div className="font-medium text-gray-900">{region.name}</div>
-                  <div className="text-sm text-gray-500 mt-1">View marketplace →</div>
-                </CardContent>
-              </Card>
+            <Link
+              key={region.slug}
+              to={`/r/${region.slug}`}
+              aria-label={`View ${region.name}`}
+              className="block rounded-xl border p-4 hover:shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <div className="font-medium text-gray-900">{region.name}</div>
+              <div className="text-sm text-gray-500 mt-1">View marketplace →</div>
             </Link>
           ))}
         </div>
