@@ -18,7 +18,7 @@ export function PayNowButton({ orderId, subtotal, feesBps = 1200 }: { orderId: s
       if (error) throw error;
       const url = (data as any)?.url;
       if (!url) throw new Error("No checkout URL");
-      window.location.href = url; // redirect
+      window.location.assign(url);
     } catch (e: any) {
       toast({ description: e.message || 'Checkout error' });
       setLoading(false);

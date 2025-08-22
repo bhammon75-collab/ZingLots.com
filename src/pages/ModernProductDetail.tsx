@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -138,22 +137,21 @@ const ModernProductDetail = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
-      <ModernNav />
-
-      {/* Breadcrumb */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <nav className="flex items-center gap-2 text-sm">
-            <Link to="/" className="text-gray-500 hover:text-brand-red">Home</Link>
-            <span className="text-gray-400">/</span>
-            <Link to={`/category/${product.category.toLowerCase()}`} className="text-gray-500 hover:text-brand-red">
-              {product.category}
-            </Link>
-            <span className="text-gray-400">/</span>
-            <span className="text-gray-900 font-medium">{product.subcategory}</span>
-          </nav>
+      
+        {/* Breadcrumb */}
+        <div className="bg-white border-b">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <nav className="flex items-center gap-2 text-sm">
+              <Link to="/" className="text-gray-500 hover:text-brand-red">Home</Link>
+              <span className="text-gray-400">/</span>
+              <Link to={`/category/${product.category.toLowerCase()}`} className="text-gray-500 hover:text-brand-red">
+                {product.category}
+              </Link>
+              <span className="text-gray-400">/</span>
+              <span className="text-gray-900 font-medium">{product.subcategory}</span>
+            </nav>
+          </div>
         </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

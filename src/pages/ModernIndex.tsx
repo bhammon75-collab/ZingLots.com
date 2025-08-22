@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/brand/Logo";
 import { Badge } from "@/components/ui/badge";
@@ -255,8 +254,6 @@ const ModernIndex = () => {
         <title>ZingLots - Seattle's Premier B2B Surplus Marketplace</title>
         <meta name="description" content="Buy and sell business surplus locally. Construction materials, restaurant equipment, office furniture, and more. Verified sellers, secure transactions, local pickup only." />
       </Helmet>
-
-      <ModernNav />
 
       {/* Hero Section with Carousel */}
       <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-gray-200 to-gray-100">

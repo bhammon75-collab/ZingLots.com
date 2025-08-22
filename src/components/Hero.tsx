@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Hero() {
   return (
     <section className="mx-auto max-w-screen-2xl px-4 py-12 md:py-16">
@@ -9,15 +11,15 @@ export function Hero() {
         Built for power sellers & savvy buyers.
       </p>
       <div className="mt-8 flex flex-wrap gap-3">
-        <a href="/browse" className="rounded-full bg-brand-primary px-5 py-3 text-white font-medium hover:bg-brand-dark transition">
+        <Link to="/browse" className="rounded-full bg-brand-primary px-5 py-3 text-white font-medium hover:bg-brand-dark transition">
           Browse auctions
-        </a>
-        <a href="/discover" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
+        </Link>
+        <Link to="/discover" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
           Ending soon
-        </a>
-        <a href="/seller/apply" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
+        </Link>
+        <Link to="/seller/apply" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
           Sell now
-        </a>
+        </Link>
       </div>
     </section>
   );

@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -115,8 +114,6 @@ const Security = () => {
         <title>Security - ZingLots</title>
         <meta name="description" content="Learn about ZingLots' comprehensive security measures and data protection policies." />
       </Helmet>
-      
-      <ModernNav />
       
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}

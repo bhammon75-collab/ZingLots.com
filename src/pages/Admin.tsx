@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AdminNpbPanel from "@/components/admin/NPBPanel";
+import { Link } from "react-router-dom";
 
 interface PayoutRow { id: string; order_id: string; seller_id: string; amount: number; status: string; }
 
@@ -138,7 +139,7 @@ const Admin = () => {
             <div className="rounded-lg border bg-card p-6">
               <h2 className="font-semibold">Review Sellers (KYB)</h2>
               <p className="text-sm text-muted-foreground mb-3">Approve or reject seller applications.</p>
-              <a className="underline text-sm" href="/admin/review-sellers">Open review panel →</a>
+              <Link className="underline text-sm" to="/admin/review-sellers">Open review panel →</Link>
             </div>
           </TabsContent>
           <TabsContent value="disputes">

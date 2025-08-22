@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Eye, 
@@ -81,8 +80,6 @@ const Accessibility = () => {
         <title>Accessibility - ZingLots</title>
         <meta name="description" content="Learn about ZingLots' commitment to digital accessibility and inclusive design." />
       </Helmet>
-      
-      <ModernNav />
       
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}

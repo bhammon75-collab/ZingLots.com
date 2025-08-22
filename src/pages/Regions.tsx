@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -29,23 +28,22 @@ const Regions = () => {
         <meta name="description" content="Browse all supported ZingLots regions and find surplus near you." />
       </Helmet>
 
-      <ModernNav />
-
       <div className="max-w-7xl mx-auto px-4 py-8">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">All Regions</h1>
           <p className="text-gray-600 mt-2">Select a region to view local surplus.</p>
         </header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {regions.map((region) => (
-            <Link key={region.slug} to={`/r/${region.slug}`} aria-label={`View ${region.name}`}>
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-4">
-                  <div className="font-medium text-gray-900">{region.name}</div>
-                  <div className="text-sm text-gray-500 mt-1">View marketplace →</div>
-                </CardContent>
-              </Card>
+            <Link
+              key={region.slug}
+              to={`/r/${region.slug}`}
+              aria-label={`View ${region.name}`}
+              className="block rounded-xl border p-5 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition h-full"
+            >
+              <div className="text-lg font-semibold">{region.name}</div>
+              <div className="opacity-70 text-sm mt-1">Browse local auctions →</div>
             </Link>
           ))}
         </div>

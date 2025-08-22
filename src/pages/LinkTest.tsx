@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle } from 'lucide-react';
-import ModernNav from '@/components/ModernNav';
 
 const LinkTest = () => {
   const linkGroups = {
@@ -74,7 +73,6 @@ const LinkTest = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <ModernNav />
       
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Link Verification Test Page</h1>

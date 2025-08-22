@@ -1,5 +1,5 @@
 import Logo from "@/components/brand/Logo";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -10,12 +10,12 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-[15px]">
-          <a href="/discover" className="hover:opacity-80">Discover</a>
-          <a href="/pricing" className="hover:opacity-80">Pricing</a>
-          <a href="/help" className="hover:opacity-80">Help & Contact</a>
-          <a href="/seller/apply" className="ml-2 rounded-full bg-brand-primary px-4 py-2 text-white hover:bg-brand-dark transition">
+          <NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>
+          <NavLink to="/pricing" className="hover:opacity-80">Pricing</NavLink>
+          <NavLink to="/help" className="hover:opacity-80">Help & Contact</NavLink>
+          <NavLink to="/seller/apply" className="ml-2 rounded-full bg-brand-primary px-4 py-2 text-white hover:bg-brand-dark transition">
             Start Selling
-          </a>
+          </NavLink>
         </nav>
       </div>
     </header>

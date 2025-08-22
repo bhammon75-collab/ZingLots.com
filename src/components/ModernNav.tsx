@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -45,6 +45,7 @@ const ModernNav = () => {
   const [showCategories, setShowCategories] = useState(false);
   const [showLocations, setShowLocations] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -89,7 +90,7 @@ const ModernNav = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/discover?q=${encodeURIComponent(searchQuery)}`;
+      navigate(`/discover?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
