@@ -10,7 +10,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <Header />
-      <main id="main" className="pt-16 min-h-screen bg-background">{children}</main>
+      <main id="main" className="min-h-screen bg-background">{children}</main>
     </>
   );
 }

@@ -74,7 +74,7 @@ useEffect(() => {
         <link rel="canonical" href="/discover" />
       </Helmet>
       <ZingNav />
-      <main className="pt-16">
+      <main>
         <div className="container mx-auto px-4 py-10">
           <header className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>

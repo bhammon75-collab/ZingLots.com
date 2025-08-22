@@ -144,7 +144,7 @@ const Index = () => {
         <PayPalSmokeTest />
       </>)}
 
-      <main className="pt-16">
+      <main>
         {/* Hero section with premium polish */}
         <Hero />
 

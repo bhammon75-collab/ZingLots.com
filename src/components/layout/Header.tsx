@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-neutral-200 dark:border-neutral-800">
+    <header className="relative bg-white">
       <div className="mx-auto max-w-screen-2xl h-16 px-4 flex items-center justify-between">
         <Link to="/" aria-label="Go to home" className="inline-flex">
           <Logo size="md" withText onDark={false} />
