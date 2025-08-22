@@ -3,6 +3,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App.tsx'
 import './index.css'
 import './styles/design-tokens.css'
+import './styles/typography.css'
 
 createRoot(document.getElementById("root")!).render(
   <HelmetProvider>

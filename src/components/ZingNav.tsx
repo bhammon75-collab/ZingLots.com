@@ -81,7 +81,7 @@ const ZingNav = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-neutral-200 dark:border-neutral-800">
+    <header className="relative bg-white">
       {impersonating && (
         <div className="bg-amber-100 text-amber-900 text-xs px-4 py-1 text-center">
           Admin impersonating user {impersonating.slice(0,8)}… (read-only)

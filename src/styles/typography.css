@@ -1,0 +1,9 @@
+:root{
+  --ink-900:#0f172a; /* slate-900 */
+  --ink-800:#1f2937; /* gray-800  */
+  --ink-700:#334155; /* slate-700 */
+  --ink-600:#475569; /* slate-600 */
+}
+body{ color:var(--ink-800); }
+.text-muted{ color:var(--ink-600); }
+.text-subtle{ color:var(--ink-700); }
