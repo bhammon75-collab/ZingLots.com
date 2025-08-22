@@ -63,7 +63,7 @@ export function Logo({
               textAnchor="middle"
               dominantBaseline="middle">Z</text>
         {/* Word kept close to the circle */}
-        <text className="type tight" x="126" y="105">ing lots</text>
+        <text className="type tight" x="126" y="105">ingLots</text>
       </svg>
     );
   }
