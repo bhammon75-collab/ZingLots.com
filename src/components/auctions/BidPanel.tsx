@@ -104,7 +104,10 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     if (wasLeadingRef.current && !leading && realtime.highBidderId) {
       toast({ description: "You've been outbid" });
       // Notify via email (demo)
-      try { sendEmail({ to: 'dev@localhost', type: 'outbid', input: { lotId: lot.id, lotTitle: lot.title } }); } catch {}
+      try { sendEmail({ to: 'dev@localhost', type: 'outbid', input: { lotId: lot.id, lotTitle: lot.title } }); } catch (err) {
+        // Email notification error - non-critical
+        console.error('Failed to send outbid email:', err);
+      }
     }
     wasLeadingRef.current = leading;
   }, [isLeading, realtime.highBidderId, uid, toast]);
@@ -115,7 +118,10 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
     const nowMet = Boolean(realtime.reserveMet || lot.reserve_met);
     const prevMet = prevReserveRef.current;
     if (!prevMet && nowMet) {
-      try { sendEmail({ to: 'dev@localhost', type: 'reserve_met', input: { lotId: lot.id, lotTitle: lot.title } }); } catch {}
+      try { sendEmail({ to: 'dev@localhost', type: 'reserve_met', input: { lotId: lot.id, lotTitle: lot.title } }); } catch (err) {
+        // Email notification error - non-critical
+        console.error('Failed to send reserve met email:', err);
+      }
     }
     prevReserveRef.current = nowMet;
   }, [realtime.reserveMet, lot.reserve_met, lot.id, lot.title]);
@@ -178,7 +184,10 @@ export default function BidPanel({ lot, auction, userTier, isSeller, isAdmin }: 
       // Fire-and-forget client-side email for demo (server should normally do this)
       try {
         await sendEmail({ to: 'dev@localhost', type: 'bid_placed', input: { lotId: lot.id, lotTitle: lot.title } });
-      } catch {}
+      } catch (err) {
+        // Email notification error - non-critical
+        console.error('Failed to send bid placed email:', err);
+      }
     } finally {
       setSubmitting(false);
     }
