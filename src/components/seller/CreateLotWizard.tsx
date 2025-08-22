@@ -657,9 +657,9 @@ const CreateLotWizard = () => {
                 <AlertDescription>
                   <strong>Fee Structure:</strong>
                   <ul className="mt-2 ml-4 text-sm list-disc">
-                    <li>Seller fee: 8% of final sale price (minimum $10)</li>
-                    <li>Buyer premium: {formData.buyer_premium_percent || '10'}% added to winning bid</li>
-                    <li>No listing fees for verified SME sellers</li>
+                    <li>Seller fee: 0% during promotional period</li>
+                    <li>Buyer's Premium: {formData.buyer_premium_percent || '9'}% added to winning bid (min $2/lot)</li>
+                    <li>No listing fees - list for free!</li>
                   </ul>
                 </AlertDescription>
               </Alert>

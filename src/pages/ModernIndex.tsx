@@ -323,6 +323,24 @@ const ModernIndex = () => {
         </div>
       </section>
 
+      {/* Pricing Notice Bar */}
+      <section className="bg-green-50 border-y border-green-200">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <div className="flex items-center justify-center gap-2 text-sm text-green-800">
+            <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>
+              <strong>Promo Pricing:</strong> Buyer's Premium 9% (min $2) • Card processing 3% • 
+              <strong className="text-green-600"> Sellers list FREE (0% fees)</strong>
+            </span>
+            <Link to="/pricing" className="text-green-600 hover:text-green-700 underline ml-1">
+              Learn more
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Categories Grid */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">

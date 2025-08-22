@@ -51,7 +51,7 @@ const QRScannerPage = () => {
       location: "Georgetown Industrial District",
       needsForklift: true,
       escrowAmount: 3200,
-      sellerPayout: 2912 // After 9% marketplace fee
+      sellerPayout: 3200 // No seller fee during promo period
     });
   }, [lotId]);
 

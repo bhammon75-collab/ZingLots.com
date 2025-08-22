@@ -3,6 +3,7 @@ import ZingNav from "@/components/ZingNav";
 import { useEffect, useState } from "react";
 import { getSupabase } from "@/lib/supabaseClient";
 import { PayNowButton } from "@/components/PayNowButton";
+import { OrderSummary } from "@/components/orders/OrderSummary";
 
 interface OrderRow {
   id: string;
@@ -13,6 +14,8 @@ interface OrderRow {
   shipping_tracking: string | null;
   shipping_carrier: string | null;
   label_url: string | null;
+  buyer_premium_pct?: number | null;
+  card_fee_pct?: number | null;
 }
 
 const Invoice = () => {
@@ -27,7 +30,7 @@ const Invoice = () => {
       const { data } = await sb
         .schema('app')
         .from('orders')
-        .select('id, status, subtotal, fees_bps, shipping_cents, shipping_tracking, shipping_carrier, label_url')
+        .select('id, status, subtotal, fees_bps, shipping_cents, shipping_tracking, shipping_carrier, label_url, buyer_premium_pct, card_fee_pct')
         .eq('buyer_id', u.user.id)
         .order('created_at', { ascending: false });
       setOrders((data as any) || []);
@@ -49,55 +52,77 @@ const Invoice = () => {
         <h1 className="text-3xl font-bold">Invoices</h1>
         <p className="mt-2 text-muted-foreground">Your open and paid invoices will appear here.</p>
 
-        <section className="mt-6 rounded-lg border bg-card p-6">
-          <h2 className="font-semibold mb-3">Unpaid Invoices</h2>
-          {invoices.length === 0 ? (
-            <div className="text-sm text-muted-foreground">No unpaid invoices.</div>
-          ) : (
-            <div className="space-y-3">
-              {invoices.map(o => (
-                <div key={o.id} className="flex items-center justify-between rounded-md border px-3 py-2">
-                  <div className="text-sm">
-                    <div className="font-medium">Order {o.id.slice(0,8)}…</div>
-                    <div className="text-muted-foreground">Subtotal ${Number(o.subtotal).toFixed(2)}</div>
+        {invoices.length > 0 && (
+          <section className="mt-10">
+            <h2 className="text-2xl font-semibold mb-4">Open Invoices</h2>
+            <div className="grid gap-4">
+              {invoices.map(o => {
+                const subtotal = o.subtotal / 100;
+                const shipping = o.shipping_cents / 100;
+                
+                return (
+                  <div key={o.id} className="bg-card border rounded-lg p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold">Invoice #{o.id.slice(-8)}</h3>
+                        <OrderSummary 
+                          itemPrice={subtotal}
+                          shipping={shipping}
+                          bpOverridePct={o.buyer_premium_pct}
+                          cardOverridePct={o.card_fee_pct}
+                        />
+                      </div>
+                      <PayNowButton orderId={o.id} />
+                    </div>
                   </div>
-                  <PayNowButton orderId={o.id} subtotal={Number(o.subtotal)} feesBps={o.fees_bps} />
-                </div>
-              ))}
+                );
+              })}
             </div>
-          )}
-        </section>
+          </section>
+        )}
 
-        <section className="mt-6 rounded-lg border bg-card p-6">
-          <h2 className="font-semibold mb-3">Paid / Awaiting Shipment</h2>
-          <div className="space-y-3">
-            {paid.filter(o => !o.shipping_tracking).map(o => (
-              <div key={o.id} className="rounded-md border px-3 py-2 text-sm">
-                <div className="font-medium">Order {o.id.slice(0,8)}…</div>
-                <div className="text-muted-foreground">Paid ${Number(o.subtotal).toFixed(2)}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+        {paid.length > 0 && (
+          <section className="mt-10">
+            <h2 className="text-2xl font-semibold mb-4">Paid Orders</h2>
+            <div className="grid gap-4">
+              {paid.map(o => {
+                const subtotal = o.subtotal / 100;
+                const shipping = o.shipping_cents / 100;
+                
+                return (
+                  <div key={o.id} className="bg-card border rounded-lg p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold">Order #{o.id.slice(-8)}</h3>
+                        <div className="text-sm text-muted-foreground mb-3">Status: {o.status}</div>
+                        <OrderSummary 
+                          itemPrice={subtotal}
+                          shipping={shipping}
+                          bpOverridePct={o.buyer_premium_pct}
+                          cardOverridePct={o.card_fee_pct}
+                        />
+                        {o.shipping_tracking && (
+                          <div className="mt-4 p-3 bg-muted rounded">
+                            <div className="text-sm font-medium">Tracking Information</div>
+                            <div className="text-sm">
+                              {o.shipping_carrier}: {o.shipping_tracking}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
-        <section className="mt-6 rounded-lg border bg-card p-6">
-          <h2 className="font-semibold mb-3">Shipped / Tracking</h2>
-          <div className="space-y-3">
-            {paid.filter(o => !!o.shipping_tracking).length === 0 ? (
-              <div className="text-sm text-muted-foreground">No shipments yet.</div>
-            ) : (
-              paid.filter(o => !!o.shipping_tracking).map(o => (
-                <div key={o.id} className="rounded-md border px-3 py-2 text-sm">
-                  <div className="font-medium">Order {o.id.slice(0,8)}…</div>
-                  <div className="text-muted-foreground">Carrier {o.shipping_carrier} · Tracking {o.shipping_tracking}</div>
-                  {o.label_url && (
-                    <a href={o.label_url} target="_blank" rel="noreferrer" className="underline">View Label</a>
-                  )}
-                </div>
-              ))
-            )}
+        {invoices.length === 0 && paid.length === 0 && (
+          <div className="mt-10 text-center text-muted-foreground">
+            No invoices yet. Win an auction to see your first invoice here.
           </div>
-        </section>
+        )}
       </main>
     </div>
   );
