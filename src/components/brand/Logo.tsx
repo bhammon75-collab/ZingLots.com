@@ -53,7 +53,7 @@ export function Logo({
           {`.red{fill:#DC2626}
             .type{fill:${onDark ? '#FFFFFF' : '#000000'};font:800 72px/1.1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}
             .tight{letter-spacing:-0.5px}
-            .z{fill:${onDark ? '#FFFFFF' : '#000000'};font:800 86px/1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}`}
+            .z{fill:#FFFFFF;font:800 86px/1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}`}
         </style>
         {/* Red circle */}
         <circle className="red" cx="76" cy="80" r="44"/>
