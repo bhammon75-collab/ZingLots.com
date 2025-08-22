@@ -1,51 +1,182 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
+import { MapPin, TrendingUp, Users, Package } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const regions = [
-  { slug: "seattle", name: "Seattle, WA" },
-  { slug: "tacoma", name: "Tacoma, WA" },
-  { slug: "portland", name: "Portland, OR" },
-  { slug: "los-angeles", name: "Los Angeles, CA" },
-  { slug: "san-francisco", name: "San Francisco, CA" },
-  { slug: "chicago", name: "Chicago, IL" },
-  { slug: "detroit", name: "Detroit, MI" },
-  { slug: "new-york", name: "New York, NY" },
-  { slug: "boston", name: "Boston, MA" },
-  { slug: "philadelphia", name: "Philadelphia, PA" },
-  { slug: "houston", name: "Houston, TX" },
-  { slug: "dallas", name: "Dallas, TX" },
-  { slug: "atlanta", name: "Atlanta, GA" },
-  { slug: "miami", name: "Miami, FL" },
-  { slug: "phoenix", name: "Phoenix, AZ" },
+  { slug: "seattle", name: "Seattle, WA", active: 42, trending: true },
+  { slug: "tacoma", name: "Tacoma, WA", active: 18, trending: false },
+  { slug: "portland", name: "Portland, OR", active: 35, trending: true },
+  { slug: "los-angeles", name: "Los Angeles, CA", active: 67, trending: true },
+  { slug: "san-francisco", name: "San Francisco, CA", active: 54, trending: true },
+  { slug: "chicago", name: "Chicago, IL", active: 48, trending: false },
+  { slug: "detroit", name: "Detroit, MI", active: 22, trending: false },
+  { slug: "new-york", name: "New York, NY", active: 89, trending: true },
+  { slug: "boston", name: "Boston, MA", active: 31, trending: false },
+  { slug: "philadelphia", name: "Philadelphia, PA", active: 27, trending: false },
+  { slug: "houston", name: "Houston, TX", active: 45, trending: true },
+  { slug: "dallas", name: "Dallas, TX", active: 38, trending: false },
+  { slug: "atlanta", name: "Atlanta, GA", active: 33, trending: true },
+  { slug: "miami", name: "Miami, FL", active: 29, trending: false },
+  { slug: "phoenix", name: "Phoenix, AZ", active: 26, trending: false },
 ];
 
+const featuredRegions = ["new-york", "los-angeles", "chicago", "houston"];
+
 const Regions = () => {
+  const totalActive = regions.reduce((sum, r) => sum + r.active, 0);
+  const featured = regions.filter(r => featuredRegions.includes(r.slug));
+  const other = regions.filter(r => !featuredRegions.includes(r.slug));
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Helmet>
-        <title>All Regions | ZingLots</title>
-        <meta name="description" content="Browse all supported ZingLots regions and find surplus near you." />
+        <title>All Regions - Business Surplus Auctions | ZingLots</title>
+        <meta name="description" content="Find business surplus auctions in your area. Browse all ZingLots regions across the United States." />
       </Helmet>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">All Regions</h1>
-          <p className="text-gray-600 mt-2">Select a region to view local surplus.</p>
-        </header>
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Find Surplus Auctions Near You
+            </h1>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Browse business equipment, restaurant supplies, office furniture, and more in {regions.length} major markets across the United States
+            </p>
+            
+            {/* Stats */}
+            <div className="flex justify-center gap-8 md:gap-12">
+              <div>
+                <div className="text-3xl font-bold">{totalActive}</div>
+                <div className="text-sm text-blue-200">Active Auctions</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold">{regions.length}</div>
+                <div className="text-sm text-blue-200">Cities</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold">10K+</div>
+                <div className="text-sm text-blue-200">Businesses</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {regions.map((region) => (
-            <Link
-              key={region.slug}
-              to={`/r/${region.slug}`}
-              aria-label={`View ${region.name}`}
-              className="block rounded-xl border p-5 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition h-full"
-            >
-              <div className="text-lg font-semibold">{region.name}</div>
-              <div className="text-neutral-700 text-sm mt-1">Browse local auctions →</div>
-            </Link>
-          ))}
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        {/* Featured Regions */}
+        <div className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <TrendingUp className="w-5 h-5 text-orange-500" />
+            <h2 className="text-2xl font-bold text-gray-900">Featured Markets</h2>
+            <Badge variant="secondary">Most Active</Badge>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {featured.map((region) => (
+              <Link
+                key={region.slug}
+                to={`/r/${region.slug}`}
+                className="group relative bg-white rounded-xl border-2 border-gray-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all"
+              >
+                <div className="absolute top-3 right-3">
+                  {region.trending && (
+                    <Badge variant="destructive" className="bg-orange-500">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      Hot
+                    </Badge>
+                  )}
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
+                    <MapPin className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
+                      {region.name}
+                    </h3>
+                    <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
+                      <span className="flex items-center gap-1">
+                        <Package className="w-3.5 h-3.5" />
+                        {region.active} active
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Users className="w-3.5 h-3.5" />
+                        {Math.floor(region.active * 2.5)} sellers
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">Avg. lot value</span>
+                    <span className="font-semibold text-gray-900">
+                      ${(2000 + Math.floor(Math.random() * 3000)).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* All Regions */}
+        <div>
+          <div className="flex items-center gap-2 mb-6">
+            <MapPin className="w-5 h-5 text-gray-500" />
+            <h2 className="text-2xl font-bold text-gray-900">All Markets</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {other.map((region) => (
+              <Link
+                key={region.slug}
+                to={`/r/${region.slug}`}
+                className="group bg-white rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:shadow-md transition-all"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    {region.name}
+                  </h3>
+                  {region.trending && (
+                    <TrendingUp className="w-4 h-4 text-orange-500" />
+                  )}
+                </div>
+                
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <span>{region.active} auctions</span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-blue-600 group-hover:underline">
+                    View all →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 md:p-12 text-white text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            Don't See Your City?
+          </h2>
+          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+            We're expanding to new markets every month. Join our waitlist to be notified when ZingLots launches in your area.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="px-4 py-3 rounded-lg text-gray-900 min-w-[250px]"
+            />
+            <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors">
+              Join Waitlist
+            </button>
+          </div>
         </div>
       </div>
     </div>
