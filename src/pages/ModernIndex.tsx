@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/brand/Logo";
 import { Badge } from "@/components/ui/badge";
@@ -26,46 +27,105 @@ import {
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
+import HeroCarousel from "@/features/hero/HeroCarousel";
+import type { HeroSlideProps } from "@/features/hero/HeroSlide";
+import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [timeLeft, setTimeLeft] = useState({});
 
-  // Hero carousel data - Featured Active Auctions
-  const heroSlides = [
+  // Featured auctions for marquee
+  const featuredAuctions: AuctionPromo[] = [
     {
-      id: "auction-1",
-      title: "Restaurant Equipment Auction - Closing Today",
-      subtitle: "Complete kitchen liquidation from Seattle steakhouse - 45 lots available",
-      image: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=600&fit=crop", // Commercial kitchen with stainless steel equipment
-      cta: "View Auction",
-      badge: "Ending in 2h 15m",
-      currentBid: "$12,400",
-      totalLots: 45,
-      auctionNumber: "#A2024-1839"
+      id: "a1",
+      title: "Office Furniture Liquidation - Herman Miller Chairs",
+      imageUrl: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+      location: "Seattle, WA",
+      href: "/auction/a1",
     },
     {
-      id: "auction-2",
+      id: "a2",
+      title: "Commercial Kitchen Equipment Package",
+      imageUrl: "https://images.unsplash.com/photo-1574739782594-db4ead022697?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      location: "Tacoma, WA",
+      href: "/auction/a2",
+    },
+    {
+      id: "a3",
+      title: "Construction Equipment - Excavator & Tools",
+      imageUrl: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+      location: "Portland, OR",
+      href: "/auction/a3",
+    },
+    {
+      id: "a4",
+      title: "Premium Cedar Lumber Pallet - 150 pieces",
+      imageUrl: "https://images.unsplash.com/photo-1609205612107-e0ec2120f9de?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 45 * 60 * 1000).toISOString(),
+      location: "Bellevue, WA",
+      href: "/auction/a4",
+    },
+    {
+      id: "a5",
+      title: "Industrial Floor Scrubber Equipment",
+      imageUrl: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=300&fit=crop",
+      closesAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+      location: "Los Angeles, CA",
+      href: "/auction/a5",
+    },
+  ];
+
+  // Hero carousel data - Featured Active Auctions
+  const heroSlides: HeroSlideProps[] = [
+    {
       title: "Construction Equipment Auction",
       subtitle: "Heavy machinery and power tools from contractor liquidation",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=600&fit=crop", // Excavator and construction equipment
-      cta: "Place Bid",
-      badge: "Ending Tomorrow",
+      timeLabel: "Ending Tomorrow",
       currentBid: "$34,200",
-      totalLots: 28,
-      auctionNumber: "#A2024-1840"
+      lotsLabel: "28 Lots",
+      auctionId: "#A2024-1840",
+      image: { 
+        src: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=840&fit=crop",
+        width: 1920,
+        height: 840,
+        objectPosition: "60% 40%"
+      },
+      primaryHref: "/auction/a2024-1840",
+      onHowToBid: () => window.location.href = "/help"
     },
     {
-      id: "auction-3",
       title: "Office Furniture Liquidation Auction",
-      subtitle: "Herman Miller chairs, standing desks, conference tables - Tech startup closure",
-      image: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=600&fit=crop", // Modern office with Herman Miller chairs
-      cta: "Join Auction",
-      badge: "3 Days Left",
+      subtitle: "Herman Miller chairs, standing desks, conference tables – Tech startup closure",
+      timeLabel: "3 Days Left",
       currentBid: "$8,900",
-      totalLots: 62,
-      auctionNumber: "#A2024-1841"
+      lotsLabel: "62 Lots",
+      auctionId: "#A2024-1841",
+      image: {
+        src: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=840&fit=crop",
+        width: 1920,
+        height: 840
+      },
+      primaryHref: "/auction/a2024-1841",
+      onHowToBid: () => window.location.href = "/help"
+    },
+    {
+      title: "Restaurant Equipment Auction – Closing Today",
+      subtitle: "Complete kitchen liquidation from Seattle steakhouse – 45 lots available",
+      timeLabel: "Ends in 2h 15m",
+      currentBid: "$12,400",
+      lotsLabel: "45 Lots",
+      auctionId: "#A2024-1839",
+      image: {
+        src: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=840&fit=crop",
+        width: 1920,
+        height: 840
+      },
+      primaryHref: "/auction/a2024-1839",
+      onHowToBid: () => window.location.href = "/help"
     }
   ];
 
@@ -238,13 +298,7 @@ const ModernIndex = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Auto-rotate hero carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+
 
 
 
@@ -255,115 +309,36 @@ const ModernIndex = () => {
         <meta name="description" content="Buy and sell business surplus locally. Construction materials, restaurant equipment, office furniture, and more. Verified sellers, secure transactions, local pickup only." />
       </Helmet>
 
-      {/* Hero Section with Carousel */}
-      <section className="relative h-[500px] overflow-hidden bg-gradient-to-br from-gray-200 to-gray-100">
-        {heroSlides.map((slide, index) => (
-          <Link
-            key={index}
-            to={`/auction/${index + 1}`}
-            className={`absolute inset-0 transition-opacity duration-1000 cursor-pointer ${
-              index === currentSlide ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-            }`}
-          >
-            <div className="relative w-full h-full">
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-            </div>
-          </Link>
-        ))}
-        
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 w-full">
-            <div className="max-w-2xl">
-              <div className="h-8 mb-4">
-                <Badge className="bg-red-600 text-white text-sm px-4 py-2">
-                  {heroSlides[currentSlide].badge}
-                </Badge>
-              </div>
-              <div className="h-32">
-                <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg">
-                  {heroSlides[currentSlide].title}
-                </h1>
-                <div className="flex items-center gap-4 text-lg">
-                  <span className="text-white font-bold bg-brand-red px-3 py-1 rounded">Current Bid: {heroSlides[currentSlide].currentBid}</span>
-                  <span className="text-white">•</span>
-                  <span className="text-white">{heroSlides[currentSlide].totalLots} Lots</span>
-                  <span className="text-white">•</span>
-                  <span className="text-white text-sm">{heroSlides[currentSlide].auctionNumber}</span>
-                </div>
-              </div>
-              <div className="h-16 mb-8">
-                <p className="text-xl text-white drop-shadow-md">
-                  {heroSlides[currentSlide].subtitle}
-                </p>
-              </div>
-              
-              <div className="flex gap-4">
-                <Link to={`/auction/${currentSlide + 1}`}>
-                  <Button className="btn-modern btn-primary">
-                    <Gavel className="mr-2 h-4 w-4" />
-                    <span className="inline-block min-w-[120px]">
-                      {heroSlides[currentSlide].cta}
-                    </span>
-                  </Button>
-                </Link>
-                <Link to="/help">
-                  <Button className="btn-modern btn-secondary">
-                    How to Bid
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Carousel Controls */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentSlide ? 'w-8 bg-white' : 'bg-white/50'
-              }`}
-            />
-          ))}
-        </div>
-      </section>
+      <ModernNav />
+
+      {/* LCP preload for first hero image */}
+      <link rel="preload" as="image" href={heroSlides[0].image.src} />
+      
+      {/* Hero Carousel */}
+      <HeroCarousel slides={heroSlides} />
 
       {/* Stats Bar */}
-      <section className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-8">
-              <div className="flex items-center gap-2">
-                <Gavel className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>47</strong> Live Auctions
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>2,847</strong> Active Bidders
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-gray-500" />
-                <span className="text-sm">
-                  <strong>12</strong> Closing Today
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-6 text-sm">
-              <Link to="/browse" className="hover:text-brand-red transition-colors">Browse All Auctions</Link>
+      <section className="border-t border-zinc-200/70 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm">
+            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+              <Gavel className="h-4 w-4" />
+              <span><strong>47</strong> Live Auctions</span>
+            </Link>
+            <span className="h-4 w-px bg-zinc-200 hidden sm:block"></span>
+            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+              <Users className="h-4 w-4" />
+              <span><strong>2,847</strong> Active Bidders</span>
+            </Link>
+            <span className="h-4 w-px bg-zinc-200 hidden sm:block"></span>
+            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+              <Clock className="h-4 w-4" />
+              <span><strong>12</strong> Closing Today</span>
+            </Link>
+            <span className="ml-auto hidden lg:flex items-center gap-4">
               <Link to="/help" className="hover:text-brand-red transition-colors">How to Bid</Link>
               <Link to="/seller/apply" className="hover:text-brand-red transition-colors">Consign Items</Link>
-            </div>
+            </span>
           </div>
         </div>
       </section>
@@ -512,6 +487,14 @@ const ModernIndex = () => {
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Moving Auctions Marquee */}
+      <section className="bg-white py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <h2 className="mb-4 text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
+          <FeaturedAuctionsMarquee items={featuredAuctions} />
         </div>
       </section>
 
