@@ -61,7 +61,7 @@ export default function HeroSlide({
 
         {/* Chips — only TIME is red (urgency). Bid chip stays neutral. */}
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-white/90">
-          <span className="rounded-full bg-[#E02020] px-3 py-1 text-sm font-semibold">
+          <span className="rounded-full bg-[#DC2626] px-3 py-1 text-sm font-semibold">
             {timeLabel}
           </span>
           <span className="rounded bg-white/15 backdrop-blur px-2.5 py-1 text-sm font-semibold">
@@ -81,7 +81,7 @@ export default function HeroSlide({
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <a
             href={primaryHref}
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#E02020] px-5 py-3 font-semibold text-white shadow-sm hover:brightness-95"
+            className="inline-flex items-center gap-2 rounded-2xl bg-[#DC2626] px-5 py-3 font-semibold text-white shadow-sm hover:brightness-95"
           >
             View Auction
           </a>
