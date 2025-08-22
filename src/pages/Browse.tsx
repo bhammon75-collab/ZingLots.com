@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -163,8 +162,6 @@ const Browse = () => {
         <meta name="description" content="Browse all available surplus lots. Find great deals on restaurant equipment, office furniture, construction materials, and more." />
         <link rel="canonical" href="/browse" />
       </Helmet>
-
-      <ModernNav />
 
       {/* Breadcrumb */}
       <div className="bg-white border-b">

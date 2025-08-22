@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import ZingNav from "@/components/ZingNav";
 import { DEMO_SHOWS } from "@/data/demo";
+import { Link } from "react-router-dom";
 
 const Shows = () => {
   return (
@@ -10,7 +10,6 @@ const Shows = () => {
         <meta name="description" content="Upcoming and past ZingLots live toy shows. Follow sellers and set reminders." />
         <link rel="canonical" href="/shows" />
       </Helmet>
-      <ZingNav />
       <main className="container mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold">Live Shows</h1>
         <p className="mt-2 text-muted-foreground">Catch the next drop and bid live.</p>
@@ -20,7 +19,7 @@ const Shows = () => {
               <h2 className="text-xl font-semibold">{s.title}</h2>
               <p className="text-sm text-muted-foreground">{s.when} · {s.lots} lots</p>
               <div className="mt-3 flex gap-3">
-                <a href={`/shows`} className="text-sm text-primary underline-offset-4 hover:underline">View show</a>
+                <Link to={`/shows`} className="text-sm text-primary underline-offset-4 hover:underline">View show</Link>
                 <button className="text-sm text-muted-foreground hover:text-foreground">Follow</button>
               </div>
             </article>

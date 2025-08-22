@@ -42,6 +42,7 @@ import Regions from "./pages/Regions";
 import Alerts from "./pages/Alerts";
 import CreateLotPage from "./pages/CreateLotPage";
 import QRScannerPage from "./pages/QRScannerPage";
+import AppShell from "@/components/layout/AppShell";
 
 const queryClient = new QueryClient();
 
@@ -56,61 +57,63 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<ModernIndex />} />
-              <Route path="/classic" element={<Index />} />
-              
-              {/* B2B Marketplace Routes */}
-              <Route path="/r/:regionSlug" element={<RegionPage />} />
-              <Route path="/sell/new" element={<CreateLotPage />} />
-              <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
-              <Route path="/lot/:id" element={<ModernProductDetail />} />
-              <Route path="/classic-lot/:id" element={<ProductDetail />} />
-              <Route path="/browse" element={<Browse />} />
-              <Route path="/region-page" element={<RegionPage />} />
-              <Route path="/regions" element={<Regions />} />
-              <Route path="/alerts" element={<Alerts />} />
-              
-              {/* Legacy Routes (transitioning) */}
-              <Route path="/shows" element={<Shows />} />
-              <Route path="/discover" element={<Discover />} />
-              <Route path="/explore" element={<ExplorePage />} />
-              <Route path="/category/:slug" element={<Category />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/seller/:id" element={<SellerProfile />} />
-              <Route path="/seller/apply" element={<SellerApply />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<Invoice />} />
-              <Route path="/dashboard/buyer" element={<DashboardBuyer />} />
-              <Route path="/dashboard/seller" element={<DashboardSeller />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/review-sellers" element={<ReviewSellers />} />
-              <Route path="/qa" element={<QA />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/auction/:lotId" element={<AuctionRoom />} />
-              <Route path="/auction/active" element={<DashboardBuyer />} />
-              <Route path="/help" element={<Help />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              {/* Legal and Support Pages */}
-              <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
-              <Route path="/privacy" element={<div className="p-6">Privacy Policy coming soon.</div>} />
-              <Route path="/contact" element={<Help />} />
-              <Route path="/help/selling" element={<Help />} />
-              <Route path="/accessibility" element={<Accessibility />} />
-              <Route path="/sitemap" element={<Sitemap />} />
-              <Route path="/security" element={<Security />} />
-              
-              {/* Feature-flagged LiveKit routes */}
-              {LIVE_SHOWS_ENABLED && (
-                <>
-                  <Route path="/live" element={<Live />} />
-                  <Route path="/seller/live" element={<GoLive />} />
-                </>
-              )}
-              
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AppShell>
+              <Routes>
+                <Route path="/" element={<ModernIndex />} />
+                <Route path="/classic" element={<Index />} />
+                
+                {/* B2B Marketplace Routes */}
+                <Route path="/r/:regionSlug" element={<RegionPage />} />
+                <Route path="/sell/new" element={<CreateLotPage />} />
+                <Route path="/pickup/:lotId/scan" element={<QRScannerPage />} />
+                <Route path="/lot/:id" element={<ModernProductDetail />} />
+                <Route path="/classic-lot/:id" element={<ProductDetail />} />
+                <Route path="/browse" element={<Browse />} />
+                <Route path="/region-page" element={<RegionPage />} />
+                <Route path="/regions" element={<Regions />} />
+                <Route path="/alerts" element={<Alerts />} />
+                
+                {/* Legacy Routes (transitioning) */}
+                <Route path="/shows" element={<Shows />} />
+                <Route path="/discover" element={<Discover />} />
+                <Route path="/explore" element={<ExplorePage />} />
+                <Route path="/category/:slug" element={<Category />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/seller/:id" element={<SellerProfile />} />
+                <Route path="/seller/apply" element={<SellerApply />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Invoice />} />
+                <Route path="/dashboard/buyer" element={<DashboardBuyer />} />
+                <Route path="/dashboard/seller" element={<DashboardSeller />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/review-sellers" element={<ReviewSellers />} />
+                <Route path="/qa" element={<QA />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/auction/:lotId" element={<AuctionRoom />} />
+                <Route path="/auction/active" element={<DashboardBuyer />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                {/* Legal and Support Pages */}
+                <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
+                <Route path="/privacy" element={<div className="p-6">Privacy Policy coming soon.</div>} />
+                <Route path="/contact" element={<Help />} />
+                <Route path="/help/selling" element={<Help />} />
+                <Route path="/accessibility" element={<Accessibility />} />
+                <Route path="/sitemap" element={<Sitemap />} />
+                <Route path="/security" element={<Security />} />
+                
+                {/* Feature-flagged LiveKit routes */}
+                {LIVE_SHOWS_ENABLED && (
+                  <>
+                    <Route path="/live" element={<Live />} />
+                    <Route path="/seller/live" element={<GoLive />} />
+                  </>
+                )}
+                
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AppShell>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

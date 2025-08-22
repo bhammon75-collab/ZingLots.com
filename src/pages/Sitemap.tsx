@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -115,8 +114,6 @@ const Sitemap = () => {
         <title>Sitemap - ZingLots</title>
         <meta name="description" content="Complete sitemap and navigation guide for ZingLots marketplace." />
       </Helmet>
-      
-      <ModernNav />
       
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}

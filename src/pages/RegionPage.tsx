@@ -348,7 +348,6 @@ const RegionPage = () => {
         </nav>
       </Helmet>
       {/* Header */}
-      <ModernNav />
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">

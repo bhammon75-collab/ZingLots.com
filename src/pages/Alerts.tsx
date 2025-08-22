@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -10,8 +9,6 @@ const Alerts = () => {
         <title>Alerts | ZingLots</title>
         <meta name="description" content="Create alerts to get notified when new lots match your interests." />
       </Helmet>
-
-      <ModernNav />
 
       <div className="max-w-3xl mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold mb-4">Set Up Alerts</h1>

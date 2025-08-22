@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ZingNav from "@/components/ZingNav";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -87,7 +86,6 @@ const Login = () => {
         <meta name="description" content="Login or create an account to bid, pay invoices, and track orders on ZingLots." />
         <link rel="canonical" href="/login" />
       </Helmet>
-      <ZingNav />
       <main className="container mx-auto px-4 py-10">
         <section className="mx-auto w-full max-w-md rounded-lg border bg-card p-6 shadow-sm">
           <h1 className="mb-4 text-2xl font-bold">

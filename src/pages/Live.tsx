@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getSupabase } from "@/lib/supabaseClient";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 type Show = {
   id: string;
@@ -28,6 +29,7 @@ export default function Live() {
   const sb = getSupabase();
   const [shows, setShows] = useState<Show[]>([]);
   const [notify, setNotify] = useState<{open:boolean, show?:Show}>({open:false});
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -66,7 +68,7 @@ export default function Live() {
                 <h2 className="text-lg font-semibold">{s.title || "Untitled Show"}</h2>
                 {s.start_at && <div className="text-sm">Starts in: <Countdown start={s.start_at} /></div>}
                 <div className="flex gap-2 pt-2">
-                  <Button onClick={()=>window.location.href=`/shows/${s.id}`}>View show</Button>
+                  <Button onClick={()=>navigate(`/shows/${s.id}`)}>View show</Button>
                   <Button variant="secondary" onClick={()=>setNotify({open:true, show:s})}>Notify me</Button>
                 </div>
               </div>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -230,8 +229,6 @@ const RegionPageFixed = () => {
         <title>{region.name} - B2B Marketplace | ZingLots</title>
         <meta name="description" content={region.description} />
       </Helmet>
-      
-      <ModernNav />
       
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
