@@ -1,6 +1,36 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useSwipeable } from "react-swipeable";
 import ImageWithFallback from "./ImageWithFallback";
+
+// Lightweight local swipe handler to avoid external dependency
+function useSwipeableShim(opts: { onSwipedLeft?: () => void; onSwipedRight?: () => void; trackTouch?: boolean }) {
+  const startXRef = useRef<number | null>(null);
+  const startYRef = useRef<number | null>(null);
+  const threshold = 30; // pixels
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (!opts.trackTouch) return;
+    const t = e.touches?.[0];
+    if (!t) return;
+    startXRef.current = t.clientX;
+    startYRef.current = t.clientY;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!opts.trackTouch) return;
+    if (startXRef.current === null || startYRef.current === null) return;
+    const t = e.changedTouches?.[0];
+    if (!t) return;
+    const dx = t.clientX - startXRef.current;
+    const dy = t.clientY - startYRef.current;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
+      if (dx < 0) opts.onSwipedLeft?.(); else opts.onSwipedRight?.();
+    }
+    startXRef.current = null;
+    startYRef.current = null;
+  };
+
+  return { onTouchStart, onTouchEnd } as const;
+}
 
 export type HeroSlide = {
   id: string;
@@ -152,7 +182,7 @@ export default function HeroRotator(props: Props){
     [autoplayMs, paused, prefersReducedMotion, respectReducedMotion, props.autoplayWhen, resolvedSlides.length]);
 
   const go = (dir:1|-1)=> setIndex(i => (i + dir + resolvedSlides.length) % resolvedSlides.length);
-  const handlers = useSwipeable({ onSwipedLeft: ()=>go(1), onSwipedRight: ()=>go(-1), trackTouch:true });
+  const handlers = useSwipeableShim({ onSwipedLeft: ()=>go(1), onSwipedRight: ()=>go(-1), trackTouch:true });
 
   return (
     <section
