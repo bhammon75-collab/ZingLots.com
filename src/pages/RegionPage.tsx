@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { labelForRegion, titleize } from "../lib/regions";
 import { fetchRegionAuctions, type Auction } from "../lib/fetchRegionAuctions";
-import { generateMockAuctions, getFeaturedAuctions, type MockAuction } from "../lib/mockRegionData";
+import { getFeaturedAuctions } from "../lib/mockRegionData";
 import ProfessionalAuctionCard from "../components/ProfessionalAuctionCard";
 import { MapPin, Filter, TrendingUp, Clock, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -19,59 +19,51 @@ export default function RegionPage() {
     items: [],
   });
   
-  const [mockItems, setMockItems] = useState<MockAuction[]>([]);
-  const [featuredItems, setFeaturedItems] = useState<MockAuction[]>([]);
+  const [featuredItems, setFeaturedItems] = useState<Auction[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   useEffect(() => {
     let on = true;
     setState((s) => ({ ...s, loading: true, error: undefined, items: [] }));
     
-    // Try to fetch real data first
+    // Fetch auctions (will return mock data if no real data exists)
     fetchRegionAuctions(slug)
       .then((items) => {
         if (on) {
-          if (items.length > 0) {
-            setState({ loading: false, items });
-          } else {
-            // Use mock data if no real data
-            const mocked = generateMockAuctions(slug, 18);
-            const featured = getFeaturedAuctions(slug);
-            setMockItems(mocked);
-            setFeaturedItems(featured);
-            setState({ loading: false, items: [] });
-          }
+          // Get featured items (first 3 with higher bids)
+          const featured = items.slice(0, 3).map(item => ({
+            ...item,
+            current_bid: (item.current_bid || 1000) * 2,
+            view_count: (item.view_count || 100) * 3
+          }));
+          setFeaturedItems(featured);
+          setState({ loading: false, items });
         }
       })
       .catch((e: any) => {
         if (on) {
-          // Use mock data on error
-          const mocked = generateMockAuctions(slug, 18);
-          const featured = getFeaturedAuctions(slug);
-          setMockItems(mocked);
-          setFeaturedItems(featured);
-          setState({ loading: false, items: [], error: undefined }); // Hide error, show mock data
+          setState({ loading: false, items: [], error: e?.message || "Failed to load" });
         }
       });
     return () => { on = false; };
   }, [slug]);
 
-  const displayItems = state.items.length > 0 ? state.items : mockItems;
+  const displayItems = state.items;
   const hasData = displayItems.length > 0;
   
   // Get unique categories from items
-  const categories = Array.from(new Set(mockItems.map(item => item.category))).filter(Boolean);
+  const categories = Array.from(new Set(displayItems.map(item => item.category))).filter(Boolean);
   
   // Filter items by category
   const filteredItems = selectedCategory === "all" 
     ? displayItems 
-    : mockItems.filter(item => item.category === selectedCategory);
+    : displayItems.filter(item => item.category === selectedCategory);
 
   // Stats for the region
   const totalValue = displayItems.reduce((sum, item) => sum + (item.current_bid || 0), 0);
-  const activeAuctions = displayItems.filter(item => new Date(item.ends_at) > new Date()).length;
+  const activeAuctions = displayItems.filter(item => new Date(item.ends_at || '').getTime() > Date.now()).length;
   const endingSoon = displayItems.filter(item => {
-    const hoursLeft = (new Date(item.ends_at).getTime() - Date.now()) / (1000 * 60 * 60);
+    const hoursLeft = (new Date(item.ends_at || '').getTime() - Date.now()) / (1000 * 60 * 60);
     return hoursLeft > 0 && hoursLeft <= 24;
   }).length;
 
