@@ -1,9 +1,8 @@
-// app/audit/page.tsx  (Server Component: no "use client")
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";   // ensure SSR
-export const revalidate = 0;              // no caching
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Audit — Temporary",
   robots: { index: false, follow: false },
@@ -17,17 +16,13 @@ const routes: Array<{ href: string; label: string }> = [
   { href: "/legal/disclaimer", label: "Disclaimer" },
   { href: "/legal/terms", label: "Terms" },
   { href: "/legal/privacy", label: "Privacy" },
-  // Add any others you want me to check
 ];
 
 export default async function Audit() {
   return (
     <main className="prose mx-auto max-w-3xl p-8">
       <h1>ZingLots / Makers of Japan — Audit Jump Page</h1>
-      <p>
-        Server-rendered page for external review (temporary). Links below render
-        without client-side JS.
-      </p>
+      <p>Server-rendered page for external review (temporary).</p>
 
       <h2>Key pages</h2>
       <ul>
@@ -42,17 +37,11 @@ export default async function Audit() {
 
       <h2>Meta</h2>
       <ul>
-        <li>
-          <Link href="/robots.txt" prefetch={false}>robots.txt</Link>
-        </li>
-        <li>
-          <Link href="/sitemap.xml" prefetch={false}>sitemap.xml</Link>
-        </li>
+        <li><Link href="/robots.txt" prefetch={false}>robots.txt</Link></li>
+        <li><Link href="/sitemap.xml" prefetch={false}>sitemap.xml</Link></li>
       </ul>
 
-      <p className="text-sm opacity-70 mt-8">
-        Remove this page after the audit.
-      </p>
+      <p className="text-sm opacity-70 mt-8">Remove this page after the audit.</p>
     </main>
   );
 }
