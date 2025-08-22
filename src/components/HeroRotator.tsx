@@ -33,7 +33,9 @@ export default function HeroRotator({ slides, autoplayMs = 3600, transitionMs = 
   // Preload next image for snappy fade
   useEffect(()=>{
     if(slides.length<2) return;
-    const next = slides[(index+1) % slides.length];
+    const nextIndex = slides.length > 0 ? (index+1) % slides.length : 0;
+    const next = slides[nextIndex];
+    if(!next) return;
     const a = new Image(); a.src = next.image;
     if(next.imageMobile){ const b = new Image(); b.src = next.imageMobile; }
   },[index, slides]);
@@ -42,7 +44,7 @@ export default function HeroRotator({ slides, autoplayMs = 3600, transitionMs = 
   function restart(){
     if(timerRef.current){ window.clearInterval(timerRef.current); timerRef.current = null; }
     if(prefersReducedMotion || paused || !visibleRef.current || slides.length<=1) return;
-    timerRef.current = window.setInterval(()=> setIndex(i => (i+1) % slides.length), autoplayMs) as unknown as number;
+    timerRef.current = window.setInterval(()=> setIndex(i => slides.length > 0 ? (i+1) % slides.length : 0), autoplayMs);
   }
 
   useEffect(()=>{
@@ -62,7 +64,10 @@ export default function HeroRotator({ slides, autoplayMs = 3600, transitionMs = 
   useEffect(()=>{ restart(); return ()=>{ if(timerRef.current) window.clearInterval(timerRef.current); }; },
     [autoplayMs, paused, prefersReducedMotion, slides.length]);
 
-  const go = (dir:1|-1)=> setIndex(i => (i + dir + slides.length) % slides.length);
+  const go = (dir:1|-1)=> setIndex(i => {
+    if(slides.length === 0) return 0;
+    return (i + dir + slides.length) % slides.length;
+  });
   const handlers = useSwipeable({ onSwipedLeft: ()=>go(1), onSwipedRight: ()=>go(-1), trackTouch:true });
 
   return (
