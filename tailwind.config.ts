@@ -18,13 +18,13 @@ const config: Config = {
         accent:{ DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
         popover:{ DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
         card:{ DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
-        brand:{ 
+        brand: {
           blue:"hsl(var(--brand-blue))", 
           "blue-foreground":"hsl(var(--brand-blue-foreground))",
-          red: "#E53935",
-          "red-dark": "#C62828",
-          "red-light": "#EF5350",
-          primary: "#E53935",
+          red: "#DC2626",
+          "red-dark": "#B91C1C",
+          "red-light": "#EF4444",
+          primary: "#DC2626",
           dark: "#111111"
         },
         zing:{50:"#F1F8FC",100:"#E8F2FA",200:"#D6E8F3",300:"#B4D6EC",400:"#86BDE3",500:"#5EA6DA",600:"#2A99D8",700:"#1E7DB8",800:"#166092",900:"#124D77",950:"#0D3857"},
