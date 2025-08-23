@@ -17,22 +17,20 @@ export default function Brand({
   size = variant === "footer" ? 56 : 28,
   textClassName,
 }: Props) {
-  const img = (
-    <img src={iconSrc} alt="ZingLots logo" width={size} height={size} className="block" />
+  // Text-only brand to avoid broken image logos
+  const text = (
+    <span className={textClassName ?? "text-black text-lg md:text-xl font-extrabold tracking-tight"}>
+      ZingLots.com
+    </span>
   );
 
   if (variant === "footer") {
-    return <div className={`flex flex-col items-center ${className}`}>{img}</div>;
+    return <div className={`flex flex-col items-center ${className}`}>{text}</div>;
   }
 
   return (
     <Link to="/" className={`flex items-center gap-2 ${className}`} aria-label="ZingLots.com home">
-      {img}
-      {!iconOnly && (
-        <span className={textClassName ?? "text-black text-lg md:text-xl font-extrabold tracking-tight"}>
-          ZingLots.com
-        </span>
-      )}
+      {!iconOnly && text}
     </Link>
   );
 }
