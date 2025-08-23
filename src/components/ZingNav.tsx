@@ -14,7 +14,7 @@ import { Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import Logo from "@/components/brand/Logo";
 
-import { supabase } from "@/integrations/supabase/client";
+import getSupabase from "@/integrations/supabase/client";
 
 interface UserMetadata {
   roles?: string[];
@@ -37,7 +37,15 @@ const ZingNav = () => {
   const [impersonating, setImpersonating] = useState<string | null>(null);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const sb = getSupabase();
+    if (!sb) {
+      setIsAuthed(false);
+      setIsAdmin(false);
+      setDisplayName(null);
+      return;
+    }
+
+    const { data: { subscription } } = sb.auth.onAuthStateChange((_event, session) => {
       setIsAuthed(!!session);
       const userMeta = (session?.user?.user_metadata || {}) as UserMetadata;
       const appMeta = (session?.user?.app_metadata || {}) as AppMetadata;
@@ -55,7 +63,7 @@ const ZingNav = () => {
       setImpersonating(imp || null);
     });
     
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    sb.auth.getSession().then(({ data: { session } }) => {
       setIsAuthed(!!session);
       const userMeta = (session?.user?.user_metadata || {}) as UserMetadata;
       const appMeta = (session?.user?.app_metadata || {}) as AppMetadata;
@@ -77,7 +85,9 @@ const ZingNav = () => {
   }, []);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    const sb = getSupabase();
+    if (!sb) return;
+    await sb.auth.signOut();
   };
 
   return (
