@@ -223,10 +223,10 @@ const ModernIndex = () => {
     },
     {
       id: "4",
-      title: "Industrial Floor Scrubber - Tennant T5",
-      currentPrice: 1850,
-      retailPrice: 5500,
-      bids: 6,
+      title: "Industrial Floor Scrubber Machine",
+      currentPrice: 1300,
+      retailPrice: 4800,
+      bids: 9,
       timeLeft: "1d 4h",
       location: "Kent, WA",
       distance: "15.3 mi",
@@ -322,7 +322,7 @@ const ModernIndex = () => {
       <link rel="preload" as="image" href={heroSlides[0].image} />
       
       {/* Hero Carousel */}
-      <HeroRotator slides={heroSlides} className="mb-6" />
+      <HeroRotator slides={heroSlides} className="mb-6" autoplayMs={2200} transitionMs={500} />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
