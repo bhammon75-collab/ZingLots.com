@@ -15,7 +15,7 @@
 }
 
 .search-modern button {
-  @apply px-6 py-3 bg-brand-red text-white rounded-md hover:bg-brand-red-dark transition-colors flex items-center font-medium;
+  @apply px-6 py-3 bg-[#ef4444] text-white rounded-md hover:bg-red-600 transition-colors flex items-center font-medium;
 }
 
 /* Button Styles */
@@ -24,11 +24,11 @@
 }
 
 .btn-primary {
-  @apply bg-brand-red text-white hover:bg-brand-red-dark shadow-md hover:shadow-lg;
+  @apply bg-[#ef4444] text-white hover:bg-red-600 shadow-md hover:shadow-lg;
 }
 
 .btn-secondary {
-  @apply bg-white text-gray-800 hover:bg-gray-50 border border-gray-200;
+  @apply bg-transparent text-[#2563eb] hover:bg-blue-50 border border-[#2563eb];
 }
 
 /* Lot Card Styles */
@@ -41,16 +41,16 @@
 }
 
 .lot-card-title {
-  @apply font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-brand-red transition-colors min-h-[3rem];
+  @apply font-semibold text-[#0f172a] mb-2 line-clamp-2 group-hover:text-[#2563eb] transition-colors min-h-[3rem];
 }
 
 .lot-card-price {
-  @apply text-2xl font-bold text-gray-900;
+  @apply text-2xl font-bold text-[#0f172a];
 }
 
 /* Badge Styles */
 .badge-hot {
-  @apply bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm;
+  @apply bg-gradient-to-r from-orange-500 to-[#ef4444] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm;
 }
 
 /* Timer Badge */
@@ -59,7 +59,7 @@
 }
 
 .timer-badge.urgent {
-  @apply bg-red-600/90 animate-pulse;
+  @apply bg-[#ef4444]/90 animate-pulse;
 }
 
 /* Featured Lots Container */
@@ -117,12 +117,12 @@
 }
 
 .hero-title {
-  @apply text-5xl font-bold text-gray-900 mb-4;
+  @apply text-5xl font-bold text-[#0f172a] mb-4;
   line-height: 1.2;
 }
 
 .hero-subtitle {
-  @apply text-xl text-gray-700;
+  @apply text-xl text-[#64748b];
   line-height: 1.4;
 }
 
@@ -142,11 +142,11 @@
 
 /* Text Styles for Light Backgrounds */
 .text-on-light {
-  @apply text-gray-900;
+  @apply text-[#0f172a];
 }
 
 .text-on-light-secondary {
-  @apply text-gray-600;
+  @apply text-[#64748b];
 }
 
 /* Border Styles */

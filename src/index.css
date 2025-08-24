@@ -8,7 +8,7 @@
 
 /* Footer Styles */
 .footer-modern {
-  @apply bg-gray-900 text-gray-300 py-12 mt-auto;
+  @apply bg-[#0f172a] text-gray-300 py-12 mt-auto;
 }
 
 .footer-links {
@@ -27,38 +27,40 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 11%; /* Charcoal for text */
 
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 215 16% 47%; /* Medium gray for body text */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    --primary: 0 84% 51%; /* Brand Red #DC2626 */
-    --primary-foreground: 210 40% 98%;
+    --primary: 222 47% 11%; /* Charcoal #0f172a */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217 91% 60%; /* Blue #2563eb */
+    --secondary-foreground: 0 0% 100%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 217 91% 60%; /* Blue for links/trust */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%; /* Red #ef4444 for actions */
+    --destructive-foreground: 0 0% 100%;
 
-    --ring: 0 84% 51%; /* Brand Red */
+    --ring: 217 91% 60%; /* Blue for focus */
     
     /* Brand Colors */
-    --brand-red: #DC2626;
-    --brand-red-dark: #B91C1C;
-    --brand-red-light: #EF4444;
+    --brand-charcoal: #0f172a;
+    --brand-red: #ef4444;
+    --brand-blue: #2563eb;
+    --brand-gray: #64748b;
+    --brand-light-gray: #f8fafc;
 
     --radius: 0.5rem;
   }
