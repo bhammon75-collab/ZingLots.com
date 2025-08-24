@@ -41,7 +41,7 @@
 }
 
 .lot-card-title {
-  @apply font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-brand-red transition-colors;
+  @apply font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-brand-red transition-colors min-h-[3rem];
 }
 
 .lot-card-price {
