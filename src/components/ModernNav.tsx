@@ -26,6 +26,7 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
+import Brand from "./Brand";
 
 interface UserMetadata {
 	roles?: string[];
@@ -136,7 +137,7 @@ const ModernNav = () => {
 				<div className="max-w-7xl mx-auto flex justify-between items-center">
 					<div className="flex items-center gap-4">
 						<DropdownMenu open={showLocations} onOpenChange={setShowLocations}>
-							<DropdownMenuTrigger className="flex items-center gap-1 hover:text-brand-red transition-colors cursor-pointer">
+							<DropdownMenuTrigger className="flex items-center gap-1 hover:text-[#2563eb] transition-colors cursor-pointer">
 								<MapPin className="h-3 w-3" />
 								<span>{selectedLocation}</span>
 								<ChevronDown className="h-3 w-3" />
@@ -197,12 +198,12 @@ const ModernNav = () => {
 							</DropdownMenuContent>
 						</DropdownMenu>
 						<span ref={topSeparatorRef} className="text-gray-400">|</span>
-						<Link to="/help" className="hover:text-brand-red transition-colors">
+						<Link to="/help" className="hover:text-[#2563eb] transition-colors">
 							Help & Contact
 						</Link>
 					</div>
 					<div className="flex items-center gap-4">
-						<Link to="/seller/apply" className="hover:text-brand-red transition-colors">
+						<Link to="/seller/apply" className="hover:text-[#2563eb] transition-colors">
 							Sell with us
 						</Link>
 					</div>
@@ -213,14 +214,9 @@ const ModernNav = () => {
 			<header className="nav-modern bg-white border-b-2 border-gray-100">
 				<div className="max-w-7xl mx-auto px-4">
 					<div className="grid grid-cols-[1fr_auto_auto] h-28 items-center gap-8">
-						{/* Brand - Text only "ZingLots.com" with tagline */}
+						{/* Brand - Use SVG logo */}
 						<div ref={brandBlockRef} style={{ transform: `translateX(${brandTranslateX}px)` }} className="flex flex-col justify-center min-w-fit md:justify-self-start md:self-start md:-mt-1 md:pl-2">
-							<Link to="/" className="flex flex-col items-center" aria-label="ZingLots.com Home">
-								<span className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">
-									ZingLots.com
-								</span>
-								<span className="text-xs md:text-sm lg:text-base text-gray-600 font-medium mt-1 whitespace-nowrap">The Smart Choice for Business Auctions</span>
-							</Link>
+							<Brand variant="header" className="justify-start" />
 						</div>
 
 						{/* Search Bar - Enhanced Design */}
