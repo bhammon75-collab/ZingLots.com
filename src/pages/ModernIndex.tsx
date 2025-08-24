@@ -106,6 +106,33 @@ const ModernIndex = () => {
       badge: "Ends in 2h 15m",
       image: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=840&fit=crop",
       imageMobile: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=640&h=480&fit=crop"
+    },
+    {
+      id: "a2024-1842-vehicles",
+      href: "/auction/a2024-1842",
+      title: "Fleet Vehicles & Light Trucks",
+      sub: "Well‑maintained pickups, cargo vans and utility trucks",
+      badge: "New",
+      image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1920&h=840&fit=crop",
+      imageMobile: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=640&h=480&fit=crop"
+    },
+    {
+      id: "a2024-1843-municipal",
+      href: "/auction/a2024-1843",
+      title: "Municipal Surplus Auction",
+      sub: "Tools, shop equipment, and maintenance assets",
+      badge: "Local Pickup",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=840&fit=crop",
+      imageMobile: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=480&fit=crop"
+    },
+    {
+      id: "a2024-1844-warehouse",
+      href: "/auction/a2024-1844",
+      title: "Warehouse Racking & Material Handling",
+      sub: "Pallet racking, forklifts, and packaging equipment",
+      badge: "Hot",
+      image: "https://images.unsplash.com/photo-1586521995568-39c0bcb2b7b2?w=1920&h=840&fit=crop",
+      imageMobile: "https://images.unsplash.com/photo-1586521995568-39c0bcb2b7b2?w=640&h=480&fit=crop"
     }
   ];
 
