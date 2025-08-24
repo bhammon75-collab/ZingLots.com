@@ -12,7 +12,7 @@ import {
 
 import { Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
-import Logo from "@/components/brand/Logo";
+import Brand from "@/components/Brand";
 
 import getSupabase from "@/integrations/supabase/client";
 
@@ -119,10 +119,10 @@ const ZingNav = () => {
           })()}
         </nav>
 
-        {/* Centered Logo */}
+        {/* Centered Brand */}
         <div className="flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
           <Link to="/" className="flex items-center group" aria-label="Go to home">
-            <Logo size="md" withText onDark={false} />
+            <Brand variant="header" />
           </Link>
         </div>
 
@@ -219,11 +219,8 @@ const ZingNav = () => {
                   <Button variant="ghost" size="sm" asChild>
                     <Link to="/cart" onClick={() => setOpen(false)}>Cart</Link>
                   </Button>
-                  <Button variant="secondary" size="sm" onClick={() => { handleSignOut(); setOpen(false); }}>
+                  <Button variant="ghost" size="sm" onClick={handleSignOut}>
                     Sign out
-                  </Button>
-                  <Button variant="hero" size="sm" className="bg-brand-blue text-brand-blue-foreground" asChild>
-                    <Link to="/dashboard/seller" onClick={() => setOpen(false)}>Sell now</Link>
                   </Button>
                 </>
               ) : (
@@ -231,14 +228,8 @@ const ZingNav = () => {
                   <Button variant="ghost" size="sm" asChild>
                     <Link to="/login" onClick={() => setOpen(false)}>Sign In</Link>
                   </Button>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link to="/seller/apply" onClick={() => setOpen(false)}>Apply</Link>
-                  </Button>
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link to="/cart" onClick={() => setOpen(false)}>Cart</Link>
-                  </Button>
                   <Button variant="hero" size="sm" className="bg-brand-blue text-brand-blue-foreground" asChild>
-                    <Link to="/dashboard/seller" onClick={() => setOpen(false)}>Start Selling</Link>
+                    <Link to="/seller/apply" onClick={() => setOpen(false)}>Start Selling</Link>
                   </Button>
                 </>
               )}

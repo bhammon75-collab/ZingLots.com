@@ -344,7 +344,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             <div className="lg:col-span-1">
-              <Logo size="lg" withText onDark className="mb-3" />
+              <span className="block text-white text-xl font-extrabold tracking-tight mb-3">ZingLots.com</span>
               <p className="text-gray-400 text-sm leading-relaxed">
                 The hyperlocal marketplace for business surplus and equipment
               </p>
