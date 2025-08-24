@@ -57,7 +57,7 @@ function resolveSlides(input: HeroSlide[]): HeroSlide[] {
     .map((s, i) => ({
       ...s,
       id: s.id ?? `slide-${i}`,
-      image: s.image || "/placeholder.svg",
+      image: s.image || "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&auto=format",
       imageMobile: s.imageMobile || undefined,
       title: s.title ?? "",
       sub: s.sub ?? "",
@@ -80,16 +80,16 @@ function resolveSlides(input: HeroSlide[]): HeroSlide[] {
       href: "/auctions",
       title: "Surplus & Liquidation Auctions",
       sub: "Heavy equipment, tools, office, and more",
-      image: "/placeholder.svg",
-      imageMobile: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&h=1080&fit=crop&auto=format",
+      imageMobile: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=640&h=480&fit=crop&auto=format",
     },
     {
       id: "ph-2",
       href: "/regions",
       title: "Browse by Region",
       sub: "Find auctions near you",
-      image: "/placeholder-2.svg",
-      imageMobile: "/placeholder-2.svg",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=1080&fit=crop&auto=format",
+      imageMobile: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=640&h=480&fit=crop&auto=format",
     },
   ];
 }

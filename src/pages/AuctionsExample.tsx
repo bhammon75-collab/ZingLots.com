@@ -8,7 +8,7 @@ export default function AuctionsPage() {
   const lots = [
     {
       id: "1",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&h=600&fit=crop&auto=format",
       title: "Professional Power Tools Collection",
       location: "Seattle, WA",
       currentBid: 125,
@@ -17,7 +17,7 @@ export default function AuctionsPage() {
     },
     {
       id: "2",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop&auto=format",
       title: "Vintage Office Furniture Set",
       location: "Portland, OR",
       currentBid: 89,
@@ -26,7 +26,7 @@ export default function AuctionsPage() {
     },
     {
       id: "3", 
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&auto=format",
       title: "Restaurant Equipment Lot",
       location: "Tacoma, WA",
       currentBid: 350,

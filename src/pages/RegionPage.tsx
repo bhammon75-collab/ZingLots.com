@@ -125,7 +125,7 @@ export default function RegionPage() {
             src={heroSrc}
             alt={`${cityLabel} landmark`}
             className="h-full w-full object-cover"
-            fallback="/placeholder-2.svg"
+            fallback="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200&h=800&fit=crop&auto=format"
           />
           <div className="absolute inset-0 bg-black/20" />
         </section>

@@ -226,7 +226,7 @@ export default function OptimizedLotGrid({
       <Link to={`/lot/${lot.id}`}>
         <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
           <LazyImage
-            src={lot.image_url || '/placeholder.jpg'}
+            src={lot.image_url || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format'}
             alt={lot.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
           />
