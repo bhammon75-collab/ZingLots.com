@@ -225,7 +225,7 @@ const ModernNav = () => {
 						</div>
 
 						{/* Search Bar - Enhanced Design */}
-						<div className="hidden md:flex flex-col flex-1 max-w-3xl mx-0 self-stretch justify-center md:col-start-2 md:justify-self-start">
+						<div className="hidden md:flex flex-1 max-w-3xl mx-0 self-center justify-center md:col-start-2 md:justify-self-start">
 							<form onSubmit={handleSearch} className="w-full">
 								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
 									<input
@@ -244,15 +244,10 @@ const ModernNav = () => {
 									</button>
 								</div>
 							</form>
-							<div className="flex justify-end mt-2">
-								<span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700">
-									{categories.reduce((sum, cat) => sum + cat.count, 0).toLocaleString()} Active Auctions
-								</span>
-							</div>
 						</div>
 
 						{/* Right Actions */}
-						<div className="flex items-center gap-2 self-stretch md:col-start-3 md:justify-self-end">
+						<div className="flex items-center gap-2 self-center md:col-start-3 md:justify-self-end">
 							<Button variant="ghost" size="icon" asChild aria-label="Cart">
 								<Link to="/cart"><ShoppingCart className="h-5 w-5" /></Link>
 							</Button>
