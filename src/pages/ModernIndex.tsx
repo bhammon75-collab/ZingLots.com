@@ -557,7 +557,7 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto">
             {featuredLots.map((lot) => (
-              <Card key={lot.id} className="lot-card group">
+              <Card key={lot.id} className="lot-card group flex flex-col h-full">
                 <div className="relative overflow-hidden">
                   <img
                     src={lot.image}
@@ -579,7 +579,7 @@ const ModernIndex = () => {
                   </div>
                 </div>
                 
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex flex-col h-full">
                   <Badge variant="secondary" className="mb-2">{lot.category}</Badge>
                   <h3 className="lot-card-title">{lot.title}</h3>
                   
@@ -615,7 +615,7 @@ const ModernIndex = () => {
                   <div className="text-xs text-gray-500 mb-2">
                     Auction {lot.auctionNumber}
                   </div>
-                  <Link to={`/live/${lot.id}`} className="block w-full">
+                  <Link to={`/live/${lot.id}`} className="block w-full mt-auto">
                     <Button className="w-full btn-modern btn-primary">
                       <Gavel className="mr-2 h-4 w-4" />
                       Place Bid
