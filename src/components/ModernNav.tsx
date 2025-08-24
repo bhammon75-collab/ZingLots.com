@@ -217,13 +217,7 @@ const ModernNav = () => {
 						<div ref={brandBlockRef} style={{ transform: `translateX(${brandTranslateX}px)` }} className="flex flex-col justify-center min-w-fit md:justify-self-start md:self-start md:-mt-1 md:pl-2">
 							<Link to="/" className="flex flex-col items-center" aria-label="ZingLots.com Home">
 								<span className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">
-									Z
-									<span className="text-blue-600">i</span>
-									ngL
-									<span className="text-red-600">o</span>
-									ts.c
-									<span className="text-red-600">o</span>
-									m
+									ZingLots.com
 								</span>
 								<span className="text-xs md:text-sm lg:text-base text-gray-600 font-medium mt-1 whitespace-nowrap">The Smart Choice for Business Auctions</span>
 							</Link>

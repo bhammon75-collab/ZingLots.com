@@ -39,15 +39,9 @@ export default function ZingLotsLogo({
       </svg>
       
       <div className="flex items-baseline">
-        <span className="font-extrabold tracking-tight">
-          Z<span style={{ color: '#2563eb' }}>i</span>ng
-        </span>
-        <span className="font-bold tracking-tight">
-          L<span style={{ color: '#dc2626' }}>o</span>ts
-        </span>
-        <span className="ml-1 font-medium opacity-70 text-sm">
-          .c<span style={{ color: '#dc2626' }}>o</span>m
-        </span>
+        <span className="font-extrabold tracking-tight">Zing</span>
+        <span className="font-bold tracking-tight">Lots</span>
+        <span className="ml-1 font-medium opacity-70 text-sm">.com</span>
       </div>
     </a>
   );
