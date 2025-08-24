@@ -29,7 +29,14 @@ export default function AuctionCard({ a }: { a: Auction }) {
   return (
     <a href={`/auction/${a.id}`} className="block overflow-hidden rounded-xl border hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
       <div className="relative">
-        <ImageWithFallback src={a.hero_image_url || undefined} alt={a.title} className="w-full aspect-[4/3] object-cover" loading="lazy" />
+        <ImageWithFallback 
+          src={a.hero_image_url || undefined} 
+          alt={a.title} 
+          className="w-full aspect-[4/3] object-cover" 
+          loading="lazy" 
+          data-category={a.title}
+          data-seed={a.id}
+        />
       </div>
       <div className="p-4">
         <div className="text-base font-semibold line-clamp-2">{a.title}</div>
