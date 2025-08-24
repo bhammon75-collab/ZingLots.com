@@ -26,7 +26,6 @@ import {
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
-import Logo from "@/components/brand/Logo";
 
 interface UserMetadata {
 	roles?: string[];
@@ -187,11 +186,10 @@ const ModernNav = () => {
 			<header className="nav-modern bg-white border-b-2 border-gray-100">
 				<div className="max-w-7xl mx-auto px-4">
 					<div className="flex h-28 items-center justify-between">
-						{/* Logo - Larger for B2B */}
-						<a href="/" className="flex items-center gap-3 self-stretch" aria-label="ZingLots Home">
-							<Logo variant="monogram" withText={false} size="xl" onDark={false} />
-							<span className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-none flex items-center">ZingLots</span>
-						</a>
+						{/* Brand - Text only "ZingLots.com" */}
+						<Link to="/" className="flex items-center" aria-label="ZingLots.com Home">
+							<span className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none">ZingLots.com</span>
+						</Link>
 
 						{/* Search Bar - Enhanced Design */}
 						<div className="hidden md:flex flex-col flex-1 max-w-3xl mx-8 self-stretch justify-center">
