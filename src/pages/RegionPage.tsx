@@ -77,7 +77,28 @@ export default function RegionPage() {
     "portland": "portland,oregon,skyline",
   };
   const heroQuery = HERO_QUERY[slug] || `${cityLabel},skyline`;
-  const heroUrl = `https://source.unsplash.com/1920x520/?${encodeURIComponent(heroQuery)}`;
+  const fallbackHeroUrl = `https://source.unsplash.com/1920x520/?${encodeURIComponent(heroQuery)}`;
+
+  // Optional local overrides for city hero images
+  const HERO_IMAGE_OVERRIDES: Record<string, string> = {
+    seattle: "/regions/seattle.jpg",
+  };
+  const overrideUrl = HERO_IMAGE_OVERRIDES[slug];
+
+  // Resolve final hero src, testing override existence with a HEAD request
+  const [heroSrc, setHeroSrc] = useState<string>(overrideUrl || fallbackHeroUrl);
+  useEffect(() => {
+    let cancelled = false;
+    const fallback = fallbackHeroUrl;
+    if (overrideUrl) {
+      fetch(overrideUrl, { method: "HEAD" })
+        .then((r) => { if (!cancelled) setHeroSrc(r.ok ? overrideUrl : fallback); })
+        .catch(() => { if (!cancelled) setHeroSrc(fallback); });
+    } else {
+      setHeroSrc(fallback);
+    }
+    return () => { cancelled = true; };
+  }, [slug, overrideUrl, fallbackHeroUrl]);
 
   // Stats for the region
   const totalValue = displayItems.reduce((sum, item) => sum + (item.current_bid || 0), 0);
@@ -99,7 +120,7 @@ export default function RegionPage() {
         {/* City Hero Image */}
         <section className="relative h-40 md:h-56 lg:h-72 overflow-hidden">
           <ImageWithFallback
-            src={heroUrl}
+            src={heroSrc}
             alt={`${cityLabel} landmark`}
             className="h-full w-full object-cover"
             fallback="/placeholder-2.svg"
