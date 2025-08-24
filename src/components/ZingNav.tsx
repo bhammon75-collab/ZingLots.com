@@ -100,13 +100,13 @@ const ZingNav = () => {
       <div className="mx-auto flex h-16 items-center justify-between px-4">
         {/* Left Nav - Desktop Only */}
         <nav className="hidden md:flex items-center gap-6">
-          <NavLink to="/discover" className="text-sm text-gray-600 hover:text-gray-900">
+          <NavLink to="/discover" className="text-sm text-[#64748b] hover:text-[#0f172a] transition-colors">
             Discover
           </NavLink>
-          <NavLink to="/pricing" className="text-sm text-gray-600 hover:text-gray-900">
+          <NavLink to="/pricing" className="text-sm text-[#64748b] hover:text-[#0f172a] transition-colors">
             Pricing
           </NavLink>
-          <NavLink to="/help" className="text-sm text-gray-600 hover:text-gray-900">
+          <NavLink to="/help" className="text-sm text-[#64748b] hover:text-[#0f172a] transition-colors">
             Help & Contact
           </NavLink>
           {(() => {
@@ -121,20 +121,18 @@ const ZingNav = () => {
 
         {/* Centered Brand */}
         <div className="flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-          <Link to="/" className="flex items-center group" aria-label="Go to home">
-            <Brand variant="header" />
-          </Link>
+          <Brand variant="header" />
         </div>
 
         {/* Right Nav */}
         <div className="flex items-center gap-2">
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border"
+            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#2563eb]"
             aria-label="Toggle menu"
             onClick={() => setOpen((o) => !o)}
           >
-            <Menu className="h-5 w-5 text-gray-900" />
+            <Menu className="h-5 w-5 text-[#0f172a]" />
           </button>
 
           {/* Desktop Right Nav */}

@@ -1,18 +1,7 @@
-<svg viewBox="0 0 760 160" xmlns="http://www.w3.org/2000/svg" aria-label="Zing Lots wordmark — classic Z in red circle (max fit)">
+<svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" aria-label="ZingLots.com">
   <style>
-    .red{fill:#DC2626}
-    .type{fill:#000000;font:800 72px/1.1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}
-    .tight{letter-spacing:-0.5px}
-    /* Bigger Z: tuned to sit just inside the 44px-radius circle */
-    .z{fill:#FFFFFF;font:800 86px/1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}
+    .brand-text{fill:#0f172a;font:800 48px/1.1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial;letter-spacing:-1px}
   </style>
-  <!-- Red circle -->
-  <circle class="red" cx="76" cy="80" r="44"/>
-  <!-- Centered Z -->
-  <text class="z"
-        x="76" y="80" dy="6"
-        text-anchor="middle"
-        dominant-baseline="middle">Z</text>
-  <!-- Word kept close to the circle -->
-  <text class="type tight" x="126" y="105">ing lots</text>
+  <!-- Brand name as text -->
+  <text class="brand-text" x="200" y="50" text-anchor="middle" dominant-baseline="middle">ZingLots.com</text>
 </svg>

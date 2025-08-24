@@ -9,17 +9,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
+        default: "bg-[#ef4444] text-white hover:bg-red-600 shadow-sm", // Red for primary CTAs
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-[#ef4444] text-white hover:bg-red-600", // Also red for destructive actions
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-[#2563eb] text-[#2563eb] bg-transparent hover:bg-blue-50", // Blue outline for secondary
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-[#2563eb] text-white hover:bg-blue-600", // Blue for secondary actions
         ghost: "hover:bg-accent/30 hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-[#2563eb] underline-offset-4 hover:underline", // Blue for links
         hero:
-          "bg-gradient-to-tr from-primary to-accent text-primary-foreground shadow-[var(--shadow-glow)] hover:opacity-95 active:scale-[0.98]",
+          "bg-gradient-to-tr from-[#ef4444] to-red-500 text-white shadow-[var(--shadow-glow)] hover:opacity-95 active:scale-[0.98]",
         pill:
           "rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80",
       },

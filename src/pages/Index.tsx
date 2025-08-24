@@ -178,8 +178,8 @@ const Index = () => {
           <div className="mx-auto max-w-screen-2xl px-4 md:px-6 py-10">
             <div className="mb-6 flex items-end justify-between">
               <div>
-                <h2 id="discover" className="text-2xl font-bold text-ink">Discover Lots</h2>
-                <p className="text-sm text-zinc-600">Fresh picks across categories</p>
+                <h2 id="discover" className="text-2xl font-bold text-[#0f172a]">Discover Lots</h2>
+                <p className="text-sm text-[#64748b]">Fresh picks across categories</p>
               </div>
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
@@ -219,15 +219,15 @@ const Index = () => {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Verified Businesses</h3>
-              <p className="text-gray-600">All sellers are verified businesses. Secure escrow until pickup confirmation.</p>
+              <h3 className="text-xl font-semibold mb-2 text-[#0f172a]">Verified Businesses</h3>
+              <p className="text-[#64748b]">All sellers are verified businesses. Secure escrow until pickup confirmation.</p>
             </div>
             <div className="text-center">
               <div className="W-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Always-On Auctions</h3>
-              <p className="text-gray-600">No waiting for live shows. Bid anytime on thousands of surplus items.</p>
+              <h3 className="text-xl font-semibold mb-2 text-[#0f172a]">Always-On Auctions</h3>
+              <p className="text-[#64748b]">No waiting for live shows. Bid anytime on thousands of surplus items.</p>
             </div>
           </div>
         </div>
@@ -236,7 +236,7 @@ const Index = () => {
       {/* Categories */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Browse by Category</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-[#0f172a]">Browse by Category</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category) => {
               const IconComponent = category.icon;
@@ -244,13 +244,13 @@ const Index = () => {
                 <Card key={category.id} className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <IconComponent className="h-8 w-8 text-gray-600" />
+                      <IconComponent className="h-8 w-8 text-[#64748b]" />
                       <Badge className={category.color}>
                         {category.count} lots
                       </Badge>
                     </div>
-                    <CardTitle className="text-lg">{category.name}</CardTitle>
-                    <CardDescription>{category.description}</CardDescription>
+                    <CardTitle className="text-lg text-[#0f172a]">{category.name}</CardTitle>
+                    <CardDescription className="text-[#64748b]">{category.description}</CardDescription>
                   </CardHeader>
                 </Card>
               );
@@ -260,10 +260,10 @@ const Index = () => {
       </section>
 
       {/* Featured Lots */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-[#f8fafc]">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl font-bold">Ending Soon Near You</h2>
+            <h2 className="text-3xl font-bold text-[#0f172a]">Ending Soon Near You</h2>
             <Button variant="outline" asChild>
               <Link to="/browse">View All</Link>
             </Button>
@@ -284,7 +284,7 @@ const Index = () => {
                     <Badge variant="secondary">{lot.category}</Badge>
                   </div>
                   <div className="absolute top-2 right-2">
-                    <Badge className="bg-red-500 text-white">{lot.timeLeft}</Badge>
+                    <Badge className="bg-[#ef4444] text-white">{lot.timeLeft}</Badge>
                   </div>
                   {lot.needsForklift && (
                     <div className="absolute bottom-2 left-2">
@@ -296,18 +296,18 @@ const Index = () => {
                   )}
                 </div>
                 <CardContent className="p-4">
-                  <h3 className="font-semibold mb-2 line-clamp-2">{lot.title}</h3>
+                  <h3 className="font-semibold mb-2 line-clamp-2 text-[#0f172a]">{lot.title}</h3>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-2xl font-bold text-green-600">
+                    <span className="text-2xl font-bold text-[#0f172a]">
                       ${lot.currentPrice.toLocaleString()}
                     </span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-[#64748b]">
                       {lot.bidCount} bids
                     </span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
+                  <div className="flex items-center text-sm text-[#64748b] mb-3">
                     <MapPin className="h-4 w-4 mr-1" />
-                    {lot.location} â€¢ {lot.distance}
+                    {lot.location} • {lot.distance}
                   </div>
                   <Button className="w-full" asChild>
                     <Link to={`/lot/${lot.id}`}>View & Bid</Link>
@@ -320,17 +320,17 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-blue-600 text-white">
+      <section className="py-16 bg-[#0f172a] text-white">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Selling?</h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <h2 className="text-3xl font-bold mb-4">Have Equipment to Auction?</h2>
+          <p className="text-xl mb-8 text-gray-300">
             Join hundreds of verified businesses recovering capital from surplus inventory
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <Link to="/seller/apply">Apply to Sell</Link>
+            <Button size="lg" className="bg-[#ef4444] hover:bg-red-600 text-white" asChild>
+              <Link to="/seller/apply">Create a Listing</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600" asChild>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#0f172a]" asChild>
               <Link to="/help">Learn More</Link>
             </Button>
           </div>
@@ -340,11 +340,11 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
+      <footer className="bg-[#0f172a] text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             <div className="lg:col-span-1">
-              <span className="block text-white text-xl font-extrabold tracking-tight mb-3">ZingLots.com</span>
+              <Brand variant="footer" textClassName="text-white text-2xl font-extrabold tracking-tight mb-3" />
               <p className="text-gray-400 text-sm leading-relaxed">
                 The hyperlocal marketplace for business surplus and equipment
               </p>
