@@ -75,6 +75,8 @@ export default function RegionPage() {
     "houston": "houston,skyline",
     "dallas": "dallas,skyline",
     "portland": "portland,oregon,skyline",
+    "tacoma": "tacoma,washington,skyline,waterfront",
+    "philadelphia": "philadelphia,skyline",
   };
   const heroQuery = HERO_QUERY[slug] || `${cityLabel},skyline`;
   const fallbackHeroUrl = `https://source.unsplash.com/1920x520/?${encodeURIComponent(heroQuery)}`;
