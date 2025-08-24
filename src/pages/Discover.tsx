@@ -60,8 +60,12 @@ useEffect(() => {
     max: max || undefined,
     view: view !== 'all' ? view : undefined,
   })
-  setSearchParams(params)
-}, [q, category, min, max, view, setSearchParams])
+  const next = params.toString();
+  const current = searchParams.toString();
+  if (next !== current) {
+    setSearchParams(params, { replace: true });
+  }
+}, [q, category, min, max, view, setSearchParams, searchParams])
 
   const recentLots = useMemo(() => DEMO_LOTS.filter((l) => recent.includes(l.id)), [recent]);
 
