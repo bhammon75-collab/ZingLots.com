@@ -21,13 +21,15 @@ import {
 	Package,
 	TrendingUp,
 	Gavel,
-	Globe
+	Globe,
+	ListFilter
 } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
 import Brand from "./Brand";
 import { CATEGORIES } from "@/data/categories";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface UserMetadata {
 	roles?: string[];
@@ -231,20 +233,35 @@ const ModernNav = () => {
 						<div className="hidden md:flex flex-1 max-w-6xl mx-0 self-center items-center gap-2 md:col-start-2 md:justify-self-stretch">
 							<form onSubmit={handleSearch} className="flex-1">
 								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-									<select
-										value={searchCategory}
-										onChange={(e) => setSearchCategory(e.target.value)}
-										className="h-12 lg:h-14 px-2 text-sm text-zinc-700 bg-transparent outline-none w-24 lg:w-28 border-r border-zinc-200"
-										aria-label="Category"
-									>
-										<option value="">All</option>
-										{CATEGORIES.map((c) => (
-											<option key={c.slug} value={c.name}>{c.name}</option>
-										))}
-									</select>
+									<DropdownMenu>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<DropdownMenuTrigger asChild>
+													<button
+														type="button"
+														className="h-12 lg:h-14 w-12 flex items-center justify-center text-zinc-700 border-r border-zinc-200"
+														aria-label="Choose category"
+													>
+														<ListFilter className="h-5 w-5" />
+													</button>
+												</DropdownMenuTrigger>
+											</TooltipTrigger>
+											<TooltipContent>Choose category</TooltipContent>
+										</Tooltip>
+										<DropdownMenuContent align="start" className="w-56">
+											<DropdownMenuLabel>Categories</DropdownMenuLabel>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem onClick={() => setSearchCategory("")}>All Categories</DropdownMenuItem>
+											{CATEGORIES.map((c) => (
+												<DropdownMenuItem key={c.slug} onClick={() => setSearchCategory(c.name)}>
+													{c.name}
+												</DropdownMenuItem>
+											))}
+										</DropdownMenuContent>
+									</DropdownMenu>
 									<input
 										type="text"
-										placeholder="Search active auctions..."
+										placeholder={searchCategory ? `Search ${searchCategory.toLowerCase()}...` : "Search active auctions..."}
 										value={searchQuery}
 										onChange={(e) => setSearchQuery(e.target.value)}
 										className="flex-1 h-12 lg:h-14 px-4 outline-none"
