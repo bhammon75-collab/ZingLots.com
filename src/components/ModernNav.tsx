@@ -216,7 +216,7 @@ const ModernNav = () => {
 			{/* Main Navigation */}
 			<header className="nav-modern bg-white border-b-2 border-gray-100">
 				<div className="max-w-7xl mx-auto px-4">
-					<div className="grid grid-cols-[1fr_auto_auto] h-28 items-center gap-8">
+					<div className="grid grid-cols-[auto_1fr_auto] h-28 items-center gap-8">
 						{/* Brand - Use SVG logo */}
 						<div ref={brandBlockRef} style={{ transform: `translateX(${brandTranslateX}px)` }} className="flex flex-col justify-center min-w-fit self-center md:justify-self-start md:self-center md:mt-0 md:pl-2">
 							<Brand
@@ -228,13 +228,13 @@ const ModernNav = () => {
 						</div>
 
 						{/* Search Bar - Enhanced Design */}
-						<div className="hidden md:flex flex-1 max-w-5xl mx-0 self-center items-center gap-2 md:col-start-2 md:justify-self-start">
+						<div className="hidden md:flex flex-1 max-w-6xl mx-0 self-center items-center gap-2 md:col-start-2 md:justify-self-stretch">
 							<form onSubmit={handleSearch} className="flex-1">
 								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
 									<select
 										value={searchCategory}
 										onChange={(e) => setSearchCategory(e.target.value)}
-										className="h-12 lg:h-14 px-2 text-sm text-zinc-700 bg-transparent outline-none w-36 lg:w-40 border-r border-zinc-200"
+										className="h-12 lg:h-14 px-2 text-sm text-zinc-700 bg-transparent outline-none w-24 lg:w-28 border-r border-zinc-200"
 										aria-label="Category"
 									>
 										<option value="">All</option>
