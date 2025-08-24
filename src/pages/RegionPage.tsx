@@ -8,6 +8,7 @@ import ProfessionalAuctionCard from "../components/ProfessionalAuctionCard";
 import { MapPin, Filter, TrendingUp, Clock, Package } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 export default function RegionPage() {
   const { region = "" } = useParams();
@@ -59,6 +60,25 @@ export default function RegionPage() {
     ? displayItems 
     : displayItems.filter(item => item.category === selectedCategory);
 
+  // Simple city → hero image mapping using Unsplash dynamic queries
+  const HERO_QUERY: Record<string, string> = {
+    "seattle": "seattle,space-needle,skyline",
+    "los-angeles": "los-angeles,hollywood-sign,skyline",
+    "san-francisco": "san-francisco,golden-gate-bridge,skyline",
+    "chicago": "chicago,skyline",
+    "detroit": "detroit,skyline",
+    "new-york": "new-york,manhattan,skyline",
+    "boston": "boston,skyline",
+    "atlanta": "atlanta,skyline",
+    "miami": "miami,skyline",
+    "phoenix": "phoenix,skyline",
+    "houston": "houston,skyline",
+    "dallas": "dallas,skyline",
+    "portland": "portland,oregon,skyline",
+  };
+  const heroQuery = HERO_QUERY[slug] || `${cityLabel},skyline`;
+  const heroUrl = `https://source.unsplash.com/1920x520/?${encodeURIComponent(heroQuery)}`;
+
   // Stats for the region
   const totalValue = displayItems.reduce((sum, item) => sum + (item.current_bid || 0), 0);
   const activeAuctions = displayItems.filter(item => new Date(item.ends_at || '').getTime() > Date.now()).length;
@@ -76,6 +96,17 @@ export default function RegionPage() {
       </Helmet>
 
       <main id="main" className="min-h-screen bg-gray-50">
+        {/* City Hero Image */}
+        <section className="relative h-40 md:h-56 lg:h-72 overflow-hidden">
+          <ImageWithFallback
+            src={heroUrl}
+            alt={`${cityLabel} landmark`}
+            className="h-full w-full object-cover"
+            fallback="/placeholder-2.svg"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+        </section>
+
         {/* Header Section */}
         <div className="bg-white border-b">
           <div className="mx-auto max-w-7xl px-4 py-6">
