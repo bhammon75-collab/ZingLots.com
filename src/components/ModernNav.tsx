@@ -23,7 +23,7 @@ import {
 	Gavel,
 	Globe
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
 
@@ -46,6 +46,33 @@ const ModernNav = () => {
 	const [selectedLocation, setSelectedLocation] = useState("All Locations");
 	const navigate = useNavigate();
 
+	// Refs for aligning brand with the top bar separator
+	const topSeparatorRef = useRef<HTMLSpanElement | null>(null);
+	const brandBlockRef = useRef<HTMLDivElement | null>(null);
+	const [brandTranslateX, setBrandTranslateX] = useState(0);
+
+	useEffect(() => {
+		const alignBrandToSeparator = () => {
+			const sep = topSeparatorRef.current;
+			const brand = brandBlockRef.current;
+			if (!sep || !brand) return;
+
+			const sepRect = sep.getBoundingClientRect();
+			const brandRect = brand.getBoundingClientRect();
+
+			// Move the brand so its horizontal center matches the separator's x position
+			const separatorX = sepRect.left + sepRect.width / 2;
+			const brandCenterX = brandRect.left + brandRect.width / 2;
+			const deltaX = Math.round(separatorX - brandCenterX);
+			setBrandTranslateX(deltaX);
+		};
+
+		// Initial alignment and on resize
+		alignBrandToSeparator();
+		window.addEventListener("resize", alignBrandToSeparator);
+		return () => window.removeEventListener("resize", alignBrandToSeparator);
+	}, [selectedLocation]);
+
 	useEffect(() => {
 		const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
 			setIsAuthed(!!session);
@@ -56,10 +83,10 @@ const ModernNav = () => {
 			setIsAdmin(!!(userMeta.is_admin || appMeta.is_admin || roles?.includes?.("admin")));
 			
 			const name = userMeta.full_name || 
-						 userMeta.first_name || 
-						 userMeta.name || 
-						 session?.user?.email?.split("@")[0] || 
-						 null;
+					 userMeta.first_name || 
+					 userMeta.name || 
+					 session?.user?.email?.split("@")[0] || 
+					 null;
 			setDisplayName(name);
 		});
 		
@@ -72,10 +99,10 @@ const ModernNav = () => {
 			setIsAdmin(!!(userMeta.is_admin || appMeta.is_admin || roles?.includes?.("admin")));
 			
 			const name = userMeta.full_name || 
-						 userMeta.first_name || 
-						 userMeta.name || 
-						 session?.user?.email?.split("@")[0] || 
-						 null;
+					 userMeta.first_name || 
+					 userMeta.name || 
+					 session?.user?.email?.split("@")[0] || 
+					 null;
 			setDisplayName(name);
 		});
 		
@@ -169,7 +196,7 @@ const ModernNav = () => {
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
-						<span className="text-gray-400">|</span>
+						<span ref={topSeparatorRef} className="text-gray-400">|</span>
 						<Link to="/help" className="hover:text-brand-red transition-colors">
 							Help & Contact
 						</Link>
@@ -187,9 +214,17 @@ const ModernNav = () => {
 				<div className="max-w-7xl mx-auto px-4">
 					<div className="grid grid-cols-[1fr_auto_auto] h-28 items-center gap-8">
 						{/* Brand - Text only "ZingLots.com" with tagline */}
-						<div className="flex flex-col justify-center min-w-fit md:justify-self-start md:self-start md:-mt-1 md:pl-2">
+						<div ref={brandBlockRef} style={{ transform: `translateX(${brandTranslateX}px)` }} className="flex flex-col justify-center min-w-fit md:justify-self-start md:self-start md:-mt-1 md:pl-2">
 							<Link to="/" className="flex flex-col items-center" aria-label="ZingLots.com Home">
-								<span className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">ZingLots.com</span>
+								<span className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">
+									Z
+									<span className="text-blue-600">i</span>
+									ngL
+									<span className="text-red-600">o</span>
+									ts.c
+									<span className="text-red-600">o</span>
+									m
+								</span>
 								<span className="text-xs md:text-sm lg:text-base text-gray-600 font-medium mt-1 whitespace-nowrap">The Smart Choice for Business Auctions</span>
 							</Link>
 						</div>
