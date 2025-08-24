@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://www.zinglots.com/</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/auctions</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/discover</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/pricing</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/help</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/sellers</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/r/seattle</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/r/tacoma</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/r/los-angeles</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/r/chicago</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/product/s1</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/product/s2</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/product/s3</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/product/show1</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/product/show2</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
-<url><loc>https://www.zinglots.com/product/lot-${i + 1}</loc><lastmod>2025-08-24T06:13:02.381Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/auctions</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/discover</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/pricing</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/help</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/sellers</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/r/seattle</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/r/tacoma</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/r/los-angeles</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/r/chicago</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/product/s1</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/product/s2</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/product/s3</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/product/show1</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/product/show2</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
+<url><loc>https://www.zinglots.com/product/lot-${i + 1}</loc><lastmod>2025-08-24T06:24:29.333Z</lastmod><priority>0.7</priority></url>
 </urlset>

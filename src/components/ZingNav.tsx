@@ -12,7 +12,7 @@ import {
 
 import { Menu, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
-import Logo from "@/components/brand/Logo";
+import Brand from "@/components/Brand";
 
 import getSupabase from "@/integrations/supabase/client";
 
@@ -121,9 +121,7 @@ const ZingNav = () => {
 
         {/* Centered Logo */}
         <div className="flex items-center justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-          <Link to="/" className="flex items-center group" aria-label="Go to home">
-            <Logo size="md" withText onDark={false} />
-          </Link>
+          <Brand className="text-black text-xl font-extrabold tracking-tight" />
         </div>
 
         {/* Right Nav */}

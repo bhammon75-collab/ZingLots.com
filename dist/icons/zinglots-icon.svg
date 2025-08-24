@@ -1,12 +1,9 @@
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Z favicon in red circle">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="ZingLots icon">
   <style>
-    .red{fill:#DC2626}
-    .z{fill:#FFFFFF;font:800 86px/1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}
+    .z-letter{fill:#DC2626;font:800 86px/1 'Inter','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial}
   </style>
-  <!-- Red circle -->
-  <circle class="red" cx="50" cy="50" r="44"/>
-  <!-- Centered Z -->
-  <text class="z"
+  <!-- Z letter in red -->
+  <text class="z-letter"
         x="50" y="50" dy="6"
         text-anchor="middle"
         dominant-baseline="middle">Z</text>
