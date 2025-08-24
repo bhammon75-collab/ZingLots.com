@@ -92,7 +92,7 @@ const Index = () => {
       timeLeft: "2h 15m",
       location: "Seattle",
       distance: "3.2 mi",
-      image: "/placeholder-kitchen.jpg",
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&auto=format",
       needsForklift: true,
       category: "Restaurant",
       bidCount: 8
@@ -104,7 +104,7 @@ const Index = () => {
       timeLeft: "45m",
       location: "Tacoma",
       distance: "12.4 mi",
-      image: "/placeholder-lumber.jpg",
+      image: "https://images.unsplash.com/photo-1609205612107-e0ec2120f9de?w=800&h=600&fit=crop&auto=format",
       needsForklift: false,
       category: "Construction",
       bidCount: 12
@@ -116,7 +116,7 @@ const Index = () => {
       timeLeft: "6h 30m", 
       location: "Bellevue",
       distance: "8.1 mi",
-      image: "/placeholder-office.jpg",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format",
       needsForklift: true,
       category: "Office",
       bidCount: 5

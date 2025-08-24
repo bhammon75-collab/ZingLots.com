@@ -65,7 +65,7 @@ export default function ProfessionalAuctionCard({ auction }: { auction: AuctionD
       {/* Image Container */}
       <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
         <img 
-          src={auction.hero_image_url || "/placeholder.jpg"} 
+          src={auction.hero_image_url || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop&auto=format"} 
           alt={auction.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
