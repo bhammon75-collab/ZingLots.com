@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Header from "@/components/layout/Header";
-import Logo from "@/components/brand/Logo";
+import Brand from "@/components/Brand";
 import CategoryPills from "@/components/CategoryPills";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
