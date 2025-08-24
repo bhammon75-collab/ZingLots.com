@@ -658,21 +658,21 @@ const ModernIndex = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-brand-red to-brand-red-dark text-white">
+      <section className="py-20 bg-[#0f172a] text-white">
         <div className="max-w-4xl mx-auto text-center px-4">
           <h2 className="text-4xl font-bold mb-4">Have Equipment to Auction?</h2>
-          <p className="text-xl mb-8 text-red-100">
+          <p className="text-xl mb-8 text-white/80">
             Turn your surplus inventory into cash through our trusted auction platform
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/seller/apply">
-              <Button size="lg" className="btn-modern bg-white text-brand-red hover:bg-gray-100">
+              <Button size="lg" className="btn-modern bg-[#ef4444] text-white hover:bg-red-600">
                 <Gavel className="mr-2 h-5 w-5" />
                 Start an Auction
               </Button>
             </Link>
             <Link to="/help">
-              <Button size="lg" className="btn-modern border-2 border-white bg-transparent hover:bg-white hover:text-brand-red">
+              <Button size="lg" variant="outline" className="btn-modern border-[#2563eb] text-[#2563eb] hover:bg-blue-50">
                 How Auctions Work
               </Button>
             </Link>
