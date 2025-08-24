@@ -185,9 +185,9 @@ const ModernNav = () => {
 			{/* Main Navigation */}
 			<header className="nav-modern bg-white border-b-2 border-gray-100">
 				<div className="max-w-7xl mx-auto px-4">
-					<div className="flex h-28 items-center justify-between gap-8">
+					<div className="grid grid-cols-[1fr_auto_auto] h-28 items-center gap-8">
 						{/* Brand - Text only "ZingLots.com" with tagline */}
-						<div className="flex flex-col justify-center min-w-fit">
+						<div className="flex flex-col justify-center min-w-fit md:justify-self-start md:self-start md:-mt-1 md:pl-2">
 							<Link to="/" className="flex flex-col items-center" aria-label="ZingLots.com Home">
 								<span className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">ZingLots.com</span>
 								<span className="text-xs md:text-sm lg:text-base text-gray-600 font-medium mt-1 whitespace-nowrap">The Smart Choice for Business Auctions</span>
@@ -195,7 +195,7 @@ const ModernNav = () => {
 						</div>
 
 						{/* Search Bar - Enhanced Design */}
-						<div className="hidden md:flex flex-col flex-1 max-w-3xl mx-4 lg:mx-8 self-stretch justify-center">
+						<div className="hidden md:flex flex-col flex-1 max-w-3xl mx-0 self-stretch justify-center md:col-start-2 md:justify-self-start">
 							<form onSubmit={handleSearch} className="w-full">
 								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
 									<input
@@ -222,7 +222,7 @@ const ModernNav = () => {
 						</div>
 
 						{/* Right Actions */}
-						<div className="flex items-center gap-2 self-stretch">
+						<div className="flex items-center gap-2 self-stretch md:col-start-3 md:justify-self-end">
 							<Button variant="ghost" size="icon" asChild aria-label="Cart">
 								<Link to="/cart"><ShoppingCart className="h-5 w-5" /></Link>
 							</Button>

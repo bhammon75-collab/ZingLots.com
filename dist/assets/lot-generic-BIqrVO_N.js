@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:dist/assets/lot-generic-Cd50QYEq.js
-import{j as e}from"./index-RMnvgOX9.js";import{S as t}from"./shield-check-s6jxJsD8.js";function a({className:s=""}){return e.jsxs("span",{className:`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${s}`,children:[e.jsx(t,{className:"h-3.5 w-3.5 text-blue-600"})," Verified SME"]})}const l="/assets/lot-generic-BwQwZ4bp.jpg";export{a as V,l};
-========
-import{j as e}from"./index-DWAtv63b.js";import{S as t}from"./shield-check-BTJ8T60_.js";function a({className:s=""}){return e.jsxs("span",{className:`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${s}`,children:[e.jsx(t,{className:"h-3.5 w-3.5 text-blue-600"})," Verified SME"]})}const l="/assets/lot-generic-BwQwZ4bp.jpg";export{a as V,l};
->>>>>>>> origin/import-zla:dist/assets/lot-generic-BIqrVO_N.js
