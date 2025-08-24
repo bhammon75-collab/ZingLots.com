@@ -215,12 +215,12 @@ const ModernNav = () => {
 				<div className="max-w-7xl mx-auto px-4">
 					<div className="grid grid-cols-[1fr_auto_auto] h-28 items-center gap-8">
 						{/* Brand - Use SVG logo */}
-						<div ref={brandBlockRef} style={{ transform: `translateX(${brandTranslateX}px)` }} className="flex flex-col justify-center min-w-fit md:justify-self-start md:self-start md:-mt-1 md:pl-2">
+						<div ref={brandBlockRef} style={{ transform: `translateX(${brandTranslateX}px)` }} className="flex flex-col justify-center min-w-fit self-center md:justify-self-start md:self-center md:mt-0 md:pl-2">
 							<Brand
 								variant="header"
 								className="justify-start"
-								size={44}
-								textClassName="text-2xl md:text-3xl lg:text-4xl"
+								size={52}
+								textClassName="text-3xl md:text-4xl lg:text-5xl"
 							/>
 						</div>
 
