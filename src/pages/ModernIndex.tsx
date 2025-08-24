@@ -223,10 +223,10 @@ const ModernIndex = () => {
     },
     {
       id: "4",
-      title: "Industrial Floor Scrubber Machine",
-      currentPrice: 1300,
-      retailPrice: 4800,
-      bids: 9,
+      title: "Industrial Floor Scrubber - Tennant T5",
+      currentPrice: 1850,
+      retailPrice: 5500,
+      bids: 6,
       timeLeft: "1d 4h",
       location: "Kent, WA",
       distance: "15.3 mi",
@@ -322,7 +322,7 @@ const ModernIndex = () => {
       <link rel="preload" as="image" href={heroSlides[0].image} />
       
       {/* Hero Carousel */}
-      <HeroRotator slides={heroSlides} className="mb-6" autoplayMs={2200} transitionMs={500} />
+      <HeroRotator slides={heroSlides} className="mb-6" />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
@@ -557,7 +557,7 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto">
             {featuredLots.map((lot) => (
-              <Card key={lot.id} className="lot-card group">
+              <Card key={lot.id} className="lot-card group flex flex-col h-full">
                 <div className="relative overflow-hidden">
                   <img
                     src={lot.image}
@@ -579,7 +579,7 @@ const ModernIndex = () => {
                   </div>
                 </div>
                 
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex flex-col h-full">
                   <Badge variant="secondary" className="mb-2">{lot.category}</Badge>
                   <h3 className="lot-card-title">{lot.title}</h3>
                   
@@ -615,7 +615,7 @@ const ModernIndex = () => {
                   <div className="text-xs text-gray-500 mb-2">
                     Auction {lot.auctionNumber}
                   </div>
-                  <Link to={`/live/${lot.id}`} className="block w-full">
+                  <Link to={`/live/${lot.id}`} className="block w-full mt-auto">
                     <Button className="w-full btn-modern btn-primary">
                       <Gavel className="mr-2 h-4 w-4" />
                       Place Bid

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ImageWithFallback from "./ImageWithFallback";
-import { getHeroStockImage } from "@/lib/stockImages";
 
 // Lightweight local swipe handler to avoid external dependency
 function useSwipeableShim(opts: { onSwipedLeft?: () => void; onSwipedRight?: () => void; trackTouch?: boolean }) {
@@ -215,14 +214,7 @@ export default function HeroRotator(props: Props){
             >
               <picture>
                 {s.imageMobile && (<source media="(max-width: 640px)" srcSet={s.imageMobile} />)}
-                <ImageWithFallback 
-                  src={s.image} 
-                  alt={s.title || ""} 
-                  className="h-full w-full object-cover" 
-                  data-category={s.title}
-                  data-seed={s.id}
-                  fallback={getHeroStockImage(s.id)}
-                />
+                <ImageWithFallback src={s.image} alt={s.title || ""} className="h-full w-full object-cover" />
               </picture>
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />

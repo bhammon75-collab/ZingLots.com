@@ -2,14 +2,13 @@ import LotCard from "@/components/zl/LotCard";
 import LotGrid from "@/components/zl/LotGrid";
 import { AuctionHeader } from "@/components/zl/AuctionHeader";
 import { SEO } from "@/components/zl/SEO";
-import { getStockImage } from "@/lib/stockImages";
 
 export default function AuctionsPage() {
   // Mock data for demonstration
   const lots = [
     {
       id: "1",
-      image: getStockImage("tools", 1),
+      image: "/placeholder.svg",
       title: "Professional Power Tools Collection",
       location: "Seattle, WA",
       currentBid: 125,
@@ -18,7 +17,7 @@ export default function AuctionsPage() {
     },
     {
       id: "2",
-      image: getStockImage("office", 2),
+      image: "/placeholder.svg",
       title: "Vintage Office Furniture Set",
       location: "Portland, OR",
       currentBid: 89,
@@ -27,7 +26,7 @@ export default function AuctionsPage() {
     },
     {
       id: "3", 
-      image: getStockImage("restaurant", 3),
+      image: "/placeholder.svg",
       title: "Restaurant Equipment Lot",
       location: "Tacoma, WA",
       currentBid: 350,

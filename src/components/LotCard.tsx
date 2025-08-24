@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useWatchlist } from "@/hooks/useWatchlist";
 import { CountdownPill } from "@/components/auctions/CountdownPill";
 import { WatchButton } from "@/components/auctions/WatchButton";
-import ImageWithFallback from "@/components/ImageWithFallback";
 import lotImage from "@/assets/lot-generic.jpg";
 
 export interface LotItem {
@@ -75,12 +74,10 @@ const LotCard = ({ item }: { item: LotItem }) => {
   return (
     <article className="group rounded-xl border border-line bg-white shadow-card hover:shadow-cardHover transition overflow-hidden">
       <div className="relative aspect-[4/3] bg-zinc-100">
-        <ImageWithFallback
-          src={item.image_url || lotImage}
+        <img 
+          src={item.image_url || lotImage} 
           alt={item.title}
           className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
-          data-category={item.category}
-          data-seed={item.id}
         />
         
         {/* Reserve status and countdown */}
