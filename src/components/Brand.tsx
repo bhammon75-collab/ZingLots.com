@@ -26,6 +26,6 @@ export default function Brand({
   }
 
   return (
-    <ZingLotsLogo size={size} variant="primary" className={className} />
+    <ZingLotsLogo size={size} variant="primary" className={className} textClassName={textClassName} />
   );
 }

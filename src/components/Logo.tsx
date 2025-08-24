@@ -1,11 +1,13 @@
 export default function ZingLotsLogo({ 
   size = 32, 
   className = "",
-  variant = "primary" // "primary", "white", "flexible" 
+  variant = "primary", // "primary", "white", "flexible" 
+  textClassName = ""
 }: {
   size?: number;
   className?: string;
   variant?: "primary" | "white" | "flexible";
+  textClassName?: string;
 }) {
   const colors = {
     primary: "#0f172a",
@@ -38,7 +40,7 @@ export default function ZingLotsLogo({
         />
       </svg>
       
-      <div className="flex items-baseline">
+      <div className={`flex items-baseline ${textClassName}`}>
         <span className="font-extrabold tracking-tight">Zing</span>
         <span className="font-bold tracking-tight">Lots</span>
         <span className="ml-1 font-medium opacity-70 text-sm">.com</span>
