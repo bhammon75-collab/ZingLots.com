@@ -27,6 +27,7 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import "../styles/modern-design.css";
 import Brand from "./Brand";
+import { CATEGORIES } from "@/data/categories";
 
 interface UserMetadata {
 	roles?: string[];
@@ -42,6 +43,7 @@ const ModernNav = () => {
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [displayName, setDisplayName] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState("");
+	const [searchCategory, setSearchCategory] = useState<string>("");
 	const [showCategories, setShowCategories] = useState(false);
 	const [showLocations, setShowLocations] = useState(false);
 	const [selectedLocation, setSelectedLocation] = useState("All Locations");
@@ -116,9 +118,10 @@ const ModernNav = () => {
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (searchQuery.trim()) {
-			navigate(`/discover?q=${encodeURIComponent(searchQuery)}`);
-		}
+		const params = new URLSearchParams();
+		if (searchQuery.trim()) params.set("q", searchQuery.trim());
+		if (searchCategory) params.set("category", searchCategory);
+		navigate(`/discover?${params.toString()}`);
 	};
 
 	const categories = [
@@ -225,15 +228,26 @@ const ModernNav = () => {
 						</div>
 
 						{/* Search Bar - Enhanced Design */}
-						<div className="hidden md:flex flex-1 max-w-3xl mx-0 self-center justify-center md:col-start-2 md:justify-self-start">
+						<div className="hidden md:flex flex-1 max-w-5xl mx-0 self-center justify-center md:col-start-2 md:justify-self-start">
 							<form onSubmit={handleSearch} className="w-full">
 								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
+									<select
+										value={searchCategory}
+										onChange={(e) => setSearchCategory(e.target.value)}
+										className="h-12 lg:h-14 px-3 text-sm text-zinc-700 bg-transparent outline-none rounded-l-xl border-r border-zinc-200"
+										aria-label="Category"
+									>
+										<option value="">All Categories</option>
+										{CATEGORIES.map((c) => (
+											<option key={c.slug} value={c.name}>{c.name}</option>
+										))}
+									</select>
 									<input
 										type="text"
 										placeholder="Search active auctions..."
 										value={searchQuery}
 										onChange={(e) => setSearchQuery(e.target.value)}
-										className="flex-1 h-12 lg:h-14 px-4 outline-none rounded-l-xl"
+										className="flex-1 h-12 lg:h-14 px-4 outline-none"
 									/>
 									<button 
 										type="submit"
