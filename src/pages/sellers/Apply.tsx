@@ -8,7 +8,15 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 
-const categories = ["cards","vintage-toys","sneakers","jewelry","coins","comics","antiques"];
+// Updated to current B2B marketplace categories
+const categories = [
+  "construction-materials",
+  "restaurant-equipment",
+  "office-furniture",
+  "industrial-equipment",
+  "municipal-surplus",
+  "vehicles-fleet"
+];
 
 export default function SellerApply() {
   const sb = getSupabase();
@@ -146,10 +154,7 @@ export default function SellerApply() {
             <Textarea value={form.shop_links} onChange={(e)=>set("shop_links", e.target.value)} placeholder="https://www.ebay.com/usr/..., https://instagram.com/..." />
           </div>
 
-          <div className="space-y-2">
-            <Label>Preferred live slots (comma-separated)</Label>
-            <Input value={form.preferred_slots} onChange={(e)=>set("preferred_slots", e.target.value)} placeholder="Tue 7–9pm PT, Thu 6–8pm PT" />
-          </div>
+          {/* Live show scheduling removed */}
 
           <div className="space-y-2">
             <Label>Upload business documentation (optional)</Label>
