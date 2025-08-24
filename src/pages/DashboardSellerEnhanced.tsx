@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
+// Removed page-local nav to avoid duplicate logos; global Header is used
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -102,7 +102,6 @@ const DashboardSellerEnhanced = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <ModernNav />
         <div className="flex items-center justify-center h-[60vh]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
@@ -117,7 +116,7 @@ const DashboardSellerEnhanced = () => {
         <meta name="description" content="Manage your auctions, track sales, and grow your business on ZingLots" />
       </Helmet>
       
-      <ModernNav />
+      {/* Global Header is already rendered by AppShell */}
       
       <main className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -188,14 +187,7 @@ const DashboardSellerEnhanced = () => {
               <span>Create New Lot</span>
             </Button>
             
-            <Button 
-              onClick={() => navigate('/seller/live')}
-              variant="outline"
-              className="h-auto py-4 flex flex-col items-center gap-2"
-            >
-              <Upload className="h-5 w-5" />
-              <span>Go Live</span>
-            </Button>
+            {/* Live shows removed */}
             
             <Button 
               variant="outline"
@@ -214,7 +206,7 @@ const DashboardSellerEnhanced = () => {
             <CardHeader>
               <CardTitle className="text-yellow-800">Complete Your Verification</CardTitle>
               <CardDescription className="text-yellow-700">
-                You need to complete seller verification to start creating lots and going live.
+                You need to complete seller verification to start creating lots.
               </CardDescription>
             </CardHeader>
             <CardContent>

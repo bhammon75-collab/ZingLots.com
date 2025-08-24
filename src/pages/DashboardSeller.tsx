@@ -1,12 +1,10 @@
 import { Helmet } from "react-helmet-async";
-import ZingNav from "@/components/ZingNav";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getSupabase } from "@/lib/supabaseClient";
 import { useToast } from "@/components/ui/use-toast";
 import ShippingTrackingDialog from "@/components/ShippingTrackingDialog";
-import CSVImport from "@/components/lots/CSVImport";
 import { Button as UIButton } from "@/components/ui/button";
 import { getSupabase as getSb } from "@/lib/supabaseClient";
 import { toast as showToast } from "@/components/ui/use-toast";
@@ -41,10 +39,6 @@ interface SellerInfo {
   connectChargesEnabled?: boolean;
   connectPayoutsEnabled?: boolean;
   connectRequirements?: string[] | null;
-}
-
-interface ShowData {
-  id: string;
 }
 
 interface OnboardingResponse {
@@ -90,13 +84,6 @@ function isValidSellerData(data: unknown): data is SellerData {
   );
 }
 
-function isValidShowData(data: unknown): data is ShowData {
-  if (!data || typeof data !== 'object') return false;
-  const show = data as Record<string, unknown>;
-  
-  return typeof show.id === 'string';
-}
-
 function isValidOrdersArray(data: unknown): data is OrderRow[] {
   if (!Array.isArray(data)) return false;
   
@@ -131,7 +118,7 @@ const DashboardSeller = () => {
   const [trackingOpen, setTrackingOpen] = useState(false);
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
   const [sellerId, setSellerId] = useState<string | null>(null);
-  const [runningShowId, setRunningShowId] = useState<string | null>(null);
+  // Live shows removed from product; keep state minimal
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -175,19 +162,7 @@ const DashboardSeller = () => {
           connectRequirements: data.connect_requirements ?? null,
         });
 
-        // Find running show for this seller with type safety
-        const { data: srow } = await sb
-          .schema('app')
-          .from('shows')
-          .select('id')
-          .eq('seller_id', uid)
-          .eq('status', 'running')
-          .order('created_at', { ascending: false })
-          .maybeSingle();
-        
-        if (isValidShowData(srow)) {
-          setRunningShowId(srow.id);
-        }
+        // Live shows deprecated: no-op
 
         // Attempt to fetch paid orders with type safety
         const { data: orders } = await sb
@@ -243,37 +218,10 @@ const DashboardSeller = () => {
     }
   };
 
-  const goLive = async () => {
-    const sb = getSupabase();
-    if (!sb) return;
-    try {
-      const { data, error } = await sb.rpc('go_live');
-      if (error) throw error;
-      if (data && typeof data === 'string') {
-        toast({ title: 'Show is live', description: 'You can now start lots.' });
-        setRunningShowId(data);
-      }
-    } catch (error: unknown) {
-      const errorWithMessage = toErrorWithMessage(error);
-      toast({ variant: 'destructive', title: 'Go live failed', description: errorWithMessage.message || 'Please complete onboarding.' });
-    }
-  };
+  // Live shows deprecated: remove actions
+  const goLive = async () => { toast({ title: 'Action unavailable', description: 'Live shows are no longer supported.' }); };
 
-  const startLot = async () => {
-    const sb = getSupabase();
-    if (!sb) return;
-    try {
-      const { data, error } = await sb.rpc('start_lot', { p_title: 'Quick Lot', p_starting: 10, p_duration_secs: 60 });
-      if (error) throw error;
-      if (data && typeof data === 'string') {
-        toast({ title: 'Lot started', description: 'Redirecting to auction room…' });
-        navigate(`/live/${data}`);
-      }
-    } catch (error: unknown) {
-      const errorWithMessage = toErrorWithMessage(error);
-      toast({ variant: 'destructive', title: 'Start lot failed', description: errorWithMessage.message || 'Please try again.' });
-    }
-  };
+  const startLot = async () => { toast({ title: 'Action unavailable', description: 'Live shows are no longer supported.' }); };
 
   const openTracking = (orderId: string) => {
     setActiveOrderId(orderId);
@@ -315,7 +263,7 @@ const DashboardSeller = () => {
         <meta name="description" content="Manage lots, shows, KYC, and payouts on ZingLots." />
         <link rel="canonical" href="/dashboard/seller" />
       </Helmet>
-      <ZingNav />
+      {/* Header already provided by global AppShell; remove extra nav to avoid duplicate logos */}
       <main className="container mx-auto grid gap-6 px-4 py-10 md:grid-cols-3">
         <section className="md:col-span-2 space-y-4">
           <h1 className="text-3xl font-bold">Seller Console</h1>
@@ -344,27 +292,14 @@ const DashboardSeller = () => {
           </div>
           <div className="rounded-lg border bg-card p-6">
             <h2 className="font-semibold">Your Lots</h2>
-            <p className="text-sm text-muted-foreground">Create, schedule, and manage lots here.</p>
+            <p className="text-sm text-muted-foreground">Create and manage your lots here.</p>
             <div className="mt-4 flex gap-3">
-              <Button onClick={goLive} disabled={!canGoLive} aria-disabled={!canGoLive}>Go Live</Button>
-              <Button variant="outline" onClick={startLot} disabled={!canGoLive} aria-disabled={!canGoLive}>Start Lot</Button>
+              <Button onClick={() => navigate('/sell/new')}>Create New Lot</Button>
+              <Button variant="outline" onClick={() => navigate('/browse')}>Browse Lots</Button>
             </div>
-            {!loading && !canGoLive && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                Finish onboarding to go live → <Link to="/dashboard/seller" className="underline">Seller Dashboard</Link>
-              </p>
-            )}
           </div>
 
-          {canGoLive && runningShowId && sellerId && (
-            <div className="rounded-lg border bg-card p-6">
-              <h2 className="font-semibold">Bulk Import Lots (CSV)</h2>
-              <p className="text-sm text-muted-foreground">Import lots into your running show.</p>
-              <div className="mt-4">
-                <CSVImport showId={runningShowId} sellerId={sellerId} />
-              </div>
-            </div>
-          )}
+          {/* Bulk import tied to live shows removed */}
 
           <div className="rounded-lg border bg-card p-6">
             <h2 className="font-semibold">Paid Orders</h2>
