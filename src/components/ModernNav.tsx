@@ -187,8 +187,8 @@ const ModernNav = () => {
 				<div className="max-w-7xl mx-auto px-4">
 					<div className="flex h-28 items-center justify-between">
 						{/* Brand - Text only "ZingLots.com" */}
-						<Link to="/" className="flex items-center" aria-label="ZingLots.com Home">
-							<span className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-none">ZingLots.com</span>
+						<Link to="/" className="flex items-center self-start" aria-label="ZingLots.com Home">
+							<span className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-none">ZingLots.com</span>
 						</Link>
 
 						{/* Search Bar - Enhanced Design */}

@@ -659,7 +659,7 @@ const ModernIndex = () => {
           <div className="footer-links">
             <div className="lg:col-span-1">
               <div className="text-center md:text-left">
-                <Brand variant="footer" className="mb-3 md:mb-4" />
+                {/* Brand removed to reduce redundant dark logo */}
                 <p className="text-white/70">The premier B2B surplus marketplace.</p>
                 
                 <div className="mt-3 flex items-center justify-center md:justify-start gap-2.5">
