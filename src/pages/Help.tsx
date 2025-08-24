@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ZingNav from "@/components/ZingNav";
 
 const Help = () => {
   return (
@@ -9,7 +8,6 @@ const Help = () => {
         <meta name="description" content="Get help with buying, selling, shipping, and account questions on ZingLots." />
         <link rel="canonical" href="/help" />
       </Helmet>
-      <ZingNav />
       <main className="container mx-auto px-4 py-10">
         <header className="mb-8">
           <h1 className="text-3xl font-bold">Help & Contact</h1>

@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ZingNav from "@/components/ZingNav";
 import { DEMO_LOTS } from "@/data/demo";
 import LotCard from "@/components/LotCard";
 import { useMemo, useState, useEffect } from "react";
@@ -73,13 +72,12 @@ useEffect(() => {
         <meta name="description" content="Browse trending marketplace listings, filter by category and price, and find deals today." />
         <link rel="canonical" href="/discover" />
       </Helmet>
-      <ZingNav />
       <main>
         <div className="container mx-auto px-4 py-10">
           <header className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <h1 className="text-3xl font-bold">Discover</h1>
-              <p className="mt-2 text-muted-foreground">Trending across categories</p>
+              <p className="mt-2 text-muted-foreground">Trending business surplus near you</p>
             </div>
             <form className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
               <div className="md:w-[280px]">
@@ -87,7 +85,7 @@ useEffect(() => {
                   value={q}
                   onChange={(v) => setQ(v)}
                   onSubmit={(v) => setQ(v)}
-                  placeholder="Search collectibles"
+                  placeholder="Search auctions and lots"
                   ariaLabel="Search"
                 />
               </div>
