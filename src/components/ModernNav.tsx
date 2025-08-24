@@ -228,16 +228,16 @@ const ModernNav = () => {
 						</div>
 
 						{/* Search Bar - Enhanced Design */}
-						<div className="hidden md:flex flex-1 max-w-5xl mx-0 self-center justify-center md:col-start-2 md:justify-self-start">
-							<form onSubmit={handleSearch} className="w-full">
-								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm">
+						<div className="hidden md:flex flex-1 max-w-5xl mx-0 self-center items-center gap-2 md:col-start-2 md:justify-self-start">
+							<form onSubmit={handleSearch} className="flex-1">
+								<div className="flex w-full items-center rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
 									<select
 										value={searchCategory}
 										onChange={(e) => setSearchCategory(e.target.value)}
-										className="h-12 lg:h-14 px-3 text-sm text-zinc-700 bg-transparent outline-none rounded-l-xl border-r border-zinc-200"
+										className="h-12 lg:h-14 px-2 text-sm text-zinc-700 bg-transparent outline-none w-36 lg:w-40 border-r border-zinc-200"
 										aria-label="Category"
 									>
-										<option value="">All Categories</option>
+										<option value="">All</option>
 										{CATEGORIES.map((c) => (
 											<option key={c.slug} value={c.name}>{c.name}</option>
 										))}
@@ -249,15 +249,16 @@ const ModernNav = () => {
 										onChange={(e) => setSearchQuery(e.target.value)}
 										className="flex-1 h-12 lg:h-14 px-4 outline-none"
 									/>
-									<button 
-										type="submit"
-										className="h-12 lg:h-14 px-4 lg:px-6 bg-[#E02020] text-white font-semibold rounded-r-xl hover:brightness-95 transition-all flex items-center gap-2"
-									>
-										<Search className="h-5 w-5" />
-										<span className="hidden lg:inline">Search Auctions</span>
-									</button>
 								</div>
 							</form>
+							<button 
+								type="button"
+								onClick={(e)=> handleSearch(e as unknown as React.FormEvent)}
+								className="h-12 lg:h-14 px-4 lg:px-6 bg-[#E02020] text-white font-semibold rounded-xl hover:brightness-95 transition-all flex items-center gap-2"
+							>
+								<Search className="h-5 w-5" />
+								<span className="hidden lg:inline">Search</span>
+							</button>
 						</div>
 
 						{/* Right Actions */}
