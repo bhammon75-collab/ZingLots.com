@@ -1,0 +1,1 @@
+import{j as e}from"./index-ZNYfc7OS.js";import{S as t}from"./shield-check-3xYXd3l-.js";function a({className:s=""}){return e.jsxs("span",{className:`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs ${s}`,children:[e.jsx(t,{className:"h-3.5 w-3.5 text-blue-600"})," Verified SME"]})}const l="/assets/lot-generic-BwQwZ4bp.jpg";export{a as V,l};
