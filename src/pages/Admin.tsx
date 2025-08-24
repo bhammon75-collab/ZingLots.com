@@ -59,7 +59,9 @@ const Admin = () => {
     try {
       await sb.functions.invoke('admin-impersonate-set', { body: { user_id: impersonateId } });
       // Read-only impersonation cookie will be set by edge; UI can show banner via nav
-    } catch {}
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
   return (

@@ -160,7 +160,7 @@ class Analytics {
 export const analytics = new Analytics();
 
 // React hook for analytics
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export function useAnalytics() {
@@ -192,6 +192,6 @@ export function withAnalytics<T extends { onClick?: (...args: any[]) => void }>(
       }
     };
 
-    return <Component {...props} onClick={handleClick} />;
+    return React.createElement(Component, { ...props, onClick: handleClick });
   };
 }

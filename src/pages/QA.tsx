@@ -33,7 +33,7 @@ const QA = () => {
     const { error } = await sb.rpc("public.place_bid", { lot_id: lotId, offered: 12.34, max: null });
     if (error) return toast({ description: error.message });
     toast({ description: `Bid placed for $12.34` });
-    try { await sendEmail({ to: 'dev@localhost', type: 'bid_placed', input: { lotId, lotTitle: 'QA Lot' } }); } catch {}
+    try { await sendEmail({ to: 'dev@localhost', type: 'bid_placed', input: { lotId, lotTitle: 'QA Lot' } }); } catch (e) { console.warn('sendEmail failed', e); }
   };
 
   const shortenSoftClose = async () => {
@@ -50,7 +50,7 @@ const QA = () => {
     const { error } = await sb.rpc("end_lot", { p_lot: lotId });
     if (error) return toast({ description: error.message });
     toast({ description: "Lot ended (if you have permission)" });
-    try { await sendEmail({ to: 'dev@localhost', type: 'win', input: { lotId, lotTitle: 'QA Lot' } }); } catch {}
+    try { await sendEmail({ to: 'dev@localhost', type: 'win', input: { lotId, lotTitle: 'QA Lot' } }); } catch (e) { console.warn('sendEmail failed', e); }
   };
 
   const [imgFile, setImgFile] = useState<File | null>(null);

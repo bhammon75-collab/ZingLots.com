@@ -43,7 +43,7 @@ export default function SellerApply() {
     setLoading(true);
     try {
       // Optional: upload doc to lot-docs under user folder
-      let doc_paths: string[] = [];
+      const doc_paths: string[] = [];
       const { data: sess } = await sb.auth.getSession();
       const uid = sess?.session?.user?.id;
       if (docFile && uid) {

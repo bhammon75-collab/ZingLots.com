@@ -67,7 +67,9 @@ const ProductDetail = () => {
       try {
         const { data: v } = await sb.rpc('app.is_lot_seller_verified', { p_lot: id });
         setSellerVerified(Boolean(v));
-      } catch {}
+      } catch (err) {
+        console.warn(err);
+      }
       setLoading(false);
     };
     run();

@@ -172,7 +172,7 @@ export default function BulkLotManager() {
           }
           break;
 
-        case 'archive':
+        case 'archive': {
           const { error: archiveError } = await supabase!
             .from('lots')
             .update({ status: 'void' })
@@ -185,8 +185,9 @@ export default function BulkLotManager() {
             description: `Archived ${selectedIds.length} lots`
           });
           break;
+        }
 
-        case 'activate':
+        case 'activate': {
           const { error: activateError } = await supabase!
             .from('lots')
             .update({ status: 'running' })
@@ -199,8 +200,9 @@ export default function BulkLotManager() {
             description: `Activated ${selectedIds.length} lots`
           });
           break;
+        }
 
-        case 'pause':
+        case 'pause': {
           const { error: pauseError } = await supabase!
             .from('lots')
             .update({ status: 'queued' })
@@ -213,8 +215,9 @@ export default function BulkLotManager() {
             description: `Paused ${selectedIds.length} lots`
           });
           break;
+        }
 
-        case 'duplicate':
+        case 'duplicate': {
           // Fetch full lot data for duplication
           const { data: lotsToClone, error: fetchError } = await supabase!
             .from('lots')
@@ -246,6 +249,7 @@ export default function BulkLotManager() {
             });
           }
           break;
+        }
 
         default:
           toast({
