@@ -1,5 +1,4 @@
 import { Clock, Eye, Package, Star, TrendingUp } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 export type AuctionData = {
   id: string;
