@@ -65,7 +65,7 @@ const LinkTest = () => {
   // Test dynamic routes with sample IDs
   const dynamicRoutes = [
     { path: '/lot/test-123', label: 'Sample Lot Detail' },
-    { path: '/category/restaurant', label: 'Sample Category' },
+    { path: '/category/restaurant-equipment', label: 'Sample Category' },
     { path: '/seller/seller-123', label: 'Sample Seller Profile' },
     { path: '/product/prod-123', label: 'Sample Product' },
     { path: '/auction/auction-123', label: 'Sample Auction Room' },

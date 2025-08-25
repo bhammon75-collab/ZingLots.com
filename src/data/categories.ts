@@ -12,6 +12,11 @@ export const CATEGORIES: Category[] = [
   { name: "Industrial Equipment", slug: "industrial-equipment" },
   { name: "Municipal Surplus", slug: "municipal-surplus" },
   { name: "Vehicles & Fleet", slug: "vehicles-fleet" },
+  // Additional categories surfaced on Categories page
+  { name: "Medical & Lab", slug: "medical-lab" },
+  { name: "Home Furniture", slug: "home-furniture" },
+  { name: "Apparel & Textiles", slug: "apparel-textiles" },
+  { name: "Fitness & Sports", slug: "fitness-sports" },
 ];
 
 // Featured subset for nav/filter surfaces
@@ -32,6 +37,11 @@ export const CATEGORY_SLUG_ALIASES: Record<string, string> = {
   vehicles: "vehicles-fleet",
   vehicle: "vehicles-fleet",
   fleet: "vehicles-fleet",
+  // Additional categories
+  medical: "medical-lab",
+  furniture: "home-furniture",
+  apparel: "apparel-textiles",
+  fitness: "fitness-sports",
 };
 
 export function canonicalizeCategorySlug(slugOrAlias: string | undefined | null): string | null {

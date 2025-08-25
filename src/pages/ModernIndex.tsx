@@ -139,7 +139,7 @@ const ModernIndex = () => {
   // Categories with icons and colors
   const categories = [
     {
-      id: "construction",
+      id: "construction-materials",
       name: "Construction",
       icon: Building2,
       count: 342,
@@ -147,21 +147,21 @@ const ModernIndex = () => {
       trending: true
     },
     {
-      id: "restaurant",
+      id: "restaurant-equipment",
       name: "Restaurant",
       icon: UtensilsCrossed,
       count: 189,
       color: "from-green-500 to-emerald-500"
     },
     {
-      id: "office",
+      id: "office-furniture",
       name: "Office",
       icon: Briefcase,
       count: 156,
       color: "from-blue-500 to-indigo-500"
     },
     {
-      id: "municipal",
+      id: "municipal-surplus",
       name: "Municipal",
       icon: Wrench,
       count: 98,

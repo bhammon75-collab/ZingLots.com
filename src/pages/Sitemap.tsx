@@ -37,10 +37,14 @@ const Sitemap = () => {
       title: "Categories",
       icon: Package,
       links: [
-        { name: "Construction", path: "/category/construction", description: "Building materials & tools" },
-        { name: "Restaurant", path: "/category/restaurant", description: "Commercial kitchen equipment" },
-        { name: "Office", path: "/category/office", description: "Furniture & supplies" },
-        { name: "Municipal", path: "/category/municipal", description: "Government surplus" },
+        { name: "Construction", path: "/category/construction-materials", description: "Building materials & tools" },
+        { name: "Restaurant", path: "/category/restaurant-equipment", description: "Commercial kitchen equipment" },
+        { name: "Office", path: "/category/office-furniture", description: "Furniture & supplies" },
+        { name: "Municipal", path: "/category/municipal-surplus", description: "Government surplus" },
+        { name: "Medical & Lab", path: "/category/medical-lab", description: "Healthcare, lab equipment" },
+        { name: "Home Furniture", path: "/category/home-furniture", description: "Home and office furniture" },
+        { name: "Apparel & Textiles", path: "/category/apparel-textiles", description: "Apparel, uniforms, textiles" },
+        { name: "Fitness & Sports", path: "/category/fitness-sports", description: "Gym and sports equipment" },
         { name: "All Categories", path: "/categories", description: "Browse all categories" }
       ]
     },
