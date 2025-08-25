@@ -18,28 +18,7 @@ export default function ZingLotsLogo({
   const color = colors[variant];
   
   return (
-    <a href="/" className={`flex items-center gap-3 ${className}`}>
-      <svg 
-        width={size} 
-        height={size} 
-        viewBox="0 0 100 100" 
-        className="flex-shrink-0"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle 
-          cx="50" 
-          cy="50" 
-          r="46" 
-          fill="none" 
-          stroke={color} 
-          strokeWidth="8"
-        />
-        <path 
-          d="M25 35 L75 35 L45 50 L75 65 L25 65 L55 50 Z" 
-          fill={color}
-        />
-      </svg>
-      
+    <a href="/" className={`flex items-center ${className}`}>
       <div className={`flex items-baseline ${textClassName}`}>
         <span className="font-extrabold tracking-tight">Zing</span>
         <span className="font-bold tracking-tight">Lots</span>
