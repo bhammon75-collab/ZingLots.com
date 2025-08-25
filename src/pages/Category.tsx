@@ -2,21 +2,25 @@ import { Helmet } from "react-helmet-async";
 import ZingNav from "@/components/ZingNav";
 import { useParams } from "react-router-dom";
 import { DEMO_LOTS } from "@/data/demo";
-import { CATEGORIES } from "@/data/categories";
+import { CATEGORIES, getCategoryBySlugOrAlias, canonicalizeCategorySlug, getSlugForCategoryName } from "@/data/categories";
 import LotCard from "@/components/LotCard";
 
 const Category = () => {
   const { slug } = useParams();
-  const cat = CATEGORIES.find((c) => c.slug === slug);
+  const canonicalSlug = canonicalizeCategorySlug(slug) || undefined;
+  const cat = getCategoryBySlugOrAlias(slug || null) || undefined;
   const title = cat?.name ?? "Category";
-  const lots = DEMO_LOTS.filter((l) => CATEGORIES.find((c) => c.name === l.category)?.slug === slug);
+  const lots = DEMO_LOTS.filter((l) => {
+    const lotSlug = getSlugForCategoryName(l.category);
+    return canonicalSlug ? lotSlug === canonicalSlug : false;
+  });
 
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
         <title>{title} | ZingLots</title>
         <meta name="description" content={`Bid on ${title} lots on ZingLots.`} />
-        <link rel="canonical" href={`/category/${slug}`} />
+        <link rel="canonical" href={`/category/${canonicalSlug || slug || ''}`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
