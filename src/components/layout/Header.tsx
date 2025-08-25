@@ -6,13 +6,16 @@ export default function Header() {
 	const location = useLocation();
 	if (location.pathname === "/") return null;
 	const isHelpRoute = location.pathname === "/help" || location.pathname === "/contact" || location.pathname.startsWith("/help");
+	const isDiscoverRoute = location.pathname === "/discover";
 	return (
 		<header className="relative bg-white">
 			<div className="mx-auto max-w-screen-2xl h-16 px-4 flex items-center justify-between">
 				<Brand variant="header" className="shrink-0" />
 
 				<nav className="hidden md:flex items-center gap-6 text-[15px]">
-					<NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>
+					{!isDiscoverRoute && (
+						<NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>
+					)}
 					<NavLink to="/pricing" className="hover:opacity-80">Pricing</NavLink>
 					{!isHelpRoute && (
 						<NavLink to="/help" className="hover:opacity-80">Help & Contact</NavLink>
