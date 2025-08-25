@@ -7,17 +7,17 @@ import { Building2, UtensilsCrossed, Briefcase, Wrench, Heart, Home, Shirt, Dumb
 
 const Categories = () => {
   const categories = [
-    { id: "construction", name: "Construction", icon: Building2, count: 342 },
-    { id: "restaurant", name: "Restaurant", icon: UtensilsCrossed, count: 189 },
-    { id: "office", name: "Office", icon: Briefcase, count: 156 },
-    { id: "municipal", name: "Municipal", icon: Wrench, count: 98 }
+    { id: "construction-materials", name: "Construction", icon: Building2, count: 342 },
+    { id: "restaurant-equipment", name: "Restaurant", icon: UtensilsCrossed, count: 189 },
+    { id: "office-furniture", name: "Office", icon: Briefcase, count: 156 },
+    { id: "municipal-surplus", name: "Municipal", icon: Wrench, count: 98 }
   ];
 
   const additionalCategories = [
-    { id: "medical", name: "Medical & Lab", icon: Heart, count: 67 },
-    { id: "furniture", name: "Home Furniture", icon: Home, count: 89 },
-    { id: "apparel", name: "Apparel & Textiles", icon: Shirt, count: 45 },
-    { id: "fitness", name: "Fitness & Sports", icon: Dumbbell, count: 78 }
+    { id: "medical-lab", name: "Medical & Lab", icon: Heart, count: 67 },
+    { id: "home-furniture", name: "Home Furniture", icon: Home, count: 89 },
+    { id: "apparel-textiles", name: "Apparel & Textiles", icon: Shirt, count: 45 },
+    { id: "fitness-sports", name: "Fitness & Sports", icon: Dumbbell, count: 78 }
   ];
 
   return (

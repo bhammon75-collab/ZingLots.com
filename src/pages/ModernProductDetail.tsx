@@ -144,7 +144,19 @@ const ModernProductDetail = () => {
             <nav className="flex items-center gap-2 text-sm">
               <Link to="/" className="text-gray-500 hover:text-brand-red">Home</Link>
               <span className="text-gray-400">/</span>
-              <Link to={`/category/${product.category.toLowerCase()}`} className="text-gray-500 hover:text-brand-red">
+              <Link to={`/category/${
+                product.category === 'Construction Materials' ? 'construction-materials' :
+                product.category === 'Restaurant Equipment' ? 'restaurant-equipment' :
+                product.category === 'Office Furniture' ? 'office-furniture' :
+                product.category === 'Industrial Equipment' ? 'industrial-equipment' :
+                product.category === 'Municipal Surplus' ? 'municipal-surplus' :
+                product.category === 'Vehicles & Fleet' ? 'vehicles-fleet' :
+                product.category === 'Medical & Lab' ? 'medical-lab' :
+                product.category === 'Home Furniture' ? 'home-furniture' :
+                product.category === 'Apparel & Textiles' ? 'apparel-textiles' :
+                product.category === 'Fitness & Sports' ? 'fitness-sports' :
+                ''
+              }`} className="text-gray-500 hover:text-brand-red">
                 {product.category}
               </Link>
               <span className="text-gray-400">/</span>

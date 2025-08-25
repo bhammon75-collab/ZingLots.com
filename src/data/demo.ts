@@ -44,6 +44,26 @@ const TITLES: Record<string,string[]> = {
     "2018 Chevy Express 2500 Cargo Van",
     "2017 Ram 1500 Tradesman – 4x4"
   ],
+  "Medical & Lab": [
+    "Lab Centrifuge – Benchtop, Digital Control",
+    "Medical Exam Tables – Lot of 2",
+    "Autoclave Sterilizer – 18L"
+  ],
+  "Home Furniture": [
+    "Solid Wood Dining Table – 8ft",
+    "Office Chairs – Set of 6",
+    "Sectional Sofa – Commercial Grade"
+  ],
+  "Apparel & Textiles": [
+    "Workwear Jackets – Lot of 50",
+    "High-Visibility Safety Vests – Lot of 100",
+    "Bulk Cotton Towels – 200 pcs"
+  ],
+  "Fitness & Sports": [
+    "Commercial Treadmill – Precor",
+    "Olympic Plates – 300 lb Set",
+    "Rowing Machine – Concept2 Model D"
+  ],
 };
 
 // B2B-appropriate image URLs for each category
@@ -77,6 +97,26 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1583267746897-2cf415887172?w=800&h=600&fit=crop", // Commercial truck
     "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&h=600&fit=crop", // Fleet vehicles
     "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop"  // Work vehicles
+  ],
+  "Medical & Lab": [
+    "https://images.unsplash.com/photo-1581091215367-59ab6b13aeab?w=800&h=600&fit=crop", // Lab equipment
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop", // Medical devices
+    "https://images.unsplash.com/photo-1582719478250-82e4bdc0eaf0?w=800&h=600&fit=crop"  // Clinic room
+  ],
+  "Home Furniture": [
+    "https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?w=800&h=600&fit=crop", // Living room
+    "https://images.unsplash.com/photo-1505691723518-36a5ac3b2d52?w=800&h=600&fit=crop", // Sofa
+    "https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?w=800&h=600&fit=crop"  // Chairs
+  ],
+  "Apparel & Textiles": [
+    "https://images.unsplash.com/photo-1520975922203-c50191a74158?w=800&h=600&fit=crop", // Apparel racks
+    "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?w=800&h=600&fit=crop", // Clothes
+    "https://images.unsplash.com/photo-1467043239423-c67d5f95c6de?w=800&h=600&fit=crop"  // Textiles
+  ],
+  "Fitness & Sports": [
+    "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&h=600&fit=crop", // Gym equipment
+    "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=600&fit=crop", // Treadmill
+    "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&h=600&fit=crop"  // Weights
   ],
 };
 
