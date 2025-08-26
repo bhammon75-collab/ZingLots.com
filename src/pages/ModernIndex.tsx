@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -79,58 +78,7 @@ const ModernIndex = () => {
   ];
 
   // Hero carousel data - Invaluable-style showcase
-  const heroSlides = [
-    {
-      id: "construction-auction",
-      imageUrl: "/products/tools.jpg",
-      alt: "Contractor tools and equipment pallet",
-      dateText: "Aug 26 | 12 PM EDT",
-      title: "Contractor Tools & Jobsite Equipment",
-      subhead: "Regional Surplus Auction",
-      ctaText: "Browse Lots",
-      href: "/browse?category=construction",
-    },
-    {
-      id: "restaurant-liquidation",
-      imageUrl: "/products/cleaning-equipment.jpg",
-      alt: "Commercial cleaning and restaurant equipment",
-      dateText: "Aug 27 | 10 AM EDT",
-      title: "Commercial Kitchen & Facility Equipment",
-      subhead: "Local Pickup Only",
-      ctaText: "Browse Lots",
-      href: "/browse?category=restaurant",
-    },
-    {
-      id: "office-furniture",
-      imageUrl: "/products/furniture.jpg",
-      alt: "Office desks and seating liquidation",
-      dateText: "Aug 28 | 9 AM EDT",
-      title: "Office Furniture Liquidation",
-      subhead: "Desks, chairs, and conference tables",
-      ctaText: "Browse Lots",
-      href: "/browse?category=office",
-    },
-    {
-      id: "warehouse-material",
-      imageUrl: "/placeholder-hero.jpg",
-      alt: "Warehouse racking and material handling equipment",
-      dateText: "Aug 29 | 11 AM EDT",
-      title: "Warehouse & Material Handling",
-      subhead: "Racking, pallets, forklifts & more",
-      ctaText: "Browse Lots",
-      href: "/browse?category=warehouse",
-    },
-    {
-      id: "industrial-mro",
-      imageUrl: "/placeholder.jpg",
-      alt: "Industrial MRO and facility supplies",
-      dateText: "Aug 30 | 1 PM EDT",
-      title: "Industrial Surplus & MRO",
-      subhead: "Electrical, plumbing, fasteners, safety",
-      ctaText: "Browse Lots",
-      href: "/browse?category=industrial",
-    },
-  ];
+  // Removed old heroSlides; using <HeroCarousel /> defaults
 
   // Categories with icons and colors
   const categories = [
@@ -312,13 +260,15 @@ const ModernIndex = () => {
         <meta name="description" content="Buy and sell business surplus locally. Construction materials, restaurant equipment, office furniture, and more. Verified sellers, secure transactions, local pickup only." />
       </Helmet>
 
-      <ModernNav />
-
       {/* LCP preload for first hero image */}
-      <link rel="preload" as="image" href={heroSlides[0].imageUrl} />
+      <link rel="preload" as="image" href="/products/tools.jpg" />
       
       {/* Hero Carousel */}
-      <HeroCarousel slides={heroSlides} delayMs={4500} speedMs={650} className="mb-6" />
+      <HeroCarousel className="mb-4" />
+
+      {/* Sticky Grid Controls */}
+      {/* Example controlled state wiring can be added later; component supports controlled props */}
+      {/* <GridControls sort={...} onSortChange={...} filters={...} onFiltersChange={...} categories={...} offsetTop={64} /> */}
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
