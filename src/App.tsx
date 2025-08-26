@@ -39,6 +39,7 @@ const ExplorePage = lazy(() => import("./pages/explore"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
 const Security = lazy(() => import("./pages/Security"));
+const TermsPage = lazy(() => import("./pages/Terms"));
 
 // B2B Marketplace Pages
 const RegionPage = lazy(() => import("./pages/RegionPage"));
@@ -125,7 +126,7 @@ const App = () => (
                   <Route path="/help" element={<Help />} />
                   <Route path="/pricing" element={<PricingPage />} />
                   {/* Legal and Support Pages */}
-                  <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
+                  <Route path="/terms" element={<TermsPage />} />
                   <Route path="/privacy" element={<div className="p-6">Privacy Policy coming soon.</div>} />
                   <Route path="/contact" element={<Help />} />
                   <Route path="/help/selling" element={<Help />} />
