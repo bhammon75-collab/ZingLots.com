@@ -84,6 +84,8 @@ export default function RegionPage() {
   // Optional local overrides for city hero images
   const HERO_IMAGE_OVERRIDES: Record<string, string> = {
     seattle: "/regions/seattle.jpg",
+    boston: "/regions/boston.jpg",
+    houston: "/regions/houston.jpg",
   };
   const overrideUrl = HERO_IMAGE_OVERRIDES[slug];
 
