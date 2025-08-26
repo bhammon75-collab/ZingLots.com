@@ -5,5 +5,7 @@
     { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/(.*\\..*)", "destination": "/$1" },
     { "source": "/((?!api/|assets/|.*\\.).*)", "destination": "/" }
-  ]
+  ],
+  "installCommand": "npm install",
+  "buildCommand": "npm run build"
 }
