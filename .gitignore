@@ -7,3 +7,4 @@ coverage/
 *.log
 # Ignore vitest cache results (ephemeral)
 node_modules/.vite/vitest/**/results.json
+dist/
