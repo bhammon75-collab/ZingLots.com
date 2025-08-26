@@ -81,24 +81,24 @@ const ModernIndex = () => {
   // Hero carousel data - Invaluable-style showcase
   const heroSlides: HeroShowcaseSlide[] = [
     {
-      id: "spidey",
-      imageUrl: "/images/hero/spiderman15.jpg",
-      alt: "Amazing Spider-Man #15 CGC 9.2",
+      id: "construction-auction",
+      imageUrl: "/products/tools.jpg",
+      alt: "Contractor tools and equipment pallet",
       dateText: "Aug 26 | 12 PM EDT",
-      title: "Icons & Heroes: Comics & Comic Art",
-      subhead: "Landry Pop Auctions",
-      ctaText: "Shop Now",
-      href: "/auctions/icons-heroes",
+      title: "Contractor Tools & Jobsite Equipment",
+      subhead: "Regional Surplus Auction",
+      ctaText: "Browse Lots",
+      href: "/browse?category=construction",
     },
     {
-      id: "franklin",
-      imageUrl: "/images/hero/franklin-letter.jpg",
-      alt: "Benjamin Franklin signed document",
+      id: "restaurant-liquidation",
+      imageUrl: "/products/cleaning-equipment.jpg",
+      alt: "Commercial cleaning and restaurant equipment",
       dateText: "Aug 27 | 10 AM EDT",
-      title: "Rare Autographs, Manuscripts & Books",
-      subhead: "University Archives",
-      ctaText: "Shop Now",
-      href: "/auctions/rare-autographs",
+      title: "Commercial Kitchen & Facility Equipment",
+      subhead: "Local Pickup Only",
+      ctaText: "Browse Lots",
+      href: "/browse?category=restaurant",
     },
   ];
 
