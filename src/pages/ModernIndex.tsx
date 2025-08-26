@@ -29,6 +29,8 @@ import HeroCarousel from "@/components/HeroCarousel";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 import TrustBelt from "@/components/TrustBelt";
 import GridControls, { type SortKey, type Filters } from "@/components/GridControls";
+import FeaturedAuctions from "@/sections/FeaturedAuctions";
+import Locations from "@/sections/Locations";
 import Brand from "../components/Brand";
 
 const ModernIndex = () => {
@@ -377,114 +379,17 @@ const ModernIndex = () => {
         </div>
       </section>
 
-      {/* Browse by Location */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-3">Auctions by Location</h2>
-            <p className="text-gray-600">Find live auctions in your area</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* West Coast */}
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-              <h3 className="font-bold text-lg mb-4 flex items-center">
-                <MapPin className="h-5 w-5 text-brand-red mr-2" />
-                West Coast
-              </h3>
-              <div className="space-y-2">
-                <Link to="/r/seattle" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Seattle, WA</span>
-                  <span className="text-sm text-gray-500 ml-2">425 auctions</span>
-                </Link>
-                <Link to="/r/tacoma" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Tacoma, WA</span>
-                  <span className="text-sm text-gray-500 ml-2">187 auctions</span>
-                </Link>
-                <Link to="/r/portland" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Portland, OR</span>
-                  <span className="text-sm text-gray-500 ml-2">312 auctions</span>
-                </Link>
-                <Link to="/r/los-angeles" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Los Angeles, CA</span>
-                  <span className="text-sm text-gray-500 ml-2">892 auctions</span>
-                </Link>
-                <Link to="/r/san-francisco" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">San Francisco, CA</span>
-                  <span className="text-sm text-gray-500 ml-2">567 auctions</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Midwest & East */}
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-              <h3 className="font-bold text-lg mb-4 flex items-center">
-                <MapPin className="h-5 w-5 text-brand-red mr-2" />
-                Midwest & East
-              </h3>
-              <div className="space-y-2">
-                <Link to="/r/chicago" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Chicago, IL</span>
-                  <span className="text-sm text-gray-500 ml-2">654 auctions</span>
-                </Link>
-                <Link to="/r/detroit" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Detroit, MI</span>
-                  <span className="text-sm text-gray-500 ml-2">298 auctions</span>
-                </Link>
-                <Link to="/r/new-york" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">New York, NY</span>
-                  <span className="text-sm text-gray-500 ml-2">1,245 auctions</span>
-                </Link>
-                <Link to="/r/boston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Boston, MA</span>
-                  <span className="text-sm text-gray-500 ml-2">432 auctions</span>
-                </Link>
-                <Link to="/r/philadelphia" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Philadelphia, PA</span>
-                  <span className="text-sm text-gray-500 ml-2">378 auctions</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* South */}
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-              <h3 className="font-bold text-lg mb-4 flex items-center">
-                <MapPin className="h-5 w-5 text-brand-red mr-2" />
-                South
-              </h3>
-              <div className="space-y-2">
-                <Link to="/r/houston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Houston, TX</span>
-                  <span className="text-sm text-gray-500 ml-2">723 auctions</span>
-                </Link>
-                <Link to="/r/dallas" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Dallas, TX</span>
-                  <span className="text-sm text-gray-500 ml-2">589 auctions</span>
-                </Link>
-                <Link to="/r/atlanta" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Atlanta, GA</span>
-                  <span className="text-sm text-gray-500 ml-2">467 auctions</span>
-                </Link>
-                <Link to="/r/miami" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Miami, FL</span>
-                  <span className="text-sm text-gray-500 ml-2">391 auctions</span>
-                </Link>
-                <Link to="/r/phoenix" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Phoenix, AZ</span>
-                  <span className="text-sm text-gray-500 ml-2">445 auctions</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-8">
-            <Link to="/regions" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-colors">
-              View All Regions
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Auctions by Location */}
+      <Locations cities={[
+        { id: "seattle", name: "Seattle", count: 425, href: "/r/seattle" },
+        { id: "tacoma", name: "Tacoma", count: 187, href: "/r/tacoma" },
+        { id: "portland", name: "Portland", count: 312, href: "/r/portland" },
+        { id: "los-angeles", name: "Los Angeles", count: 892, href: "/r/los-angeles" },
+        { id: "san-francisco", name: "San Francisco", count: 567, href: "/r/san-francisco" },
+        { id: "chicago", name: "Chicago", count: 744, href: "/r/chicago" },
+        { id: "denver", name: "Denver", count: 210, href: "/r/denver" },
+        { id: "phoenix", name: "Phoenix", count: 268, href: "/r/phoenix" },
+      ]} />
 
       {/* Moving Auctions Marquee */}
       <section className="bg-white py-8">
