@@ -10,11 +10,10 @@ import { getSupabase } from '@/lib/supabaseClient';
 import cache from '@/lib/cache';
 import { 
   Clock, 
-  Gavel, 
   MapPin, 
   Eye,
   Heart,
-  TrendingUp
+  
 } from 'lucide-react';
 
 interface Lot {

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useWatchlist } from "@/hooks/useWatchlist";
 import { CountdownPill } from "@/components/auctions/CountdownPill";
-import { WatchButton } from "@/components/auctions/WatchButton";
 import lotImage from "@/assets/lot-generic.jpg";
 
 export interface LotItem {

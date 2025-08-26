@@ -1,6 +1,5 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,18 +8,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { 
-	Menu, 
-	ShoppingCart, 
-	Search, 
-	Heart, 
-	User, 
-	Bell,
+import {
+	ShoppingCart,
+	Search,
 	ChevronDown,
 	MapPin,
-	Package,
-	TrendingUp,
-	Gavel,
 	Globe,
 	ListFilter
 } from "lucide-react";
@@ -40,13 +32,10 @@ interface UserMetadata {
 }
 
 const ModernNav = () => {
-	const [open, setOpen] = useState(false);
 	const [isAuthed, setIsAuthed] = useState(false);
-	const [isAdmin, setIsAdmin] = useState(false);
 	const [displayName, setDisplayName] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchCategory, setSearchCategory] = useState<string>("");
-	const [showCategories, setShowCategories] = useState(false);
 	const [showLocations, setShowLocations] = useState(false);
 	const [selectedLocation, setSelectedLocation] = useState("All Locations");
 	const navigate = useNavigate();
@@ -82,11 +71,6 @@ const ModernNav = () => {
 		const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
 			setIsAuthed(!!session);
 			const userMeta = (session?.user?.user_metadata || {}) as UserMetadata;
-			const appMeta = (session?.user?.app_metadata || {}) as any;
-			
-			const roles = userMeta.roles || appMeta.roles;
-			setIsAdmin(!!(userMeta.is_admin || appMeta.is_admin || roles?.includes?.("admin")));
-			
 			const name = userMeta.full_name || 
 						 userMeta.first_name || 
 						 userMeta.name || 
@@ -98,11 +82,6 @@ const ModernNav = () => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setIsAuthed(!!session);
 			const userMeta = (session?.user?.user_metadata || {}) as UserMetadata;
-			const appMeta = (session?.user?.app_metadata || {}) as any;
-			
-			const roles = userMeta.roles || appMeta.roles;
-			setIsAdmin(!!(userMeta.is_admin || appMeta.is_admin || roles?.includes?.("admin")));
-			
 			const name = userMeta.full_name || 
 						 userMeta.first_name || 
 						 userMeta.name || 
@@ -118,7 +97,7 @@ const ModernNav = () => {
 		await supabase.auth.signOut();
 	};
 
-	const handleSearch = (e: React.FormEvent) => {
+	const handleSearch = (e: { preventDefault(): void }) => {
 		e.preventDefault();
 		const params = new URLSearchParams();
 		if (searchQuery.trim()) params.set("q", searchQuery.trim());
@@ -126,14 +105,7 @@ const ModernNav = () => {
 		navigate(`/discover?${params.toString()}`);
 	};
 
-	const categories = [
-		{ name: "Construction", icon: "🔨", count: 342 },
-		{ name: "Restaurant", icon: "🍴", count: 189 },
-		{ name: "Office", icon: "💼", count: 156 },
-		{ name: "Municipal", icon: "🏛️", count: 98 },
-		{ name: "Electronics", icon: "📱", count: 267 },
-		{ name: "Vehicles", icon: "🚗", count: 145 },
-	];
+	
 
 	return (
 		<>
@@ -270,7 +242,7 @@ const ModernNav = () => {
 							</form>
 							<button 
 								type="button"
-								onClick={(e)=> handleSearch(e as unknown as React.FormEvent)}
+								onClick={(e)=> handleSearch(e)}
 								className="h-12 lg:h-14 px-4 lg:px-6 bg-[#E02020] text-white font-semibold rounded-xl hover:brightness-95 transition-all flex items-center gap-2"
 							>
 								<Search className="h-5 w-5" />

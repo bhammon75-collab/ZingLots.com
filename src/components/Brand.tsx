@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
 import ZingLotsLogo from "./Logo";
 
 type Props = {
   variant?: "header" | "footer";
-  iconOnly?: boolean;
+  _iconOnly?: boolean;
   className?: string;
   size?: number;
   textClassName?: string;
@@ -11,7 +10,7 @@ type Props = {
 
 export default function Brand({
   variant = "header",
-  iconOnly = false,
+  _iconOnly = false,
   className = "",
   size = variant === "footer" ? 56 : 32,
   textClassName,

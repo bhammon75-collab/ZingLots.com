@@ -2,15 +2,16 @@ import { Helmet } from "react-helmet-async";
 import ZingNav from "@/components/ZingNav";
 import { useParams } from "react-router-dom";
 import { DEMO_LOTS } from "@/data/demo";
-import { CATEGORIES, getCategoryBySlugOrAlias, canonicalizeCategorySlug, getSlugForCategoryName } from "@/data/categories";
+import { getCategoryBySlugOrAlias, canonicalizeCategorySlug, getSlugForCategoryName } from "@/data/categories";
 import LotCard from "@/components/LotCard";
+import type { LotItem } from "@/components/LotCard";
 
 const Category = () => {
   const { slug } = useParams();
   const canonicalSlug = canonicalizeCategorySlug(slug) || undefined;
   const cat = getCategoryBySlugOrAlias(slug || null) || undefined;
   const title = cat?.name ?? "Category";
-  const lots = DEMO_LOTS.filter((l) => {
+  const lots: LotItem[] = DEMO_LOTS.filter((l) => {
     const lotSlug = getSlugForCategoryName(l.category);
     return canonicalSlug ? lotSlug === canonicalSlug : false;
   });
@@ -26,7 +27,7 @@ const Category = () => {
             "@context": "https://schema.org",
             "@type": "ItemList",
             "name": `Auctions in ${title}`,
-            "itemListElement": (lots ?? []).map((it:any, i:number) => ({
+            "itemListElement": (lots ?? []).map((it: LotItem, i: number) => ({
               "@type": "ListItem",
               "position": i + 1,
               "url": `https://www.zinglots.com/product/${it.id}`,
