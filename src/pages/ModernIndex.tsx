@@ -27,11 +27,23 @@ import {
 import "../styles/modern-design.css";
 import HeroCarousel from "@/components/HeroCarousel";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
+import TrustBelt from "@/components/TrustBelt";
+import GridControls, { type SortKey, type Filters } from "@/components/GridControls";
 import Brand from "../components/Brand";
 
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [timeLeft, setTimeLeft] = useState({});
+  const [sort, setSort] = useState<SortKey>("endingSoon");
+  const [filters, setFilters] = useState<Filters>({
+    categoryIds: [],
+    radiusMiles: "any",
+    shippingOffered: null,
+    pickupPreferred: null,
+    priceMin: null,
+    priceMax: null,
+    shippingNotes: "",
+  });
 
   // Featured auctions for marquee
   const featuredAuctions: AuctionPromo[] = [
@@ -264,11 +276,24 @@ const ModernIndex = () => {
       <link rel="preload" as="image" href="/products/tools.jpg" />
       
       {/* Hero Carousel */}
-      <HeroCarousel className="mb-4" />
+      <HeroCarousel className="mb-2" />
+
+      <TrustBelt />
 
       {/* Sticky Grid Controls */}
-      {/* Example controlled state wiring can be added later; component supports controlled props */}
-      {/* <GridControls sort={...} onSortChange={...} filters={...} onFiltersChange={...} categories={...} offsetTop={64} /> */}
+      <GridControls
+        sort={sort}
+        onSortChange={setSort}
+        filters={filters}
+        onFiltersChange={setFilters}
+        categories={[
+          { id: "kitchen", label: "Restaurant/Kitchen" },
+          { id: "construction", label: "Construction & Trades" },
+          { id: "industrial", label: "Industrial/Facility" },
+          { id: "office", label: "Office & Retail" },
+        ]}
+        offsetTop={64}
+      />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">

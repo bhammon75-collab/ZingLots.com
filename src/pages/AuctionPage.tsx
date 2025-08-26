@@ -51,7 +51,16 @@ export default function AuctionPage(){
           </>
         )}
 
-        {!!state.auction && (<article><h1 className="text-2xl md:text-3xl font-bold">{state.auction.title}</h1></article>)}
+        {!!state.auction && (
+          <article>
+            <h1 className="text-2xl md:text-3xl font-bold">{state.auction.title}</h1>
+
+            {/* Logistics note near bidding module */}
+            <aside className="mt-4 rounded-md border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+              <strong>Logistics:</strong> Pickup and/or shipping are arranged directly between buyer and seller as stated by the seller. ZingLots does not provide or broker transportation.
+            </aside>
+          </article>
+        )}
       </main>
     </>
   );

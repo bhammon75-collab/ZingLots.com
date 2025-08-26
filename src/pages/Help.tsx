@@ -45,6 +45,13 @@ const Help = () => {
           <h2 className="text-lg font-semibold">Need more help?</h2>
           <p className="mt-2 text-sm text-muted-foreground">Email us at support@zinglots.com and we’ll get back within 1 business day.</p>
         </aside>
+
+        <section className="mt-10 rounded-lg border bg-white p-6">
+          <h2 className="text-lg font-semibold mb-2">Marketplace Role</h2>
+          <p className="text-sm text-muted-foreground">
+            ZingLots operates as a listing and bidding platform only. We do not provide, arrange, broker, or guarantee transportation, packing, or storage services. All logistics are contracted between buyers and sellers at their sole discretion and risk.
+          </p>
+        </section>
       </main>
     </div>
   );

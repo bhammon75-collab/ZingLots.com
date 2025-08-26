@@ -132,3 +132,8 @@
 @media (prefers-reduced-motion: reduce){
   .hero-swiper .swiper-wrapper{ transition-duration: 0ms !important; }
 }
+
+/* Chip variants */
+.chip-base { background-color: rgb(241 245 249); color: rgb(71 85 105); }
+.chip-warn { background-color: rgb(254 243 199); color: rgb(146 64 14); }
+.chip-crit { background-color: rgb(254 226 226); color: rgb(127 29 29); }
