@@ -107,3 +107,28 @@
     color: hsl(var(--foreground));
   }
 }
+
+/* ==== Hero Carousel (Invaluable-like) ==== */
+.hero-swiper .swiper-button-prev,
+.hero-swiper .swiper-button-next{
+  width:48px; height:48px; border-radius:9999px; background:rgba(0,0,0,.04);
+  -webkit-backdrop-filter:saturate(1.1);
+  backdrop-filter:saturate(1.1);
+}
+.hero-swiper .swiper-button-prev::after,
+.hero-swiper .swiper-button-next::after{
+  font-size:18px; color:#2d2d2d;
+}
+.hero-swiper .swiper-pagination-bullets .swiper-pagination-bullet{
+  width:8px; height:8px; opacity:.45; background:#9aa3af;
+}
+.hero-swiper .swiper-pagination-bullet-active{
+  opacity:1; background:#6b7280;
+}
+/* Smooth, quick-ish feel */
+.hero-swiper .swiper-wrapper{
+  transition-timing-function: cubic-bezier(.25,.9,.2,1) !important;
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-swiper .swiper-wrapper{ transition-duration: 0ms !important; }
+}

@@ -26,7 +26,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
-import HeroRotator, { HeroSlide } from "@/components/HeroRotator";
+import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 import Brand from "../components/Brand";
 
@@ -78,62 +78,28 @@ const ModernIndex = () => {
     },
   ];
 
-  // Hero carousel data - Featured Active Auctions
-  const heroSlides: HeroSlide[] = [
+  // Hero carousel data - Invaluable-style showcase
+  const heroSlides: HeroShowcaseSlide[] = [
     {
-      id: "a2024-1840",
-      href: "/auction/a2024-1840",
-      title: "Construction Equipment Auction",
-      sub: "Heavy machinery and power tools from contractor liquidation",
-      badge: "Ending Tomorrow",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&h=840&fit=crop",
-      imageMobile: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=640&h=480&fit=crop"
+      id: "spidey",
+      imageUrl: "/images/hero/spiderman15.jpg",
+      alt: "Amazing Spider-Man #15 CGC 9.2",
+      dateText: "Aug 26 | 12 PM EDT",
+      title: "Icons & Heroes: Comics & Comic Art",
+      subhead: "Landry Pop Auctions",
+      ctaText: "Shop Now",
+      href: "/auctions/icons-heroes",
     },
     {
-      id: "a2024-1841",
-      href: "/auction/a2024-1841",
-      title: "Office Furniture Liquidation Auction",
-      sub: "Herman Miller chairs, standing desks, conference tables – Tech startup closure",
-      badge: "3 Days Left",
-      image: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=1920&h=840&fit=crop",
-      imageMobile: "https://images.unsplash.com/photo-1562113134-d71a4d791c6f?w=640&h=480&fit=crop"
+      id: "franklin",
+      imageUrl: "/images/hero/franklin-letter.jpg",
+      alt: "Benjamin Franklin signed document",
+      dateText: "Aug 27 | 10 AM EDT",
+      title: "Rare Autographs, Manuscripts & Books",
+      subhead: "University Archives",
+      ctaText: "Shop Now",
+      href: "/auctions/rare-autographs",
     },
-    {
-      id: "a2024-1839-rest",
-      href: "/auction/a2024-1839",
-      title: "Restaurant Equipment Auction – Closing Today",
-      sub: "Complete kitchen liquidation from Seattle steakhouse – 45 lots available",
-      badge: "Ends in 2h 15m",
-      image: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=1920&h=840&fit=crop",
-      imageMobile: "https://images.unsplash.com/photo-1580622149255-b1b76963c2ab?w=640&h=480&fit=crop"
-    },
-    {
-      id: "a2024-1842-vehicles",
-      href: "/auction/a2024-1842",
-      title: "Fleet Vehicles & Light Trucks",
-      sub: "Well‑maintained pickups, cargo vans and utility trucks",
-      badge: "New",
-      image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1920&h=840&fit=crop",
-      imageMobile: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=640&h=480&fit=crop"
-    },
-    {
-      id: "a2024-1843-municipal",
-      href: "/auction/a2024-1843",
-      title: "Municipal Surplus Auction",
-      sub: "Tools, shop equipment, and maintenance assets",
-      badge: "Local Pickup",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=840&fit=crop",
-      imageMobile: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&h=480&fit=crop"
-    },
-    {
-      id: "a2024-1844-warehouse",
-      href: "/auction/a2024-1844",
-      title: "Warehouse Racking & Material Handling",
-      sub: "Pallet racking, forklifts, and packaging equipment",
-      badge: "Hot",
-      image: "https://images.unsplash.com/photo-1586521995568-39c0bcb2b7b2?w=1920&h=840&fit=crop",
-      imageMobile: "https://images.unsplash.com/photo-1586521995568-39c0bcb2b7b2?w=640&h=480&fit=crop"
-    }
   ];
 
   // Categories with icons and colors
@@ -319,10 +285,10 @@ const ModernIndex = () => {
       <ModernNav />
 
       {/* LCP preload for first hero image */}
-      <link rel="preload" as="image" href={heroSlides[0].image} />
+      <link rel="preload" as="image" href={heroSlides[0].imageUrl} />
       
       {/* Hero Carousel */}
-      <HeroRotator slides={heroSlides} className="mb-6" />
+      <HeroShowcase slides={heroSlides} delayMs={4500} speedMs={650} className="mb-6" />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
