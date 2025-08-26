@@ -26,7 +26,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
-import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
+import HeroCarousel from "@/components/HeroCarousel";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 import Brand from "../components/Brand";
 
@@ -79,7 +79,7 @@ const ModernIndex = () => {
   ];
 
   // Hero carousel data - Invaluable-style showcase
-  const heroSlides: HeroShowcaseSlide[] = [
+  const heroSlides = [
     {
       id: "construction-auction",
       imageUrl: "/products/tools.jpg",
@@ -318,7 +318,7 @@ const ModernIndex = () => {
       <link rel="preload" as="image" href={heroSlides[0].imageUrl} />
       
       {/* Hero Carousel */}
-      <HeroShowcase slides={heroSlides} delayMs={4500} speedMs={650} className="mb-6" />
+      <HeroCarousel slides={heroSlides} delayMs={4500} speedMs={650} className="mb-6" />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
