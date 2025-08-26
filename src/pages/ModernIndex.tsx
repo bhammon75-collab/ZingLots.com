@@ -100,6 +100,36 @@ const ModernIndex = () => {
       ctaText: "Browse Lots",
       href: "/browse?category=restaurant",
     },
+    {
+      id: "office-furniture",
+      imageUrl: "/products/furniture.jpg",
+      alt: "Office desks and seating liquidation",
+      dateText: "Aug 28 | 9 AM EDT",
+      title: "Office Furniture Liquidation",
+      subhead: "Desks, chairs, and conference tables",
+      ctaText: "Browse Lots",
+      href: "/browse?category=office",
+    },
+    {
+      id: "warehouse-material",
+      imageUrl: "/placeholder-hero.jpg",
+      alt: "Warehouse racking and material handling equipment",
+      dateText: "Aug 29 | 11 AM EDT",
+      title: "Warehouse & Material Handling",
+      subhead: "Racking, pallets, forklifts & more",
+      ctaText: "Browse Lots",
+      href: "/browse?category=warehouse",
+    },
+    {
+      id: "industrial-mro",
+      imageUrl: "/placeholder.jpg",
+      alt: "Industrial MRO and facility supplies",
+      dateText: "Aug 30 | 1 PM EDT",
+      title: "Industrial Surplus & MRO",
+      subhead: "Electrical, plumbing, fasteners, safety",
+      ctaText: "Browse Lots",
+      href: "/browse?category=industrial",
+    },
   ];
 
   // Categories with icons and colors
