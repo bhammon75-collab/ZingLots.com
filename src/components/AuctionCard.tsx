@@ -1,6 +1,6 @@
 import ImageWithFallback from "./ImageWithFallback";
 import { Button } from "@/components/ui/button";
-import { useTimeLeft } from "@/lib/useTimeLeft";
+import { getUrgency, formatTimeLeft } from "@/lib/urgency";
 import { Gavel, Eye, MapPin, Clock } from "lucide-react";
 
 export type Auction = {
@@ -23,7 +23,8 @@ function money(n?: number | null) {
 }
 
 export default function AuctionCard({ a }: { a: Auction }) {
-  const { label: timeLeft, urgency } = a.ends_at ? useTimeLeft(a.ends_at) : { label: "—", urgency: "base" as const };
+  const urgency: "base" | "warn" | "crit" = a.ends_at ? getUrgency(a.ends_at) : "base";
+  const timeLeft = a.ends_at ? formatTimeLeft(a.ends_at) : "—";
   const chipClass = urgency === "crit" ? "chip chip-crit" : urgency === "warn" ? "chip chip-warn" : "chip chip-base";
 
   return (
