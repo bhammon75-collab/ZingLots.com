@@ -43,7 +43,7 @@
 }
 
 .lot-card-image {
-  @apply w-full h-48 object-cover;
+  @apply w-full h-full object-cover;
   will-change: transform;
   transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -57,7 +57,7 @@
 }
 
 .lot-card-price {
-  @apply text-2xl font-bold text-[#0f172a];
+  @apply text-3xl font-bold text-[#0f172a];
 }
 
 /* Badge Styles */
@@ -72,6 +72,16 @@
 
 .timer-badge.urgent {
   @apply bg-[#ef4444]/90;
+  animation: gentle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* New urgency variants for time remaining */
+.timer-badge-warning {
+  @apply bg-amber-500/90 text-white;
+}
+
+.timer-badge-critical {
+  @apply bg-[#ef4444]/90 text-white;
   animation: gentle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 

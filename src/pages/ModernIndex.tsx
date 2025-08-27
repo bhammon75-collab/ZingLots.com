@@ -494,9 +494,12 @@ const ModernIndex = () => {
       </section>
 
       {/* Moving Auctions Marquee */}
-      <section className="bg-white py-8">
+      <section className="bg-zinc-50/60 py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 className="mb-4 text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
+          <div className="mb-4 flex items-center gap-2">
+            <Badge className="bg-black text-white">Featured</Badge>
+            <h2 className="text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
+          </div>
           <FeaturedAuctionsMarquee items={featuredAuctions} />
         </div>
       </section>
@@ -536,7 +539,7 @@ const ModernIndex = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto">
             {featuredLots.map((lot) => (
               <Card key={lot.id} className="lot-card group flex flex-col h-full">
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden aspect-[4/3]">
                   <img
                     src={lot.image}
                     alt={lot.title}
@@ -551,27 +554,37 @@ const ModernIndex = () => {
                       <Heart className="h-4 w-4" />
                     </button>
                   </div>
-                  <div className={`absolute bottom-2 left-2 timer-badge ${lot.urgent ? 'urgent' : ''}`}>
-                    <Clock className="h-3 w-3" />
-                    {timeLeft[lot.id] !== undefined ? formatTimeLeft(timeLeft[lot.id]) : lot.timeLeft}
-                  </div>
+                  {(() => {
+                    const seconds = timeLeft[lot.id] ?? undefined;
+                    const badgeClass = seconds !== undefined
+                      ? seconds <= 3600
+                        ? 'timer-badge-critical'
+                        : seconds <= 86400
+                          ? 'timer-badge-warning'
+                          : 'timer-badge'
+                      : 'timer-badge';
+                    return (
+                      <div className={`absolute bottom-2 left-2 ${badgeClass}`}>
+                        <Clock className="h-3 w-3" />
+                        {seconds !== undefined ? formatTimeLeft(seconds) : lot.timeLeft}
+                      </div>
+                    );
+                  })()}
                 </div>
                 
                 <CardContent className="p-4 flex flex-col h-full">
                   <Badge variant="secondary" className="mb-2">{lot.category}</Badge>
                   <h3 className="lot-card-title">{lot.title}</h3>
                   
-                  <div className="flex items-baseline gap-2 mb-3">
+                  <div className="flex items-baseline justify-between mb-3">
                     <span className="lot-card-price">${lot.currentPrice.toLocaleString()}</span>
-                    <span className="text-sm text-gray-500">
-                      Est. Value: ${lot.retailPrice.toLocaleString()}
-                    </span>
+                    <span className="text-xs text-gray-500">{lot.bids} bids</span>
                   </div>
                   
-                  <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+                  <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                     <span className="flex items-center gap-1">
-                      <Gavel className="h-3 w-3" />
-                      {lot.bids} bids
+                      <MapPin className="h-3 w-3 text-gray-400" />
+                      {lot.distance}
                     </span>
                     <span className="flex items-center gap-1">
                       <Eye className="h-3 w-3" />
@@ -579,24 +592,9 @@ const ModernIndex = () => {
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between text-sm mb-3">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3 text-gray-500" />
-                      {lot.distance}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Star className="h-3 w-3 text-yellow-500" />
-                      {lot.rating}
-                    </span>
-                  </div>
-                  
-                  <div className="text-xs text-gray-500 mb-2">
-                    Auction {lot.auctionNumber}
-                  </div>
                   <Link to={`/live/${lot.id}`} className="block w-full mt-auto">
-                    <Button className="w-full btn-modern btn-primary">
-                      <Gavel className="mr-2 h-4 w-4" />
-                      Place Bid
+                    <Button className="w-full btn-modern btn-primary" aria-label="Bid Now">
+                      Bid Now
                     </Button>
                   </Link>
                 </CardContent>
@@ -734,6 +732,10 @@ const ModernIndex = () => {
                 <Link to="/contact" className="footer-link">Contact Us</Link>
                 <Link to="/terms" className="footer-link">Terms of Service</Link>
                 <Link to="/privacy" className="footer-link">Privacy Policy</Link>
+                <Link to="/buyer-protection" className="footer-link">Buyer Protection</Link>
+                <Link to="/secure-payments" className="footer-link">Secure Payments</Link>
+                <Link to="/disputes" className="footer-link">Dispute Resolution</Link>
+                <Link to="/logistics" className="footer-link">Logistics & Handoff Guidance</Link>
               </div>
             </div>
           </div>
