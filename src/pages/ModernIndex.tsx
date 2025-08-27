@@ -357,66 +357,7 @@ const ModernIndex = () => {
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="text-2xl font-semibold mb-4">Active Auctions</h2>
 
-          {/* Lightweight search/status/location controls (URL-synced) */}
-          <div className="mb-4 flex flex-wrap items-center gap-2">
-            <div className="w-full sm:w-64">
-              <label htmlFor="q" className="sr-only">Search lots</label>
-              <Input
-                id="q"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search lots…"
-                className="h-10"
-              />
-            </div>
-            <div>
-              <label htmlFor="status" className="sr-only">Status</label>
-              <select
-                id="status"
-                className="h-10 rounded-lg border border-slate-300 px-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
-                value={status ?? ""}
-                onChange={(e) => setStatus(e.target.value || undefined)}
-              >
-                <option value="">Any status</option>
-                <option value="running">Running</option>
-                <option value="scheduled">Scheduled</option>
-                <option value="ended">Ended</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="loc" className="sr-only">Location</label>
-              <select
-                id="loc"
-                className="h-10 rounded-lg border border-slate-300 px-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
-                value={location ?? ""}
-                onChange={(e) => setLocation(e.target.value || undefined)}
-              >
-                <option value="">Any location</option>
-                <option value="Seattle, WA">Seattle, WA</option>
-                <option value="Tacoma, WA">Tacoma, WA</option>
-                <option value="Portland, OR">Portland, OR</option>
-                <option value="Los Angeles, CA">Los Angeles, CA</option>
-                <option value="San Francisco, CA">San Francisco, CA</option>
-                <option value="Chicago, IL">Chicago, IL</option>
-                <option value="Denver, CO">Denver, CO</option>
-                <option value="Phoenix, AZ">Phoenix, AZ</option>
-              </select>
-            </div>
-            {(searchTerm || status || location) && (
-              <Button
-                type="button"
-                variant="outline"
-                className="h-10"
-                onClick={() => {
-                  setSearchTerm("");
-                  setStatus(undefined);
-                  setLocation(undefined);
-                }}
-              >
-                Clear
-              </Button>
-            )}
-          </div>
+          {/* Removed inline search/status/location controls in favor of sticky GridControls */}
 
           <OptimizedLotGrid
             sort={sort}
@@ -602,33 +543,7 @@ const ModernIndex = () => {
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Shield className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Verified Auctioneers</h3>
-              <p className="text-gray-600">All auctions are managed by verified businesses with proven track records</p>
-            </div>
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Truck className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Secure Bidding</h3>
-              <p className="text-gray-600">Transparent auction process with secure payment handling</p>
-            </div>
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Clock className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">24/7 Live Auctions</h3>
-              <p className="text-gray-600">Place bids anytime on active auctions from your phone or computer</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Removed duplicate trust band to avoid repetition; trust belt remains under hero */}
 
       {/* CTA Section */}
       <section className="py-20 bg-[#0f172a] text-white">
