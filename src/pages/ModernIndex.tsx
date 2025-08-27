@@ -392,7 +392,7 @@ const ModernIndex = () => {
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold">Auctions by Location</h2>
             <Link to="/regions" className="text-brand-red hover:underline flex items-center">
-              View all regions
+              view all regions
               <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
