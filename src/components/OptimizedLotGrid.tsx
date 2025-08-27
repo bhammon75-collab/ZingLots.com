@@ -44,6 +44,7 @@ interface OptimizedLotGridProps {
     searchTerm?: string;
     location?: string;
   };
+  sort?: 'endingSoon' | 'newest' | 'priceAsc' | 'priceDesc';
   pageSize?: number;
   viewMode?: 'grid' | 'list';
   showFilters?: boolean;
@@ -51,6 +52,7 @@ interface OptimizedLotGridProps {
 
 export default function OptimizedLotGrid({
   filters = {},
+  sort = 'endingSoon',
   pageSize = 24,
   viewMode = 'grid',
   showFilters = true
@@ -68,8 +70,8 @@ export default function OptimizedLotGrid({
 
   // Generate cache key from filters
   const getCacheKey = useCallback(() => {
-    return `lots:${JSON.stringify(filters)}:${page}:${pageSize}`;
-  }, [filters, page, pageSize]);
+    return `lots:${JSON.stringify(filters)}:${sort}:${page}:${pageSize}`;
+  }, [filters, sort, page, pageSize]);
 
   const fetchLots = useCallback(async (pageNum: number, append: boolean = false) => {
     if (!supabase) return;
@@ -135,10 +137,16 @@ export default function OptimizedLotGrid({
       const to = from + pageSize - 1;
       query = query.range(from, to);
 
-      // Sort by relevance for active auctions
-      query = query.order('status', { ascending: true })
-                   .order('ends_at', { ascending: true })
-                   .order('created_at', { ascending: false });
+      // Sort options
+      if (sort === 'endingSoon') {
+        query = query.order('ends_at', { ascending: true, nullsFirst: false });
+      } else if (sort === 'newest') {
+        query = query.order('created_at', { ascending: false, nullsFirst: false });
+      } else if (sort === 'priceAsc') {
+        query = query.order('current_price', { ascending: true, nullsFirst: false });
+      } else if (sort === 'priceDesc') {
+        query = query.order('current_price', { ascending: false, nullsFirst: false });
+      }
 
       const { data, error, count } = await query;
 
@@ -161,7 +169,7 @@ export default function OptimizedLotGrid({
 
       setTotalCount(count || 0);
       setHasMore(formattedLots.length === pageSize);
-    } catch (error) {
+    } catch (error: any) {
       if (error.name !== 'AbortError') {
         console.error('Error fetching lots:', error);
       }
@@ -169,13 +177,13 @@ export default function OptimizedLotGrid({
       setIsLoading(false);
       setIsLoadingMore(false);
     }
-  }, [supabase, filters, pageSize, getCacheKey]);
+  }, [supabase, filters, sort, pageSize, getCacheKey]);
 
   useEffect(() => {
     setPage(0);
     setLots([]);
     fetchLots(0);
-  }, [filters]);
+  }, [filters, sort, fetchLots]);
 
   const loadMore = useCallback(() => {
     const nextPage = page + 1;

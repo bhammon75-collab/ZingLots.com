@@ -31,6 +31,7 @@ import TrustBelt from "@/components/TrustBelt";
 import GridControls, { type SortKey, type Filters } from "@/components/GridControls";
 import FeaturedAuctions from "@/sections/FeaturedAuctions";
 import Locations from "@/sections/Locations";
+import OptimizedLotGrid from "@/components/OptimizedLotGrid";
 import Brand from "../components/Brand";
 
 const ModernIndex = () => {
@@ -430,6 +431,25 @@ const ModernIndex = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <h2 className="mb-4 text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
           <FeaturedAuctionsMarquee items={featuredAuctions} />
+        </div>
+      </section>
+
+      {/* Active Auctions Grid */}
+      <section className="py-10 bg-white">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="text-2xl font-semibold mb-4">Active Auctions</h2>
+          <OptimizedLotGrid
+            sort={sort}
+            filters={{
+              category: (filters.categoryIds && filters.categoryIds[0]) || undefined,
+              minPrice: filters.priceMin ?? undefined,
+              maxPrice: filters.priceMax ?? undefined,
+              // location, searchTerm, status wiring can be added here when available
+            }}
+            pageSize={24}
+            viewMode="grid"
+            showFilters={false}
+          />
         </div>
       </section>
 
