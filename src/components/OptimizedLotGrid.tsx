@@ -181,7 +181,7 @@ export default function OptimizedLotGrid({
 
   useEffect(() => {
     setPage(0);
-    setLots([]);
+    // Do not clear lots immediately; keep showing previous results until new data arrives
     fetchLots(0);
   }, [filters, sort, fetchLots]);
 

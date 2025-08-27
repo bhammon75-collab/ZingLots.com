@@ -50,8 +50,15 @@ const ModernIndex = () => {
   });
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [debouncedSearch, setDebouncedSearch] = useState<string>("");
   const [status, setStatus] = useState<string | undefined>(undefined);
   const [location, setLocation] = useState<string | undefined>(undefined);
+
+  // Debounce search term to reduce flicker
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(searchTerm), 300);
+    return () => clearTimeout(t);
+  }, [searchTerm]);
 
   // Load from URL on mount
   useEffect(() => {
@@ -94,11 +101,11 @@ const ModernIndex = () => {
     if (filters.priceMin != null) sp.set("pmin", String(filters.priceMin));
     if (filters.priceMax != null) sp.set("pmax", String(filters.priceMax));
     if (filters.shippingNotes) sp.set("notes", filters.shippingNotes);
-    if (searchTerm) sp.set("q", searchTerm);
+    if (debouncedSearch) sp.set("q", debouncedSearch);
     if (status) sp.set("status", status);
     if (location) sp.set("loc", location);
     setSearchParams(sp, { replace: true });
-  }, [sort, filters, searchTerm, status, location, setSearchParams]);
+  }, [sort, filters, debouncedSearch, status, location, setSearchParams]);
 
   // Featured auctions for marquee
   const featuredAuctions: AuctionPromo[] = [
@@ -417,7 +424,7 @@ const ModernIndex = () => {
               category: (filters.categoryIds && filters.categoryIds[0]) || undefined,
               minPrice: filters.priceMin ?? undefined,
               maxPrice: filters.priceMax ?? undefined,
-              searchTerm: searchTerm || undefined,
+              searchTerm: debouncedSearch || undefined,
               status: status,
               location: location,
             }}
