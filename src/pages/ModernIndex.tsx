@@ -332,49 +332,26 @@ const ModernIndex = () => {
         offsetTop={64}
       />
 
-      {/* Stats Bar */}
-      <section className="border-t border-zinc-200/70 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm">
-            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
-              <Gavel className="h-4 w-4" />
-              <span><strong>47</strong> Live Auctions</span>
-            </Link>
-            <span className="h-4 w-px bg-zinc-200 hidden sm:block"></span>
-            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
-              <Users className="h-4 w-4" />
-              <span><strong>2,847</strong> Active Bidders</span>
-            </Link>
-            <span className="h-4 w-px bg-zinc-200 hidden sm:block"></span>
-            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
-              <Clock className="h-4 w-4" />
-              <span><strong>12</strong> Closing Today</span>
-            </Link>
-            <span className="ml-auto hidden lg:flex items-center gap-4">
-              <Link to="/help" className="hover:text-brand-red transition-colors">How to Bid</Link>
-              <Link to="/seller/apply" className="hover:text-brand-red transition-colors">Consign Items</Link>
-            </span>
-          </div>
+      {/* Active Auctions Grid */}
+      <section id="active-auctions" className="py-10 bg-white">
+        <div className="mx-auto max-w-7xl px-4">
+          <h2 className="text-2xl font-semibold mb-4">Active Auctions</h2>
+          <OptimizedLotGrid
+            sort={sort}
+            filters={{
+              category: (filters.categoryIds && filters.categoryIds[0]) || undefined,
+              minPrice: filters.priceMin ?? undefined,
+              maxPrice: filters.priceMax ?? undefined,
+            }}
+            pageSize={24}
+            viewMode="grid"
+            showFilters={false}
+          />
         </div>
       </section>
 
-      {/* Pricing Notice Bar */}
-      <section className="bg-green-50 border-y border-green-200">
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <div className="flex items-center justify-center gap-2 text-sm text-green-800">
-            <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span>
-              <strong>Promo Pricing:</strong> Buyer's Premium 9% (min $2) • Card processing 3% • 
-              <strong className="text-green-600"> Sellers list FREE (0% fees)</strong>
-            </span>
-            <Link to="/pricing" className="text-green-600 hover:text-green-700 underline ml-1">
-              Learn more
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Featured Auctions */}
+      <FeaturedAuctions items={[]} />
 
       {/* Categories Grid */}
       <section className="py-12 bg-gray-50">
@@ -414,7 +391,7 @@ const ModernIndex = () => {
         </div>
       </section>
 
-      {/* Auctions by Location */}
+      {/* Locations */}
       <Locations cities={[
         { id: "seattle", name: "Seattle", count: 425, href: "/r/seattle" },
         { id: "tacoma", name: "Tacoma", count: 187, href: "/r/tacoma" },
@@ -431,25 +408,6 @@ const ModernIndex = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <h2 className="mb-4 text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
           <FeaturedAuctionsMarquee items={featuredAuctions} />
-        </div>
-      </section>
-
-      {/* Active Auctions Grid */}
-      <section className="py-10 bg-white">
-        <div className="mx-auto max-w-7xl px-4">
-          <h2 className="text-2xl font-semibold mb-4">Active Auctions</h2>
-          <OptimizedLotGrid
-            sort={sort}
-            filters={{
-              category: (filters.categoryIds && filters.categoryIds[0]) || undefined,
-              minPrice: filters.priceMin ?? undefined,
-              maxPrice: filters.priceMax ?? undefined,
-              // location, searchTerm, status wiring can be added here when available
-            }}
-            pageSize={24}
-            viewMode="grid"
-            showFilters={false}
-          />
         </div>
       </section>
 

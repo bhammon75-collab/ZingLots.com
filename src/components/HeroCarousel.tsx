@@ -14,7 +14,7 @@ export const defaultSlides: Slide[] = [
     img: "/products/tools.jpg",
     title: "Buy commercial equipment, hassle-free.",
     sub: "Business-to-business auctions from verified sellers.",
-    cta: { label: "Browse Active Auctions", href: "/auctions" },
+    cta: { label: "Browse Active Auctions", href: "#active-auctions" },
   },
   {
     img: "/products/cleaning-equipment.jpg",
@@ -29,13 +29,13 @@ export const defaultSlides: Slide[] = [
     cta: { label: "See All Categories", href: "/categories" },
   },
   {
-    img: "/placeholder-hero.jpg",
+    img: "/products/tools.jpg",
     title: "Find it fast.",
     sub: "Sort by Ending Soon and filter by category, location, or seller shipping preferences.",
-    cta: { label: "Browse Active Auctions", href: "/auctions" },
+    cta: { label: "Browse Active Auctions", href: "#active-auctions" },
   },
   {
-    img: "/placeholder.jpg",
+    img: "/products/cleaning-equipment.jpg",
     title: "Auctions near you, updated daily.",
     sub: "New business equipment added every day across major cities and regions.",
     cta: { label: "See All Regions", href: "/regions" },
