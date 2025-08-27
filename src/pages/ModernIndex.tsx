@@ -406,23 +406,23 @@ const ModernIndex = () => {
               </h3>
               <div className="space-y-2">
                 <Link to="/r/seattle" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Seattle, WA</span>
+                  <span className="font-medium">Seattle</span>
                   <span className="text-sm text-gray-500 ml-2">425 auctions</span>
                 </Link>
                 <Link to="/r/tacoma" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Tacoma, WA</span>
-                  <span className="text-sm text-gray-500 ml-2">187 auctions</span>
+                  <span className="font-medium">Tacoma</span>
+                  <span className="text-sm text-gray-500 ml-2">342 auctions</span>
                 </Link>
                 <Link to="/r/portland" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Portland, OR</span>
+                  <span className="font-medium">Portland</span>
                   <span className="text-sm text-gray-500 ml-2">312 auctions</span>
                 </Link>
                 <Link to="/r/los-angeles" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Los Angeles, CA</span>
+                  <span className="font-medium">Los Angeles</span>
                   <span className="text-sm text-gray-500 ml-2">892 auctions</span>
                 </Link>
                 <Link to="/r/san-francisco" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">San Francisco, CA</span>
+                  <span className="font-medium">San Francisco</span>
                   <span className="text-sm text-gray-500 ml-2">567 auctions</span>
                 </Link>
               </div>
@@ -436,23 +436,23 @@ const ModernIndex = () => {
               </h3>
               <div className="space-y-2">
                 <Link to="/r/chicago" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Chicago, IL</span>
-                  <span className="text-sm text-gray-500 ml-2">654 auctions</span>
+                  <span className="font-medium">Chicago</span>
+                  <span className="text-sm text-gray-500 ml-2">746 auctions</span>
                 </Link>
                 <Link to="/r/detroit" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Detroit, MI</span>
+                  <span className="font-medium">Detroit</span>
                   <span className="text-sm text-gray-500 ml-2">298 auctions</span>
                 </Link>
                 <Link to="/r/new-york" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">New York, NY</span>
+                  <span className="font-medium">New York</span>
                   <span className="text-sm text-gray-500 ml-2">1,245 auctions</span>
                 </Link>
                 <Link to="/r/boston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Boston, MA</span>
+                  <span className="font-medium">Boston</span>
                   <span className="text-sm text-gray-500 ml-2">432 auctions</span>
                 </Link>
                 <Link to="/r/philadelphia" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Philadelphia, PA</span>
+                  <span className="font-medium">Philadelphia</span>
                   <span className="text-sm text-gray-500 ml-2">378 auctions</span>
                 </Link>
               </div>
@@ -466,23 +466,23 @@ const ModernIndex = () => {
               </h3>
               <div className="space-y-2">
                 <Link to="/r/houston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Houston, TX</span>
+                  <span className="font-medium">Houston</span>
                   <span className="text-sm text-gray-500 ml-2">723 auctions</span>
                 </Link>
                 <Link to="/r/dallas" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Dallas, TX</span>
+                  <span className="font-medium">Dallas</span>
                   <span className="text-sm text-gray-500 ml-2">589 auctions</span>
                 </Link>
                 <Link to="/r/atlanta" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Atlanta, GA</span>
+                  <span className="font-medium">Atlanta</span>
                   <span className="text-sm text-gray-500 ml-2">467 auctions</span>
                 </Link>
                 <Link to="/r/miami" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Miami, FL</span>
+                  <span className="font-medium">Miami</span>
                   <span className="text-sm text-gray-500 ml-2">391 auctions</span>
                 </Link>
                 <Link to="/r/phoenix" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Phoenix, AZ</span>
+                  <span className="font-medium">Phoenix</span>
                   <span className="text-sm text-gray-500 ml-2">445 auctions</span>
                 </Link>
               </div>
