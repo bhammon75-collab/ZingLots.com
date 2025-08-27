@@ -397,7 +397,8 @@ const ModernIndex = () => {
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
-                  className="group relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  className="group relative overflow-hidden rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+                  style={{ willChange: "box-shadow" }}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
