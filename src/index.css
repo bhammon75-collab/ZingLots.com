@@ -109,6 +109,11 @@
 }
 
 /* ==== Hero Carousel (Invaluable-like) ==== */
+.hero-swiper {
+  /* Isolate the carousel to prevent animation conflicts */
+  isolation: isolate;
+  contain: layout style;
+}
 .hero-swiper .swiper-button-prev,
 .hero-swiper .swiper-button-next{
   width:48px; height:48px; border-radius:9999px; background:rgba(0,0,0,.04);

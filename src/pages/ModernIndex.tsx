@@ -255,16 +255,30 @@ const ModernIndex = () => {
     setTimeLeft(initialTimeLeft);
   }, []);
 
-  // Countdown timer effect
+  // Countdown timer effect - optimized to prevent unnecessary re-renders
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prevTimeLeft => {
+        // Only update if there are active timers
+        const hasActiveTimers = Object.values(prevTimeLeft).some(time => time > 0);
+        if (!hasActiveTimers) {
+          clearInterval(timer);
+          return prevTimeLeft;
+        }
+        
         const newTimeLeft = {};
+        let hasChanges = false;
         Object.keys(prevTimeLeft).forEach(lotId => {
           const remaining = prevTimeLeft[lotId] - 1;
-          newTimeLeft[lotId] = remaining > 0 ? remaining : 0;
+          const newValue = remaining > 0 ? remaining : 0;
+          if (newValue !== prevTimeLeft[lotId]) {
+            hasChanges = true;
+          }
+          newTimeLeft[lotId] = newValue;
         });
-        return newTimeLeft;
+        
+        // Only return new object if there were actual changes
+        return hasChanges ? newTimeLeft : prevTimeLeft;
       });
     }, 1000);
 
@@ -352,7 +366,7 @@ const ModernIndex = () => {
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
-                  className="group relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  className="group category-card-link relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-shadow duration-300"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">

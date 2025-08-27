@@ -33,11 +33,23 @@
 
 /* Lot Card Styles */
 .lot-card {
-  @apply bg-white rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100;
+  @apply bg-white rounded-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300 border border-gray-100;
+  will-change: box-shadow;
+}
+
+.lot-card:hover {
+  transform: translateY(-4px);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lot-card-image {
-  @apply w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300;
+  @apply w-full h-48 object-cover;
+  will-change: transform;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .lot-card-image {
+  transform: scale(1.05);
 }
 
 .lot-card-title {
@@ -59,7 +71,17 @@
 }
 
 .timer-badge.urgent {
-  @apply bg-[#ef4444]/90 animate-pulse;
+  @apply bg-[#ef4444]/90;
+  animation: gentle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 /* Featured Lots Container */
@@ -73,7 +95,23 @@
 
 /* Category Cards */
 .category-card {
-  @apply bg-white rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100;
+  @apply bg-white rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100;
+  will-change: box-shadow, transform;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms ease;
+}
+
+.category-card-link {
+  will-change: transform, box-shadow;
+  transform: translateY(0);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms ease;
+}
+
+.category-card-link:hover {
+  transform: translateY(-4px);
 }
 
 /* Location Cards */
@@ -93,6 +131,16 @@
 /* Footer Link Styles */
 .footer-link {
   @apply text-gray-400 hover:text-white transition-colors;
+}
+
+/* Prevent flickering with proper GPU acceleration */
+.lot-card,
+.category-card,
+.category-card-link {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Animation Classes */
