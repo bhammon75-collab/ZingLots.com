@@ -48,6 +48,9 @@ const ModernIndex = () => {
     shippingNotes: "",
   });
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [location, setLocation] = useState<string | undefined>(undefined);
 
   // Load from URL on mount
   useEffect(() => {
@@ -60,6 +63,9 @@ const ModernIndex = () => {
     const pmin = sp.get("pmin");
     const pmax = sp.get("pmax");
     const notes = sp.get("notes") ?? "";
+    const q = sp.get("q") ?? "";
+    const st = sp.get("status") || undefined;
+    const loc = sp.get("loc") || undefined;
     if (s) setSort(s);
     setFilters({
       categoryIds: cats ? cats.split(",").filter(Boolean) : [],
@@ -70,6 +76,9 @@ const ModernIndex = () => {
       priceMax: pmax ? Number(pmax) : null,
       shippingNotes: notes,
     });
+    setSearchTerm(q);
+    setStatus(st);
+    setLocation(loc);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,8 +93,11 @@ const ModernIndex = () => {
     if (filters.priceMin != null) sp.set("pmin", String(filters.priceMin));
     if (filters.priceMax != null) sp.set("pmax", String(filters.priceMax));
     if (filters.shippingNotes) sp.set("notes", filters.shippingNotes);
+    if (searchTerm) sp.set("q", searchTerm);
+    if (status) sp.set("status", status);
+    if (location) sp.set("loc", location);
     setSearchParams(sp, { replace: true });
-  }, [sort, filters, setSearchParams]);
+  }, [sort, filters, searchTerm, status, location, setSearchParams]);
 
   // Featured auctions for marquee
   const featuredAuctions: AuctionPromo[] = [
@@ -342,6 +354,9 @@ const ModernIndex = () => {
               category: (filters.categoryIds && filters.categoryIds[0]) || undefined,
               minPrice: filters.priceMin ?? undefined,
               maxPrice: filters.priceMax ?? undefined,
+              searchTerm: searchTerm || undefined,
+              status: status,
+              location: location,
             }}
             pageSize={24}
             viewMode="grid"
