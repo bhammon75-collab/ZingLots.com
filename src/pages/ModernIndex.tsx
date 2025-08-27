@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   MapPin,
@@ -46,6 +46,45 @@ const ModernIndex = () => {
     priceMax: null,
     shippingNotes: "",
   });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Load from URL on mount
+  useEffect(() => {
+    const sp = searchParams;
+    const s = sp.get("sort") as SortKey | null;
+    const cats = sp.get("cats");
+    const rad = sp.get("radius");
+    const ship = sp.get("ship");
+    const pick = sp.get("pick");
+    const pmin = sp.get("pmin");
+    const pmax = sp.get("pmax");
+    const notes = sp.get("notes") ?? "";
+    if (s) setSort(s);
+    setFilters({
+      categoryIds: cats ? cats.split(",").filter(Boolean) : [],
+      radiusMiles: rad === null || rad === "any" ? "any" : Number(rad),
+      shippingOffered: ship === null ? null : ship === "1" ? true : null,
+      pickupPreferred: pick === null ? null : pick === "1" ? true : null,
+      priceMin: pmin ? Number(pmin) : null,
+      priceMax: pmax ? Number(pmax) : null,
+      shippingNotes: notes,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // When sort/filters change, push to URL
+  useEffect(() => {
+    const sp = new URLSearchParams();
+    if (sort) sp.set("sort", sort);
+    if (filters.categoryIds && filters.categoryIds.length) sp.set("cats", filters.categoryIds.join(","));
+    if (filters.radiusMiles && filters.radiusMiles !== "any") sp.set("radius", String(filters.radiusMiles));
+    if (filters.shippingOffered) sp.set("ship", "1");
+    if (filters.pickupPreferred) sp.set("pick", "1");
+    if (filters.priceMin != null) sp.set("pmin", String(filters.priceMin));
+    if (filters.priceMax != null) sp.set("pmax", String(filters.priceMax));
+    if (filters.shippingNotes) sp.set("notes", filters.shippingNotes);
+    setSearchParams(sp, { replace: true });
+  }, [sort, filters, setSearchParams]);
 
   // Featured auctions for marquee
   const featuredAuctions: AuctionPromo[] = [
@@ -288,12 +327,7 @@ const ModernIndex = () => {
         onSortChange={setSort}
         filters={filters}
         onFiltersChange={setFilters}
-        categories={[
-          { id: "kitchen", label: "Restaurant/Kitchen" },
-          { id: "construction", label: "Construction & Trades" },
-          { id: "industrial", label: "Industrial/Facility" },
-          { id: "office", label: "Office & Retail" },
-        ]}
+        categories={categories.map((c) => ({ id: c.id, label: c.name }))}
         offsetTop={64}
       />
 
