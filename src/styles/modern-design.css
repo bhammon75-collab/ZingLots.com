@@ -73,8 +73,11 @@
 
 /* Category Cards */
 .category-card {
-  @apply bg-white rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100;
+  @apply bg-white rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100;
 }
+
+/* Optional isolation for link containers to avoid repaints */
+.category-card-link { contain: paint; }
 
 /* Location Cards */
 .location-card {
