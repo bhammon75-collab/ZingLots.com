@@ -15,7 +15,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+    <header className="sticky top-0 z-50 bg-white/95 border-b border-slate-200 supports-[backdrop-filter]:bg-white/80 supports-[backdrop-filter]:backdrop-blur-sm">
       {/* Skip link for a11y */}
       <a
         href="#main"

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link, useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { Input } from "@/components/ui/input";
 import {
   MapPin,
@@ -323,8 +323,31 @@ const ModernIndex = () => {
     return () => clearInterval(timer);
   }, []);
 
-
-
+  const CategoriesGrid = memo(function CategoriesGrid({ items }: { items: typeof categories }) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {items.map((category) => {
+          const IconComponent = category.icon;
+          return (
+            <Link
+              key={category.id}
+              to={`/category/${category.id}`}
+              className="block rounded-xl border border-slate-200 bg-white p-5 hover:bg-slate-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-400"
+            >
+              <div className="flex justify-between items-start mb-3">
+                <IconComponent className="h-8 w-8 text-slate-700" />
+                {category.trending && (
+                  <span className="chip chip-base">Trending</span>
+                )}
+              </div>
+              <h3 className="font-semibold text-base mb-1">{category.name}</h3>
+              <p className="text-sm text-slate-600">{category.count} active auctions</p>
+            </Link>
+          );
+        })}
+      </div>
+    );
+  });
 
 
   return (
@@ -390,27 +413,7 @@ const ModernIndex = () => {
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.map((category) => {
-              const IconComponent = category.icon;
-              return (
-                <Link
-                  key={category.id}
-                  to={`/category/${category.id}`}
-                  className="block rounded-xl border border-slate-200 bg-white p-5 hover:bg-slate-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-400"
-                >
-                  <div className="flex justify-between items-start mb-3">
-                    <IconComponent className="h-8 w-8 text-slate-700" />
-                    {category.trending && (
-                      <span className="chip chip-base">Trending</span>
-                    )}
-                  </div>
-                  <h3 className="font-semibold text-base mb-1">{category.name}</h3>
-                  <p className="text-sm text-slate-600">{category.count} active auctions</p>
-                </Link>
-              );
-            })}
-          </div>
+          <CategoriesGrid items={categories} />
         </div>
       </section>
 
