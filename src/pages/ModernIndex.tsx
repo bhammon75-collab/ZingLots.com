@@ -389,9 +389,12 @@ const ModernIndex = () => {
       {/* Browse by Location */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-3">Auctions by Location</h2>
-            <p className="text-gray-600">Find live auctions in your area</p>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold">Auctions by Location</h2>
+            <Link to="/regions" className="text-brand-red hover:underline flex items-center">
+              View all regions
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Link>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -486,12 +489,7 @@ const ModernIndex = () => {
             </div>
           </div>
 
-          <div className="text-center mt-8">
-            <Link to="/regions" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-red text-white rounded-lg hover:bg-red-700 transition-colors">
-              View All Regions
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
+          {/* Top-right link above replaces bottom CTA */}
         </div>
       </section>
 
