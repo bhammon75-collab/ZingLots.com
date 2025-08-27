@@ -397,20 +397,17 @@ const ModernIndex = () => {
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
-                  className="group relative overflow-hidden rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200"
-                  style={{ willChange: "box-shadow" }}
+                  className="block rounded-xl border border-slate-200 bg-white p-5 hover:bg-slate-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                  style={{ contain: "paint" }}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
-                      {category.trending && (
-                        <Badge className="badge-hot">Trending</Badge>
-                      )}
-                    </div>
-                    <h3 className="font-semibold text-lg mb-1">{category.name}</h3>
-                    <p className="text-sm text-gray-500">{category.count} active auctions</p>
+                  <div className="flex justify-between items-start mb-3">
+                    <IconComponent className="h-8 w-8 text-slate-700" />
+                    {category.trending && (
+                      <span className="chip chip-base">Trending</span>
+                    )}
                   </div>
+                  <h3 className="font-semibold text-base mb-1">{category.name}</h3>
+                  <p className="text-sm text-slate-600">{category.count} active auctions</p>
                 </Link>
               );
             })}
