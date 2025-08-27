@@ -397,24 +397,16 @@ const ModernIndex = () => {
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
-                  className="group category-card-link relative isolate overflow-hidden rounded-xl bg-white border border-slate-200 hover:shadow-md transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                  className="block rounded-xl border border-slate-200 bg-white p-5 hover:bg-slate-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-slate-400"
                 >
-                  {/* gradient overlay – behind content */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none z-0`}
-                    style={{ willChange: 'opacity' }}
-                  />
-                  {/* content – above overlay */}
-                  <div className="relative z-10 p-5">
-                    <div className="flex justify-between items-start mb-3">
-                      <IconComponent className="h-8 w-8 text-slate-700" />
-                      {category.trending && (
-                        <span className="chip chip-base">Trending</span>
-                      )}
-                    </div>
-                    <h3 className="font-semibold text-base mb-1">{category.name}</h3>
-                    <p className="text-sm text-slate-600">{category.count} active auctions</p>
+                  <div className="flex justify-between items-start mb-3">
+                    <IconComponent className="h-8 w-8 text-slate-700" />
+                    {category.trending && (
+                      <span className="chip chip-base">Trending</span>
+                    )}
                   </div>
+                  <h3 className="font-semibold text-base mb-1">{category.name}</h3>
+                  <p className="text-sm text-slate-600">{category.count} active auctions</p>
                 </Link>
               );
             })}

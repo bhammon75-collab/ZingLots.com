@@ -81,7 +81,7 @@
 
 /* Location Cards */
 .location-card {
-  @apply bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100;
+  @apply bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100;
 }
 
 .location-link {
