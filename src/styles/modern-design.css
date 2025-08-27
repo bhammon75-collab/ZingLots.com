@@ -60,6 +60,25 @@
   @apply text-3xl font-bold text-[#0f172a];
 }
 
+/* Dense variant for auction cards */
+.lot-card-dense .lot-card-title {
+  @apply text-sm mb-1 min-h-[2.25rem];
+}
+
+.lot-card-dense .lot-card-price {
+  @apply text-2xl;
+}
+
+.lot-card-dense .timer-badge,
+.lot-card-dense .timer-badge-warning,
+.lot-card-dense .timer-badge-critical {
+  @apply px-2 py-1 text-[11px];
+}
+
+.lot-card-dense .card-padding {
+  @apply p-3;
+}
+
 /* Badge Styles */
 .badge-hot {
   @apply bg-gradient-to-r from-orange-500 to-[#ef4444] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm;

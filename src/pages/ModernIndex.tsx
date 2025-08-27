@@ -33,6 +33,7 @@ import Brand from "../components/Brand";
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [timeLeft, setTimeLeft] = useState({});
+  const [dense, setDense] = useState(false);
 
   // Featured auctions for marquee
   const featuredAuctions: AuctionPromo[] = [
@@ -512,7 +513,7 @@ const ModernIndex = () => {
               <h2 className="text-3xl font-bold mb-2">Active Auctions</h2>
               <p className="text-gray-600">Place your bids before these auctions close</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Button 
                 variant="outline" 
                 size="icon"
@@ -533,12 +534,16 @@ const ModernIndex = () => {
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
+              <label className="ml-2 flex items-center gap-2 text-sm text-gray-600">
+                <input type="checkbox" checked={dense} onChange={(e)=>setDense(e.target.checked)} />
+                Compact
+              </label>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto">
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto ${dense ? 'lot-card-dense' : ''}`}>
             {featuredLots.map((lot) => (
-              <Card key={lot.id} className="lot-card group flex flex-col h-full">
+              <Card key={lot.id} className={`lot-card group flex flex-col h-full ${dense ? 'lot-card-dense' : ''}`}>
                 <div className="relative overflow-hidden aspect-[4/3]">
                   <img
                     src={lot.image}
@@ -572,7 +577,7 @@ const ModernIndex = () => {
                   })()}
                 </div>
                 
-                <CardContent className="p-4 flex flex-col h-full">
+                <CardContent className={`flex flex-col h-full ${dense ? 'card-padding' : 'p-4'}`}>
                   <Badge variant="secondary" className="mb-2">{lot.category}</Badge>
                   <h3 className="lot-card-title">{lot.title}</h3>
                   
