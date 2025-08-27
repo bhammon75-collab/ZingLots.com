@@ -32,7 +32,7 @@ export default function Header() {
             <span className="font-semibold -mb-0.5">ZingLots</span>
             {/* Eyebrow tagline (B2B) */}
             <span className="text-[11px] text-slate-600">
-              Built for small businesses — B2B surplus auctions
+              Professional equipment auctions for small business
             </span>
           </div>
         </a>

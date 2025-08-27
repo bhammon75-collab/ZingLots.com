@@ -1,7 +1,7 @@
 import ImageWithFallback from "./ImageWithFallback";
 import { Button } from "@/components/ui/button";
-import { getUrgency, formatTimeLeft } from "@/lib/urgency";
-import { Gavel, Eye, MapPin } from "lucide-react";
+import { useTimeLeft } from "@/lib/useTimeLeft";
+import { Gavel, Eye, MapPin, Clock } from "lucide-react";
 
 export type Auction = {
   id: string;
@@ -23,7 +23,7 @@ function money(n?: number | null) {
 }
 
 export default function AuctionCard({ a }: { a: Auction }) {
-  const urgency: "base" | "warn" | "crit" = a.ends_at ? getUrgency(a.ends_at) : "base";
+  const { label: timeLeft, urgency } = a.ends_at ? useTimeLeft(a.ends_at) : { label: "—", urgency: "base" as const };
   const chipClass = urgency === "crit" ? "chip chip-crit" : urgency === "warn" ? "chip chip-warn" : "chip chip-base";
 
   return (
@@ -37,9 +37,7 @@ export default function AuctionCard({ a }: { a: Auction }) {
         {/* Price dominant + urgency */}
         <div className="mt-2 flex items-center justify-between">
           <div className="text-2xl font-semibold">{money(a.current_bid)}</div>
-          <div className={chipClass}>
-            {a.ends_at ? formatTimeLeft(a.ends_at) : "—"}
-          </div>
+          <div className={chipClass}><Clock className="h-3.5 w-3.5 mr-1" />{timeLeft}</div>
         </div>
 
         {/* Meta row */}
