@@ -1,6 +1,7 @@
 import ImageWithFallback from "./ImageWithFallback";
 import { Button } from "@/components/ui/button";
 import { getUrgency, formatTimeLeft } from "@/lib/urgency";
+import { Gavel, Eye, MapPin } from "lucide-react";
 
 export type Auction = {
   id: string;
@@ -23,7 +24,7 @@ function money(n?: number | null) {
 
 export default function AuctionCard({ a }: { a: Auction }) {
   const urgency: "base" | "warn" | "crit" = a.ends_at ? getUrgency(a.ends_at) : "base";
-  const chipClass = urgency === "crit" ? "chip-crit" : urgency === "warn" ? "chip-warn" : "chip-base";
+  const chipClass = urgency === "crit" ? "chip chip-crit" : urgency === "warn" ? "chip chip-warn" : "chip chip-base";
 
   return (
     <a href={`/auction/${a.id}`} className="block overflow-hidden rounded-xl border hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
@@ -36,25 +37,21 @@ export default function AuctionCard({ a }: { a: Auction }) {
         {/* Price dominant + urgency */}
         <div className="mt-2 flex items-center justify-between">
           <div className="text-2xl font-semibold">{money(a.current_bid)}</div>
-          <div className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium ${chipClass}`}>
+          <div className={chipClass}>
             {a.ends_at ? formatTimeLeft(a.ends_at) : "—"}
           </div>
         </div>
 
         {/* Meta row */}
-        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-neutral-700">
-          {typeof a.bids === "number" && <span>{a.bids} bids</span>}
+        <div className="mt-2 flex items-center gap-3 text-sm text-slate-600">
+          {typeof a.bids === "number" && (
+            <span className="inline-flex items-center gap-1"><Gavel className="h-4 w-4" />{a.bids} bids</span>
+          )}
           {typeof a.watchers === "number" && (
-            <>
-              <span className="opacity-70">•</span>
-              <span>{a.watchers} watchers</span>
-            </>
+            <span className="inline-flex items-center gap-1"><Eye className="h-4 w-4" />{a.watchers} watching</span>
           )}
           {a.location && (
-            <>
-              <span className="opacity-70">•</span>
-              <span>{a.location}</span>
-            </>
+            <span className="inline-flex items-center gap-1"><MapPin className="h-4 w-4" />{a.location}</span>
           )}
         </div>
 
@@ -64,10 +61,10 @@ export default function AuctionCard({ a }: { a: Auction }) {
         {/* Seller logistics flags */}
         <div className="mt-2 flex flex-wrap gap-2">
           {a.seller_shipping_offered && (
-            <span className="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium chip-base">Shipping offered by seller</span>
+            <span className="chip chip-base">Shipping offered by seller</span>
           )}
           {a.seller_pickup_preferred && (
-            <span className="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium chip-base">Pickup preferred</span>
+            <span className="chip chip-base">Pickup preferred</span>
           )}
         </div>
 

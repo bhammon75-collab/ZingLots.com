@@ -308,11 +308,13 @@ export default function OptimizedLotGrid({
 
   if (isLoading && lots.length === 0) {
     return (
-      <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'}`}>
-        {Array.from({ length: pageSize }).map((_, i) => (
-          <LotSkeleton key={i} />
-        ))}
-      </div>
+      <section aria-busy="true" aria-live="polite" role="status">
+        <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'}`}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <LotSkeleton key={i} />
+          ))}
+        </div>
+      </section>
     );
   }
 
