@@ -15,6 +15,7 @@ import {
   Heart,
   
 } from 'lucide-react';
+import { safeSelect } from '@/lib/supaSafe';
 
 interface Lot {
   id: string;
@@ -105,12 +106,13 @@ export default function OptimizedLotGrid({
       // Build query
       let query = supabase
         .from('lots')
-        .select(`
+        .select(
+          safeSelect(`
           *,
           seller:profiles!lots_seller_id_fkey(id, display_name),
           bids(count),
           lot_watches(count)
-        `, { count: 'exact' });
+        `), { count: 'exact' });
 
       // Apply filters
       if (filters.category) {
