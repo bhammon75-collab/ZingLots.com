@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
 import {
   MapPin,
   Clock,
@@ -348,6 +349,68 @@ const ModernIndex = () => {
       <section id="active-auctions" className="py-10 bg-white">
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="text-2xl font-semibold mb-4">Active Auctions</h2>
+
+          {/* Lightweight search/status/location controls (URL-synced) */}
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <div className="w-full sm:w-64">
+              <label htmlFor="q" className="sr-only">Search lots</label>
+              <Input
+                id="q"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search lots…"
+                className="h-10"
+              />
+            </div>
+            <div>
+              <label htmlFor="status" className="sr-only">Status</label>
+              <select
+                id="status"
+                className="h-10 rounded-lg border border-slate-300 px-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                value={status ?? ""}
+                onChange={(e) => setStatus(e.target.value || undefined)}
+              >
+                <option value="">Any status</option>
+                <option value="running">Running</option>
+                <option value="scheduled">Scheduled</option>
+                <option value="ended">Ended</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="loc" className="sr-only">Location</label>
+              <select
+                id="loc"
+                className="h-10 rounded-lg border border-slate-300 px-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                value={location ?? ""}
+                onChange={(e) => setLocation(e.target.value || undefined)}
+              >
+                <option value="">Any location</option>
+                <option value="Seattle, WA">Seattle, WA</option>
+                <option value="Tacoma, WA">Tacoma, WA</option>
+                <option value="Portland, OR">Portland, OR</option>
+                <option value="Los Angeles, CA">Los Angeles, CA</option>
+                <option value="San Francisco, CA">San Francisco, CA</option>
+                <option value="Chicago, IL">Chicago, IL</option>
+                <option value="Denver, CO">Denver, CO</option>
+                <option value="Phoenix, AZ">Phoenix, AZ</option>
+              </select>
+            </div>
+            {(searchTerm || status || location) && (
+              <Button
+                type="button"
+                variant="outline"
+                className="h-10"
+                onClick={() => {
+                  setSearchTerm("");
+                  setStatus(undefined);
+                  setLocation(undefined);
+                }}
+              >
+                Clear
+              </Button>
+            )}
+          </div>
+
           <OptimizedLotGrid
             sort={sort}
             filters={{
