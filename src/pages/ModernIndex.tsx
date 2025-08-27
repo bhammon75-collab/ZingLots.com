@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import "../styles/modern-design.css";
 import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
+import TrustBar from "@/components/sections/TrustBar";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 import Brand from "../components/Brand";
 
@@ -297,6 +298,7 @@ const ModernIndex = () => {
       </Helmet>
 
       <ModernNav />
+      <TrustBar variant="compact" />
 
       {/* LCP preload for first hero image */}
       <link rel="preload" as="image" href={heroSlides[0].imageUrl} />
