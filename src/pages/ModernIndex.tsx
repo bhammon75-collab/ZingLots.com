@@ -118,7 +118,8 @@ const ModernIndex = () => {
     {
       id: "restaurant-equipment",
       name: "Restaurant",
-      icon: UtensilsCrossed,
+      icon: "/icons/cutlery_128.png",
+      isImage: true,
       count: 189,
       color: "from-green-500 to-emerald-500"
     },
@@ -379,7 +380,7 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((category) => {
-              const IconComponent = category.icon;
+              const IconComponent = category.isImage ? null : category.icon;
               return (
                 <Link
                   key={category.id}
@@ -389,7 +390,15 @@ const ModernIndex = () => {
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
+                      {category.isImage ? (
+                        <img 
+                          src={category.icon} 
+                          alt={`${category.name} icon`}
+                          className="h-10 w-10 object-contain"
+                        />
+                      ) : (
+                        <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
+                      )}
                       {category.trending && (
                         <Badge className="badge-hot">Trending</Badge>
                       )}
