@@ -57,7 +57,7 @@ const Index = () => {
       description: "Lumber, tools, heavy equipment",
       count: 342,
       color: "bg-orange-100 text-orange-800",
-      image: "/categories/construction.jpg"
+      image: "/categories/constructionreal.jpg"
     },
     {
       id: "restaurant",
@@ -66,7 +66,7 @@ const Index = () => {
       description: "Commercial ovens, refrigeration, furniture",
       count: 189,
       color: "bg-green-100 text-green-800",
-      image: "/categories/restaurant.jpg"
+      image: "/categories/restaurantreal.jpg"
     },
     {
       id: "office",
@@ -75,7 +75,7 @@ const Index = () => {
       description: "Furniture, computers, office supplies",
       count: 156,
       color: "bg-blue-100 text-blue-800",
-      image: "/categories/office.jpg"
+      image: "/categories/officereal.jpg"
     },
     {
       id: "municipal",
@@ -84,7 +84,7 @@ const Index = () => {
       description: "Vehicles, equipment, furniture",
       count: 98,
       color: "bg-purple-100 text-purple-800",
-      image: "/categories/municipal.jpg"
+      image: "/categories/municipalreal.jpg"
     }
   ];
 

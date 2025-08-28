@@ -105,7 +105,7 @@ const ModernIndex = () => {
     },
   ];
 
-  // Categories with local images
+  // Categories with your custom "real" images
   const categories = [
     {
       id: "construction-materials",
@@ -114,7 +114,7 @@ const ModernIndex = () => {
       count: 342,
       color: "from-orange-500 to-red-500",
       trending: true,
-      image: "/categories/construction.jpg", // Local image
+      image: "/categories/constructionreal.jpg", // Your real image
       description: "Lumber, tools, heavy equipment"
     },
     {
@@ -123,7 +123,7 @@ const ModernIndex = () => {
       icon: UtensilsCrossed,
       count: 189,
       color: "from-green-500 to-emerald-500",
-      image: "/categories/restaurant.jpg", // Local image
+      image: "/categories/restaurantreal.jpg", // Your real image
       description: "Commercial ovens, refrigeration"
     },
     {
@@ -132,7 +132,7 @@ const ModernIndex = () => {
       icon: Briefcase,
       count: 156,
       color: "from-blue-500 to-indigo-500",
-      image: "/categories/office.jpg", // Local image
+      image: "/categories/officereal.jpg", // Your real image
       description: "Furniture, computers, supplies"
     },
     {
@@ -141,26 +141,26 @@ const ModernIndex = () => {
       icon: Wrench,
       count: 98,
       color: "from-purple-500 to-pink-500",
-      image: "/categories/municipal.jpg", // Local image
+      image: "/categories/municipalreal.jpg", // Your real image
       description: "Vehicles, equipment, furniture"
     },
     {
-      id: "industrial",
-      name: "Industrial",
+      id: "blacksmithing",
+      name: "Blacksmithing",
       icon: Anvil,
       count: 24,
       color: "from-stone-600 to-stone-800",
-      image: "/categories/industrial.jpg", // Local image
-      description: "Heavy machinery, industrial tools"
+      image: "/categories/blacksmithreal.jpg", // Your real image
+      description: "Anvils, forges, metalworking tools"
     },
     {
-      id: "vehicles",
-      name: "Vehicles",
+      id: "jewelry-making",
+      name: "Jewelry Making",
       icon: Diamond,
       count: 41,
       color: "from-rose-500 to-pink-500",
-      image: "/categories/vehicles.jpg", // Local image
-      description: "Cars, trucks, fleet vehicles"
+      image: "/categories/jewelrymakingreal.jpg", // Your real image
+      description: "Tools, gems, crafting supplies"
     }
   ];
 
