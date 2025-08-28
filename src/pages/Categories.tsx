@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Building2, UtensilsCrossed, Briefcase, Wrench, Heart, Home, Shirt, Dumbbell } from "lucide-react";
+import { Building2, UtensilsCrossed, Briefcase, Wrench, Heart, Home, Shirt, Dumbbell, Hammer, Gem } from "lucide-react";
 
 const Categories = () => {
   const categories = [
     { id: "construction-materials", name: "Construction", icon: Building2, count: 342 },
     { id: "restaurant-equipment", name: "Restaurant", icon: UtensilsCrossed, count: 189 },
     { id: "office-furniture", name: "Office", icon: Briefcase, count: 156 },
-    { id: "municipal-surplus", name: "Municipal", icon: Wrench, count: 98 }
+    { id: "municipal-surplus", name: "Municipal", icon: Wrench, count: 98 },
+    { id: "blacksmithing", name: "Blacksmithing", icon: Hammer, count: 24 },
+    { id: "jewelry-making", name: "Jewelry Making", icon: Gem, count: 41 }
   ];
 
   const additionalCategories = [
