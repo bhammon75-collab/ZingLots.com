@@ -245,12 +245,23 @@ const Index = () => {
             {categories.map((category) => {
               return (
                 <Card key={category.id} className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden group">
-                  <div className="relative h-32 overflow-hidden">
+                  <div className="relative h-32 overflow-hidden bg-gray-200">
                     <img 
                       src={category.image} 
                       alt={category.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       loading="lazy"
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${category.image}`);
+                        // Try fallback to original image without 'real'
+                        const fallbackImage = category.image.replace('real.jpg', '.jpg');
+                        if (e.currentTarget.src !== fallbackImage) {
+                          e.currentTarget.src = fallbackImage;
+                        } else {
+                          // If fallback also fails, use a placeholder
+                          e.currentTarget.src = '/placeholder.jpg';
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <Badge className="absolute top-2 right-2 bg-white/90 text-gray-900">

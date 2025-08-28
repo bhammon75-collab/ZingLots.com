@@ -31,6 +31,7 @@ import "../styles/modern-design.css";
 import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 import Brand from "../components/Brand";
+import ImageDiagnostic from "@/components/ImageDiagnostic";
 
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -397,12 +398,23 @@ const ModernIndex = () => {
                   className="group category-card-visual relative overflow-hidden rounded-xl bg-white border border-gray-200 hover:shadow-2xl transition-all duration-300"
                 >
                   {/* Background Image */}
-                  <div className="relative h-32 overflow-hidden">
+                  <div className="relative h-32 overflow-hidden bg-gray-200">
                     <img 
                       src={category.image} 
                       alt={category.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       loading="lazy"
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${category.image}`);
+                        // Try fallback to original image without 'real'
+                        const fallbackImage = category.image.replace('real.jpg', '.jpg');
+                        if (e.currentTarget.src !== fallbackImage) {
+                          e.currentTarget.src = fallbackImage;
+                        } else {
+                          // If fallback also fails, use a placeholder
+                          e.currentTarget.src = '/placeholder.jpg';
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                     {category.trending && (
@@ -763,6 +775,9 @@ const ModernIndex = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Temporary diagnostic tool - remove this after fixing images */}
+      {process.env.NODE_ENV === 'development' && <ImageDiagnostic />}
     </div>
   );
 };
