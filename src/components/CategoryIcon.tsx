@@ -20,10 +20,16 @@ export type CategoryIconProps = {
 
 const CategoryIcon: React.FC<CategoryIconProps> = ({ name, className, alt }) => {
   const candidates = useMemo(() => [
+    // Primary app public path
     `/icons/${name}_128.png`,
     `/icons/${name}-128.png`,
     `/icons/${name}128.png`,
     `/icons/${name}.png`,
+    // Temporary fallback: files uploaded under ZingLots.com/public/icons
+    `/ZingLots.com/public/icons/${name}_128.png`,
+    `/ZingLots.com/public/icons/${name}-128.png`,
+    `/ZingLots.com/public/icons/${name}128.png`,
+    `/ZingLots.com/public/icons/${name}.png`,
   ], [name]);
 
   const [candidateIndex, setCandidateIndex] = useState(0);
