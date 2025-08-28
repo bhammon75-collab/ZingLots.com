@@ -110,7 +110,8 @@ const ModernIndex = () => {
     {
       id: "construction-materials",
       name: "Construction",
-      icon: Building2,
+      icon: "/icons/bulldozer_128.png",
+      isImage: true,
       count: 342,
       color: "from-orange-500 to-red-500",
       trending: true
@@ -126,14 +127,16 @@ const ModernIndex = () => {
     {
       id: "office-furniture",
       name: "Office",
-      icon: Briefcase,
+      icon: "/icons/briefcase_128.png",
+      isImage: true,
       count: 156,
       color: "from-blue-500 to-indigo-500"
     },
     {
       id: "municipal-surplus",
       name: "Municipal",
-      icon: Wrench,
+      icon: "/icons/wrench_128.png",
+      isImage: true,
       count: 98,
       color: "from-purple-500 to-pink-500"
     }
@@ -141,14 +144,16 @@ const ModernIndex = () => {
     {
       id: "blacksmithing",
       name: "Blacksmithing",
-      icon: Anvil,
+      icon: "/icons/anvil_128.png",
+      isImage: true,
       count: 24,
       color: "from-stone-600 to-stone-800"
     },
     {
       id: "jewelry-making",
       name: "Jewelry Making",
-      icon: Diamond,
+      icon: "/icons/ring_128.png",
+      isImage: true,
       count: 41,
       color: "from-rose-500 to-pink-500"
     }
