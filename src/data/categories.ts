@@ -17,6 +17,8 @@ export const CATEGORIES: Category[] = [
   { name: "Home Furniture", slug: "home-furniture" },
   { name: "Apparel & Textiles", slug: "apparel-textiles" },
   { name: "Fitness & Sports", slug: "fitness-sports" },
+  { name: "Blacksmithing", slug: "blacksmithing" },
+  { name: "Jewelry Making", slug: "jewelry-making" },
 ];
 
 // Featured subset for nav/filter surfaces
@@ -42,6 +44,9 @@ export const CATEGORY_SLUG_ALIASES: Record<string, string> = {
   furniture: "home-furniture",
   apparel: "apparel-textiles",
   fitness: "fitness-sports",
+  blacksmith: "blacksmithing",
+  smithing: "blacksmithing",
+  jewelry: "jewelry-making",
 };
 
 export function canonicalizeCategorySlug(slugOrAlias: string | undefined | null): string | null {

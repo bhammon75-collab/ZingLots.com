@@ -64,6 +64,16 @@ const TITLES: Record<string,string[]> = {
     "Olympic Plates – 300 lb Set",
     "Rowing Machine – Concept2 Model D"
   ],
+  "Blacksmithing": [
+    "Anvil – 150 lb Cast Steel",
+    "Forge with Burner – 2-Burner Propane",
+    "Cross-Peen Hammer Set – 2 to 4 lb"
+  ],
+  "Jewelry Making": [
+    "Bench Tools Lot – Files, Pliers, Saws",
+    "Rotary Tool Kit – Flex Shaft + Bits",
+    "Ring Mandrel & Sizing Tools"
+  ],
 };
 
 // B2B-appropriate image URLs for each category
@@ -117,6 +127,16 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&h=600&fit=crop", // Gym equipment
     "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=600&fit=crop", // Treadmill
     "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&h=600&fit=crop"  // Weights
+  ],
+  "Blacksmithing": [
+    "https://images.unsplash.com/photo-1542451255-5e3219a3f5c8?w=800&h=600&fit=crop", // forge flames
+    "https://images.unsplash.com/photo-1542377285-8b1f03aabf2d?w=800&h=600&fit=crop", // anvil hammering
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&h=600&fit=crop"  // sparks
+  ],
+  "Jewelry Making": [
+    "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&h=600&fit=crop", // jeweler tools
+    "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&h=600&fit=crop", // setting gemstone
+    "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=800&h=600&fit=crop"   // rings close-up
   ],
 };
 

@@ -23,6 +23,8 @@ import {
   UtensilsCrossed,
   Briefcase,
   Wrench,
+  Anvil,
+  Diamond,
   ArrowRight
 } from "lucide-react";
 import "../styles/modern-design.css";
@@ -138,14 +140,14 @@ const ModernIndex = () => {
     {
       id: "blacksmithing",
       name: "Blacksmithing",
-      icon: Wrench,
+      icon: Anvil,
       count: 24,
       color: "from-stone-600 to-stone-800"
     },
     {
       id: "jewelry-making",
       name: "Jewelry Making",
-      icon: Briefcase,
+      icon: Diamond,
       count: 41,
       color: "from-rose-500 to-pink-500"
     }
