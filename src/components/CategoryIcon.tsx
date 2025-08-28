@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 
 export type CategoryIconName =
   | "anvil"
@@ -19,7 +19,16 @@ export type CategoryIconProps = {
 };
 
 const CategoryIcon: React.FC<CategoryIconProps> = ({ name, className, alt }) => {
-  const src = `/icons/${name}_128.png`;
+  const candidates = useMemo(() => [
+    `/icons/${name}_128.png`,
+    `/icons/${name}-128.png`,
+    `/icons/${name}128.png`,
+    `/icons/${name}.png`,
+  ], [name]);
+
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const src = candidates[Math.min(candidateIndex, candidates.length - 1)];
+
   return (
     <img
       src={src}
@@ -29,6 +38,9 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({ name, className, alt }) => 
       decoding="async"
       className={["object-contain", className].filter(Boolean).join(" ")}
       alt={alt ?? name}
+      onError={() => {
+        setCandidateIndex((prev) => (prev + 1 < candidates.length ? prev + 1 : prev));
+      }}
     />
   );
 };
