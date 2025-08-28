@@ -3,24 +3,38 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Building2, UtensilsCrossed, Briefcase, Wrench, Heart, Home, Shirt, Dumbbell, Anvil, Diamond } from "lucide-react";
+import CategoryIcon, { type CategoryIconName } from "@/components/CategoryIcon";
 
 const Categories = () => {
   const categories = [
-    { id: "construction-materials", name: "Construction", icon: Building2, count: 342 },
-    { id: "restaurant-equipment", name: "Restaurant", icon: UtensilsCrossed, count: 189 },
-    { id: "office-furniture", name: "Office", icon: Briefcase, count: 156 },
-    { id: "municipal-surplus", name: "Municipal", icon: Wrench, count: 98 },
-    { id: "blacksmithing", name: "Blacksmithing", icon: Anvil, count: 24 },
-    { id: "jewelry-making", name: "Jewelry Making", icon: Diamond, count: 41 }
+    { id: "construction-materials", name: "Construction", count: 342 },
+    { id: "restaurant-equipment", name: "Restaurant", count: 189 },
+    { id: "office-furniture", name: "Office", count: 156 },
+    { id: "municipal-surplus", name: "Municipal", count: 98 },
+    { id: "blacksmithing", name: "Blacksmithing", count: 24 },
+    { id: "jewelry-making", name: "Jewelry Making", count: 41 }
   ];
 
   const additionalCategories = [
-    { id: "medical-lab", name: "Medical & Lab", icon: Heart, count: 67 },
-    { id: "home-furniture", name: "Home Furniture", icon: Home, count: 89 },
-    { id: "apparel-textiles", name: "Apparel & Textiles", icon: Shirt, count: 45 },
-    { id: "fitness-sports", name: "Fitness & Sports", icon: Dumbbell, count: 78 }
+    { id: "medical-lab", name: "Medical & Lab", count: 67 },
+    { id: "home-furniture", name: "Home Furniture", count: 89 },
+    { id: "apparel-textiles", name: "Apparel & Textiles", count: 45 },
+    { id: "fitness-sports", name: "Fitness & Sports", count: 78 }
   ];
+
+  const idToIconName: Record<string, CategoryIconName> = {
+    "construction-materials": "bulldozer",
+    "restaurant-equipment": "cutlery",
+    "office-furniture": "briefcase",
+    "municipal-surplus": "wrench",
+    "industrial-equipment": "wrench",
+    "blacksmithing": "anvil",
+    "jewelry-making": "ring",
+    "medical-lab": "flask",
+    "home-furniture": "sofa",
+    "apparel-textiles": "shirt",
+    "fitness-sports": "dumbbells",
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,10 +69,12 @@ const Categories = () => {
           {categories.map((cat) => (
             <Card key={cat.id} className="hover:shadow-lg transition">
               <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <cat.icon className="h-6 w-6 text-brand-red" />
+                <div className="flex flex-col items-center justify-center gap-2 mb-3">
+                  <div className="aspect-square w-20 flex items-center justify-center">
+                    <CategoryIcon name={idToIconName[cat.id]} className="h-16 w-16" alt={cat.name} />
+                  </div>
                   <h3 className="font-semibold">{cat.name}</h3>
-                  <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
+                  <Badge variant="secondary">{cat.count}</Badge>
                 </div>
                 <Button asChild variant="outline" className="w-full">
                   <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
@@ -73,10 +89,12 @@ const Categories = () => {
           {additionalCategories.map((cat) => (
             <Card key={cat.id} className="hover:shadow-lg transition">
               <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <cat.icon className="h-6 w-6 text-brand-red" />
+                <div className="flex flex-col items-center justify-center gap-2 mb-3">
+                  <div className="aspect-square w-20 flex items-center justify-center">
+                    <CategoryIcon name={idToIconName[cat.id]} className="h-16 w-16" alt={cat.name} />
+                  </div>
                   <h3 className="font-semibold">{cat.name}</h3>
-                  <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
+                  <Badge variant="secondary">{cat.count}</Badge>
                 </div>
                 <Button asChild variant="outline" className="w-full">
                   <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>

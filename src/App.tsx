@@ -39,6 +39,7 @@ const ExplorePage = lazy(() => import("./pages/explore"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
 const Security = lazy(() => import("./pages/Security"));
+const IconDemo = lazy(() => import("./routes/icon-demo"));
 
 // B2B Marketplace Pages
 const RegionPage = lazy(() => import("./pages/RegionPage"));
@@ -109,6 +110,7 @@ const App = () => (
                   <Route path="/admin/review-sellers" element={<ReviewSellers />} />
                   <Route path="/qa" element={<QA />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/icon-demo" element={<IconDemo />} />
                   
                   {/* Fixed routes - auction detail and live room separated */}
                   <Route
