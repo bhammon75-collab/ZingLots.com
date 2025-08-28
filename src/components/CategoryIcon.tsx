@@ -29,13 +29,6 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({ name, className, alt }) => 
       decoding="async"
       className={["object-contain", className].filter(Boolean).join(" ")}
       alt={alt ?? name}
-      onError={(e) => {
-        const target = e.currentTarget as HTMLImageElement;
-        if (!target?.dataset?.fallback) {
-          target.src = "/icons/zinglots-icon.svg";
-          target.dataset.fallback = "true";
-        }
-      }}
     />
   );
 };
