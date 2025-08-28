@@ -19,14 +19,9 @@ import {
   Gavel,
   Package,
   Users,
-  Building2,
-  UtensilsCrossed,
-  Briefcase,
-  Wrench,
-  Anvil,
-  Diamond,
   ArrowRight
 } from "lucide-react";
+import CategoryIcon, { type CategoryIconName } from "@/components/CategoryIcon";
 import "../styles/modern-design.css";
 import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
@@ -107,51 +102,22 @@ const ModernIndex = () => {
 
   // Categories with icons and colors
   const categories = [
-    {
-      id: "construction-materials",
-      name: "Construction",
-      icon: Building2,
-      count: 342,
-      color: "from-orange-500 to-red-500",
-      trending: true
-    },
-    {
-      id: "restaurant-equipment",
-      name: "Restaurant",
-      icon: UtensilsCrossed,
-      count: 189,
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      id: "office-furniture",
-      name: "Office",
-      icon: Briefcase,
-      count: 156,
-      color: "from-blue-500 to-indigo-500"
-    },
-    {
-      id: "municipal-surplus",
-      name: "Municipal",
-      icon: Wrench,
-      count: 98,
-      color: "from-purple-500 to-pink-500"
-    }
-    ,
-    {
-      id: "blacksmithing",
-      name: "Blacksmithing",
-      icon: Anvil,
-      count: 24,
-      color: "from-stone-600 to-stone-800"
-    },
-    {
-      id: "jewelry-making",
-      name: "Jewelry Making",
-      icon: Diamond,
-      count: 41,
-      color: "from-rose-500 to-pink-500"
-    }
+    { id: "construction-materials", name: "Construction", count: 342, color: "from-orange-500 to-red-500", trending: true },
+    { id: "restaurant-equipment", name: "Restaurant", count: 189, color: "from-green-500 to-emerald-500" },
+    { id: "office-furniture", name: "Office", count: 156, color: "from-blue-500 to-indigo-500" },
+    { id: "municipal-surplus", name: "Municipal", count: 98, color: "from-purple-500 to-pink-500" },
+    { id: "blacksmithing", name: "Blacksmithing", count: 24, color: "from-stone-600 to-stone-800" },
+    { id: "jewelry-making", name: "Jewelry Making", count: 41, color: "from-rose-500 to-pink-500" }
   ];
+
+  const idToIconName: Record<string, CategoryIconName> = {
+    "construction-materials": "bulldozer",
+    "restaurant-equipment": "cutlery",
+    "office-furniture": "briefcase",
+    "municipal-surplus": "wrench",
+    "blacksmithing": "anvil",
+    "jewelry-making": "ring",
+  };
 
   // Featured lots data - Active Auctions
   const featuredLots = [
@@ -379,7 +345,6 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((category) => {
-              const IconComponent = category.icon;
               return (
                 <Link
                   key={category.id}
@@ -389,7 +354,7 @@ const ModernIndex = () => {
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
+                      <CategoryIcon name={idToIconName[category.id]} className="h-10 w-10" alt={category.name} />
                       {category.trending && (
                         <Badge className="badge-hot">Trending</Badge>
                       )}

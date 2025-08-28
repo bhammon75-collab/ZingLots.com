@@ -12,7 +12,8 @@ import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 
 import { useState, useMemo } from "react";
 import { SearchBar } from "@/components/ui/search-bar";
-import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
+import { MapPin, Truck, Shield, Clock } from "lucide-react";
+import CategoryIcon, { type CategoryIconName } from "@/components/CategoryIcon";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Hero } from "@/components/Hero";
@@ -53,7 +54,6 @@ const Index = () => {
     {
       id: "contractor",
       name: "Construction & Materials",
-      icon: Building2,
       description: "Lumber, tools, heavy equipment",
       count: 342,
       color: "bg-orange-100 text-orange-800"
@@ -61,7 +61,6 @@ const Index = () => {
     {
       id: "restaurant",
       name: "Restaurant & Food Service",
-      icon: UtensilsCrossed,
       description: "Commercial ovens, refrigeration, furniture",
       count: 189,
       color: "bg-green-100 text-green-800"
@@ -69,7 +68,6 @@ const Index = () => {
     {
       id: "office",
       name: "Office & Business Equipment",
-      icon: Briefcase,
       description: "Furniture, computers, office supplies",
       count: 156,
       color: "bg-blue-100 text-blue-800"
@@ -77,12 +75,18 @@ const Index = () => {
     {
       id: "municipal",
       name: "Government & Municipal Surplus",
-      icon: Wrench,
       description: "Vehicles, equipment, furniture",
       count: 98,
       color: "bg-purple-100 text-purple-800"
     }
   ];
+
+  const idToIconNameLegacy: Record<string, CategoryIconName> = {
+    contractor: "bulldozer",
+    restaurant: "cutlery",
+    office: "briefcase",
+    municipal: "wrench",
+  };
 
   const featuredLots = [
     {
@@ -239,12 +243,11 @@ const Index = () => {
           <h2 className="text-3xl font-bold text-center mb-12 text-[#0f172a]">Browse by Category</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category) => {
-              const IconComponent = category.icon;
               return (
                 <Card key={category.id} className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <IconComponent className="h-8 w-8 text-[#64748b]" />
+                      <CategoryIcon name={idToIconNameLegacy[category.id]} className="h-8 w-8" alt={category.name} />
                       <Badge className={category.color}>
                         {category.count} lots
                       </Badge>
