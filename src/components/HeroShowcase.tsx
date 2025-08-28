@@ -24,6 +24,7 @@ type Props = {
   speedMs?: number;    // animation duration
   className?: string;
   autoplayDefault?: boolean;
+  compact?: boolean;   // reduces overall footprint
 };
 
 export default function HeroShowcase({
@@ -32,6 +33,7 @@ export default function HeroShowcase({
   speedMs = 650,
   className,
   autoplayDefault = true,
+  compact = false,
 }: Props) {
   const [playing, setPlaying] = useState(autoplayDefault);
   const prevRef = useRef<HTMLButtonElement | null>(null);
@@ -43,9 +45,9 @@ export default function HeroShowcase({
   if (!slides?.length) return null;
 
   return (
-    <section className={`w-full ${className ?? ""}`}>
+    <section className={`w-full ${className ?? ""} ${compact ? "pb-2" : ""}`}>
       <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <div className="relative hero-swiper">
+        <div className={`relative hero-swiper ${compact ? "!pb-4" : ""}`}>
           {/* soft circular arrows at edges */}
           <button
             ref={prevRef}
@@ -72,20 +74,20 @@ export default function HeroShowcase({
                 : false
             }
             a11y={{ enabled: true }}
-            className="!pb-10"
+            className={compact ? "!pb-6" : "!pb-10"}
           >
             {slides.map((s) => (
               <SwiperSlide key={s.id}>
-                <div className="mx-auto max-w-6xl">
+                <div className={`mx-auto ${compact ? "max-w-5xl" : "max-w-6xl"}`}>
                   <a
                     href={s.href ?? "#"}
                     className="block focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md"
                   >
                     {/* Layout: image left, copy right */}
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <div className={`grid grid-cols-1 md:grid-cols-12 ${compact ? "gap-6" : "gap-8"} items-center`}>
                       <div className="md:col-span-5">
                         <div className="bg-gray-100 rounded-md shadow-sm overflow-hidden">
-                          <div className="aspect-[3/4] md:aspect-[4/5]">
+                          <div className={`${compact ? "aspect-[3/4] md:aspect-[3/4]" : "aspect-[3/4] md:aspect-[4/5]"}`}>
                             <img
                               src={s.imageUrl}
                               alt={s.alt}
@@ -100,16 +102,16 @@ export default function HeroShowcase({
                           <div className="text-sm text-gray-600 mb-3">{s.dateText}</div>
                         )}
                         {s.title && (
-                          <h2 className="text-2xl md:text-4xl font-serif font-semibold leading-tight text-gray-900">
+                          <h2 className={`font-serif font-semibold leading-tight text-gray-900 ${compact ? "text-xl md:text-3xl" : "text-2xl md:text-4xl"}`}>
                             {s.title}
                           </h2>
                         )}
                         {s.subhead && (
-                          <p className="mt-2 text-base text-gray-700">{s.subhead}</p>
+                          <p className={`text-gray-700 ${compact ? "mt-1 text-sm" : "mt-2 text-base"}`}>{s.subhead}</p>
                         )}
                         {s.ctaText && (
                           <div className="mt-6">
-                            <Button className="rounded-xl px-6 py-5 text-base">
+                            <Button className={`rounded-xl ${compact ? "px-5 py-3 text-sm" : "px-6 py-5 text-base"}`}>
                               {s.ctaText}
                             </Button>
                           </div>
