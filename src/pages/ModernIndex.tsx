@@ -105,7 +105,7 @@ const ModernIndex = () => {
     },
   ];
 
-  // Categories with icons and colors
+  // Categories with real-world stock images
   const categories = [
     {
       id: "construction-materials",
@@ -113,43 +113,54 @@ const ModernIndex = () => {
       icon: Building2,
       count: 342,
       color: "from-orange-500 to-red-500",
-      trending: true
+      trending: true,
+      image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop&auto=format", // Construction site with equipment
+      description: "Lumber, tools, heavy equipment"
     },
     {
       id: "restaurant-equipment",
       name: "Restaurant",
       icon: UtensilsCrossed,
       count: 189,
-      color: "from-green-500 to-emerald-500"
+      color: "from-green-500 to-emerald-500",
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&auto=format", // Commercial kitchen
+      description: "Commercial ovens, refrigeration"
     },
     {
       id: "office-furniture",
       name: "Office",
       icon: Briefcase,
       count: 156,
-      color: "from-blue-500 to-indigo-500"
+      color: "from-blue-500 to-indigo-500",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop&auto=format", // Modern office space
+      description: "Furniture, computers, supplies"
     },
     {
       id: "municipal-surplus",
       name: "Municipal",
       icon: Wrench,
       count: 98,
-      color: "from-purple-500 to-pink-500"
-    }
-    ,
+      color: "from-purple-500 to-pink-500",
+      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&auto=format", // Heavy machinery/equipment
+      description: "Vehicles, equipment, furniture"
+    },
     {
       id: "blacksmithing",
       name: "Blacksmithing",
       icon: Anvil,
       count: 24,
-      color: "from-stone-600 to-stone-800"
+      color: "from-stone-600 to-stone-800",
+      image: "https://images.unsplash.com/photo-1565630916779-e303be97b6f5?w=600&h=400&fit=crop&auto=format", // Blacksmith workshop with anvil
+      description: "Anvils, forges, metalworking tools"
     },
     {
       id: "jewelry-making",
       name: "Jewelry Making",
       icon: Diamond,
       count: 41,
-      color: "from-rose-500 to-pink-500"
+      color: "from-rose-500 to-pink-500",
+      image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&h=400&fit=crop&auto=format", // Jewelry making tools and gems
+      description: "Tools, gems, crafting supplies"
     }
   ];
 
@@ -377,25 +388,36 @@ const ModernIndex = () => {
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map((category) => {
-              const IconComponent = category.icon;
               return (
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
-                  className="group category-card-link relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-shadow duration-300"
+                  className="group category-card-visual relative overflow-hidden rounded-xl bg-white border border-gray-200 hover:shadow-2xl transition-all duration-300"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
-                      {category.trending && (
-                        <Badge className="badge-hot">Trending</Badge>
-                      )}
+                  {/* Background Image */}
+                  <div className="relative h-32 overflow-hidden">
+                    <img 
+                      src={category.image} 
+                      alt={category.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    {category.trending && (
+                      <Badge className="absolute top-2 right-2 bg-red-500 text-white border-0">Trending</Badge>
+                    )}
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-4">
+                    <h3 className="font-bold text-base mb-1 text-gray-900">{category.name}</h3>
+                    <p className="text-xs text-gray-600 mb-2 line-clamp-1">{category.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-blue-600">{category.count} lots</span>
+                      <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
                     </div>
-                    <h3 className="font-semibold text-lg mb-1">{category.name}</h3>
-                    <p className="text-sm text-gray-500">{category.count} active auctions</p>
                   </div>
                 </Link>
               );

@@ -56,7 +56,8 @@ const Index = () => {
       icon: Building2,
       description: "Lumber, tools, heavy equipment",
       count: 342,
-      color: "bg-orange-100 text-orange-800"
+      color: "bg-orange-100 text-orange-800",
+      image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop&auto=format"
     },
     {
       id: "restaurant",
@@ -64,7 +65,8 @@ const Index = () => {
       icon: UtensilsCrossed,
       description: "Commercial ovens, refrigeration, furniture",
       count: 189,
-      color: "bg-green-100 text-green-800"
+      color: "bg-green-100 text-green-800",
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&auto=format"
     },
     {
       id: "office",
@@ -72,7 +74,8 @@ const Index = () => {
       icon: Briefcase,
       description: "Furniture, computers, office supplies",
       count: 156,
-      color: "bg-blue-100 text-blue-800"
+      color: "bg-blue-100 text-blue-800",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop&auto=format"
     },
     {
       id: "municipal",
@@ -80,7 +83,8 @@ const Index = () => {
       icon: Wrench,
       description: "Vehicles, equipment, furniture",
       count: 98,
-      color: "bg-purple-100 text-purple-800"
+      color: "bg-purple-100 text-purple-800",
+      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&auto=format"
     }
   ];
 
@@ -239,16 +243,21 @@ const Index = () => {
           <h2 className="text-3xl font-bold text-center mb-12 text-[#0f172a]">Browse by Category</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category) => {
-              const IconComponent = category.icon;
               return (
-                <Card key={category.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <Card key={category.id} className="hover:shadow-lg transition-shadow cursor-pointer overflow-hidden group">
+                  <div className="relative h-32 overflow-hidden">
+                    <img 
+                      src={category.image} 
+                      alt={category.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <Badge className="absolute top-2 right-2 bg-white/90 text-gray-900">
+                      {category.count} lots
+                    </Badge>
+                  </div>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <IconComponent className="h-8 w-8 text-[#64748b]" />
-                      <Badge className={category.color}>
-                        {category.count} lots
-                      </Badge>
-                    </div>
                     <CardTitle className="text-lg text-[#0f172a]">{category.name}</CardTitle>
                     <CardDescription className="text-[#64748b]">{category.description}</CardDescription>
                   </CardHeader>

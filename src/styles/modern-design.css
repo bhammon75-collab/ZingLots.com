@@ -150,6 +150,27 @@
   transform: translateY(-4px);
 }
 
+/* Category Cards with Visual Images */
+.category-card-visual {
+  will-change: transform, box-shadow;
+  transform: translateY(0);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.category-card-visual:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.category-card-visual img {
+  will-change: transform;
+}
+
+.category-card-visual:hover img {
+  transform: scale(1.1);
+}
+
 /* Location Cards */
 .location-card {
   @apply bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100;
