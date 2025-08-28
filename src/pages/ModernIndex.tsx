@@ -31,6 +31,7 @@ import "../styles/modern-design.css";
 import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
 import Brand from "../components/Brand";
+import ImageDiagnostic from "@/components/ImageDiagnostic";
 
 const ModernIndex = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -105,7 +106,7 @@ const ModernIndex = () => {
     },
   ];
 
-  // Categories with icons and colors
+  // Categories with your custom "real" images
   const categories = [
     {
       id: "construction-materials",
@@ -113,43 +114,54 @@ const ModernIndex = () => {
       icon: Building2,
       count: 342,
       color: "from-orange-500 to-red-500",
-      trending: true
+      trending: true,
+      image: "/categories/constructionreal.jpg", // Your real image
+      description: "Lumber, tools, heavy equipment"
     },
     {
       id: "restaurant-equipment",
       name: "Restaurant",
       icon: UtensilsCrossed,
       count: 189,
-      color: "from-green-500 to-emerald-500"
+      color: "from-green-500 to-emerald-500",
+      image: "/categories/restaurantreal.jpg", // Your real image
+      description: "Commercial ovens, refrigeration"
     },
     {
       id: "office-furniture",
       name: "Office",
       icon: Briefcase,
       count: 156,
-      color: "from-blue-500 to-indigo-500"
+      color: "from-blue-500 to-indigo-500",
+      image: "/categories/officereal.jpg", // Your real image
+      description: "Furniture, computers, supplies"
     },
     {
       id: "municipal-surplus",
       name: "Municipal",
       icon: Wrench,
       count: 98,
-      color: "from-purple-500 to-pink-500"
-    }
-    ,
+      color: "from-purple-500 to-pink-500",
+      image: "/categories/municipalreal.jpg", // Your real image
+      description: "Vehicles, equipment, furniture"
+    },
     {
       id: "blacksmithing",
       name: "Blacksmithing",
       icon: Anvil,
       count: 24,
-      color: "from-stone-600 to-stone-800"
+      color: "from-stone-600 to-stone-800",
+      image: "/categories/blacksmithreal.jpg", // Your real image
+      description: "Anvils, forges, metalworking tools"
     },
     {
       id: "jewelry-making",
       name: "Jewelry Making",
       icon: Diamond,
       count: 41,
-      color: "from-rose-500 to-pink-500"
+      color: "from-rose-500 to-pink-500",
+      image: "/categories/jewelrymakingreal.jpg", // Your real image
+      description: "Tools, gems, crafting supplies"
     }
   ];
 
@@ -377,25 +389,47 @@ const ModernIndex = () => {
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map((category) => {
-              const IconComponent = category.icon;
               return (
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
-                  className="group category-card-link relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-shadow duration-300"
+                  className="group category-card-visual relative overflow-hidden rounded-xl bg-white border border-gray-200 hover:shadow-2xl transition-all duration-300"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
-                      {category.trending && (
-                        <Badge className="badge-hot">Trending</Badge>
-                      )}
+                  {/* Background Image */}
+                  <div className="relative h-32 overflow-hidden bg-gray-200">
+                    <img 
+                      src={category.image} 
+                      alt={category.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${category.image}`);
+                        // Try fallback to original image without 'real'
+                        const fallbackImage = category.image.replace('real.jpg', '.jpg');
+                        if (e.currentTarget.src !== fallbackImage) {
+                          e.currentTarget.src = fallbackImage;
+                        } else {
+                          // If fallback also fails, use a placeholder
+                          e.currentTarget.src = '/placeholder.jpg';
+                        }
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    {category.trending && (
+                      <Badge className="absolute top-2 right-2 bg-red-500 text-white border-0">Trending</Badge>
+                    )}
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-4">
+                    <h3 className="font-bold text-base mb-1 text-gray-900">{category.name}</h3>
+                    <p className="text-xs text-gray-600 mb-2 line-clamp-1">{category.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold text-blue-600">{category.count} lots</span>
+                      <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
                     </div>
-                    <h3 className="font-semibold text-lg mb-1">{category.name}</h3>
-                    <p className="text-sm text-gray-500">{category.count} active auctions</p>
                   </div>
                 </Link>
               );
@@ -430,12 +464,21 @@ const ModernIndex = () => {
         </div>
       </section>
 
-      {/* Moving Auctions Marquee */}
-      <section className="bg-zinc-50/60 py-8">
+      {/* Moving Auctions Marquee - Enhanced Visual Distinction */}
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-50 py-10 border-y border-blue-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="mb-4 flex items-center gap-2">
-            <Badge className="bg-black text-white">Featured</Badge>
-            <h2 className="text-xl font-extrabold tracking-tight text-zinc-900">Featured Auctions</h2>
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
+                <Badge className="bg-blue-600 text-white px-3 py-1">Featured</Badge>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Premium Auctions</h2>
+            </div>
+            <p className="text-sm text-gray-600">
+              <Star className="inline h-4 w-4 text-yellow-500 mr-1" />
+              Verified sellers • Priority support
+            </p>
           </div>
           <FeaturedAuctionsMarquee items={featuredAuctions} />
         </div>
@@ -478,69 +521,86 @@ const ModernIndex = () => {
           </div>
           
           <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 featured-lots-container overflow-x-auto ${dense ? 'lot-card-dense' : ''}`}>
-            {featuredLots.map((lot) => (
-              <Card key={lot.id} className={`lot-card group flex flex-col h-full ${dense ? 'lot-card-dense' : ''}`}>
-                <div className="relative overflow-hidden aspect-[4/3]">
-                  <img
-                    src={lot.image}
-                    alt={lot.title}
-                    className="lot-card-image"
-                  />
-                  <div className="absolute top-2 left-2 flex flex-col gap-2">
-                    {lot.hot && <Badge className="bg-red-500 text-white">Ending Soon</Badge>}
-                    {lot.urgent && <Badge className="bg-orange-500 text-white">Final Hour</Badge>}
+            {featuredLots.map((lot) => {
+              const seconds = timeLeft[lot.id] ?? undefined;
+              const isUrgent = seconds !== undefined && seconds <= 3600;
+              const isWarning = seconds !== undefined && seconds <= 86400;
+              const timerBadgeClass = seconds !== undefined
+                ? seconds <= 3600
+                  ? 'timer-badge-critical'
+                  : seconds <= 86400
+                    ? 'timer-badge-warning'
+                    : 'timer-badge-default'
+                : 'timer-badge-default';
+              
+              return (
+                <Card key={lot.id} className={`lot-card group flex flex-col h-full ${dense ? 'lot-card-dense' : ''}`}>
+                  <div className="relative overflow-hidden aspect-[4/3]">
+                    <img
+                      src={lot.image}
+                      alt={lot.title}
+                      className="lot-card-image object-cover"
+                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                    />
+                    <div className="absolute top-2 right-2">
+                      <button className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors" aria-label="Add to watchlist">
+                        <Heart className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="absolute top-2 right-2">
-                    <button className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors">
-                      <Heart className="h-4 w-4" />
-                    </button>
-                  </div>
-                  {(() => {
-                    const seconds = timeLeft[lot.id] ?? undefined;
-                    const badgeClass = seconds !== undefined
-                      ? seconds <= 3600
-                        ? 'timer-badge-critical'
-                        : seconds <= 86400
-                          ? 'timer-badge-warning'
-                          : 'timer-badge'
-                      : 'timer-badge';
-                    return (
-                      <div className={`absolute bottom-2 left-2 ${badgeClass}`}>
-                        <Clock className="h-3 w-3" />
+                  
+                  <CardContent className={`flex flex-col h-full ${dense ? 'card-padding' : 'p-4'}`}>
+                    {/* Time remaining badge - now prominent at top */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${timerBadgeClass}`}>
+                        <Clock className="h-3.5 w-3.5" />
                         {seconds !== undefined ? formatTimeLeft(seconds) : lot.timeLeft}
                       </div>
-                    );
-                  })()}
-                </div>
-                
-                <CardContent className={`flex flex-col h-full ${dense ? 'card-padding' : 'p-4'}`}>
-                  <Badge variant="secondary" className="mb-2">{lot.category}</Badge>
-                  <h3 className="lot-card-title">{lot.title}</h3>
-                  
-                  <div className="flex items-baseline justify-between mb-3">
-                    <span className="lot-card-price">${lot.currentPrice.toLocaleString()}</span>
-                    <span className="text-xs text-gray-500">{lot.bids} bids</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3 text-gray-400" />
-                      {lot.distance}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Eye className="h-3 w-3" />
-                      {lot.watchers} watching
-                    </span>
-                  </div>
-                  
-                  <Link to={`/live/${lot.id}`} className="block w-full mt-auto">
-                    <Button className="w-full btn-modern btn-primary" aria-label="Bid Now">
-                      Bid Now
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+                      <Badge variant="outline" className="text-xs">{lot.category}</Badge>
+                    </div>
+                    
+                    {/* Title - secondary prominence */}
+                    <h3 className="font-medium text-sm text-gray-700 mb-3 line-clamp-2 min-h-[2.5rem]">{lot.title}</h3>
+                    
+                    {/* Price - primary prominence */}
+                    <div className="mb-3">
+                      <div className="text-3xl font-bold text-gray-900">
+                        ${lot.currentPrice.toLocaleString()}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-0.5">
+                        {lot.bids} bids
+                      </div>
+                    </div>
+                    
+                    {/* Secondary info - de-emphasized */}
+                    <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
+                      <span className="flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        {lot.distance}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Eye className="h-3 w-3" />
+                        {lot.watchers}
+                      </span>
+                    </div>
+                    
+                    {/* Single primary CTA */}
+                    <Link to={`/live/${lot.id}`} className="block w-full mt-auto">
+                      <Button 
+                        className={`w-full font-semibold transition-all ${
+                          isUrgent 
+                            ? 'bg-red-600 hover:bg-red-700 text-white' 
+                            : 'bg-blue-600 hover:bg-blue-700 text-white'
+                        }`}
+                        aria-label="Bid Now"
+                      >
+                        Bid Now
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -600,8 +660,8 @@ const ModernIndex = () => {
       {/* Footer */}
       <footer className="footer-modern">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="footer-links">
-            <div className="lg:col-span-1">
+          <div className="footer-links grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            <div className="col-span-2 md:col-span-3 lg:col-span-1">
               <div className="text-center md:text-left">
                 {/* Brand removed to reduce redundant dark logo */}
                 <p className="text-white/70">The premier B2B surplus marketplace.</p>
@@ -673,10 +733,34 @@ const ModernIndex = () => {
                 <Link to="/contact" className="footer-link">Contact Us</Link>
                 <Link to="/terms" className="footer-link">Terms of Service</Link>
                 <Link to="/privacy" className="footer-link">Privacy Policy</Link>
-                <Link to="/buyer-protection" className="footer-link">Buyer Protection</Link>
-                <Link to="/secure-payments" className="footer-link">Secure Payments</Link>
-                <Link to="/disputes" className="footer-link">Dispute Resolution</Link>
-                <Link to="/logistics" className="footer-link">Logistics & Handoff Guidance</Link>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Trust & Safety</h4>
+              <div className="space-y-2">
+                <Link to="/buyer-protection" className="footer-link flex items-center gap-1">
+                  <Shield className="h-3 w-3" />
+                  Buyer Protection
+                </Link>
+                <Link to="/secure-payments" className="footer-link flex items-center gap-1">
+                  <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                  Secure Payments
+                </Link>
+                <Link to="/dispute-resolution" className="footer-link flex items-center gap-1">
+                  <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                  </svg>
+                  Dispute Resolution
+                </Link>
+                <Link to="/logistics-handoff" className="footer-link flex items-center gap-1">
+                  <Truck className="h-3 w-3" />
+                  Logistics & Handoff
+                </Link>
+                <Link to="/verified-sellers" className="footer-link">Verified Sellers</Link>
+                <Link to="/fraud-prevention" className="footer-link">Fraud Prevention</Link>
               </div>
             </div>
           </div>
@@ -691,6 +775,9 @@ const ModernIndex = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Temporary diagnostic tool - remove this after fixing images */}
+      {process.env.NODE_ENV === 'development' && <ImageDiagnostic />}
     </div>
   );
 };
