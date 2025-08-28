@@ -156,6 +156,22 @@ const ModernIndex = () => {
       isImage: true,
       count: 41,
       color: "from-rose-500 to-pink-500"
+    },
+    {
+      id: "medical-lab",
+      name: "Medical & Lab",
+      icon: "/icons/flask_128.png",
+      isImage: true,
+      count: 67,
+      color: "from-cyan-500 to-blue-500"
+    },
+    {
+      id: "home-furniture",
+      name: "Home Furniture",
+      icon: "/icons/sofa_128.png",
+      isImage: true,
+      count: 89,
+      color: "from-amber-500 to-orange-500"
     }
   ];
 
