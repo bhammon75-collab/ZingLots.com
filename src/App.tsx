@@ -43,6 +43,7 @@ const Security = lazy(() => import("./pages/Security"));
 // B2B Marketplace Pages
 const RegionPage = lazy(() => import("./pages/RegionPage"));
 const Regions = lazy(() => import("./pages/Regions"));
+const StatePage = lazy(() => import("./pages/StatePage"));
 const Alerts = lazy(() => import("./pages/Alerts"));
 const CreateLotPage = lazy(() => import("./pages/CreateLotPage"));
 const QRScannerPage = lazy(() => import("./pages/QRScannerPage"));
@@ -89,6 +90,7 @@ const App = () => (
                   <Route path="/browse" element={<Browse />} />
                   <Route path="/region-page" element={<RegionPage />} />
                   <Route path="/regions" element={<Regions />} />
+                  <Route path="/state/:state" element={<StatePage />} />
                   <Route path="/alerts" element={<Alerts />} />
                   
                   {/* Legacy Routes (transitioning) */}

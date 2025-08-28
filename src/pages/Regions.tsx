@@ -124,36 +124,26 @@ const Regions = () => {
           </div>
         </div>
 
-        {/* All Regions */}
+        {/* All States */}
         <div>
           <div className="flex items-center gap-2 mb-6">
             <MapPin className="w-5 h-5 text-gray-500" />
-            <h2 className="text-2xl font-bold text-gray-900">All Markets</h2>
+            <h2 className="text-2xl font-bold text-gray-900">All States</h2>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {other.map((region) => (
+            {["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"].map((state) => (
               <Link
-                key={region.slug}
-                to={`/r/${region.slug}`}
+                key={state}
+                to={`/state/${state.toLowerCase().replace(/\s+/g,'-')}`}
                 className="group bg-white rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:shadow-md transition-all"
               >
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {region.name}
+                    {state}
                   </h3>
-                  {region.trending && (
-                    <TrendingUp className="w-4 h-4 text-orange-500" />
-                  )}
                 </div>
-                
-                <div className="flex items-center gap-3 text-sm text-gray-600">
-                  <span>{region.active} auctions</span>
-                  <span className="text-gray-400">•</span>
-                  <span className="text-blue-600 group-hover:underline">
-                    View all →
-                  </span>
-                </div>
+                <div className="text-sm text-gray-600">View markets →</div>
               </Link>
             ))}
           </div>

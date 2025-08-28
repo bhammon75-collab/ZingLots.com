@@ -134,6 +134,21 @@ const ModernIndex = () => {
       count: 98,
       color: "from-purple-500 to-pink-500"
     }
+    ,
+    {
+      id: "blacksmithing",
+      name: "Blacksmithing",
+      icon: Wrench,
+      count: 24,
+      color: "from-stone-600 to-stone-800"
+    },
+    {
+      id: "jewelry-making",
+      name: "Jewelry Making",
+      icon: Briefcase,
+      count: 41,
+      color: "from-rose-500 to-pink-500"
+    }
   ];
 
   // Featured lots data - Active Auctions
@@ -302,8 +317,8 @@ const ModernIndex = () => {
       {/* LCP preload for first hero image */}
       <link rel="preload" as="image" href={heroSlides[0].imageUrl} />
       
-      {/* Hero Carousel */}
-      <HeroShowcase slides={heroSlides} delayMs={4500} speedMs={650} className="mb-6" />
+      {/* Hero Carousel (compact) */}
+      <HeroShowcase slides={heroSlides} delayMs={4500} speedMs={650} compact className="mb-4" />
 
       {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
@@ -387,110 +402,29 @@ const ModernIndex = () => {
         </div>
       </section>
 
-      {/* Browse by Location */}
+      {/* Browse by Location - city buttons + All locations */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-3xl font-bold">Auctions by Location</h2>
             <Link to="/regions" className="text-brand-red hover:underline flex items-center">
               view all regions
               <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* West Coast */}
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-              <h3 className="font-bold text-lg mb-4 flex items-center">
-                <MapPin className="h-5 w-5 text-brand-red mr-2" />
-                West Coast
-              </h3>
-              <div className="space-y-2">
-                <Link to="/r/seattle" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Seattle</span>
-                  <span className="text-sm text-gray-500 ml-2">425 auctions</span>
-                </Link>
-                <Link to="/r/tacoma" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Tacoma</span>
-                  <span className="text-sm text-gray-500 ml-2">342 auctions</span>
-                </Link>
-                <Link to="/r/portland" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Portland</span>
-                  <span className="text-sm text-gray-500 ml-2">312 auctions</span>
-                </Link>
-                <Link to="/r/los-angeles" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Los Angeles</span>
-                  <span className="text-sm text-gray-500 ml-2">892 auctions</span>
-                </Link>
-                <Link to="/r/san-francisco" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">San Francisco</span>
-                  <span className="text-sm text-gray-500 ml-2">567 auctions</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Midwest & East */}
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-              <h3 className="font-bold text-lg mb-4 flex items-center">
-                <MapPin className="h-5 w-5 text-brand-red mr-2" />
-                Midwest & East
-              </h3>
-              <div className="space-y-2">
-                <Link to="/r/chicago" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Chicago</span>
-                  <span className="text-sm text-gray-500 ml-2">746 auctions</span>
-                </Link>
-                <Link to="/r/detroit" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Detroit</span>
-                  <span className="text-sm text-gray-500 ml-2">298 auctions</span>
-                </Link>
-                <Link to="/r/new-york" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">New York</span>
-                  <span className="text-sm text-gray-500 ml-2">1,245 auctions</span>
-                </Link>
-                <Link to="/r/boston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Boston</span>
-                  <span className="text-sm text-gray-500 ml-2">432 auctions</span>
-                </Link>
-                <Link to="/r/philadelphia" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Philadelphia</span>
-                  <span className="text-sm text-gray-500 ml-2">378 auctions</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* South */}
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-              <h3 className="font-bold text-lg mb-4 flex items-center">
-                <MapPin className="h-5 w-5 text-brand-red mr-2" />
-                South
-              </h3>
-              <div className="space-y-2">
-                <Link to="/r/houston" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Houston</span>
-                  <span className="text-sm text-gray-500 ml-2">723 auctions</span>
-                </Link>
-                <Link to="/r/dallas" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Dallas</span>
-                  <span className="text-sm text-gray-500 ml-2">589 auctions</span>
-                </Link>
-                <Link to="/r/atlanta" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Atlanta</span>
-                  <span className="text-sm text-gray-500 ml-2">467 auctions</span>
-                </Link>
-                <Link to="/r/miami" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Miami</span>
-                  <span className="text-sm text-gray-500 ml-2">391 auctions</span>
-                </Link>
-                <Link to="/r/phoenix" className="block py-2 px-3 rounded hover:bg-white transition-colors">
-                  <span className="font-medium">Phoenix</span>
-                  <span className="text-sm text-gray-500 ml-2">445 auctions</span>
-                </Link>
-              </div>
-            </div>
+          <div className="flex flex-wrap gap-2">
+            <Link to="/r/new-york" className="px-4 py-2 rounded-full border hover:bg-gray-50">New York</Link>
+            <Link to="/r/los-angeles" className="px-4 py-2 rounded-full border hover:bg-gray-50">Los Angeles</Link>
+            <Link to="/r/chicago" className="px-4 py-2 rounded-full border hover:bg-gray-50">Chicago</Link>
+            <Link to="/r/houston" className="px-4 py-2 rounded-full border hover:bg-gray-50">Houston</Link>
+            <Link to="/r/phoenix" className="px-4 py-2 rounded-full border hover:bg-gray-50">Phoenix</Link>
+            <Link to="/r/philadelphia" className="px-4 py-2 rounded-full border hover:bg-gray-50">Philadelphia</Link>
+            <Link to="/r/san-francisco" className="px-4 py-2 rounded-full border hover:bg-gray-50">San Francisco</Link>
+            <Link to="/r/los-angeles" className="px-4 py-2 rounded-full border hover:bg-gray-50">Los Angeles</Link>
+            <Link to="/r/dallas" className="px-4 py-2 rounded-full border hover:bg-gray-50">Dallas</Link>
+            <Link to="/r/miami" className="px-4 py-2 rounded-full border hover:bg-gray-50">Miami</Link>
+            <Link to="/regions" className="ml-auto px-4 py-2 rounded-full bg-black text-white hover:opacity-90">All locations</Link>
           </div>
-
-          {/* Top-right link above replaces bottom CTA */}
         </div>
       </section>
 
