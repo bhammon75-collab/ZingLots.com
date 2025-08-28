@@ -57,7 +57,7 @@ const Index = () => {
       description: "Lumber, tools, heavy equipment",
       count: 342,
       color: "bg-orange-100 text-orange-800",
-      image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop&auto=format"
+      image: "/categories/construction.jpg"
     },
     {
       id: "restaurant",
@@ -66,7 +66,7 @@ const Index = () => {
       description: "Commercial ovens, refrigeration, furniture",
       count: 189,
       color: "bg-green-100 text-green-800",
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&auto=format"
+      image: "/categories/restaurant.jpg"
     },
     {
       id: "office",
@@ -75,7 +75,7 @@ const Index = () => {
       description: "Furniture, computers, office supplies",
       count: 156,
       color: "bg-blue-100 text-blue-800",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop&auto=format"
+      image: "/categories/office.jpg"
     },
     {
       id: "municipal",
@@ -84,7 +84,7 @@ const Index = () => {
       description: "Vehicles, equipment, furniture",
       count: 98,
       color: "bg-purple-100 text-purple-800",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&auto=format"
+      image: "/categories/municipal.jpg"
     }
   ];
 

@@ -105,7 +105,7 @@ const ModernIndex = () => {
     },
   ];
 
-  // Categories with real-world stock images
+  // Categories with local images
   const categories = [
     {
       id: "construction-materials",
@@ -114,7 +114,7 @@ const ModernIndex = () => {
       count: 342,
       color: "from-orange-500 to-red-500",
       trending: true,
-      image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop&auto=format", // Construction site with equipment
+      image: "/categories/construction.jpg", // Local image
       description: "Lumber, tools, heavy equipment"
     },
     {
@@ -123,7 +123,7 @@ const ModernIndex = () => {
       icon: UtensilsCrossed,
       count: 189,
       color: "from-green-500 to-emerald-500",
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&auto=format", // Commercial kitchen
+      image: "/categories/restaurant.jpg", // Local image
       description: "Commercial ovens, refrigeration"
     },
     {
@@ -132,7 +132,7 @@ const ModernIndex = () => {
       icon: Briefcase,
       count: 156,
       color: "from-blue-500 to-indigo-500",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop&auto=format", // Modern office space
+      image: "/categories/office.jpg", // Local image
       description: "Furniture, computers, supplies"
     },
     {
@@ -141,26 +141,26 @@ const ModernIndex = () => {
       icon: Wrench,
       count: 98,
       color: "from-purple-500 to-pink-500",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&auto=format", // Heavy machinery/equipment
+      image: "/categories/municipal.jpg", // Local image
       description: "Vehicles, equipment, furniture"
     },
     {
-      id: "blacksmithing",
-      name: "Blacksmithing",
+      id: "industrial",
+      name: "Industrial",
       icon: Anvil,
       count: 24,
       color: "from-stone-600 to-stone-800",
-      image: "https://images.unsplash.com/photo-1565630916779-e303be97b6f5?w=600&h=400&fit=crop&auto=format", // Blacksmith workshop with anvil
-      description: "Anvils, forges, metalworking tools"
+      image: "/categories/industrial.jpg", // Local image
+      description: "Heavy machinery, industrial tools"
     },
     {
-      id: "jewelry-making",
-      name: "Jewelry Making",
+      id: "vehicles",
+      name: "Vehicles",
       icon: Diamond,
       count: 41,
       color: "from-rose-500 to-pink-500",
-      image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&h=400&fit=crop&auto=format", // Jewelry making tools and gems
-      description: "Tools, gems, crafting supplies"
+      image: "/categories/vehicles.jpg", // Local image
+      description: "Cars, trucks, fleet vehicles"
     }
   ];
 
