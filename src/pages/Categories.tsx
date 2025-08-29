@@ -39,8 +39,19 @@ const Categories = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((cat) => (
-            <Card key={cat.slug} className="hover:shadow-lg transition">
-              <CardContent className="p-6">
+            <Card key={cat.slug} className="hover:shadow-lg transition overflow-hidden">
+              <div className="relative aspect-[4/3]">
+                <img
+                  src={`/categories/${cat.slug}.jpg`}
+                  alt={cat.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "/placeholder.jpg";
+                  }}
+                />
+              </div>
+              <CardContent className="p-4">
                 <div className="mb-3">
                   <h3 className="font-semibold">{cat.name}</h3>
                 </div>

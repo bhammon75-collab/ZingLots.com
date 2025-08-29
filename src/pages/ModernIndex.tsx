@@ -107,12 +107,24 @@ const ModernIndex = () => {
 
   // Categories with icons and colors
   const categories = [
-    { id: "construction-trades", name: "Construction & Trades", count: 342, color: "from-orange-500 to-red-500", image: "/categories/constructionreal.jpg", trending: true },
-    { id: "restaurant-food-service", name: "Restaurant & Food Service", count: 189, color: "from-green-500 to-emerald-500", image: "/categories/cookingreal.jpg" },
-    { id: "office-admin", name: "Office & Admin", count: 156, color: "from-blue-500 to-indigo-500", image: "/categories/officereal.jpg" },
-    { id: "metalworking-fabrication", name: "Metalworking & Fabrication", count: 24, color: "from-stone-600 to-stone-800", image: "/categories/blacksmithreal.jpg" },
-    { id: "manufacturing-industrial", name: "Manufacturing & Industrial (no hazmat)", count: 98, color: "from-purple-500 to-pink-500", image: "/categories/industrial.jpg" },
-    { id: "printing-signage-promo", name: "Printing, Signage & Promo", count: 41, color: "from-rose-500 to-pink-500", image: "/categories/jewelryreal.jpg" }
+    { id: "construction-trades", name: "Construction & Trades", count: 342, color: "from-orange-500 to-red-500", image: "/categories/construction-trades.jpg", trending: true },
+    { id: "restaurant-food-service", name: "Restaurant & Food Service", count: 189, color: "from-green-500 to-emerald-500", image: "/categories/restaurant-food-service.jpg" },
+    { id: "office-admin", name: "Office & Admin", count: 156, color: "from-blue-500 to-indigo-500", image: "/categories/office-admin.jpg" },
+    { id: "it-networking", name: "IT & Networking", count: 88, color: "from-cyan-500 to-blue-600", image: "/categories/it-networking.jpg" },
+    { id: "warehousing-material-handling", name: "Warehousing & Material Handling", count: 120, color: "from-amber-500 to-orange-600", image: "/categories/warehousing-material-handling.jpg" },
+    { id: "packaging-fulfillment", name: "Packaging & Fulfillment", count: 64, color: "from-emerald-500 to-green-600", image: "/categories/packaging-fulfillment.jpg" },
+    { id: "printing-signage-promo", name: "Printing, Signage & Promo", count: 41, color: "from-rose-500 to-pink-500", image: "/categories/printing-signage-promo.jpg" },
+    { id: "event-av-creative", name: "Event, AV & Creative", count: 59, color: "from-indigo-500 to-purple-600", image: "/categories/event-av-creative.jpg" },
+    { id: "manufacturing-industrial", name: "Manufacturing & Industrial (no hazmat)", count: 98, color: "from-purple-500 to-pink-500", image: "/categories/manufacturing-industrial.jpg" },
+    { id: "metalworking-fabrication", name: "Metalworking & Fabrication", count: 24, color: "from-stone-600 to-stone-800", image: "/categories/metalworking-fabrication.jpg" },
+    { id: "woodworking", name: "Woodworking", count: 31, color: "from-yellow-600 to-amber-700", image: "/categories/woodworking.jpg" },
+    { id: "auto-service", name: "Auto Service (no refrigerant kits)", count: 43, color: "from-gray-600 to-zinc-800", image: "/categories/auto-service.jpg" },
+    { id: "landscaping-grounds", name: "Landscaping & Grounds", count: 22, color: "from-green-600 to-emerald-700", image: "/categories/landscaping-grounds.jpg" },
+    { id: "cleaning-janitorial", name: "Cleaning & Janitorial", count: 27, color: "from-teal-500 to-cyan-600", image: "/categories/cleaning-janitorial.jpg" },
+    { id: "security-cash-handling", name: "Security & Cash Handling", count: 14, color: "from-slate-600 to-slate-800", image: "/categories/security-cash-handling.jpg" },
+    { id: "hospitality-lodging-ffe", name: "Hospitality & Lodging (FF&E)", count: 18, color: "from-fuchsia-500 to-pink-600", image: "/categories/hospitality-lodging-ffe.jpg" },
+    { id: "retail-pos", name: "Retail & POS", count: 36, color: "from-red-500 to-rose-600", image: "/categories/retail-pos.jpg" },
+    { id: "vending-kiosks", name: "Vending & Kiosks", count: 11, color: "from-blue-700 to-indigo-800", image: "/categories/vending-kiosks.jpg" }
   ];
 
   // Featured lots data - Active Auctions
