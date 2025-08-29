@@ -113,6 +113,7 @@ const ModernIndex = () => {
       icon: Building2,
       count: 342,
       color: "from-orange-500 to-red-500",
+      image: "/categories/constructionreal.jpg",
       trending: true
     },
     {
@@ -120,21 +121,24 @@ const ModernIndex = () => {
       name: "Restaurant",
       icon: UtensilsCrossed,
       count: 189,
-      color: "from-green-500 to-emerald-500"
+      color: "from-green-500 to-emerald-500",
+      image: "/categories/cookingreal.jpg"
     },
     {
       id: "office-furniture",
       name: "Office",
       icon: Briefcase,
       count: 156,
-      color: "from-blue-500 to-indigo-500"
+      color: "from-blue-500 to-indigo-500",
+      image: "/categories/officereal.jpg"
     },
     {
       id: "municipal-surplus",
       name: "Municipal",
       icon: Wrench,
       count: 98,
-      color: "from-purple-500 to-pink-500"
+      color: "from-purple-500 to-pink-500",
+      image: "/categories/municipal.jpg"
     }
     ,
     {
@@ -142,14 +146,16 @@ const ModernIndex = () => {
       name: "Blacksmithing",
       icon: Anvil,
       count: 24,
-      color: "from-stone-600 to-stone-800"
+      color: "from-stone-600 to-stone-800",
+      image: "/categories/blacksmithreal.jpg"
     },
     {
       id: "jewelry-making",
       name: "Jewelry Making",
       icon: Diamond,
       count: 41,
-      color: "from-rose-500 to-pink-500"
+      color: "from-rose-500 to-pink-500",
+      image: "/categories/jewelryreal.jpg"
     }
   ];
 
@@ -386,6 +392,14 @@ const ModernIndex = () => {
                   to={`/category/${category.id}`}
                   className="group category-card-link relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-shadow duration-300"
                 >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={category.image}
+                      alt={`${category.name}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
