@@ -16,6 +16,8 @@ export const CATEGORIES: Category[] = [
   { name: "Event, AV & Creative", slug: "event-av-creative" },
   { name: "Manufacturing & Industrial (no hazmat)", slug: "manufacturing-industrial" },
   { name: "Metalworking & Fabrication", slug: "metalworking-fabrication" },
+  { name: "Blacksmithing", slug: "blacksmithing" },
+  { name: "Jewelry Making", slug: "jewelry-making" },
   { name: "Woodworking", slug: "woodworking" },
   { name: "Auto Service (no refrigerant kits)", slug: "auto-service" },
   { name: "Landscaping & Grounds", slug: "landscaping-grounds" },

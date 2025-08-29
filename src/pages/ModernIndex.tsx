@@ -117,6 +117,8 @@ const ModernIndex = () => {
     { id: "event-av-creative", name: "Event, AV & Creative", count: 59, color: "from-indigo-500 to-purple-600", image: "/categories/event-av-creative.jpg" },
     { id: "manufacturing-industrial", name: "Manufacturing & Industrial (no hazmat)", count: 98, color: "from-purple-500 to-pink-500", image: "/categories/manufacturing-industrial.jpg" },
     { id: "metalworking-fabrication", name: "Metalworking & Fabrication", count: 24, color: "from-stone-600 to-stone-800", image: "/categories/metalworking-fabrication.jpg" },
+    { id: "blacksmithing", name: "Blacksmithing", count: 12, color: "from-neutral-600 to-neutral-800", image: "/categories/blacksmithreal.jpg" },
+    { id: "jewelry-making", name: "Jewelry Making", count: 14, color: "from-rose-500 to-pink-600", image: "/categories/jewelryreal.jpg" },
     { id: "woodworking", name: "Woodworking", count: 31, color: "from-yellow-600 to-amber-700", image: "/categories/woodworking.jpg" },
     { id: "auto-service", name: "Auto Service (no refrigerant kits)", count: 43, color: "from-gray-600 to-zinc-800", image: "/categories/auto-service.jpg" },
     { id: "landscaping-grounds", name: "Landscaping & Grounds", count: 22, color: "from-green-600 to-emerald-700", image: "/categories/landscaping-grounds.jpg" },
