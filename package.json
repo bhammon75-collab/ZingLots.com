@@ -21,7 +21,8 @@
     "ci:typecheck": "tsc --noEmit",
     "ci:lint": "eslint .",
     "ci:build": "vite build",
-    "generate:icons": "node scripts/generate-icons.mjs"
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "fetch:pexels": "node scripts/fetch-pexels-images.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
