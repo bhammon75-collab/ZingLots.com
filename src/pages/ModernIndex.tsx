@@ -107,56 +107,12 @@ const ModernIndex = () => {
 
   // Categories with icons and colors
   const categories = [
-    {
-      id: "construction-materials",
-      name: "Construction",
-      icon: Building2,
-      count: 342,
-      color: "from-orange-500 to-red-500",
-      image: "/categories/constructionreal.jpg",
-      trending: true
-    },
-    {
-      id: "restaurant-equipment",
-      name: "Restaurant",
-      icon: UtensilsCrossed,
-      count: 189,
-      color: "from-green-500 to-emerald-500",
-      image: "/categories/cookingreal.jpg"
-    },
-    {
-      id: "office-furniture",
-      name: "Office",
-      icon: Briefcase,
-      count: 156,
-      color: "from-blue-500 to-indigo-500",
-      image: "/categories/officereal.jpg"
-    },
-    {
-      id: "municipal-surplus",
-      name: "Municipal",
-      icon: Wrench,
-      count: 98,
-      color: "from-purple-500 to-pink-500",
-      image: "/categories/municipal.jpg"
-    }
-    ,
-    {
-      id: "blacksmithing",
-      name: "Blacksmithing",
-      icon: Anvil,
-      count: 24,
-      color: "from-stone-600 to-stone-800",
-      image: "/categories/blacksmithreal.jpg"
-    },
-    {
-      id: "jewelry-making",
-      name: "Jewelry Making",
-      icon: Diamond,
-      count: 41,
-      color: "from-rose-500 to-pink-500",
-      image: "/categories/jewelryreal.jpg"
-    }
+    { id: "construction-trades", name: "Construction & Trades", count: 342, color: "from-orange-500 to-red-500", image: "/categories/constructionreal.jpg", trending: true },
+    { id: "restaurant-food-service", name: "Restaurant & Food Service", count: 189, color: "from-green-500 to-emerald-500", image: "/categories/cookingreal.jpg" },
+    { id: "office-admin", name: "Office & Admin", count: 156, color: "from-blue-500 to-indigo-500", image: "/categories/officereal.jpg" },
+    { id: "metalworking-fabrication", name: "Metalworking & Fabrication", count: 24, color: "from-stone-600 to-stone-800", image: "/categories/blacksmithreal.jpg" },
+    { id: "manufacturing-industrial", name: "Manufacturing & Industrial (no hazmat)", count: 98, color: "from-purple-500 to-pink-500", image: "/categories/industrial.jpg" },
+    { id: "printing-signage-promo", name: "Printing, Signage & Promo", count: 41, color: "from-rose-500 to-pink-500", image: "/categories/jewelryreal.jpg" }
   ];
 
   // Featured lots data - Active Auctions
@@ -385,7 +341,6 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((category) => {
-              const IconComponent = category.icon;
               return (
                 <Link
                   key={category.id}
@@ -402,12 +357,9 @@ const ModernIndex = () => {
                   </div>
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
-                      {category.trending && (
-                        <Badge className="badge-hot">Trending</Badge>
-                      )}
-                    </div>
+                    {category.trending && (
+                      <Badge className="badge-hot mb-2">Trending</Badge>
+                    )}
                     <h3 className="font-semibold text-lg mb-1">{category.name}</h3>
                     <p className="text-sm text-gray-500">{category.count} active auctions</p>
                   </div>

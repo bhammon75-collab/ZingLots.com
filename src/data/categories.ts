@@ -6,47 +6,58 @@ export type Category = {
 
 // B2B marketplace categories
 export const CATEGORIES: Category[] = [
-  { name: "Construction Materials", slug: "construction-materials" },
-  { name: "Restaurant Equipment", slug: "restaurant-equipment" },
-  { name: "Office Furniture", slug: "office-furniture" },
-  { name: "Industrial Equipment", slug: "industrial-equipment" },
-  { name: "Municipal Surplus", slug: "municipal-surplus" },
-  { name: "Vehicles & Fleet", slug: "vehicles-fleet" },
-  // Additional categories surfaced on Categories page
-  { name: "Medical & Lab", slug: "medical-lab" },
-  { name: "Home Furniture", slug: "home-furniture" },
-  { name: "Apparel & Textiles", slug: "apparel-textiles" },
-  { name: "Fitness & Sports", slug: "fitness-sports" },
-  { name: "Blacksmithing", slug: "blacksmithing" },
-  { name: "Jewelry Making", slug: "jewelry-making" },
+  { name: "Construction & Trades", slug: "construction-trades" },
+  { name: "Restaurant & Food Service", slug: "restaurant-food-service" },
+  { name: "Office & Admin", slug: "office-admin" },
+  { name: "IT & Networking", slug: "it-networking" },
+  { name: "Warehousing & Material Handling", slug: "warehousing-material-handling" },
+  { name: "Packaging & Fulfillment", slug: "packaging-fulfillment" },
+  { name: "Printing, Signage & Promo", slug: "printing-signage-promo" },
+  { name: "Event, AV & Creative", slug: "event-av-creative" },
+  { name: "Manufacturing & Industrial (no hazmat)", slug: "manufacturing-industrial" },
+  { name: "Metalworking & Fabrication", slug: "metalworking-fabrication" },
+  { name: "Woodworking", slug: "woodworking" },
+  { name: "Auto Service (no refrigerant kits)", slug: "auto-service" },
+  { name: "Landscaping & Grounds", slug: "landscaping-grounds" },
+  { name: "Cleaning & Janitorial", slug: "cleaning-janitorial" },
+  { name: "Security & Cash Handling", slug: "security-cash-handling" },
+  { name: "Hospitality & Lodging (FF&E)", slug: "hospitality-lodging-ffe" },
+  { name: "Retail & POS", slug: "retail-pos" },
+  { name: "Vending & Kiosks", slug: "vending-kiosks" },
 ];
 
 // Featured subset for nav/filter surfaces
 export const FEATURED_CATEGORIES: Category[] = [
-  { name: "Construction Materials", slug: "construction-materials" },
-  { name: "Restaurant Equipment", slug: "restaurant-equipment" },
-  { name: "Office Furniture", slug: "office-furniture" },
-  { name: "Industrial Equipment", slug: "industrial-equipment" },
+  { name: "Construction & Trades", slug: "construction-trades" },
+  { name: "Restaurant & Food Service", slug: "restaurant-food-service" },
+  { name: "Office & Admin", slug: "office-admin" },
+  { name: "Warehousing & Material Handling", slug: "warehousing-material-handling" },
 ];
 
 // Friendly/legacy aliases to canonical slugs used across older links and UIs
 export const CATEGORY_SLUG_ALIASES: Record<string, string> = {
-  construction: "construction-materials",
-  restaurant: "restaurant-equipment",
-  office: "office-furniture",
-  municipal: "municipal-surplus",
-  industrial: "industrial-equipment",
-  vehicles: "vehicles-fleet",
-  vehicle: "vehicles-fleet",
-  fleet: "vehicles-fleet",
-  // Additional categories
-  medical: "medical-lab",
-  furniture: "home-furniture",
-  apparel: "apparel-textiles",
-  fitness: "fitness-sports",
-  blacksmith: "blacksmithing",
-  smithing: "blacksmithing",
-  jewelry: "jewelry-making",
+  // Legacy -> New canonical mappings
+  construction: "construction-trades",
+  "construction-materials": "construction-trades",
+  restaurant: "restaurant-food-service",
+  "restaurant-equipment": "restaurant-food-service",
+  office: "office-admin",
+  "office-furniture": "office-admin",
+  industrial: "manufacturing-industrial",
+  "industrial-equipment": "manufacturing-industrial",
+  vehicles: "auto-service",
+  vehicle: "auto-service",
+  fleet: "auto-service",
+  municipal: "warehousing-material-handling", // Redirect legacy to closest broad category
+  "municipal-surplus": "warehousing-material-handling",
+  // Additional legacy -> new
+  furniture: "office-admin",
+  apparel: "printing-signage-promo",
+  blacksmith: "metalworking-fabrication",
+  smithing: "metalworking-fabrication",
+  blacksmithing: "metalworking-fabrication",
+  jewelry: "metalworking-fabrication",
+  "jewelry-making": "metalworking-fabrication",
 };
 
 export function canonicalizeCategorySlug(slugOrAlias: string | undefined | null): string | null {
