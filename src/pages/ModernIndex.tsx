@@ -129,6 +129,11 @@ const ModernIndex = () => {
     { id: "vending-kiosks", name: "Vending & Kiosks", count: 11, color: "from-blue-700 to-indigo-800", image: "/categories/vending-kiosks.jpg" }
   ];
 
+  // Front page: show only the 12 most popular categories by active auction count
+  const topCategories = [...categories]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 12);
+
   // Featured lots data - Active Auctions
   const featuredLots = [
     {
@@ -354,7 +359,7 @@ const ModernIndex = () => {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.map((category) => {
+            {topCategories.map((category) => {
               return (
                 <Link
                   key={category.id}
