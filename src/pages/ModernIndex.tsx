@@ -110,7 +110,8 @@ const ModernIndex = () => {
     {
       id: "construction-materials",
       name: "Construction",
-      icon: Building2,
+      icon: "/icons/bulldozer_128.png",
+      isImage: true,
       count: 342,
       color: "from-orange-500 to-red-500",
       trending: true
@@ -118,21 +119,24 @@ const ModernIndex = () => {
     {
       id: "restaurant-equipment",
       name: "Restaurant",
-      icon: UtensilsCrossed,
+      icon: "/icons/cutlery_128.png",
+      isImage: true,
       count: 189,
       color: "from-green-500 to-emerald-500"
     },
     {
       id: "office-furniture",
       name: "Office",
-      icon: Briefcase,
+      icon: "/icons/briefcase_128.png",
+      isImage: true,
       count: 156,
       color: "from-blue-500 to-indigo-500"
     },
     {
       id: "municipal-surplus",
       name: "Municipal",
-      icon: Wrench,
+      icon: "/icons/wrench_128.png",
+      isImage: true,
       count: 98,
       color: "from-purple-500 to-pink-500"
     }
@@ -140,16 +144,34 @@ const ModernIndex = () => {
     {
       id: "blacksmithing",
       name: "Blacksmithing",
-      icon: Anvil,
+      icon: "/icons/anvil_128.png",
+      isImage: true,
       count: 24,
       color: "from-stone-600 to-stone-800"
     },
     {
       id: "jewelry-making",
       name: "Jewelry Making",
-      icon: Diamond,
+      icon: "/icons/ring_128.png",
+      isImage: true,
       count: 41,
       color: "from-rose-500 to-pink-500"
+    },
+    {
+      id: "medical-lab",
+      name: "Medical & Lab",
+      icon: "/icons/flask_128.png",
+      isImage: true,
+      count: 67,
+      color: "from-cyan-500 to-blue-500"
+    },
+    {
+      id: "home-furniture",
+      name: "Home Furniture",
+      icon: "/icons/sofa_128.png",
+      isImage: true,
+      count: 89,
+      color: "from-amber-500 to-orange-500"
     }
   ];
 
@@ -379,7 +401,7 @@ const ModernIndex = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {categories.map((category) => {
-              const IconComponent = category.icon;
+              const IconComponent = category.isImage ? null : category.icon;
               return (
                 <Link
                   key={category.id}
@@ -389,7 +411,15 @@ const ModernIndex = () => {
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
+                      {category.isImage ? (
+                        <img 
+                          src={category.icon} 
+                          alt={`${category.name} icon`}
+                          className="h-10 w-10 object-contain"
+                        />
+                      ) : (
+                        <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
+                      )}
                       {category.trending && (
                         <Badge className="badge-hot">Trending</Badge>
                       )}

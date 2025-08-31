@@ -7,19 +7,19 @@ import { Building2, UtensilsCrossed, Briefcase, Wrench, Heart, Home, Shirt, Dumb
 
 const Categories = () => {
   const categories = [
-    { id: "construction-materials", name: "Construction", icon: Building2, count: 342 },
-    { id: "restaurant-equipment", name: "Restaurant", icon: UtensilsCrossed, count: 189 },
-    { id: "office-furniture", name: "Office", icon: Briefcase, count: 156 },
-    { id: "municipal-surplus", name: "Municipal", icon: Wrench, count: 98 },
-    { id: "blacksmithing", name: "Blacksmithing", icon: Anvil, count: 24 },
-    { id: "jewelry-making", name: "Jewelry Making", icon: Diamond, count: 41 }
+    { id: "construction-materials", name: "Construction", icon: "/icons/bulldozer_128.png", isImage: true, count: 342 },
+    { id: "restaurant-equipment", name: "Restaurant", icon: "/icons/cutlery_128.png", isImage: true, count: 189 },
+    { id: "office-furniture", name: "Office", icon: "/icons/briefcase_128.png", isImage: true, count: 156 },
+    { id: "municipal-surplus", name: "Municipal", icon: "/icons/wrench_128.png", isImage: true, count: 98 },
+    { id: "blacksmithing", name: "Blacksmithing", icon: "/icons/anvil_128.png", isImage: true, count: 24 },
+    { id: "jewelry-making", name: "Jewelry Making", icon: "/icons/ring_128.png", isImage: true, count: 41 }
   ];
 
   const additionalCategories = [
-    { id: "medical-lab", name: "Medical & Lab", icon: Heart, count: 67 },
-    { id: "home-furniture", name: "Home Furniture", icon: Home, count: 89 },
-    { id: "apparel-textiles", name: "Apparel & Textiles", icon: Shirt, count: 45 },
-    { id: "fitness-sports", name: "Fitness & Sports", icon: Dumbbell, count: 78 }
+    { id: "medical-lab", name: "Medical & Lab", icon: "/icons/flask_128.png", isImage: true, count: 67 },
+    { id: "home-furniture", name: "Home Furniture", icon: "/icons/sofa_128.png", isImage: true, count: 89 },
+    { id: "apparel-textiles", name: "Apparel & Textiles", icon: "/icons/shirt_128.png", isImage: true, count: 45 },
+    { id: "fitness-sports", name: "Fitness & Sports", icon: "/icons/dumbbells_128.png", isImage: true, count: 78 }
   ];
 
   return (
@@ -52,38 +52,60 @@ const Categories = () => {
       {/* Categories Grid */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((cat) => (
-            <Card key={cat.id} className="hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <cat.icon className="h-6 w-6 text-brand-red" />
-                  <h3 className="font-semibold">{cat.name}</h3>
-                  <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
-                </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {categories.map((cat) => {
+            const IconComponent = cat.isImage ? null : cat.icon;
+            return (
+              <Card key={cat.id} className="hover:shadow-lg transition">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    {cat.isImage ? (
+                      <img 
+                        src={cat.icon} 
+                        alt={`${cat.name} icon`}
+                        className="h-6 w-6 object-contain"
+                      />
+                    ) : (
+                      <IconComponent className="h-6 w-6 text-brand-red" />
+                    )}
+                    <h3 className="font-semibold">{cat.name}</h3>
+                    <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
+                  </div>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
         <h2 className="text-2xl font-bold mt-12 mb-6">More Categories</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {additionalCategories.map((cat) => (
-            <Card key={cat.id} className="hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <cat.icon className="h-6 w-6 text-brand-red" />
-                  <h3 className="font-semibold">{cat.name}</h3>
-                  <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
-                </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {additionalCategories.map((cat) => {
+            const IconComponent = cat.isImage ? null : cat.icon;
+            return (
+              <Card key={cat.id} className="hover:shadow-lg transition">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    {cat.isImage ? (
+                      <img 
+                        src={cat.icon} 
+                        alt={`${cat.name} icon`}
+                        className="h-6 w-6 object-contain"
+                      />
+                    ) : (
+                      <IconComponent className="h-6 w-6 text-brand-red" />
+                    )}
+                    <h3 className="font-semibold">{cat.name}</h3>
+                    <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
+                  </div>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </div>
