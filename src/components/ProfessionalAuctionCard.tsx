@@ -1,4 +1,4 @@
-import { Clock, Eye, Package, Star, TrendingUp } from "lucide-react";
+import { Clock, Eye, Package, Star, TrendingUp, MapPin } from "lucide-react";
 
 export type AuctionData = {
   id: string;
@@ -53,7 +53,7 @@ function getConditionColor(condition?: string): string {
   }
 }
 
-export default function ProfessionalAuctionCard({ auction }: { auction: AuctionData }) {
+export default function ProfessionalAuctionCard({ auction, distanceMiles }: { auction: AuctionData; distanceMiles?: number }) {
   const timeRemaining = getTimeRemaining(auction.ends_at);
   
   return (
@@ -119,6 +119,14 @@ export default function ProfessionalAuctionCard({ auction }: { auction: AuctionD
             </div>
           </div>
         </div>
+
+        {/* Distance (if available) */}
+        {typeof distanceMiles === 'number' && (
+          <div className="flex items-center text-xs text-gray-600 mb-2">
+            <MapPin className="w-3 h-3 mr-1" />
+            ≈ {Math.round(distanceMiles)} mi away
+          </div>
+        )}
         
         {/* Seller Info */}
         {auction.seller_name && (

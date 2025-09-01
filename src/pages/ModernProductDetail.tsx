@@ -35,6 +35,8 @@ const ModernProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [bidAmount, setBidAmount] = useState("");
   const [isWatching, setIsWatching] = useState(false);
+  const [proxyEnabled, setProxyEnabled] = useState(false);
+  const [proxyMax, setProxyMax] = useState<string>("");
   const [showZoom, setShowZoom] = useState(false);
 
   // Mock product data
@@ -326,6 +328,23 @@ const ModernProductDetail = () => {
                   <Heart className={`h-4 w-4 inline mr-2 ${isWatching ? 'fill-current' : ''}`} />
                   {isWatching ? 'Watching' : 'Watch this item'}
                 </button>
+
+                {/* Proxy Bidding Stub */}
+                <div className="mt-4 rounded-lg border bg-white p-4">
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center gap-2 text-sm font-medium">
+                      <input type="checkbox" checked={proxyEnabled} onChange={(e)=> setProxyEnabled(e.target.checked)} />
+                      Enable proxy bidding
+                    </label>
+                  </div>
+                  {proxyEnabled && (
+                    <div className="mt-3 flex items-center gap-2">
+                      <input type="number" className="border rounded px-3 py-2 w-40" placeholder="Max bid ($)" value={proxyMax} onChange={(e)=> setProxyMax(e.target.value)} />
+                      <Button onClick={()=>{ if (import.meta.env.DEV) console.log('Set proxy max', proxyMax); }}>Set Max</Button>
+                      <span className="text-xs text-gray-500">We’ll bid automatically up to your max.</span>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
@@ -414,7 +433,7 @@ const ModernProductDetail = () => {
           <Tabs defaultValue="description" className="w-full">
             <TabsList className="grid w-full grid-cols-4 max-w-2xl">
               <TabsTrigger value="description">Description</TabsTrigger>
-              <TabsTrigger value="specifications">Specifications</TabsTrigger>
+              <TabsTrigger value="specifications">Quick Specs</TabsTrigger>
               <TabsTrigger value="bidding">Bid History</TabsTrigger>
               <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
             </TabsList>
@@ -444,14 +463,22 @@ const ModernProductDetail = () => {
             <TabsContent value="specifications" className="mt-6">
               <Card>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4">Specifications</h3>
+                  <h3 className="text-xl font-semibold mb-4">Quick Specs</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(product.specifications).map(([key, value]) => (
-                      <div key={key} className="flex justify-between py-2 border-b">
-                        <span className="font-medium text-gray-600">{key}:</span>
-                        <span className="text-gray-900">{value}</span>
-                      </div>
-                    ))}
+                    <div className="flex justify-between py-2 border-b"><span className="font-medium text-gray-600">Model No:</span><span className="text-gray-900">{product.specifications?.Model || '—'}</span></div>
+                    <div className="flex justify-between py-2 border-b"><span className="font-medium text-gray-600">Year:</span><span className="text-gray-900">{product.specifications?.Year || '—'}</span></div>
+                    <div className="flex justify-between py-2 border-b"><span className="font-medium text-gray-600">Capacity/Dimensions:</span><span className="text-gray-900">{product.specifications?.Dimensions || '—'}</span></div>
+                    <div className="flex justify-between py-2 border-b"><span className="font-medium text-gray-600">Condition:</span><span className="text-gray-900">{product.condition}</span></div>
+                    <div className="flex justify-between py-2 border-b"><span className="font-medium text-gray-600">Power requirements:</span><span className="text-gray-900">{product.specifications?.Power || '—'}</span></div>
+                  </div>
+                  <div className="mt-4">
+                    <Button variant="outline" size="sm" onClick={()=>{
+                      const csv = 'bidder,amount,time\n' + product.bidHistory.map(b=>`${b.bidder},${b.amount},${b.time}`).join('\n');
+                      const blob = new Blob([csv], { type: 'text/csv' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url; a.download = `bid-history-${product.id}.csv`; a.click(); URL.revokeObjectURL(url);
+                    }}>Download bid history (CSV)</Button>
                   </div>
                 </CardContent>
               </Card>

@@ -6,11 +6,11 @@ const now = new Date().toISOString();
 
 const urls = [
   "/",
-  "/auctions",
-  "/discover",
   "/pricing",
   "/help",
   "/sellers",
+  "/regions",
+  "/categories",
 ];
 
 // Include region pages (static list for now)

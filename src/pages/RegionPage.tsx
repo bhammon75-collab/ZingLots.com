@@ -5,7 +5,7 @@ import { labelForRegion, titleize } from "../lib/regions";
 import { fetchRegionAuctions, type Auction } from "../lib/fetchRegionAuctions";
 import { getFeaturedAuctions } from "../lib/mockRegionData";
 import ProfessionalAuctionCard from "../components/ProfessionalAuctionCard";
-import { MapPin, Filter, TrendingUp, Clock, Package } from "lucide-react";
+import { MapPin, Filter, TrendingUp, Clock, Package, Crosshair } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ImageWithFallback from "@/components/ImageWithFallback";
@@ -22,6 +22,7 @@ export default function RegionPage() {
   
   const [featuredItems, setFeaturedItems] = useState<Auction[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
 
   useEffect(() => {
     let on = true;
@@ -48,6 +49,28 @@ export default function RegionPage() {
       });
     return () => { on = false; };
   }, [slug]);
+
+  // Haversine distance in miles
+  function calculateDistanceMiles(a: { lat: number; lon: number }, b: { lat: number; lon: number }): number {
+    const toRad = (d: number) => (d * Math.PI) / 180;
+    const R = 3958.8; // miles
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lon - a.lon);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.asin(Math.sqrt(h));
+    return R * c;
+  }
+
+  const requestLocation = () => {
+    if (!('geolocation' in navigator)) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      () => setUserLocation(null),
+      { enableHighAccuracy: false, maximumAge: 60000, timeout: 8000 }
+    );
+  };
 
   const displayItems = state.items;
   const hasData = displayItems.length > 0;
@@ -207,6 +230,9 @@ export default function RegionPage() {
               <div className="flex items-center gap-2 mb-3">
                 <Filter className="w-4 h-4 text-gray-500" />
                 <span className="text-sm font-medium text-gray-700">Filter by Category:</span>
+                <button onClick={requestLocation} className="ml-auto inline-flex items-center gap-2 px-3 py-1.5 text-xs rounded-full border hover:bg-gray-50">
+                  <Crosshair className="w-3.5 h-3.5" /> Use my location
+                </button>
               </div>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -285,9 +311,21 @@ export default function RegionPage() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredItems.map((item) => (
-                  <ProfessionalAuctionCard key={item.id} auction={item} />
-                ))}
+                {filteredItems.map((item) => {
+                  const regionCenters: Record<string, { lat: number; lon: number }> = {
+                    seattle: { lat: 47.6062, lon: -122.3321 },
+                    "los-angeles": { lat: 34.0522, lon: -118.2437 },
+                    chicago: { lat: 41.8781, lon: -87.6298 },
+                    houston: { lat: 29.7604, lon: -95.3698 },
+                    portland: { lat: 45.5152, lon: -122.6784 },
+                    tacoma: { lat: 47.2529, lon: -122.4443 },
+                  };
+                  const center = regionCenters[slug] || regionCenters.seattle;
+                  const dist = userLocation ? calculateDistanceMiles(userLocation, center) : undefined;
+                  return (
+                    <ProfessionalAuctionCard key={item.id} auction={item as any} distanceMiles={dist} />
+                  );
+                })}
               </div>
 
               {/* Load More */}
