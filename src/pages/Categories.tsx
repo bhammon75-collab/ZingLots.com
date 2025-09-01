@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/data/categories";
 
@@ -55,6 +56,15 @@ const Categories = () => {
                 <div className="mb-3">
                   <h3 className="font-semibold">{cat.name}</h3>
                 </div>
+                {cat.children?.length ? (
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {cat.children.map((child) => (
+                      <Badge key={child.slug} variant="secondary" className="cursor-pointer" asChild>
+                        <Link to={`/category/${cat.slug}?sub=${encodeURIComponent(child.slug)}`}>{child.name}</Link>
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
                 <Button asChild variant="outline" className="w-full">
                   <Link to={`/category/${cat.slug}`}>Browse {cat.name}</Link>
                 </Button>

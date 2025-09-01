@@ -6,10 +6,42 @@ export type Category = {
 
 // B2B marketplace categories
 export const CATEGORIES: Category[] = [
-  { name: "Construction & Trades", slug: "construction-trades" },
-  { name: "Restaurant & Food Service", slug: "restaurant-food-service" },
-  { name: "Office & Admin", slug: "office-admin" },
-  { name: "IT & Networking", slug: "it-networking" },
+  {
+    name: "Construction & Trades",
+    slug: "construction-trades",
+    children: [
+      { name: "Heavy Machinery", slug: "construction-heavy-machinery" },
+      { name: "Site Equipment", slug: "construction-site-equipment" },
+      { name: "Power Tools", slug: "construction-power-tools" }
+    ]
+  },
+  {
+    name: "Restaurant & Food Service",
+    slug: "restaurant-food-service",
+    children: [
+      { name: "Refrigeration", slug: "restaurant-refrigeration" },
+      { name: "Cooking", slug: "restaurant-cooking" },
+      { name: "Tables & Seating", slug: "restaurant-tables-seating" }
+    ]
+  },
+  {
+    name: "Office & Admin",
+    slug: "office-admin",
+    children: [
+      { name: "Furniture", slug: "office-furniture" },
+      { name: "Printers", slug: "office-printers" },
+      { name: "POS & Registers", slug: "office-pos-registers" }
+    ]
+  },
+  {
+    name: "IT & Networking",
+    slug: "it-networking",
+    children: [
+      { name: "Servers", slug: "it-servers" },
+      { name: "Networking", slug: "it-networking-sub" },
+      { name: "Office Electronics", slug: "it-office-electronics" }
+    ]
+  },
   { name: "Warehousing & Material Handling", slug: "warehousing-material-handling" },
   { name: "Packaging & Fulfillment", slug: "packaging-fulfillment" },
   { name: "Printing, Signage & Promo", slug: "printing-signage-promo" },
