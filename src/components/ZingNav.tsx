@@ -100,9 +100,9 @@ const ZingNav = () => {
       <div className="mx-auto flex h-16 items-center justify-between px-4">
         {/* Left Nav - Desktop Only */}
         <nav className="hidden md:flex items-center gap-6">
-          <NavLink to="/discover" className="text-sm text-[#64748b] hover:text-[#0f172a] transition-colors">
+          {import.meta.env.DEV && <NavLink to="/discover" className="text-sm text-[#64748b] hover:text-[#0f172a] transition-colors">
             Discover
-          </NavLink>
+          </NavLink>}
           <NavLink to="/pricing" className="text-sm text-[#64748b] hover:text-[#0f172a] transition-colors">
             Pricing
           </NavLink>
@@ -190,9 +190,9 @@ const ZingNav = () => {
       {open && (
         <div className="border-t bg-white md:hidden">
           <div className="flex flex-col gap-3 px-4 py-4">
-            <NavLink to="/discover" onClick={() => setOpen(false)} className="text-sm text-gray-600">
+            {import.meta.env.DEV && <NavLink to="/discover" onClick={() => setOpen(false)} className="text-sm text-gray-600">
               Discover
-            </NavLink>
+            </NavLink>}
             <NavLink to="/pricing" onClick={() => setOpen(false)} className="text-sm text-gray-600">
               Pricing
             </NavLink>

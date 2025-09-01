@@ -352,7 +352,7 @@ const Index = () => {
               <h4 className="font-semibold mb-4">Marketplace</h4>
               <div className="space-y-2 text-gray-400">
                 <Link to="/browse" className="block hover:text-white">Browse Lots</Link>
-                <Link to="/discover" className="block hover:text-white">Categories</Link>
+                {import.meta.env.DEV && <Link to="/discover" className="block hover:text-white">Categories</Link>}
                 <Link to="/regions" className="block hover:text-white">Regions</Link>
               </div>
             </div>

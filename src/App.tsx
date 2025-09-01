@@ -94,9 +94,9 @@ const App = () => (
                   <Route path="/alerts" element={<Alerts />} />
                   
                   {/* Legacy Routes (transitioning) */}
-                  <Route path="/shows" element={<Shows />} />
-                  <Route path="/discover" element={<Discover />} />
-                  <Route path="/explore" element={<ExplorePage />} />
+                  {import.meta.env.DEV && <Route path="/shows" element={<Shows />} />}
+                  {import.meta.env.DEV && <Route path="/discover" element={<Discover />} />}
+                  {import.meta.env.DEV && <Route path="/explore" element={<ExplorePage />} />}
                   <Route path="/category/:slug" element={<Category />} />
                   <Route path="/categories" element={<Categories />} />
                   <Route path="/seller/:id" element={<SellerProfile />} />
@@ -107,7 +107,7 @@ const App = () => (
                   <Route path="/dashboard/seller" element={<DashboardSeller />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="/admin/review-sellers" element={<ReviewSellers />} />
-                  <Route path="/qa" element={<QA />} />
+                  {import.meta.env.DEV && <Route path="/qa" element={<QA />} />}
                   <Route path="/login" element={<Login />} />
                   
                   {/* Fixed routes - auction detail and live room separated */}

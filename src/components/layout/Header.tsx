@@ -13,9 +13,7 @@ export default function Header() {
 				<Brand variant="header" className="shrink-0" />
 
 				<nav className="hidden md:flex items-center gap-6 text-[15px]">
-					{!isDiscoverRoute && (
-						<NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>
-					)}
+					{import.meta.env.DEV && <NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>}
 					<NavLink to="/pricing" className="hover:opacity-80">Pricing</NavLink>
 					{!isHelpRoute && (
 						<NavLink to="/help" className="hover:opacity-80">Help & Contact</NavLink>
