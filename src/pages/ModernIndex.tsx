@@ -107,51 +107,32 @@ const ModernIndex = () => {
 
   // Categories with icons and colors
   const categories = [
-    {
-      id: "construction-materials",
-      name: "Construction",
-      icon: Building2,
-      count: 342,
-      color: "from-orange-500 to-red-500",
-      trending: true
-    },
-    {
-      id: "restaurant-equipment",
-      name: "Restaurant",
-      icon: UtensilsCrossed,
-      count: 189,
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      id: "office-furniture",
-      name: "Office",
-      icon: Briefcase,
-      count: 156,
-      color: "from-blue-500 to-indigo-500"
-    },
-    {
-      id: "municipal-surplus",
-      name: "Municipal",
-      icon: Wrench,
-      count: 98,
-      color: "from-purple-500 to-pink-500"
-    }
-    ,
-    {
-      id: "blacksmithing",
-      name: "Blacksmithing",
-      icon: Anvil,
-      count: 24,
-      color: "from-stone-600 to-stone-800"
-    },
-    {
-      id: "jewelry-making",
-      name: "Jewelry Making",
-      icon: Diamond,
-      count: 41,
-      color: "from-rose-500 to-pink-500"
-    }
+    { id: "construction-trades", name: "Construction & Trades", count: 342, color: "from-orange-500 to-red-500", image: "/categories/construction-trades.jpg", trending: true },
+    { id: "restaurant-food-service", name: "Restaurant & Food Service", count: 189, color: "from-green-500 to-emerald-500", image: "/categories/restaurant-food-service.jpg" },
+    { id: "office-admin", name: "Office & Admin", count: 156, color: "from-blue-500 to-indigo-500", image: "/categories/office-admin.jpg" },
+    { id: "it-networking", name: "IT & Networking", count: 88, color: "from-cyan-500 to-blue-600", image: "/categories/it-networking.jpg" },
+    { id: "warehousing-material-handling", name: "Warehousing & Material Handling", count: 120, color: "from-amber-500 to-orange-600", image: "/categories/warehousing-material-handling.jpg" },
+    { id: "packaging-fulfillment", name: "Packaging & Fulfillment", count: 64, color: "from-emerald-500 to-green-600", image: "/categories/packaging-fulfillment.jpg" },
+    { id: "printing-signage-promo", name: "Printing, Signage & Promo", count: 41, color: "from-rose-500 to-pink-500", image: "/categories/printing-signage-promo.jpg" },
+    { id: "event-av-creative", name: "Event, AV & Creative", count: 59, color: "from-indigo-500 to-purple-600", image: "/categories/event-av-creative.jpg" },
+    { id: "manufacturing-industrial", name: "Manufacturing & Industrial (no hazmat)", count: 98, color: "from-purple-500 to-pink-500", image: "/categories/manufacturing-industrial.jpg" },
+    { id: "metalworking-fabrication", name: "Metalworking & Fabrication", count: 24, color: "from-stone-600 to-stone-800", image: "/categories/metalworking-fabrication.jpg" },
+    { id: "blacksmithing", name: "Blacksmithing", count: 12, color: "from-neutral-600 to-neutral-800", image: "/categories/blacksmithreal.jpg" },
+    { id: "jewelry-making", name: "Jewelry Making", count: 14, color: "from-rose-500 to-pink-600", image: "/categories/jewelryreal.jpg" },
+    { id: "woodworking", name: "Woodworking", count: 31, color: "from-yellow-600 to-amber-700", image: "/categories/woodworking.jpg" },
+    { id: "auto-service", name: "Auto Service (no refrigerant kits)", count: 43, color: "from-gray-600 to-zinc-800", image: "/categories/auto-service.jpg" },
+    { id: "landscaping-grounds", name: "Landscaping & Grounds", count: 22, color: "from-green-600 to-emerald-700", image: "/categories/landscaping-grounds.jpg" },
+    { id: "cleaning-janitorial", name: "Cleaning & Janitorial", count: 27, color: "from-teal-500 to-cyan-600", image: "/categories/cleaning-janitorial.jpg" },
+    { id: "security-cash-handling", name: "Security & Cash Handling", count: 14, color: "from-slate-600 to-slate-800", image: "/categories/security-cash-handling.jpg" },
+    { id: "hospitality-lodging-ffe", name: "Hospitality & Lodging (FF&E)", count: 18, color: "from-fuchsia-500 to-pink-600", image: "/categories/hospitality-lodging-ffe.jpg" },
+    { id: "retail-pos", name: "Retail & POS", count: 36, color: "from-red-500 to-rose-600", image: "/categories/retail-pos.jpg" },
+    { id: "vending-kiosks", name: "Vending & Kiosks", count: 11, color: "from-blue-700 to-indigo-800", image: "/categories/vending-kiosks.jpg" }
   ];
+
+  // Front page: show only the 12 most popular categories by active auction count
+  const topCategories = [...categories]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 12);
 
   // Featured lots data - Active Auctions
   const featuredLots = [
@@ -378,22 +359,26 @@ const ModernIndex = () => {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.map((category) => {
-              const IconComponent = category.icon;
+            {topCategories.map((category) => {
               return (
                 <Link
                   key={category.id}
                   to={`/category/${category.id}`}
                   className="group category-card-link relative overflow-hidden rounded-xl bg-white border hover:shadow-xl transition-shadow duration-300"
                 >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={category.image}
+                      alt={`${category.name}`}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
                   <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <IconComponent className="h-10 w-10 text-gray-700 group-hover:text-brand-red transition-colors" />
-                      {category.trending && (
-                        <Badge className="badge-hot">Trending</Badge>
-                      )}
-                    </div>
+                    {category.trending && (
+                      <Badge className="badge-hot mb-2">Trending</Badge>
+                    )}
                     <h3 className="font-semibold text-lg mb-1">{category.name}</h3>
                     <p className="text-sm text-gray-500">{category.count} active auctions</p>
                   </div>
