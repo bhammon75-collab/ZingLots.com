@@ -1,9 +1,12 @@
 {
+  "builds": [
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } }
+  ],
   "cleanUrls": true,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/(.*\\..*)", "destination": "/$1" },
-    { "source": "/((?!api/|assets/|.*\\.).*)", "destination": "/" }
+    { "source": "/((?!api/|assets/|.*\\.).*)", "destination": "/index.html" }
   ]
 }
