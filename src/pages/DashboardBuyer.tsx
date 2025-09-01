@@ -97,7 +97,7 @@ const DashboardBuyer = () => {
                     <div className="font-medium">Order {o.id.slice(0,8)}…</div>
                     <div className="text-muted-foreground">Carrier {o.shipping_carrier} · Tracking {o.shipping_tracking}</div>
                     {o.label_url && (
-                      <a href={o.label_url} target="_blank" rel="noreferrer" className="underline">View Label</a>
+                      <a href={o.label_url} target="_blank" rel="noopener noreferrer" className="underline">View Label</a>
                     )}
                   </div>
                 ))}

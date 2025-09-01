@@ -201,7 +201,7 @@ const Sitemap = () => {
               </div>
               <a 
                 href="/sitemap.xml" 
-                target="_blank"
+                target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
               >
                 <FileText className="inline h-4 w-4 mr-2" />

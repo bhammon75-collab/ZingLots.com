@@ -118,7 +118,7 @@ const PayPalSmokeTest = () => {
       )}
       {approveUrl && (
         <div className="mt-2">
-          <a className="text-sm underline" href={approveUrl} target="_blank" rel="noreferrer">
+          <a className="text-sm underline" href={approveUrl} target="_blank" rel="noopener noreferrer">
             Approve in PayPal →
           </a>
         </div>

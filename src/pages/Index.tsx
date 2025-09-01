@@ -13,8 +13,7 @@ import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 import { useState, useMemo } from "react";
 import { SearchBar } from "@/components/ui/search-bar";
 import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+// Duplicate imports removed below
 import { Hero } from "@/components/Hero";
 
 // Helper for ItemList JSON-LD
@@ -34,7 +33,7 @@ const Index = () => {
   const [term, setTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
 
-  const showDev = false; // Set to true to show dev components
+  const showDev = import.meta.env.DEV;
   
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();

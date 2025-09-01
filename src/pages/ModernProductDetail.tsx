@@ -115,12 +115,12 @@ const ModernProductDetail = () => {
   const handleBid = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle bid submission
-    console.log("Placing bid:", bidAmount);
+    if (import.meta.env.DEV) console.log("Placing bid:", bidAmount);
   };
 
   const handleBuyNow = () => {
     // Handle buy now
-    console.log("Buy now clicked");
+    if (import.meta.env.DEV) console.log("Buy now clicked");
   };
 
   return (

@@ -304,6 +304,37 @@ const ModernIndex = () => {
       <HeroShowcase slides={heroSlides} delayMs={4500} speedMs={650} compact className="mb-4" />
 
       {/* Stats Bar */}
+      {/* How Auctions Work */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">How Auctions Work</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-6 rounded-xl border bg-white">
+              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gray-100 flex items-center justify-center">
+                <Search className="h-6 w-6 text-gray-700" />
+              </div>
+              <h3 className="font-semibold mb-1">Browse auctions</h3>
+              <p className="text-gray-600 text-sm">Filter by category or location to find surplus you need.</p>
+            </div>
+            <div className="text-center p-6 rounded-xl border bg-white">
+              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gray-100 flex items-center justify-center">
+                <Gavel className="h-6 w-6 text-gray-700" />
+              </div>
+              <h3 className="font-semibold mb-1">Place bids or proxy bids</h3>
+              <p className="text-gray-600 text-sm">Set your max; we’ll bid for you up to your limit.</p>
+            </div>
+            <div className="text-center p-6 rounded-xl border bg-white">
+              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gray-100 flex items-center justify-center">
+                <Shield className="h-6 w-6 text-gray-700" />
+              </div>
+              <h3 className="font-semibold mb-1">Pay securely with Stripe</h3>
+              <p className="text-gray-600 text-sm">Pickup/delivery coordinated directly between buyer and seller.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
       <section className="border-t border-zinc-200/70 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm">
@@ -545,8 +576,8 @@ const ModernIndex = () => {
               <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Truck className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Secure Bidding</h3>
-              <p className="text-gray-600">Transparent auction process with secure payment handling</p>
+              <h3 className="text-xl font-semibold mb-2">Payments by Stripe (PCI-compliant)</h3>
+              <p className="text-gray-600">Secure checkout for winning bids with industry-standard compliance</p>
             </div>
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -556,6 +587,7 @@ const ModernIndex = () => {
               <p className="text-gray-600">Place bids anytime on active auctions from your phone or computer</p>
             </div>
           </div>
+          <p className="text-center text-sm text-gray-500 mt-6">Early access — growing inventory weekly</p>
         </div>
       </section>
 

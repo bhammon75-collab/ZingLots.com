@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+// Duplicate Helmet import removed
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -152,7 +152,7 @@ const Browse = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle search
-    console.log("Searching for:", searchQuery);
+    if (import.meta.env.DEV) console.log("Searching for:", searchQuery);
   };
 
   return (

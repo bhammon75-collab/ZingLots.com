@@ -58,7 +58,7 @@ export function ComprehensiveDesignDemo() {
   ]
 
   const handlePlaceBid = (amount: number) => {
-    console.log('Bid placed:', amount)
+    if (import.meta.env.DEV) console.log('Bid placed:', amount)
     // Handle bid logic
   }
 
