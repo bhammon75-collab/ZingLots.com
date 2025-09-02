@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Countdown, { type LotTiming } from "@/components/auction/Countdown";
+import { getIncrementForPrice } from "@/lib/bidIncrements";
 
 type Auction = { id:string; title:string; heroImage?:string; status?:string; currentBid?:number; lotsCount?:number; };
 
@@ -9,6 +10,8 @@ export default function AuctionPage(){
   const { id = "" } = useParams();
   const [state, setState] = useState<{ loading:boolean; error?:string; auction?:Auction|null }>({ loading:true });
   const [timing, setTiming] = useState<LotTiming | null>(null);
+  const [currentPrice, setCurrentPrice] = useState<number>(0);
+  const [bidInput, setBidInput] = useState<string>("");
 
   useEffect(()=>{
     let on = true;
@@ -20,6 +23,7 @@ export default function AuctionPage(){
         // const auction:Auction = await res.json();
         const auction:Auction|null = null; // placeholder
         if(on) setState({ loading:false, auction });
+        if(on) setCurrentPrice(auction?.currentBid ?? 0);
         // fetch timing from edge function
         const tRes = await fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}`);
         if (tRes.ok) {
@@ -40,6 +44,31 @@ export default function AuctionPage(){
       setTiming(t);
     }
   },[id]);
+
+  const step = getIncrementForPrice(currentPrice);
+  const minNext = currentPrice + step;
+  const parsed = parseFloat(bidInput || "0");
+  const isValid = parsed >= minNext || parsed === minNext;
+
+  const onKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const next = (parsed || 0) + step;
+      setBidInput(String(next));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = Math.max(minNext, (parsed || 0) - step);
+      setBidInput(String(next));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (isValid) {
+        // TODO: place bid endpoint; for now just update local price
+        setCurrentPrice(parsed);
+        setBidInput("");
+        handleSync();
+      }
+    }
+  };
 
   const title = state.auction?.title || `Auction ${id}`;
 
@@ -75,6 +104,30 @@ export default function AuctionPage(){
             </div>
             <p className="text-xs text-gray-600 mt-2">Bids are server-timestamped for fairness—even if video lags.</p>
             <p className="text-xs text-gray-600">Pickup/shipping arranged directly with the seller.</p>
+
+            <section className="mt-4">
+              <div className="text-lg font-semibold">${currentPrice.toLocaleString()}</div>
+              <div className="text-sm text-gray-600">Step: ${step.toLocaleString()}</div>
+              <div className="mt-2 flex items-center gap-2">
+                <input
+                  type="number"
+                  value={bidInput}
+                  onChange={(e)=>setBidInput(e.target.value)}
+                  onKeyDown={onKey}
+                  placeholder={String(minNext)}
+                  className="rounded border px-3 py-2 text-sm"
+                  aria-label="Bid amount"
+                />
+                <button
+                  className="rounded bg-red-600 px-4 py-2 text-white text-sm disabled:opacity-50"
+                  onClick={()=>{ if(isValid){ setCurrentPrice(parsed); setBidInput(""); handleSync(); }}}
+                  disabled={!isValid}
+                >
+                  Place Bid
+                </button>
+              </div>
+              <div className="text-xs text-gray-600 mt-1">↑ +step, ↓ −step, Enter to bid</div>
+            </section>
           </article>
         )}
       </main>
