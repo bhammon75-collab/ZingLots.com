@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Countdown, { type LotTiming } from "@/components/auction/Countdown";
 import ReserveMeter from "@/components/auction/ReserveMeter";
+import ProxyBidModal from "@/components/auction/ProxyBidModal";
 import { getIncrementForPrice } from "@/lib/bidIncrements";
 import { useViewers } from "@/hooks/useViewers";
 
@@ -15,6 +16,7 @@ export default function AuctionPage(){
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [bidInput, setBidInput] = useState<string>("");
   const viewers = useViewers(id);
+  const [proxyOpen, setProxyOpen] = useState(false);
 
   useEffect(()=>{
     let on = true;
@@ -147,9 +149,24 @@ export default function AuctionPage(){
                 >
                   Place Bid
                 </button>
+                <button
+                  className="rounded border px-3 py-2 text-sm"
+                  onClick={()=> setProxyOpen(true)}
+                  aria-label="Set max bid"
+                >
+                  Set Max Bid
+                </button>
               </div>
               <div className="text-xs text-gray-600 mt-1">↑ +step, ↓ −step, Enter to bid</div>
             </section>
+            <ProxyBidModal
+              open={proxyOpen}
+              onOpenChange={setProxyOpen}
+              lotId={id}
+              currentPrice={currentPrice}
+              step={step}
+              onSet={(max)=>{ /* could toast */ }}
+            />
           </article>
         )}
       </main>

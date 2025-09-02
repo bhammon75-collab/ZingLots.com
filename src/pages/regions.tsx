@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { getStates, groupByLetter, type StateInfo } from "@/lib/regions";
+import { getRegionMetrics, type RegionMetrics } from "@/lib/regionsMetrics";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -11,6 +12,7 @@ const Regions = () => {
   const states = useMemo(() => getStates(), []);
   const grouped = useMemo(() => groupByLetter(states), [states]);
   const letters = useMemo(() => Object.keys(grouped).sort(), [grouped]);
+  const metrics = useMemo<RegionMetrics | null>(() => getRegionMetrics(), []);
 
   const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +50,18 @@ const Regions = () => {
           <h1 className="text-3xl font-bold text-gray-900">Find Surplus Auctions Near You</h1>
           <p className="text-gray-600 mt-2">Browse business equipment in major US markets.</p>
         </header>
+
+        {/* Optional metrics bar */}
+        {metrics && (
+          <div className="mb-4 rounded-xl border bg-white p-4 flex flex-wrap items-center gap-4 text-sm">
+            <div><span className="font-semibold">{metrics.totalAuctions.toLocaleString()}</span> auctions</div>
+            <div className="opacity-50">•</div>
+            <div><span className="font-semibold">{metrics.markets.toLocaleString()}</span> markets</div>
+            <div className="opacity-50">•</div>
+            <div><span className="font-semibold">{metrics.businesses.toLocaleString()}</span> businesses</div>
+            <span className="ml-auto inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-700">Updated hourly</span>
+          </div>
+        )}
 
         {/* Sticky A–Z bar */}
         <div className="sticky top-0 z-10 bg-gray-50 py-2">
