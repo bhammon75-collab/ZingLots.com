@@ -20,7 +20,7 @@ const Regions = () => {
       return;
     }
     try {
-      const res = await fetch("/api/waitlist", {
+      const res = await fetch("/functions/v1/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
