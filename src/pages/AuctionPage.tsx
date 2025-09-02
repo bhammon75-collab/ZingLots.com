@@ -65,10 +65,10 @@ export default function AuctionPage(){
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (isValid) {
-        // TODO: place bid endpoint; for now just update local price
         setCurrentPrice(parsed);
         setBidInput("");
-        handleSync();
+        // trigger potential anti-snipe extension if inside window
+        fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).finally(handleSync);
       }
     }
   };
@@ -129,7 +129,7 @@ export default function AuctionPage(){
                 />
                 <button
                   className="rounded bg-red-600 px-4 py-2 text-white text-sm disabled:opacity-50"
-                  onClick={()=>{ if(isValid){ setCurrentPrice(parsed); setBidInput(""); handleSync(); }}}
+                  onClick={()=>{ if(isValid){ setCurrentPrice(parsed); setBidInput(""); fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).finally(handleSync); }}}
                   disabled={!isValid}
                 >
                   Place Bid
