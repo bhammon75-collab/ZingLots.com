@@ -2,10 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Countdown, { type LotTiming } from "@/components/auction/Countdown";
+import ReserveMeter from "@/components/auction/ReserveMeter";
 import { getIncrementForPrice } from "@/lib/bidIncrements";
 import { useViewers } from "@/hooks/useViewers";
 
-type Auction = { id:string; title:string; heroImage?:string; status?:string; currentBid?:number; lotsCount?:number; };
+type Auction = { id:string; title:string; heroImage?:string; status?:string; currentBid?:number; lotsCount?:number; reserve?: number | null };
 
 export default function AuctionPage(){
   const { id = "" } = useParams();
@@ -111,6 +112,11 @@ export default function AuctionPage(){
             <section className="mt-4">
               <div className="text-lg font-semibold">${currentPrice.toLocaleString()}</div>
               <div className="text-sm text-gray-600">Step: ${step.toLocaleString()}</div>
+              <ReserveMeter
+                className="mt-2 max-w-xs"
+                reserve={state.auction?.reserve ?? null}
+                currentPrice={currentPrice}
+              />
               <div className="mt-2 flex items-center gap-2">
                 <input
                   type="number"

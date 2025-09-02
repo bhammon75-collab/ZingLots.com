@@ -8,6 +8,7 @@ import { useWatchlist } from "@/hooks/useWatchlist";
 import { FLAGS } from "@/lib/flags";
 import { CountdownPill } from "@/components/auctions/CountdownPill";
 import lotImage from "@/assets/lot-generic.jpg";
+import ReserveMeter from "@/components/auction/ReserveMeter";
 
 export interface LotItem {
   id: string;
@@ -18,6 +19,7 @@ export interface LotItem {
   endsIn: string;
   image_url?: string;
   reserve_met?: boolean;
+  reserve?: number | null;
   watchers?: number;
   volume?: number;
   unit?: string;
@@ -138,6 +140,8 @@ const LotCard = ({ item }: { item: LotItem }) => {
             <Badge variant="outline">Verified</Badge>
           )}
         </div>
+        {/* Reserve meter hidden if no reserve provided */}
+        <ReserveMeter currentPrice={price} reserve={item.reserve ?? null} />
         
         {/* Buy Now button - less prominent */}
         {item.buyNow && (
