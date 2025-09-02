@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Countdown, { type LotTiming } from "@/components/auction/Countdown";
 import { getIncrementForPrice } from "@/lib/bidIncrements";
+import { useViewers } from "@/hooks/useViewers";
 
 type Auction = { id:string; title:string; heroImage?:string; status?:string; currentBid?:number; lotsCount?:number; };
 
@@ -12,6 +13,7 @@ export default function AuctionPage(){
   const [timing, setTiming] = useState<LotTiming | null>(null);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [bidInput, setBidInput] = useState<string>("");
+  const viewers = useViewers(id);
 
   useEffect(()=>{
     let on = true;
@@ -99,6 +101,7 @@ export default function AuctionPage(){
         {!!state.auction && (
           <article>
             <h1 className="text-2xl md:text-3xl font-bold">{state.auction.title}</h1>
+            <div className="text-sm text-gray-600">Viewers: {viewers}</div>
             <div className="mt-3">
               {timing && <Countdown timing={timing} onSync={handleSync} />}
             </div>
