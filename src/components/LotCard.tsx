@@ -5,6 +5,7 @@ import { VerifiedSMEBadge } from "@/components/VerifiedSMEBadge";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useWatchlist } from "@/hooks/useWatchlist";
+import { FLAGS } from "@/lib/flags";
 import { CountdownPill } from "@/components/auctions/CountdownPill";
 import lotImage from "@/assets/lot-generic.jpg";
 
@@ -94,16 +95,18 @@ const LotCard = ({ item }: { item: LotItem }) => {
         
         {/* Action buttons */}
         <div className="absolute right-3 top-3 flex gap-2">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="h-8 w-8 bg-background/80 backdrop-blur"
-            onClick={handleWatch}
-            disabled={loading}
-            aria-label={watched ? "Remove from watchlist" : "Add to watchlist"}
-          >
-            <Heart className={`h-4 w-4 ${watched ? "fill-current text-red-500" : ""}`} />
-          </Button>
+          {FLAGS.ENABLE_WATCHLIST && (
+            <Button
+              variant="secondary"
+              size="icon"
+              className="h-8 w-8 bg-background/80 backdrop-blur"
+              onClick={handleWatch}
+              disabled={loading}
+              aria-label={watched ? "Remove from watchlist" : "Add to watchlist"}
+            >
+              <Heart className={`h-4 w-4 ${watched ? "fill-current text-red-500" : ""}`} />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
