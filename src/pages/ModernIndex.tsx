@@ -25,7 +25,8 @@ import {
   Wrench,
   Anvil,
   Diamond,
-  ArrowRight
+  ArrowRight,
+  Search
 } from "lucide-react";
 import "../styles/modern-design.css";
 import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
