@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import Countdown, { type LotTiming } from "@/components/auction/Countdown";
 
 type Auction = { id:string; title:string; heroImage?:string; status?:string; currentBid?:number; lotsCount?:number; };
 
 export default function AuctionPage(){
   const { id = "" } = useParams();
   const [state, setState] = useState<{ loading:boolean; error?:string; auction?:Auction|null }>({ loading:true });
+  const [timing, setTiming] = useState<LotTiming | null>(null);
 
   useEffect(()=>{
     let on = true;
@@ -18,11 +20,25 @@ export default function AuctionPage(){
         // const auction:Auction = await res.json();
         const auction:Auction|null = null; // placeholder
         if(on) setState({ loading:false, auction });
+        // fetch timing from edge function
+        const tRes = await fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}`);
+        if (tRes.ok) {
+          const t: LotTiming = await tRes.json();
+          if (on) setTiming(t);
+        }
       }catch(e:any){
         if(on) setState({ loading:false, error:e?.message || "Failed to load" });
       }
     })();
     return ()=>{ on=false; };
+  },[id]);
+
+  const handleSync = useCallback(async ()=>{
+    const tRes = await fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id || "")}`);
+    if (tRes.ok) {
+      const t: LotTiming = await tRes.json();
+      setTiming(t);
+    }
   },[id]);
 
   const title = state.auction?.title || `Auction ${id}`;
@@ -51,7 +67,16 @@ export default function AuctionPage(){
           </>
         )}
 
-        {!!state.auction && (<article><h1 className="text-2xl md:text-3xl font-bold">{state.auction.title}</h1></article>)}
+        {!!state.auction && (
+          <article>
+            <h1 className="text-2xl md:text-3xl font-bold">{state.auction.title}</h1>
+            <div className="mt-3">
+              {timing && <Countdown timing={timing} onSync={handleSync} />}
+            </div>
+            <p className="text-xs text-gray-600 mt-2">Bids are server-timestamped for fairness—even if video lags.</p>
+            <p className="text-xs text-gray-600">Pickup/shipping arranged directly with the seller.</p>
+          </article>
+        )}
       </main>
     </>
   );
