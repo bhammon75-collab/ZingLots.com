@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import Header from "@/components/layout/Header";
 import { Link } from "react-router-dom";
 
 const regions = [
@@ -28,7 +27,6 @@ const Regions = () => {
         <meta name="description" content="Browse all supported ZingLots regions and find surplus near you." />
       </Helmet>
 
-      <Header />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <header className="mb-8">
