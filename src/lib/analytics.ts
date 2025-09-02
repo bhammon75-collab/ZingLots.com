@@ -31,7 +31,7 @@ class Analytics {
 
     // Also log to console in development
     if (import.meta.env.DEV) {
-      if (import.meta.env.DEV) console.log('Analytics initialized in development mode');
+      console.log('Analytics initialized in development mode');
     }
   }
 
@@ -73,7 +73,7 @@ class Analytics {
 
     // Log in development
     if (import.meta.env.DEV) {
-      if (import.meta.env.DEV) console.log('Analytics Event:', event);
+      console.log('Analytics Event:', event);
     }
   }
 
