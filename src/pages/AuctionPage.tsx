@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Countdown, { type LotTiming } from "@/components/auction/Countdown";
@@ -6,6 +6,7 @@ import ReserveMeter from "@/components/auction/ReserveMeter";
 import ProxyBidModal from "@/components/auction/ProxyBidModal";
 import { getIncrementForPrice } from "@/lib/bidIncrements";
 import { useViewers } from "@/hooks/useViewers";
+import { analytics } from "@/lib/analytics";
 
 type Auction = { id:string; title:string; heroImage?:string; status?:string; currentBid?:number; lotsCount?:number; reserve?: number | null };
 
@@ -144,7 +145,7 @@ export default function AuctionPage(){
                 />
                 <button
                   className="rounded bg-red-600 px-4 py-2 text-white text-sm disabled:opacity-50"
-                  onClick={()=>{ if(isValid){ setCurrentPrice(parsed); setBidInput(""); fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).finally(handleSync); }}}
+                  onClick={()=>{ if(isValid){ setCurrentPrice(parsed); analytics.trackBid(id, parsed); setBidInput(""); fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).finally(handleSync); }}}
                   disabled={!isValid}
                 >
                   Place Bid

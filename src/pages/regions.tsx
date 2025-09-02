@@ -6,6 +6,7 @@ import { getRegionMetrics, type RegionMetrics } from "@/lib/regionsMetrics";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { analytics } from "@/lib/analytics";
 
 const Regions = () => {
   const [email, setEmail] = useState("");
@@ -31,6 +32,7 @@ const Regions = () => {
       const body = await res.json();
       if (body?.ok) {
         toast.success("You're on the list. We'll email you when we launch nearby.");
+        analytics.track({ category: 'Engagement', action: 'waitlist_submit', label: email });
         setEmail("");
       } else throw new Error("Bad response");
     } catch {
