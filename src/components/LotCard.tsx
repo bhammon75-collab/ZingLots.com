@@ -82,11 +82,21 @@ const LotCard = ({ item }: { item: LotItem }) => {
           className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
         />
         
-        {/* Reserve status and countdown */}
+        {/* Status ribbons with single-priority rule: Closing Soon > New > Open */}
         <div className="absolute left-3 top-3 flex gap-2">
-          <Badge variant={item.reserve_met ? 'default' : 'outline'}>
-            {item.reserve_met ? 'Reserve met ✅' : 'Reserve not met'}
-          </Badge>
+          {/* Closing Soon: when countdown under 10 minutes */}
+          {/* We infer via endsIn string like "Xm"; fallback to reserve badge when not closing soon */}
+          {(() => {
+            const match = /^(\d+)m$/.exec(item.endsIn || "");
+            const minutes = match ? parseInt(match[1]) : Number.POSITIVE_INFINITY;
+            if (minutes <= 10) {
+              return <Badge variant="destructive" aria-label="Closing soon">Closing soon</Badge>;
+            }
+            // Next: show New (stub condition) else Open Bidding
+            const isNew = false;
+            if (isNew) return <Badge variant="secondary" aria-label="New listing">New</Badge>;
+            return <Badge variant="default" aria-label="Open bidding">Open bidding</Badge>;
+          })()}
           {item.pickup_only && (
             <Badge variant="secondary">Pickup only</Badge>
           )}

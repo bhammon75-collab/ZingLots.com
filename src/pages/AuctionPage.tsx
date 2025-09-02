@@ -74,6 +74,12 @@ export default function AuctionPage(){
   };
 
   const title = state.auction?.title || `Auction ${id}`;
+  const closingSoon = useMemo(()=>{
+    if (!timing) return false;
+    const end = new Date(timing.endAt).getTime();
+    const nowMs = Date.now();
+    return end - nowMs <= 10 * 60 * 1000;
+  },[timing]);
 
   return (
     <>
@@ -101,7 +107,14 @@ export default function AuctionPage(){
 
         {!!state.auction && (
           <article>
-            <h1 className="text-2xl md:text-3xl font-bold">{state.auction.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
+              {state.auction.title}
+              {closingSoon ? (
+                <span className="inline-flex items-center rounded bg-red-600 px-2 py-0.5 text-white text-xs" aria-label="Closing soon">Closing soon</span>
+              ) : (
+                <span className="inline-flex items-center rounded bg-gray-200 px-2 py-0.5 text-gray-800 text-xs" aria-label="Open bidding">Open bidding</span>
+              )}
+            </h1>
             <div className="text-sm text-gray-600">Viewers: {viewers}</div>
             <div className="mt-3">
               {timing && <Countdown timing={timing} onSync={handleSync} />}
