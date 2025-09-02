@@ -135,6 +135,21 @@ const ModernProductDetail = () => {
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.images?.[0]} />
         <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.title,
+          "description": product.description,
+          "image": product.images?.slice(0,3),
+          "brand": { "@type": "Organization", "name": "ZingLots" },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "price": product.currentBid?.toFixed?.(2) || String(product.currentBid ?? 0),
+            "availability": "https://schema.org/InStock",
+            "url": id ? `https://www.zinglots.com/lot/${id}` : undefined
+          }
+        })}</script>
       </Helmet>
 
       
