@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import ModernNav from "@/components/ModernNav";
+import Header from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -315,7 +315,7 @@ const ModernIndex = () => {
         <meta name="description" content="Buy and sell business surplus locally. Construction materials, restaurant equipment, office furniture, and more. Verified sellers, secure transactions, local pickup only." />
       </Helmet>
 
-      <ModernNav />
+      <Header showSearch />
 
       {/* LCP preload for first hero image */}
       <link rel="preload" as="image" href={heroSlides[0].imageUrl} />
