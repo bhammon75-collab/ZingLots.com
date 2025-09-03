@@ -1,4 +1,5 @@
 import ImageWithFallback from "./ImageWithFallback";
+import { Link } from "react-router-dom";
 
 export type Auction = {
   id: string;
@@ -27,7 +28,7 @@ function timeLeft(iso?: string | null) {
 
 export default function AuctionCard({ a }: { a: Auction }) {
   return (
-    <a href={`/auction/${a.id}`} className="block overflow-hidden rounded-xl border hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+    <Link to={`/auction/${a.id}`} className="block overflow-hidden rounded-xl border hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
       <div className="relative">
         <ImageWithFallback src={a.hero_image_url || undefined} alt={a.title} className="w-full aspect-[4/3] object-cover" loading="lazy" />
       </div>
@@ -41,6 +42,6 @@ export default function AuctionCard({ a }: { a: Auction }) {
           <span>{timeLeft(a.ends_at)}</span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

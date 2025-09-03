@@ -6,7 +6,7 @@ import { useState } from "react";
 import { getSupabase } from "@/lib/supabaseClient";
 import { toast } from "@/components/ui/use-toast";
 import { sendEmail } from "@/lib/notify";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { DEMO_SELLERS, DEMO_LOTS } from "@/data/demo";
 import LotCard from "@/components/LotCard";
 
@@ -69,7 +69,9 @@ const SellerProfile = () => {
           </div>
           <div className="flex gap-2">
             <button className="rounded-md border px-4 py-2 text-sm">Follow</button>
-            <a href={`/shows`} className="text-sm text-primary underline-offset-4 hover:underline">Upcoming Shows</a>
+            {import.meta.env.DEV && (
+              <Link to={`/shows`} className="text-sm text-primary underline-offset-4 hover:underline">Upcoming Shows</Link>
+            )}
           </div>
         </div>
 
@@ -82,9 +84,9 @@ const SellerProfile = () => {
             <h2 className="mt-4 text-xl font-semibold">Featured Lots</h2>
             <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {lots.map((item) => (
-                <a href={`/product/${item.id}`} key={item.id}>
+                <Link to={`/lot/${item.id}`} key={item.id}>
                   <LotCard item={item} />
-                </a>
+                </Link>
               ))}
             </div>
           </TabsContent>

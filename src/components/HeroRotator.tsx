@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import ImageWithFallback from "./ImageWithFallback";
 
 // Lightweight local swipe handler to avoid external dependency
@@ -199,9 +200,9 @@ export default function HeroRotator(props: Props){
         {resolvedSlides.map((s,i)=>{
           const active = i===index;
           return (
-            <a
+            <Link
               key={s.id}
-              href={s.href || "#"}
+              to={s.href || "#"}
               className="absolute inset-0"
               aria-hidden={!active}
               tabIndex={active ? 0 : -1}
@@ -226,11 +227,11 @@ export default function HeroRotator(props: Props){
                   {s.sub && (<p className="mt-2 md:mt-3 text-white/90 max-w-2xl">{s.sub}</p>)}
                   <div className="mt-4 flex flex-wrap gap-3">
                     <span className="inline-flex items-center rounded-lg bg-red-600 text-white px-4 py-2.5 font-semibold">View Auction</span>
-                    <span className="inline-flex items-center rounded-lg border border-white/70 text-white px-4 py-2.5 font-semibold">How to Bid</span>
+                    <Link to="/help" className="inline-flex items-center rounded-lg border border-white/70 text-white px-4 py-2.5 font-semibold">How to Bid</Link>
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           );
         })}
       </div>

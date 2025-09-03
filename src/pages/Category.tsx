@@ -60,9 +60,9 @@ const Category = () => {
         ) : null}
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {lots.map((item) => (
-            <a href={`/product/${item.id}`} key={item.id} aria-label={item.title}>
+            <Link to={`/lot/${item.id}`} key={item.id} aria-label={item.title}>
               <LotCard item={item} />
-            </a>
+            </Link>
           ))}
         </div>
       </main>
