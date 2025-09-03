@@ -452,6 +452,7 @@ const ModernIndex = () => {
               <Button 
                 variant="outline" 
                 size="icon"
+                aria-label="Scroll featured lots left"
                 onClick={() => {
                   const container = document.querySelector('.featured-lots-container');
                   if (container) container.scrollBy({ left: -300, behavior: 'smooth' });
@@ -462,6 +463,7 @@ const ModernIndex = () => {
               <Button 
                 variant="outline" 
                 size="icon"
+                aria-label="Scroll featured lots right"
                 onClick={() => {
                   const container = document.querySelector('.featured-lots-container');
                   if (container) container.scrollBy({ left: 300, behavior: 'smooth' });
@@ -490,7 +492,7 @@ const ModernIndex = () => {
                     {lot.urgent && <Badge className="bg-orange-500 text-white">Final Hour</Badge>}
                   </div>
                   <div className="absolute top-2 right-2">
-                    <button className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors">
+                    <button className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors" aria-label="Add to watchlist">
                       <Heart className="h-4 w-4" />
                     </button>
                   </div>
@@ -635,7 +637,7 @@ const ModernIndex = () => {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Marketplace</h4>
+              <h3 className="font-semibold mb-4">Marketplace</h3>
               <div className="space-y-2">
                 <Link to="/browse" className="footer-link">Browse Lots</Link>
                 <Link to="/categories" className="footer-link">Categories</Link>
@@ -645,7 +647,7 @@ const ModernIndex = () => {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Popular Cities</h4>
+              <h3 className="font-semibold mb-4">Popular Cities</h3>
               <div className="space-y-2">
                 <Link to="/r/seattle" className="footer-link">Seattle</Link>
                 <Link to="/r/los-angeles" className="footer-link">Los Angeles</Link>
@@ -656,7 +658,7 @@ const ModernIndex = () => {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Selling</h4>
+              <h3 className="font-semibold mb-4">Selling</h3>
               <div className="space-y-2">
                 <Link to="/seller/apply" className="footer-link">Apply to Sell</Link>
                 <Link to="/dashboard/seller" className="footer-link">Seller Dashboard</Link>
@@ -666,7 +668,7 @@ const ModernIndex = () => {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
+              <h3 className="font-semibold mb-4">Support</h3>
               <div className="space-y-2">
                 <Link to="/help" className="footer-link">Help Center</Link>
                 <Link to="/contact" className="footer-link">Contact Us</Link>
