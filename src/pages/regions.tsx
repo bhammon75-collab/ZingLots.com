@@ -15,6 +15,9 @@ const Regions = () => {
   const letters = useMemo(() => Object.keys(grouped).sort(), [grouped]);
   const metrics = useMemo<RegionMetrics | null>(() => getRegionMetrics(), []);
 
+  const siteKey = (import.meta as any)?.env?.VITE_HCAPTCHA_SITE_KEY as string | undefined;
+  const [token, setToken] = useState<string | null>(null);
+
   const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
     const valid = /.+@.+\..+/.test(email);
@@ -22,11 +25,15 @@ const Regions = () => {
       toast.error("Please enter a valid email address");
       return;
     }
+    if (siteKey && !token) {
+      toast.error("Please complete the captcha");
+      return;
+    }
     try {
       const res = await fetch("/functions/v1/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, token }),
       });
       if (!res.ok) throw new Error("Request failed");
       const body = await res.json();
@@ -34,6 +41,7 @@ const Regions = () => {
         toast.success("You're on the list. We'll email you when we launch nearby.");
         analytics.track({ category: 'Engagement', action: 'waitlist_submit', label: email });
         setEmail("");
+        setToken(null);
       } else throw new Error("Bad response");
     } catch {
       toast.error("Something went wrong. Please try again later.");
@@ -109,6 +117,15 @@ const Regions = () => {
             <Input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="you@example.com" required aria-label="Email address" />
             <Button type="submit" className="bg-red-600 text-white hover:bg-red-700">Join Waitlist</Button>
           </form>
+          {siteKey && (
+            <div className="mt-3">
+              {/* Minimal hCaptcha widget placeholder: integrate real widget in production */}
+              <button type="button" className="rounded border px-3 py-1 text-sm" onClick={()=>setToken(Math.random().toString(36).slice(2))} aria-label="Simulate captcha">
+                I'm not a robot (simulate)
+              </button>
+              {token && <span className="ml-2 text-xs text-green-600">verified</span>}
+            </div>
+          )}
         </section>
       </div>
     </div>

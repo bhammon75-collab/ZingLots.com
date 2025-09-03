@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { rateLimit } from "../_utils/security.ts";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
@@ -19,11 +20,17 @@ serve(async (req) => {
   }
 
   try {
-    const idempotencyKey = req.headers.get('x-idempotency-key') || '';
+    const idempotencyKey = req.headers.get('x-idempotency-key') || req.headers.get('idempotency-key') || '';
     const origin = req.headers.get('origin') || '';
     const site = Deno.env.get('SITE_URL') || '';
     if (site && origin && !origin.startsWith(site)) {
       return new Response(JSON.stringify({ error: 'Forbidden origin' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 403 });
+    }
+
+    // Rate limit by origin/IP (simple)
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    if (!rateLimit(`${origin}:${ip}:proxy-bid`, 60, 60_000)) {
+      return new Response(JSON.stringify({ error: 'Rate limit' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 });
     }
 
     const body = await req.json();
@@ -42,7 +49,7 @@ serve(async (req) => {
     if (!supabaseUrl || !supabaseKey) throw new Error("Missing Supabase env");
     const supabase = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false } });
 
-    // TODO: enforce idempotency (e.g., record recent keys per user/lot with TTL) — stub accept
+    // TODO: enforce idempotency persistence — accept header for now; return 409 on duplicate if needed
 
     // Upsert proxy
     const { error: upErr } = await supabase

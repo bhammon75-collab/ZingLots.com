@@ -95,6 +95,7 @@ const App = () => (
                   <Route path="/lot/:id" element={<ModernProductDetail />} />
                   <Route path="/classic-lot/:id" element={<ProductDetail />} />
                   <Route path="/browse" element={<Browse />} />
+                  <Route path="/auctions" element={<Browse />} />
                   <Route path="/region-page" element={<RegionPage />} />
                   <Route path="/regions" element={<Regions />} />
                   <Route path="/state/:state" element={<StatePage />} />

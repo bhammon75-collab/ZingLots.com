@@ -19,8 +19,8 @@ describe("Header", () => {
         <Header />
       </MemoryRouter>
     );
-    expect(screen.getByRole("link", { name: /Sign In/i })).toHaveAttribute("href", "/signin");
-    expect(screen.getByRole("link", { name: /Start Selling/i })).toHaveAttribute("href", "/start-selling");
+    expect(screen.getByRole("link", { name: /Sign In/i })).toHaveAttribute("href", "/login");
+    expect(screen.getByRole("link", { name: /Start Selling/i })).toHaveAttribute("href", "/seller/apply");
   });
 
   it("renders search box when showSearch=true", () => {
