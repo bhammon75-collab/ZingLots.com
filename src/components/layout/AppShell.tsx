@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import CookieConsent from "@/components/layout/CookieConsent";
 import { useLocation } from "react-router-dom";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -16,6 +17,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <Header showSearch={isHome} />
       <main id="main" className="min-h-screen bg-background">{children}</main>
       <Footer />
+      <CookieConsent />
     </>
   );
 }

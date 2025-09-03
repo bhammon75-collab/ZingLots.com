@@ -1,4 +1,55 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const corsHeaders: Record<string, string> = {
+  "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-idempotency-key",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method !== "POST") return new Response("Method not allowed", { headers: corsHeaders, status: 405 });
+  try {
+    const site = Deno.env.get('SITE_URL') || '';
+    const origin = req.headers.get('origin') || '';
+    if (site && origin && !origin.startsWith(site)) return new Response(JSON.stringify({ error: 'Forbidden origin' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 403 });
+
+    const idemp = req.headers.get('x-idempotency-key') || '';
+    // TODO: enforce idempotency via storage
+
+    const body = await req.json();
+    const lotId = String(body?.lotId || '');
+    const amount = Number(body?.amount);
+    if (!lotId || !Number.isFinite(amount) || amount <= 0) return new Response(JSON.stringify({ error: 'Invalid input' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 });
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supabaseUrl || !supabaseKey) throw new Error("Missing Supabase env");
+    const supabase = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false } });
+
+    // Validate step
+    const { data: priceRow } = await supabase.from('lot_prices').select('*').eq('lot_id', lotId).maybeSingle();
+    const current = Number(priceRow?.current_price || 0);
+    const incRes = await supabase.rpc('compute_increment', { p_price: current });
+    const step = Number(incRes?.data || 1);
+    const minNext = current + step;
+    if (amount < minNext) return new Response(JSON.stringify({ error: 'Under minimum' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 });
+
+    // Accept bid: update price
+    await supabase.from('lot_prices').upsert({ lot_id: lotId, current_price: amount, updated_at: new Date().toISOString() });
+
+    // Trigger anti-snipe extend if needed
+    const nowIso = new Date().toISOString();
+    await supabase.rpc('extend_lot_if_needed', { p_lot_id: lotId, p_now: nowIso });
+
+    return new Response(JSON.stringify({ ok: true, currentPrice: amount }), { headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-idempotency-key': idemp }, status: 200 });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: (e as Error).message }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 });
+  }
+});
+
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.55.0";
 
 const corsHeaders = {
