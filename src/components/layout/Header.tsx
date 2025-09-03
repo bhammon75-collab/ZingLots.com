@@ -1,28 +1,40 @@
-import Brand from "../Brand";
-import { NavLink } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
-export default function Header() {
-	const location = useLocation();
-	if (location.pathname === "/") return null;
-	const isHelpRoute = location.pathname === "/help" || location.pathname === "/contact" || location.pathname.startsWith("/help");
-	const isDiscoverRoute = location.pathname === "/discover";
-	return (
-		<header className="relative bg-white">
-			<div className="mx-auto max-w-screen-2xl h-16 px-4 flex items-center justify-between">
-				<Brand variant="header" className="shrink-0" />
+interface HeaderProps {
+  showSearch?: boolean;
+}
 
-				<nav className="hidden md:flex items-center gap-6 text-[15px]">
-					{import.meta.env.DEV && <NavLink to="/discover" className="hover:opacity-80">Discover</NavLink>}
-					<NavLink to="/pricing" className="hover:opacity-80">Pricing</NavLink>
-					{!isHelpRoute && (
-						<NavLink to="/help" className="hover:opacity-80">Help & Contact</NavLink>
-					)}
-					<NavLink to="/seller/apply" className="ml-2 rounded-full bg-brand-primary px-4 py-2 text-white hover:bg-brand-dark transition">
-						Start Selling
-					</NavLink>
-				</nav>
-			</div>
-		</header>
-	);
+export default function Header({ showSearch = false }: HeaderProps) {
+  return (
+    <header className="w-full border-b border-gray-200 bg-white">
+      <div className="mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-3">
+        {/* Left: Logo */}
+        <Link to="/" className="text-xl font-bold tracking-tight text-gray-900">
+          ZingLots.com
+        </Link>
+
+        {/* Center: Search (optional, home only) */}
+        {showSearch && (
+          <div className="mx-6 flex-1 max-w-lg">
+            <input
+              type="search"
+              placeholder="Search auctions..."
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            />
+          </div>
+        )}
+
+        {/* Right: Auth + CTA */}
+        <div className="flex items-center gap-3">
+          <Link to="/signin">
+            <Button variant="ghost">Sign In</Button>
+          </Link>
+          <Link to="/start-selling">
+            <Button className="bg-red-600 text-white hover:bg-red-700">Start Selling</Button>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
 }

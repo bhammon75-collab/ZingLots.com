@@ -137,6 +137,41 @@ const ModernProductDetail = () => {
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.images?.[0]} />
         <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.title,
+          "description": product.description,
+          "image": product.images?.slice(0,3),
+          "brand": { "@type": "Organization", "name": "ZingLots" },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "price": product.currentBid?.toFixed?.(2) || String(product.currentBid ?? 0),
+            "availability": "https://schema.org/InStock",
+            "url": id ? `https://www.zinglots.com/lot/${id}` : undefined
+          },
+          "seller": { "@type": "Organization", "name": "ZingLots" },
+          "@graph": [
+            {
+              "@type": "Organization",
+              "name": "ZingLots",
+              "url": "https://www.zinglots.com"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.zinglots.com/" },
+                { "@type": "ListItem", "position": 2, "name": product.category, "item": `https://www.zinglots.com/category/${(product.category||'').toLowerCase().replace(/\s+/g,'-')}` },
+                { "@type": "ListItem", "position": 3, "name": product.title, "item": id ? `https://www.zinglots.com/lot/${id}` : undefined }
+              ]
+            },
+            {
+              "@type": "Place",
+              "name": product.location || "United States"
+            }
+          ]
+        })}</script>
       </Helmet>
 
       

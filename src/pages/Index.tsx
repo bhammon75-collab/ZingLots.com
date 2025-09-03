@@ -137,7 +137,7 @@ const Index = () => {
         </script>
       </Helmet>
 
-      <Header />
+      <Header showSearch />
       {showDev && (<>
         <StripeOnboardSmokeTest />
         <PayPalSmokeTest />

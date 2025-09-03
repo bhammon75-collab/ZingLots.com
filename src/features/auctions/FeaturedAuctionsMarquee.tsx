@@ -80,7 +80,7 @@ export default function FeaturedAuctionsMarquee({
       <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
 
-      <div
+      <ul
         ref={trackRef}
         className="flex items-stretch will-change-transform"
         style={{ gap: `${gapPx}px` }}
@@ -88,14 +88,15 @@ export default function FeaturedAuctionsMarquee({
         aria-live="polite"
       >
         {doubled.map((a, i) => (
-          <AuctionCard
-            key={`${a.id}-${i}`}
-            a={a}
-            width={cardWidth}
-            ariaHidden={i >= items.length}
-          />
+          <li key={`${a.id}-${i}`} role="listitem" aria-hidden={i >= items.length}>
+            <AuctionCard
+              a={a}
+              width={cardWidth}
+              ariaHidden={i >= items.length}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div className="absolute right-3 top-3 hidden gap-2 md:flex">
         <button className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-sm font-medium shadow-sm"
@@ -120,7 +121,6 @@ function AuctionCard({
 
   return (
     <a
-      role="listitem"
       aria-hidden={ariaHidden}
       tabIndex={ariaHidden ? -1 : 0}
       href={a.href}

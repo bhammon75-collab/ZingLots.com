@@ -39,6 +39,13 @@ const ExplorePage = lazy(() => import("./pages/explore"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
 const Security = lazy(() => import("./pages/Security"));
+const TrustVerified = lazy(() => import("./pages/trust/VerifiedAuctioneers"));
+const TrustPayments = lazy(() => import("./pages/trust/Payments"));
+const TrustLive = lazy(() => import("./pages/trust/LiveAuctions"));
+const LegalTerms = lazy(() => import("./pages/legal/Terms"));
+const LegalPrivacy = lazy(() => import("./pages/legal/Privacy"));
+const LegalDisputes = lazy(() => import("./pages/legal/Disputes"));
+const LegalLogistics = lazy(() => import("./pages/legal/Logistics"));
 
 // B2B Marketplace Pages
 const RegionPage = lazy(() => import("./pages/RegionPage"));
@@ -127,8 +134,14 @@ const App = () => (
                   <Route path="/help" element={<Help />} />
                   <Route path="/pricing" element={<PricingPage />} />
                   {/* Legal and Support Pages */}
-                  <Route path="/terms" element={<div className="p-6">Terms coming soon.</div>} />
-                  <Route path="/privacy" element={<div className="p-6">Privacy Policy coming soon.</div>} />
+                  {/* Trust & Legal */}
+                  <Route path="/trust/verified-auctioneers" element={<TrustVerified />} />
+                  <Route path="/trust/payments" element={<TrustPayments />} />
+                  <Route path="/trust/live-auctions" element={<TrustLive />} />
+                  <Route path="/legal/terms" element={<LegalTerms />} />
+                  <Route path="/legal/privacy" element={<LegalPrivacy />} />
+                  <Route path="/legal/disputes" element={<LegalDisputes />} />
+                  <Route path="/legal/logistics" element={<LegalLogistics />} />
                   <Route path="/contact" element={<Help />} />
                   <Route path="/help/selling" element={<Help />} />
                   <Route path="/accessibility" element={<Accessibility />} />

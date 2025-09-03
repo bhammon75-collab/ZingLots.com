@@ -1,6 +1,10 @@
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { useLocation } from "react-router-dom";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   return (
     <>
       <a
@@ -9,8 +13,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       >
         Skip to content
       </a>
-      <Header />
+      <Header showSearch={isHome} />
       <main id="main" className="min-h-screen bg-background">{children}</main>
+      <Footer />
     </>
   );
 }
