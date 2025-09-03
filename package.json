@@ -21,6 +21,7 @@
     "ci:typecheck": "tsc --noEmit",
     "ci:lint": "eslint .",
     "ci:build": "vite build",
+    "perf:lighthouse": "lighthouse http://localhost:5173 --config-path=scripts/lighthouse.config.js",
     "generate:icons": "node scripts/generate-icons.mjs",
     "fetch:pexels": "node scripts/fetch-pexels-images.mjs"
   },

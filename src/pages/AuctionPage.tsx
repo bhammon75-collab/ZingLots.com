@@ -68,10 +68,15 @@ export default function AuctionPage(){
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (isValid) {
+        const before = timing?.endAt;
         setCurrentPrice(parsed);
         setBidInput("");
-        // trigger potential anti-snipe extension if inside window
-        fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).finally(handleSync);
+        fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).then(async r=>{
+          const t = await r.json();
+          if (before && t?.endAt && new Date(t.endAt).getTime() > new Date(before).getTime()) {
+            console.log('Closing time extended for fairness');
+          }
+        }).finally(handleSync);
       }
     }
   };
@@ -151,7 +156,7 @@ export default function AuctionPage(){
                 />
                 <button
                   className="rounded bg-red-600 px-4 py-2 text-white text-sm disabled:opacity-50"
-                  onClick={()=>{ if(isValid){ setCurrentPrice(parsed); analytics.trackBid(id, parsed); setBidInput(""); fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).finally(handleSync); }}}
+                  onClick={()=>{ if(isValid){ const before = timing?.endAt; setCurrentPrice(parsed); analytics.trackBid(id, parsed); setBidInput(""); fetch(`/functions/v1/lot-timing?lotId=${encodeURIComponent(id)}&extend=1`).then(async r=>{ const t = await r.json(); if (before && t?.endAt && new Date(t.endAt).getTime() > new Date(before).getTime()) { console.log('Closing time extended for fairness'); } }).finally(handleSync); }}}
                   disabled={!isValid}
                 >
                   Place Bid

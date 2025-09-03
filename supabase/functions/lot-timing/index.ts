@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
@@ -15,38 +16,48 @@ serve(async (req) => {
   const extend = url.searchParams.get("extend") === "1";
 
   try {
-    // In-memory stub store (per function instance)
-    // For demo purposes only; real impl uses DB with row-level locking
-    // deno-lint-ignore no-explicit-any
-    const store = (globalThis as any).__LOT_TIMING__ || ((globalThis as any).__LOT_TIMING__ = new Map<string, { endAt: number; extensionsUsed: number }>());
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supabaseUrl || !supabaseKey) throw new Error("Missing Supabase env");
+    const supabase = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false } });
 
-    const now = new Date();
-    const windowSec = 120;
-    const maxExt = 5;
-    const extendByMs = 2 * 60 * 1000; // 2 minutes per extension
+    const nowIso = new Date().toISOString();
 
-    let record = store.get(lotId);
-    if (!record) {
-      record = { endAt: now.getTime() + 10 * 60 * 1000, extensionsUsed: 0 };
-      store.set(lotId, record);
-    }
+    let endAtIso = nowIso;
+    let extensionsUsed = 0;
+    let antiSnipeWindowSec = 120;
+    let maxExtensions = 5;
 
-    // Anti-snipe extend when requested and within window
-    if (extend && record.extensionsUsed < maxExt) {
-      const remainingMs = record.endAt - now.getTime();
-      if (remainingMs <= windowSec * 1000) {
-        record.endAt = now.getTime() + extendByMs;
-        record.extensionsUsed += 1;
+    if (extend) {
+      // Use transactional helper to extend if needed
+      const { data, error } = await supabase.rpc('extend_lot_if_needed', { p_lot_id: lotId, p_now: nowIso });
+      if (error) throw error;
+      endAtIso = data.end_at;
+      extensionsUsed = data.extensions_used;
+      antiSnipeWindowSec = data.anti_snipe_window_sec;
+      maxExtensions = data.max_extensions;
+    } else {
+      // Read current timing
+      const { data, error } = await supabase.from('lot_closing').select('*').eq('lot_id', lotId).maybeSingle();
+      if (error) throw error;
+      if (data) {
+        endAtIso = data.end_at;
+        extensionsUsed = data.extensions_used;
+        antiSnipeWindowSec = data.anti_snipe_window_sec;
+        maxExtensions = data.max_extensions;
+      } else {
+        // default seed if missing
+        endAtIso = new Date(Date.now() + 10 * 60 * 1000).toISOString();
       }
     }
 
     const payload = {
       lotId,
-      endAt: new Date(record.endAt).toISOString(),
-      serverNow: now.toISOString(),
-      antiSnipeWindowSec: windowSec,
-      maxExtensions: maxExt,
-      extensionsUsed: record.extensionsUsed,
+      endAt: endAtIso,
+      serverNow: nowIso,
+      antiSnipeWindowSec,
+      maxExtensions,
+      extensionsUsed,
     };
 
     return new Response(JSON.stringify(payload), {
