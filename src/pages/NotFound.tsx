@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { analytics } from "@/lib/analytics";
 
 const NotFound = () => {
@@ -29,9 +30,9 @@ const NotFound = () => {
         <div className="text-center">
           <h1 className="text-6xl font-extrabold">404</h1>
           <p className="mt-2 text-lg text-muted-foreground">Oops! Page not found</p>
-          <a href="/" className="mt-4 inline-block text-primary underline-offset-4 hover:underline">
+          <Link to="/" className="mt-4 inline-block text-primary underline-offset-4 hover:underline">
             Return to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
