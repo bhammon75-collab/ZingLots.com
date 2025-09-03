@@ -1,5 +1,6 @@
 // src/features/auctions/FeaturedAuctionsMarquee.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 export type AuctionPromo = {
   id: string;
@@ -120,10 +121,10 @@ function AuctionCard({
   const { label, urgent } = formatRemaining(remaining);
 
   return (
-    <a
+    <Link
       aria-hidden={ariaHidden}
       tabIndex={ariaHidden ? -1 : 0}
-      href={a.href}
+      to={a.href}
       className="group relative block shrink-0 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#E02020]/50"
       style={{ width }}
     >
@@ -145,7 +146,7 @@ function AuctionCard({
         <h3 className="line-clamp-2 text-base font-bold text-zinc-900">{a.title}</h3>
         <p className="text-sm text-zinc-600">{a.location}</p>
       </div>
-    </a>
+    </Link>
   );
 }
 
