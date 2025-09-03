@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay, Keyboard, A11y } from "swiper/modules";
 import { Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -79,8 +80,8 @@ export default function HeroShowcase({
             {slides.map((s) => (
               <SwiperSlide key={s.id}>
                 <div className={`mx-auto ${compact ? "max-w-5xl" : "max-w-6xl"}`}>
-                  <a
-                    href={s.href ?? "#"}
+                  <Link
+                    to={s.href ?? "#"}
                     className="block focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md"
                   >
                     {/* Layout: image left, copy right */}
@@ -111,14 +112,14 @@ export default function HeroShowcase({
                         )}
                         {s.ctaText && (
                           <div className="mt-6">
-                            <Button className={`rounded-xl ${compact ? "px-5 py-3 text-sm" : "px-6 py-5 text-base"}`}>
-                              {s.ctaText}
+                            <Button asChild className={`rounded-xl ${compact ? "px-5 py-3 text-sm" : "px-6 py-5 text-base"}`}>
+                              <Link to={s.href ?? "#"}>{s.ctaText}</Link>
                             </Button>
                           </div>
                         )}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
