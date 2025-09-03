@@ -1,26 +1,13 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Building2, UtensilsCrossed, Briefcase, Wrench, Heart, Home, Shirt, Dumbbell, Anvil, Diamond } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CATEGORIES } from "@/data/categories";
 
 const Categories = () => {
-  const categories = [
-    { id: "construction-materials", name: "Construction", icon: Building2, count: 342 },
-    { id: "restaurant-equipment", name: "Restaurant", icon: UtensilsCrossed, count: 189 },
-    { id: "office-furniture", name: "Office", icon: Briefcase, count: 156 },
-    { id: "municipal-surplus", name: "Municipal", icon: Wrench, count: 98 },
-    { id: "blacksmithing", name: "Blacksmithing", icon: Anvil, count: 24 },
-    { id: "jewelry-making", name: "Jewelry Making", icon: Diamond, count: 41 }
-  ];
-
-  const additionalCategories = [
-    { id: "medical-lab", name: "Medical & Lab", icon: Heart, count: 67 },
-    { id: "home-furniture", name: "Home Furniture", icon: Home, count: 89 },
-    { id: "apparel-textiles", name: "Apparel & Textiles", icon: Shirt, count: 45 },
-    { id: "fitness-sports", name: "Fitness & Sports", icon: Dumbbell, count: 78 }
-  ];
+  const categories = CATEGORIES;
+  const categoriesCount = categories.length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -42,7 +29,7 @@ const Categories = () => {
               <span className="text-gray-300 ml-2">Active Lots</span>
             </div>
             <div>
-              <span className="text-3xl font-bold">12</span>
+              <span className="text-3xl font-bold">{categoriesCount}</span>
               <span className="text-gray-300 ml-2">Categories</span>
             </div>
           </div>
@@ -53,33 +40,33 @@ const Categories = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((cat) => (
-            <Card key={cat.id} className="hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <cat.icon className="h-6 w-6 text-brand-red" />
+            <Card key={cat.slug} className="hover:shadow-lg transition overflow-hidden">
+              <div className="relative aspect-[4/3]">
+                <img
+                  src={`/categories/${cat.slug}.jpg`}
+                  alt={cat.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "/placeholder.jpg";
+                  }}
+                />
+              </div>
+              <CardContent className="p-4">
+                <div className="mb-3">
                   <h3 className="font-semibold">{cat.name}</h3>
-                  <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
                 </div>
+                {cat.children?.length ? (
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {cat.children.map((child) => (
+                      <Badge key={child.slug} variant="secondary" className="cursor-pointer" asChild>
+                        <Link to={`/category/${cat.slug}?sub=${encodeURIComponent(child.slug)}`}>{child.name}</Link>
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
                 <Button asChild variant="outline" className="w-full">
-                  <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <h2 className="text-2xl font-bold mt-12 mb-6">More Categories</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {additionalCategories.map((cat) => (
-            <Card key={cat.id} className="hover:shadow-lg transition">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <cat.icon className="h-6 w-6 text-brand-red" />
-                  <h3 className="font-semibold">{cat.name}</h3>
-                  <Badge variant="secondary" className="ml-auto">{cat.count}</Badge>
-                </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link to={`/category/${cat.id}`}>Browse {cat.name}</Link>
+                  <Link to={`/category/${cat.slug}`}>Browse {cat.name}</Link>
                 </Button>
               </CardContent>
             </Card>

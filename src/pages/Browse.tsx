@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+// Duplicate Helmet import removed
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,16 +26,21 @@ import {
   SortAsc,
   SortDesc
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import "../styles/modern-design.css";
 
 const Browse = () => {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [sortBy, setSortBy] = useState("ending-soon");
-  const [filterCategory, setFilterCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [viewMode, setViewMode] = useState<"grid" | "list">((searchParams.get("view") as any) || "grid");
+  const [sortBy, setSortBy] = useState(searchParams.get("sort") || "ending-soon");
+  const [filterCategory, setFilterCategory] = useState(searchParams.get("cat") || "all");
+  const [condition, setCondition] = useState(searchParams.get("cond") || "all");
+  const [priceMin, setPriceMin] = useState<string>(searchParams.get("priceMin") || "");
+  const [priceMax, setPriceMax] = useState<string>(searchParams.get("priceMax") || "");
+  const [distance, setDistance] = useState(searchParams.get("dist") || "any");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page") || 1));
 
   // Mock data for lots
   const allLots = [
@@ -146,13 +151,28 @@ const Browse = () => {
     { value: "nearest", label: "Nearest First" }
   ];
 
+  const syncParams = () => {
+    const params: Record<string, string> = {};
+    if (searchQuery) params.q = searchQuery;
+    if (filterCategory && filterCategory !== "all") params.cat = filterCategory;
+    if (condition && condition !== "all") params.cond = condition;
+    if (priceMin) params.priceMin = priceMin;
+    if (priceMax) params.priceMax = priceMax;
+    if (distance && distance !== "any") params.dist = distance;
+    if (sortBy) params.sort = sortBy;
+    if (viewMode) params.view = viewMode;
+    params.page = String(currentPage || 1);
+    setSearchParams(params, { replace: false });
+  };
+
   const itemsPerPage = 12;
   const totalPages = Math.ceil(allLots.length / itemsPerPage);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle search
-    console.log("Searching for:", searchQuery);
+    if (import.meta.env.DEV) console.log("Searching for:", searchQuery);
+    syncParams();
   };
 
   return (
@@ -185,6 +205,9 @@ const Browse = () => {
 
         {/* Filters and Search Bar */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="md:hidden mb-4">
+            <Button variant="outline" onClick={syncParams} className="w-full">Apply Filters</Button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             {/* Search */}
             <div className="md:col-span-5">
@@ -202,7 +225,7 @@ const Browse = () => {
 
             {/* Category Filter */}
             <div className="md:col-span-3">
-              <Select value={filterCategory} onValueChange={setFilterCategory}>
+              <Select value={filterCategory} onValueChange={(v)=>{ setFilterCategory(v); setCurrentPage(1); }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -212,6 +235,42 @@ const Browse = () => {
                       {cat.label}
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Condition Filter */}
+            <div className="md:col-span-2">
+              <Select value={condition} onValueChange={(v)=>{ setCondition(v); setCurrentPage(1); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Condition" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Conditions</SelectItem>
+                  <SelectItem value="new">New</SelectItem>
+                  <SelectItem value="used">Used</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Price Range */}
+            <div className="md:col-span-2 flex items-center gap-2">
+              <Input type="number" placeholder="Min $" value={priceMin} onChange={(e)=> setPriceMin(e.target.value)} />
+              <Input type="number" placeholder="Max $" value={priceMax} onChange={(e)=> setPriceMax(e.target.value)} />
+            </div>
+
+            {/* Distance */}
+            <div className="md:col-span-2">
+              <Select value={distance} onValueChange={(v)=>{ setDistance(v); setCurrentPage(1); }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Distance" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Any distance</SelectItem>
+                  <SelectItem value="10">Within 10 mi</SelectItem>
+                  <SelectItem value="25">Within 25 mi</SelectItem>
+                  <SelectItem value="50">Within 50 mi</SelectItem>
+                  <SelectItem value="100">Within 100 mi</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -252,21 +311,27 @@ const Browse = () => {
           </div>
 
           {/* Active Filters */}
-          <div className="flex items-center gap-2 mt-4">
+          <div className="flex items-center gap-2 mt-4 flex-wrap">
             <Filter className="h-4 w-4 text-gray-500" />
             <span className="text-sm text-gray-600">Active filters:</span>
             {filterCategory !== "all" && (
               <Badge variant="secondary" className="cursor-pointer hover:bg-gray-200">
                 {categories.find(c => c.value === filterCategory)?.label}
-                <button className="ml-1">×</button>
               </Badge>
+            )}
+            {condition !== "all" && (
+              <Badge variant="secondary">Condition: {condition}</Badge>
+            )}
+            {(priceMin || priceMax) && (
+              <Badge variant="secondary">Price: ${priceMin || 0} - ${priceMax || '∞'}</Badge>
+            )}
+            {distance !== "any" && (
+              <Badge variant="secondary">Distance: {distance} mi</Badge>
             )}
             {searchQuery && (
-              <Badge variant="secondary" className="cursor-pointer hover:bg-gray-200">
-                "{searchQuery}"
-                <button className="ml-1">×</button>
-              </Badge>
+              <Badge variant="secondary">"{searchQuery}"</Badge>
             )}
+            <Button variant="ghost" size="sm" onClick={()=>{ setFilterCategory("all"); setCondition("all"); setPriceMin(""); setPriceMax(""); setDistance("any"); setSortBy("ending-soon"); setSearchQuery(""); setCurrentPage(1); syncParams(); }}>Reset</Button>
           </div>
         </div>
 

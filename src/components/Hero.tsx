@@ -14,9 +14,11 @@ export function Hero() {
         <Link to="/browse" className="rounded-full bg-brand-primary px-5 py-3 text-white font-medium hover:bg-brand-dark transition">
           Browse auctions
         </Link>
-        <Link to="/discover" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
-          Ending soon
-        </Link>
+        {import.meta.env.DEV && (
+          <Link to="/discover" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
+            Ending soon
+          </Link>
+        )}
         <Link to="/seller/apply" className="rounded-full border border-line bg-white px-5 py-3 hover:shadow-sm transition">
           Sell now
         </Link>

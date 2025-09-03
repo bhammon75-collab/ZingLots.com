@@ -13,8 +13,7 @@ import PayPalSmokeTest from "@/components/PayPalSmokeTest";
 import { useState, useMemo } from "react";
 import { SearchBar } from "@/components/ui/search-bar";
 import { Building2, UtensilsCrossed, Briefcase, Wrench, MapPin, Truck, Shield, Clock } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+// Duplicate imports removed below
 import { Hero } from "@/components/Hero";
 
 // Helper for ItemList JSON-LD
@@ -34,7 +33,7 @@ const Index = () => {
   const [term, setTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("seattle");
 
-  const showDev = false; // Set to true to show dev components
+  const showDev = import.meta.env.DEV;
   
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -353,7 +352,7 @@ const Index = () => {
               <h4 className="font-semibold mb-4">Marketplace</h4>
               <div className="space-y-2 text-gray-400">
                 <Link to="/browse" className="block hover:text-white">Browse Lots</Link>
-                <Link to="/discover" className="block hover:text-white">Categories</Link>
+                {import.meta.env.DEV && <Link to="/discover" className="block hover:text-white">Categories</Link>}
                 <Link to="/regions" className="block hover:text-white">Regions</Link>
               </div>
             </div>

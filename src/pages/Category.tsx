@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import ZingNav from "@/components/ZingNav";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { DEMO_LOTS } from "@/data/demo";
 import { getCategoryBySlugOrAlias, canonicalizeCategorySlug, getSlugForCategoryName } from "@/data/categories";
 import LotCard from "@/components/LotCard";
@@ -8,9 +8,11 @@ import type { LotItem } from "@/components/LotCard";
 
 const Category = () => {
   const { slug } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const canonicalSlug = canonicalizeCategorySlug(slug) || undefined;
   const cat = getCategoryBySlugOrAlias(slug || null) || undefined;
   const title = cat?.name ?? "Category";
+  const sub = searchParams.get("sub") || undefined;
   const lots: LotItem[] = DEMO_LOTS.filter((l) => {
     const lotSlug = getSlugForCategoryName(l.category);
     return canonicalSlug ? lotSlug === canonicalSlug : false;
@@ -40,6 +42,22 @@ const Category = () => {
       <main className="container mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold">{title}</h1>
         <p className="mt-2 text-muted-foreground">Browse active and upcoming lots.</p>
+        {cat?.children?.length ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {cat.children.map((child) => {
+              const active = sub === child.slug;
+              return (
+                <Link
+                  key={child.slug}
+                  to={`/category/${cat.slug}?sub=${encodeURIComponent(child.slug)}`}
+                  className={`px-3 py-1.5 rounded-full border text-sm ${active ? 'bg-black text-white' : 'bg-white hover:bg-gray-50'}`}
+                >
+                  {child.name}
+                </Link>
+              );
+            })}
+          </div>
+        ) : null}
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {lots.map((item) => (
             <a href={`/product/${item.id}`} key={item.id} aria-label={item.title}>

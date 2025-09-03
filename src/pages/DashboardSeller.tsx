@@ -312,7 +312,7 @@ const DashboardSeller = () => {
                     <div className="font-medium">Order {o.id.slice(0,8)}…</div>
                     <div className="text-muted-foreground">Net due to you ${netDue(o)}{o.shipping_cents ? ` · Shipping $${(o.shipping_cents/100).toFixed(2)}` : ''}</div>
                     {o.shipping_tracking ? (
-                      <div className="text-muted-foreground">{o.shipping_carrier} · {o.shipping_tracking} {o.label_url && (<a href={o.label_url} target="_blank" rel="noreferrer" className="underline ml-2">View Label</a>)}</div>
+                      <div className="text-muted-foreground">{o.shipping_carrier} · {o.shipping_tracking} {o.label_url && (<a href={o.label_url} target="_blank" rel="noopener noreferrer" className="underline ml-2">View Label</a>)}</div>
                     ) : null}
                   </div>
                   {!o.shipping_tracking ? (
