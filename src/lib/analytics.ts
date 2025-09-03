@@ -11,10 +11,15 @@ interface AnalyticsEvent {
 class Analytics {
   private queue: AnalyticsEvent[] = [];
   private isInitialized = false;
+  private allowed = true;
 
   constructor() {
     // Initialize analytics on page load
     if (typeof window !== 'undefined') {
+      try {
+        const consent = localStorage.getItem('analytics_consent');
+        if (consent === 'false') this.allowed = false;
+      } catch {}
       this.init();
     }
   }
@@ -45,6 +50,7 @@ class Analytics {
   }
 
   private sendEvent(event: AnalyticsEvent) {
+    if (!this.allowed) return; // respect consent
     // Send to Google Analytics if available
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', event.action, {
@@ -78,6 +84,7 @@ class Analytics {
   }
 
   track(event: AnalyticsEvent) {
+    if (!this.allowed) return;
     if (this.isInitialized) {
       this.sendEvent(event);
     } else {
