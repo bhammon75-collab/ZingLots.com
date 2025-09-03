@@ -1,4 +1,5 @@
 import { Clock, Eye, Package, Star, TrendingUp, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export type AuctionData = {
   id: string;
@@ -57,8 +58,8 @@ export default function ProfessionalAuctionCard({ auction, distanceMiles }: { au
   const timeRemaining = getTimeRemaining(auction.ends_at);
   
   return (
-    <a 
-      href={`/auction/${auction.id}`}
+    <Link
+      to={`/auction/${auction.id}`}
       className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all duration-200"
     >
       {/* Image Container */}
@@ -156,6 +157,6 @@ export default function ProfessionalAuctionCard({ auction, distanceMiles }: { au
           </div>
         )}
       </div>
-    </a>
+    </Link>
   );
 }
