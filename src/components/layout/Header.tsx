@@ -27,10 +27,10 @@ export default function Header({ showSearch = false }: HeaderProps) {
 
         {/* Right: Auth + CTA */}
         <div className="flex items-center gap-3">
-          <Link to="/signin">
+          <Link to="/login">
             <Button variant="ghost">Sign In</Button>
           </Link>
-          <Link to="/start-selling">
+          <Link to="/seller/apply">
             <Button className="bg-red-600 text-white hover:bg-red-700">Start Selling</Button>
           </Link>
         </div>

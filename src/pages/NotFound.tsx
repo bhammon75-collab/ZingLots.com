@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { analytics } from "@/lib/analytics";
 
 const NotFound = () => {
   const location = useLocation();
@@ -10,6 +11,12 @@ const NotFound = () => {
       "404 Error: User attempted to access non-existent route:",
       location.pathname
     );
+    analytics.track({
+      category: 'Navigation',
+      action: 'route_404',
+      label: location.pathname,
+      metadata: { path: location.pathname }
+    });
   }, [location.pathname]);
 
   return (

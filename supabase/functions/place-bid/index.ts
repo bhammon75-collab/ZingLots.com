@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { rateLimit } from "../_utils/security.ts";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": Deno.env.get("SITE_URL") ?? "*",
@@ -15,13 +16,16 @@ serve(async (req) => {
     const origin = req.headers.get('origin') || '';
     if (site && origin && !origin.startsWith(site)) return new Response(JSON.stringify({ error: 'Forbidden origin' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 403 });
 
-    const idemp = req.headers.get('x-idempotency-key') || '';
+    const idemp = req.headers.get('x-idempotency-key') || req.headers.get('idempotency-key') || '';
     // TODO: enforce idempotency via storage
 
     const body = await req.json();
     const lotId = String(body?.lotId || '');
     const amount = Number(body?.amount);
     if (!lotId || !Number.isFinite(amount) || amount <= 0) return new Response(JSON.stringify({ error: 'Invalid input' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 });
+
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    if (!rateLimit(`${origin}:${ip}:place-bid`, 60, 60_000)) return new Response(JSON.stringify({ error: 'Rate limit' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 429 });
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");

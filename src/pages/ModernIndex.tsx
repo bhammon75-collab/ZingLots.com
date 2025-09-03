@@ -659,7 +659,7 @@ const ModernIndex = () => {
                 <Link to="/browse" className="footer-link">Browse Lots</Link>
                 <Link to="/categories" className="footer-link">Categories</Link>
                 <Link to="/regions" className="footer-link">All Regions</Link>
-                <Link to="/discover" className="footer-link">Discover</Link>
+                {import.meta.env.DEV && <Link to="/discover" className="footer-link">Discover</Link>}
               </div>
             </div>
             
@@ -689,12 +689,12 @@ const ModernIndex = () => {
               <div className="space-y-2">
                 <Link to="/help" className="footer-link">Help Center</Link>
                 <Link to="/contact" className="footer-link">Contact Us</Link>
-                <Link to="/terms" className="footer-link">Terms of Service</Link>
-                <Link to="/privacy" className="footer-link">Privacy Policy</Link>
-                <Link to="/buyer-protection" className="footer-link">Buyer Protection</Link>
-                <Link to="/secure-payments" className="footer-link">Secure Payments</Link>
-                <Link to="/disputes" className="footer-link">Dispute Resolution</Link>
-                <Link to="/logistics" className="footer-link">Logistics & Handoff Guidance</Link>
+                <Link to="/legal/terms" className="footer-link">Terms of Service</Link>
+                <Link to="/legal/privacy" className="footer-link">Privacy Policy</Link>
+                <Link to="/help" className="footer-link">Buyer Protection</Link>
+                <Link to="/trust/payments" className="footer-link">Secure Payments</Link>
+                <Link to="/legal/disputes" className="footer-link">Dispute Resolution</Link>
+                <Link to="/legal/logistics" className="footer-link">Logistics & Handoff Guidance</Link>
               </div>
             </div>
           </div>

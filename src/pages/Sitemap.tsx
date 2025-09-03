@@ -28,8 +28,8 @@ const Sitemap = () => {
       links: [
         { name: "Home", path: "/", description: "Main landing page" },
         { name: "Browse All", path: "/browse", description: "View all available lots" },
-        { name: "Discover", path: "/discover", description: "Explore featured items" },
-        { name: "Trending", path: "/explore", description: "See what's popular" },
+        ...(import.meta.env.DEV ? [{ name: "Discover", path: "/discover", description: "Explore featured items" }] : []),
+        ...(import.meta.env.DEV ? [{ name: "Trending", path: "/explore", description: "See what's popular" }] : []),
         { name: "Pricing", path: "/pricing", description: "Our fee structure" }
       ]
     },
@@ -104,8 +104,8 @@ const Sitemap = () => {
       title: "Legal & Policies",
       icon: Shield,
       links: [
-        { name: "Terms of Service", path: "/terms", description: "Usage terms" },
-        { name: "Privacy Policy", path: "/privacy", description: "Data protection" },
+        { name: "Terms of Service", path: "/legal/terms", description: "Usage terms" },
+        { name: "Privacy Policy", path: "/legal/privacy", description: "Data protection" },
         { name: "Security", path: "/security", description: "Platform security" },
         { name: "Accessibility", path: "/accessibility", description: "Accessibility info" }
       ]
