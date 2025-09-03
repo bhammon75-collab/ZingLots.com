@@ -96,7 +96,13 @@ export default function AuctionPage(){
           <Link to="/">Home</Link> &nbsp;›&nbsp; <Link to="/auctions">Auctions</Link> &nbsp;›&nbsp; {id}
         </nav>
 
-        {state.loading && <p className="text-subtle">Loading auction…</p>}
+        {state.loading && (
+          <div className="space-y-3" aria-busy="true">
+            <div className="h-6 w-2/3 bg-gray-200 animate-pulse rounded" />
+            <div className="h-4 w-1/2 bg-gray-200 animate-pulse rounded" />
+            <div className="h-40 w-full bg-gray-200 animate-pulse rounded" />
+          </div>
+        )}
 
         {state.error && (<><h1>{title}</h1><p style={{ color:"crimson" }}>Couldn't load this auction. Please try again later.</p></>)}
 
