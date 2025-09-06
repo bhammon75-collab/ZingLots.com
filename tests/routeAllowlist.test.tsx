@@ -8,7 +8,7 @@ import { MemoryRouter } from "react-router-dom";
 // Guardrail test: update this allowlist when adding new routes or footer links.
 const ALLOWLIST = new RegExp(
   // eslint-disable-next-line no-useless-escape
-  '^\/(|login|seller\/apply|browse|auctions|regions|help|pricing|legal\/(terms|privacy|disputes|logistics)|trust\/(payments|verified-auctioneers|live-auctions)|auction\/active|sitemap)$'
+  '^\/(|login|seller\/apply|browse|auctions|regions|help(\/non-payment-and-pickup)?|pricing|about|verify-sellers|legal\/(terms|privacy|disputes|logistics)|trust\/(payments|verified-auctioneers|live-auctions)|auction\/active|sitemap)$'
 );
 
 describe("route allowlist", () => {

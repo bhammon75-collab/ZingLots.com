@@ -32,6 +32,7 @@ export function SellerBadge({
   className,
 }: SellerBadgeProps) {
   const isPro = level === "pro";
+  const id = React.useId();
 
   const Icon = isPro ? ShieldCheck : CheckCircle2;
   const label = isPro ? "Pro Seller" : "Verified SME";
@@ -49,11 +50,11 @@ export function SellerBadge({
           <Badge
             variant="secondary"
             className={cn(
-              "rounded-2xl px-2 py-0.5 text-[11px] font-medium",
+              "badge--seller rounded-2xl px-2 py-0.5 text-[11px] font-medium",
               isPro ? "border-emerald-600/50" : "border-slate-300",
               className
             )}
-            aria-describedby="seller-badge-info"
+            aria-describedby={`${id}-seller-badge-info`}
             data-testid="seller-badge"
           >
             <Icon className="h-3.5 w-3.5" aria-hidden="true" />
@@ -64,7 +65,7 @@ export function SellerBadge({
       </HoverCardTrigger>
 
       <HoverCardContent
-        id="seller-badge-info"
+        id={`${id}-seller-badge-info`}
         align="start"
         sideOffset={6}
         className="w-80 text-sm leading-relaxed"

@@ -21,6 +21,7 @@ const Help = () => {
               <li>How bidding and Extended bidding work</li>
               <li>Buy Now checkout and payment options</li>
               <li>Returns and refunds</li>
+              <li><a className="underline" href="/verify-sellers">How we verify sellers</a></li>
             </ul>
           </article>
           <article className="rounded-lg border bg-card p-5">
@@ -29,6 +30,7 @@ const Help = () => {
               <li>Create a listing and set pricing</li>
               <li>Coordinate pickup and delivery</li>
               <li>Seller fees and payouts</li>
+              <li><a className="underline" href="/verify-sellers">How we verify sellers</a></li>
             </ul>
           </article>
           <article className="rounded-lg border bg-card p-5">

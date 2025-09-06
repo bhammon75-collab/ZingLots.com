@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440" height="360" viewBox="0 0 1440 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">ZingLots — trusted surplus marketplace</title>
+  <desc id="desc">Abstract warehouse with boxes, a location pin, a shield for trust, and dotted paths representing logistics and auctions.</desc>
+
+  <!-- theme vars (tweak inline or via CSS that targets <img> as background) -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EEF2FF"/>
+      <stop offset="1" stop-color="#F8FAFC"/>
+    </linearGradient>
+    <pattern id="dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#CBD5E1"/>
+    </pattern>
+  </defs>
+
+  <!-- soft bg -->
+  <rect width="1440" height="360" fill="url(#bg)"/>
+  <rect x="0" y="260" width="1440" height="100" fill="url(#dots)" opacity="0.25"/>
+
+  <!-- guideline curve -->
+  <path d="M80 240 C 280 180, 540 300, 760 220 S 1180 160, 1360 220"
+        stroke="#94A3B8" stroke-width="2" stroke-dasharray="4 8" fill="none" vector-effect="non-scaling-stroke"/>
+
+  <!-- warehouse -->
+  <g transform="translate(220,90)" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 80 L160 0 L320 80" fill="none"/>
+    <rect x="8" y="80" width="304" height="140" rx="8" fill="white"/>
+    <!-- door -->
+    <rect x="130" y="120" width="60" height="100" fill="#F8FAFC"/>
+    <!-- shelves + boxes -->
+    <rect x="36" y="120" width="70" height="50" rx="4" fill="#FFFFFF"/>
+    <rect x="216" y="120" width="70" height="50" rx="4" fill="#FFFFFF"/>
+    <rect x="36" y="182" width="70" height="26" rx="4" fill="#FFFFFF"/>
+    <rect x="216" y="182" width="70" height="26" rx="4" fill="#FFFFFF"/>
+    <path d="M36 176 H286" stroke="#E2E8F0"/>
+    <path d="M36 116 H286" stroke="#E2E8F0"/>
+    <!-- barcode on a box -->
+    <rect x="228" y="130" width="16" height="10" fill="#0F172A" opacity="0.08"/>
+  </g>
+
+  <!-- location pin -->
+  <g transform="translate(910,110)" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 110 C 20 80, 0 60, 0 35 a35 35 0 0 1 70 0 c0 25-20 45-50 75Z" fill="#FFFFFF"/>
+    <circle cx="35" cy="35" r="10" fill="#EF4444" stroke="#EF4444"/>
+  </g>
+
+  <!-- shield (trust) -->
+  <g transform="translate(1080,70)" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M48 0 L96 12 v42 c0 32-20 52-48 64 C20 106 0 86 0 54 V12 L48 0Z" fill="#FFFFFF"/>
+    <path d="M26 56 l14 14 l30-32" stroke="#10B981" fill="none"/>
+  </g>
+
+  <!-- tag/price (auction cue, generic) -->
+  <g transform="translate(820,220)" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 20 L28 0 H88 a8 8 0 0 1 8 8 v24 a8 8 0 0 1-8 8 H28 L0 20Z" fill="#FFFFFF"/>
+    <circle cx="30" cy="20" r="3" fill="#0F172A"/>
+  </g>
+</svg>
+
