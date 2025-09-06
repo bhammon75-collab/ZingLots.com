@@ -26,7 +26,6 @@ const featuredRegions = ["new-york", "los-angeles", "chicago", "houston"];
 const Regions = () => {
   const totalActive = regions.reduce((sum, r) => sum + r.active, 0);
   const featured = regions.filter(r => featuredRegions.includes(r.slug));
-  const other = regions.filter(r => !featuredRegions.includes(r.slug));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -79,8 +78,8 @@ const Regions = () => {
             {/* Stats */}
             <div className="flex justify-center gap-8 md:gap-12">
               <div>
-                <div className="text-3xl font-bold">{totalActive}</div>
-                <div className="text-sm text-blue-200">Active Auctions</div>
+                <div className="text-3xl font-bold">{featured.length}</div>
+                <div className="text-sm text-blue-200">Featured Markets</div>
               </div>
               <div>
                 <div className="text-3xl font-bold">{regions.length}</div>
