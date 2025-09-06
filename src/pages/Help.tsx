@@ -21,6 +21,7 @@ const Help = () => {
               <li>How bidding and Extended bidding work</li>
               <li>Buy Now checkout and payment options</li>
               <li>Returns and refunds</li>
+              <li><a className="underline" href="/verify-sellers">How we verify sellers</a></li>
             </ul>
           </article>
           <article className="rounded-lg border bg-card p-5">
@@ -29,6 +30,7 @@ const Help = () => {
               <li>Create a listing and set pricing</li>
               <li>Coordinate pickup and delivery</li>
               <li>Seller fees and payouts</li>
+              <li><a className="underline" href="/verify-sellers">How we verify sellers</a></li>
             </ul>
           </article>
           <article className="rounded-lg border bg-card p-5">
@@ -39,6 +41,15 @@ const Help = () => {
               <li>Contact support: support@zinglots.com</li>
             </ul>
           </article>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold">Articles</h2>
+          <ul className="mt-3 list-disc list-inside text-sm">
+            <li>
+              <a className="text-blue-600 hover:underline" href="/help/non-payment-and-pickup">Non-payment & Pickup Deadlines</a>
+            </li>
+          </ul>
         </section>
 
         <aside className="mt-10 rounded-lg border bg-muted/30 p-6">

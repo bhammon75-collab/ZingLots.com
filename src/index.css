@@ -63,6 +63,9 @@
     --brand-light-gray: #f8fafc;
 
     --radius: 0.5rem;
+    /* Seller badge tokens */
+    --badge-radius: 9999px;
+    --badge-border: 1px;
   }
 
   .dark {
@@ -95,6 +98,18 @@
 
     --ring: 224.3 76.3% 48%;
   }
+}
+.has-cookie-banner body,
+.has-cookie-banner #root {
+  padding-bottom: 72px;
+}
+/* Seller badge utility */
+.badge--seller {
+  border-radius: var(--badge-radius);
+  border-width: var(--badge-border);
+  padding: 2px 8px;
+  font-size: 11px;
+  line-height: 1.2;
 }
 
 /* Replace @apply with raw CSS so CI doesn't need the utility to exist */

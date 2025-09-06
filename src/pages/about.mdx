@@ -1,0 +1,87 @@
+---
+title: About ZingLots
+description: ZingLots is a curated B2B marketplace for surplus equipment. Verified sellers, transparent fees, fair bidding, and fast payouts.
+---
+
+import { Helmet } from 'react-helmet-async';
+import AboutHero from '@/components/AboutHero';
+import { TrustBelt } from '@/components/TrustBelt';
+
+<Helmet>
+  <title>About ZingLots</title>
+  <meta name="description" content="ZingLots is a curated B2B marketplace for surplus equipment. Verified sellers, transparent fees, fair bidding, and fast payouts." />
+  <script type="application/ld+json">{JSON.stringify({
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    name: "ZingLots",
+    url: "https://zinglots.com",
+    logo: "https://zinglots.com/og.png",
+    contactPoint: [{
+      "@type":"ContactPoint",
+      contactType: "customer support",
+      email: "support@zinglots.com"
+    }],
+    knowsAbout: [
+      "construction equipment","restaurant equipment","warehousing",
+      "office furniture","IT & networking","retail fixtures"
+    ]
+  })}</script>
+</Helmet>
+
+# About ZingLots
+
+_ZingLots is a curated B2B marketplace for surplus equipment._  
+We help small and mid-sized businesses buy and sell quality equipment—construction, restaurant & food service, office & admin, warehousing, IT, and more.
+
+<AboutHero />
+<div className="mx-auto max-w-7xl px-4 pb-6">
+  <TrustBelt className="mt-4" compact />
+  <img src="/img/about-hero.svg" alt="" className="hidden" />
+</div>
+
+## Why businesses use ZingLots
+
+- **Verified sellers**  
+  Every seller passes our business verification (KYB) before listing.
+
+- **Fair, transparent auctions**  
+  No hidden fees. Clear buyer’s premium and card processing shown up front.
+
+- **Extended bidding (anti-snipe)**  
+  Last-minute bids extend the timer so everyone gets a fair shot.
+
+- **Fast, secure payments**  
+  Payments handled by Stripe; sellers receive payouts quickly after a sale.
+
+- **Tax-ready receipts**  
+  Buyers can download invoices/receipts for bookkeeping.
+
+## How auctions work
+
+1. **Browse & watch** lots by category or city.  
+2. **Bid with confidence.** If a bid arrives in the final minutes, the close time extends automatically (anti-snipe) so no one loses on a last-second refresh.  
+3. **Pay securely.** Complete checkout online within the stated payment window.  
+4. **Coordinate pickup or delivery directly** with the seller. Sellers define their pickup windows and, if they offer delivery or freight assistance, they’ll state it in the listing. _ZingLots itself does not provide shipping services._
+
+## Who we serve
+
+- Small businesses upgrading or liquidating equipment  
+- Professional liquidators & auctioneers  
+- Facilities managers handling relocations or remodels  
+- Entrepreneurs and makers looking for reliable, affordable gear
+
+## Our standards
+
+- Accurate photos and descriptions (brand, model, specs, known defects)  
+- Honest condition grades and full-lot disclosure  
+- Clear pickup windows and contact details after payment  
+- Responsive support: **support@zinglots.com**
+
+## Company & contact
+
+- **Support:** support@zinglots.com  
+- **Press/partnerships:** press@zinglots.com  
+- **Legal:** See our [Terms](/legal/terms), [Privacy](/legal/privacy), and [Disputes & Issue Resolution](/legal/disputes).
+
+_Last updated: 2025-09-06_
+

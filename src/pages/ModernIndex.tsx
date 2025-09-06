@@ -4,37 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {
-  MapPin,
-  Clock,
-  TrendingUp,
-  Shield,
-  Truck,
-  Heart,
-  Eye,
-  Star,
-  ChevronRight,
-  ChevronLeft,
-  Gavel,
-  Package,
-  Users,
-  Building2,
-  UtensilsCrossed,
-  Briefcase,
-  Wrench,
-  Anvil,
-  Diamond,
-  ArrowRight,
-  Search
-} from "lucide-react";
+import { MapPin, Clock, Shield, Truck, Heart, Eye, ChevronRight, ChevronLeft, Gavel, Users, Search } from "lucide-react";
 import "../styles/modern-design.css";
 import HeroShowcase, { type HeroSlide as HeroShowcaseSlide } from "@/components/HeroShowcase";
 import FeaturedAuctionsMarquee, { type AuctionPromo } from "@/features/auctions/FeaturedAuctionsMarquee";
-import Brand from "../components/Brand";
 
 const ModernIndex = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [timeLeft, setTimeLeft] = useState({});
+  const [timeLeft, setTimeLeft] = useState<Record<string, number>>({});
   const [dense, setDense] = useState(false);
 
   // Featured auctions for marquee
@@ -205,11 +181,11 @@ const ModernIndex = () => {
   ];
 
   // Helper function to parse time string to seconds
-  const parseTimeToSeconds = (timeStr) => {
+  const parseTimeToSeconds = (timeStr: string) => {
     const parts = timeStr.split(' ');
     let totalSeconds = 0;
     
-    parts.forEach(part => {
+    parts.forEach((part: string) => {
       const value = parseInt(part);
       if (part.includes('d')) {
         totalSeconds += value * 24 * 60 * 60;
@@ -226,7 +202,7 @@ const ModernIndex = () => {
   };
 
   // Helper function to format seconds to time string
-  const formatTimeLeft = (seconds) => {
+  const formatTimeLeft = (seconds: number) => {
     if (seconds <= 0) return 'Ended';
     
     const days = Math.floor(seconds / (24 * 60 * 60));
@@ -247,8 +223,8 @@ const ModernIndex = () => {
 
   // Initialize timeLeft state with parsed seconds
   useEffect(() => {
-    const initialTimeLeft = {};
-    featuredLots.forEach(lot => {
+    const initialTimeLeft: Record<string, number> = {};
+    featuredLots.forEach((lot) => {
       initialTimeLeft[lot.id] = parseTimeToSeconds(lot.timeLeft);
     });
     setTimeLeft(initialTimeLeft);
@@ -257,18 +233,18 @@ const ModernIndex = () => {
   // Countdown timer effect - optimized to prevent unnecessary re-renders
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(prevTimeLeft => {
+      setTimeLeft((prevTimeLeft) => {
         // Only update if there are active timers
-        const hasActiveTimers = Object.values(prevTimeLeft).some(time => time > 0);
+        const hasActiveTimers = Object.values(prevTimeLeft).some((time) => (time as number) > 0);
         if (!hasActiveTimers) {
           clearInterval(timer);
           return prevTimeLeft;
         }
         
-        const newTimeLeft = {};
+        const newTimeLeft: Record<string, number> = {};
         let hasChanges = false;
-        Object.keys(prevTimeLeft).forEach(lotId => {
-          const remaining = prevTimeLeft[lotId] - 1;
+        Object.keys(prevTimeLeft).forEach((lotId) => {
+          const remaining = (prevTimeLeft[lotId] as number) - 1;
           const newValue = remaining > 0 ? remaining : 0;
           if (newValue !== prevTimeLeft[lotId]) {
             hasChanges = true;
@@ -337,7 +313,7 @@ const ModernIndex = () => {
       <section className="border-t border-zinc-200/70 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 text-sm">
-            <Link to="/browse" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+            <Link to="/auctions?status=active&sort=ending_soon" className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors" aria-label="Browse all active auctions">
               <Gavel className="h-4 w-4" />
               <span><strong>47</strong> Live Auctions</span>
             </Link>
@@ -550,7 +526,7 @@ const ModernIndex = () => {
                     </span>
                   </div>
                   
-                  <Link to={`/live/${lot.id}`} className="block w-full mt-auto">
+                  <Link to={`/lot/${lot.id}`} className="block w-full mt-auto">
                     <Button className="w-full btn-modern btn-primary" aria-label="Bid Now">
                       Bid Now
                     </Button>

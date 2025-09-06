@@ -34,6 +34,8 @@ const GoLive = lazy(() => import("./pages/seller/GoLive"));
 const Live = lazy(() => import("./pages/Live"));
 const SellerApply = lazy(() => import("./pages/sellers/Apply"));
 const Help = lazy(() => import("./pages/Help"));
+// MDX Article
+const HelpNonPayment = lazy(() => import("./pages/help/non-payment-and-pickup.mdx"));
 const PricingPage = lazy(() => import("./pages/pricing"));
 const ExplorePage = lazy(() => import("./pages/explore"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
@@ -46,6 +48,8 @@ const LegalTerms = lazy(() => import("./pages/legal/Terms"));
 const LegalPrivacy = lazy(() => import("./pages/legal/Privacy"));
 const LegalDisputes = lazy(() => import("./pages/legal/Disputes"));
 const LegalLogistics = lazy(() => import("./pages/legal/Logistics"));
+const AboutPage = lazy(() => import("./pages/about.mdx"));
+const VerifySellersPage = lazy(() => import("./pages/verify-sellers.mdx"));
 
 // B2B Marketplace Pages
 const RegionPage = lazy(() => import("./pages/RegionPage"));
@@ -133,6 +137,9 @@ const App = () => (
                   
                   <Route path="/auction/active" element={<DashboardBuyer />} />
                   <Route path="/help" element={<Help />} />
+                  <Route path="/help/non-payment-and-pickup" element={<HelpNonPayment />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/verify-sellers" element={<VerifySellersPage />} />
                   <Route path="/pricing" element={<PricingPage />} />
                   {/* Legal and Support Pages */}
                   {/* Trust & Legal */}
@@ -150,12 +157,9 @@ const App = () => (
                   <Route path="/security" element={<Security />} />
                   
                   {/* Feature-flagged LiveKit routes */}
-                  {LIVE_SHOWS_ENABLED && (
-                    <>
-                      <Route path="/live" element={<Live />} />
-                      <Route path="/seller/live" element={<GoLive />} />
-                    </>
-                  )}
+                  {/* Gate /live with feature flag; if off, redirect in component */}
+                  <Route path="/live" element={<Live />} />
+                  {LIVE_SHOWS_ENABLED && <Route path="/seller/live" element={<GoLive />} />}
                   
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

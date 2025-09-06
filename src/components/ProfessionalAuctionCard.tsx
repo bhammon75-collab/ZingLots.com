@@ -1,5 +1,6 @@
 import { Clock, Eye, Package, Star, TrendingUp, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SellerBadge } from "@/components/SellerBadge";
 
 export type AuctionData = {
   id: string;
@@ -134,7 +135,9 @@ export default function ProfessionalAuctionCard({ auction, distanceMiles }: { au
           <div className="pt-3 border-t border-gray-100">
             <div className="flex items-center justify-between text-sm">
               <div className="text-gray-600">
-                {auction.seller_name}
+                <Link to={`/s/${(auction.seller_name || '').toLowerCase().replace(/[^a-z0-9]+/g,'-')}`} className="hover:underline">
+                  {auction.seller_name}
+                </Link>
               </div>
               {auction.seller_rating && (
                 <div className="flex items-center text-yellow-500">
@@ -142,6 +145,9 @@ export default function ProfessionalAuctionCard({ auction, distanceMiles }: { au
                   <span className="ml-1 text-gray-600">{auction.seller_rating.toFixed(1)}</span>
                 </div>
               )}
+            </div>
+            <div className="mt-2 flex justify-end">
+              <SellerBadge level="verified" sellerName={auction.seller_name} />
             </div>
             
             {/* View Count */}

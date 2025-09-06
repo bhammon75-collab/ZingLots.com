@@ -14,6 +14,22 @@ const Categories = () => {
       <Helmet>
         <title>Browse Categories - ZingLots</title>
         <meta name="description" content="Browse surplus lots by category. Find deals on construction materials, restaurant equipment, office furniture, and more." />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Browse by Category",
+            itemListElement: categories.map((c, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: c.name,
+              url: `${typeof window !== 'undefined' ? window.location.origin : 'https://www.zinglots.com'}/c/${c.slug}`.replace('/c/', '/category/'),
+              additionalProperty: [
+                { "@type": "PropertyValue", name: "activeLots", value: (c as any).activeCount ?? 0 }
+              ]
+            }))
+          })}
+        </script>
       </Helmet>
 
       {/* Hero Section */}
@@ -55,10 +71,16 @@ const Categories = () => {
               <CardContent className="p-4">
                 <div className="mb-3">
                   <h3 className="font-semibold">{cat.name}</h3>
+                  {(cat as any).activeCount != null && (
+                    <p className="text-sm text-gray-600">{Number((cat as any).activeCount).toLocaleString()} lots</p>
+                  )}
                 </div>
                 {cat.children?.length ? (
                   <div className="mb-3 flex flex-wrap gap-2">
-                    {cat.children.map((child) => (
+                    {([...cat.children]
+                      .sort((a: any, b: any) => (b.activeLots ?? 0) - (a.activeLots ?? 0))
+                      .slice(0, 6)
+                    ).map((child) => (
                       <Badge key={child.slug} variant="secondary" className="cursor-pointer" asChild>
                         <Link to={`/category/${cat.slug}?sub=${encodeURIComponent(child.slug)}`}>{child.name}</Link>
                       </Badge>

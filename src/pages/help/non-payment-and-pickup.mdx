@@ -1,0 +1,28 @@
+export const meta = {
+  title: "Non-payment & Pickup Deadlines | Help",
+  description: "Payment window, pickup window, what to do if you can’t make it, and missed deadlines policy.",
+  canonical: "/help/non-payment-and-pickup"
+};
+
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+
+<Helmet>
+  <title>{meta.title} — ZingLots</title>
+  <meta name="description" content={meta.description} />
+  <link rel="canonical" href={meta.canonical} />
+</Helmet>
+
+# Non-payment & Pickup Deadlines
+
+**Payment window:** Pay within **24 hours** of auction close unless stated otherwise.  
+**Pickup window:** Complete pickup within the **window stated by the seller** (typically 3–7 days).
+
+**If you can’t make it:** contact the seller before the deadline to arrange an alternative. Storage/handling fees may apply if disclosed.
+
+**Missed deadlines:** lots may be forfeited and relisted; your account can be limited. Repeated issues lead to suspension.
+
+---
+
+Need help resolving an issue? See <Link to="/legal/disputes" className="underline">Disputes & Issue Resolution</Link>.
+
