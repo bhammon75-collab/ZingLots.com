@@ -33,6 +33,7 @@ export function SellerBadge({
 }: SellerBadgeProps) {
   const isPro = level === "pro";
   const id = React.useId();
+  const [open, setOpen] = React.useState(false);
 
   const Icon = isPro ? ShieldCheck : CheckCircle2;
   const label = isPro ? "Pro Seller" : "Verified SME";
@@ -41,10 +42,15 @@ export function SellerBadge({
     : "Verified SMEs are KYB-checked businesses approved to sell on ZingLots.";
 
   return (
-    <HoverCard openDelay={150} closeDelay={100}>
+    <HoverCard open={open} onOpenChange={setOpen} openDelay={150} closeDelay={100}>
       <HoverCardTrigger asChild>
         <span
           className="inline-flex items-center gap-1"
+          tabIndex={0}
+          onFocus={() => setOpen(true)}
+          onBlur={() => setOpen(false)}
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
           onTouchStart={(e) => (e.currentTarget as HTMLElement).focus()}
         >
           <Badge

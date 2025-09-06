@@ -1,3 +1,4 @@
+import { describe, test, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SellerBadge } from "../SellerBadge";
@@ -9,7 +10,7 @@ describe("SellerBadge", () => {
 
     // open the hovercard by focusing the trigger (works for keyboard + mobile tap)
     const trigger = screen.getByTestId("seller-badge");
-    await userEvent.tab(); // move focus somewhere first
+    await userEvent.tab();
     (trigger as HTMLElement).focus();
 
     // link inside the card should be discoverable

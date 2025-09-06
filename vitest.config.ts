@@ -12,6 +12,7 @@ export default defineConfig({
       'dist/**',
       'scan_repo/**',
       'src/__tests__/**',
+      'tests/**/*.spec.ts',
     ],
   },
   resolve: {

@@ -4,6 +4,8 @@ description: ZingLots is a curated B2B marketplace for surplus equipment. Verifi
 ---
 
 import { Helmet } from 'react-helmet-async';
+import AboutHero from '@/components/AboutHero';
+import { TrustBelt } from '@/components/TrustBelt';
 
 <Helmet>
   <title>About ZingLots</title>
@@ -30,6 +32,12 @@ import { Helmet } from 'react-helmet-async';
 
 _ZingLots is a curated B2B marketplace for surplus equipment._  
 We help small and mid-sized businesses buy and sell quality equipment—construction, restaurant & food service, office & admin, warehousing, IT, and more.
+
+<AboutHero />
+<div className="mx-auto max-w-7xl px-4 pb-6">
+  <TrustBelt className="mt-4" compact />
+  <img src="/img/about-hero.svg" alt="" className="hidden" />
+</div>
 
 ## Why businesses use ZingLots
 
