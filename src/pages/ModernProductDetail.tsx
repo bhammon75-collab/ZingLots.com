@@ -567,6 +567,9 @@ const ModernProductDetail = () => {
                         All sales are final. Items are sold as-is, where-is. 
                         Please inspect items carefully during the preview period.
                       </p>
+                      <p className="text-sm text-gray-600 mt-2">
+                        Related: <Link className="underline" to="/help/non-payment-and-pickup">Non-payment & Pickup Deadlines</Link>
+                      </p>
                     </div>
                   </div>
                 </CardContent>

@@ -41,6 +41,15 @@ const Help = () => {
           </article>
         </section>
 
+        <section className="mt-10">
+          <h2 className="text-xl font-semibold">Articles</h2>
+          <ul className="mt-3 list-disc list-inside text-sm">
+            <li>
+              <a className="text-blue-600 hover:underline" href="/help/non-payment-and-pickup">Non-payment & Pickup Deadlines</a>
+            </li>
+          </ul>
+        </section>
+
         <aside className="mt-10 rounded-lg border bg-muted/30 p-6">
           <h2 className="text-lg font-semibold">Need more help?</h2>
           <p className="mt-2 text-sm text-muted-foreground">Email us at support@zinglots.com and we’ll get back within 1 business day.</p>

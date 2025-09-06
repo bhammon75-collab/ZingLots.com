@@ -33,6 +33,21 @@ const Regions = () => {
       <Helmet>
         <title>All Regions - Business Surplus Auctions | ZingLots</title>
         <meta name="description" content="Find business surplus auctions in your area. Browse all ZingLots regions across the United States." />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Markets & States",
+            itemListElement: [
+              "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"
+            ].map((state, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: state,
+              url: `${typeof window !== 'undefined' ? window.location.origin : 'https://www.zinglots.com'}/state/${state.toLowerCase().replace(/\s+/g,'-')}`
+            }))
+          })}
+        </script>
       </Helmet>
 
       {/* Hero Section */}
@@ -45,7 +60,22 @@ const Regions = () => {
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Browse business equipment, restaurant supplies, office furniture, and more in {regions.length} major markets across the United States
             </p>
-            
+            {/* Stat belt */}
+            <div className="mb-6 flex justify-center gap-8 md:gap-12">
+              <div className="text-center">
+                <div className="text-3xl font-bold">{totalActive}</div>
+                <div className="text-sm text-blue-200">Active Auctions</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold">$2.5K</div>
+                <div className="text-sm text-blue-200">Median Lot Value</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold">Restaurant</div>
+                <div className="text-sm text-blue-200">Top Category</div>
+              </div>
+            </div>
+
             {/* Stats */}
             <div className="flex justify-center gap-8 md:gap-12">
               <div>
