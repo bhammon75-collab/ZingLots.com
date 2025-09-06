@@ -157,12 +157,9 @@ const App = () => (
                   <Route path="/security" element={<Security />} />
                   
                   {/* Feature-flagged LiveKit routes */}
-                  {LIVE_SHOWS_ENABLED && (
-                    <>
-                      <Route path="/live" element={<Live />} />
-                      <Route path="/seller/live" element={<GoLive />} />
-                    </>
-                  )}
+                  {/* Gate /live with feature flag; if off, redirect in component */}
+                  <Route path="/live" element={<Live />} />
+                  {LIVE_SHOWS_ENABLED && <Route path="/seller/live" element={<GoLive />} />}
                   
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

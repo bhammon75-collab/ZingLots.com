@@ -32,6 +32,12 @@ export default function Live() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Redirect if feature off
+    const featureOn = import.meta.env?.VITE_FEATURE_LIVE === 'true';
+    if (!featureOn) {
+      navigate('/auctions?status=active&sort=ending_soon', { replace: true });
+      return;
+    }
     (async () => {
       if (!sb) return;
       const from = dayjs().toISOString();
@@ -43,6 +49,10 @@ export default function Live() {
         .gte("start_at", from).lte("start_at", to)
         .order("start_at", { ascending: true });
       if (!error && data) setShows(data as any);
+      // If no live shows, redirect to active auctions
+      if (!error && (data?.length ?? 0) === 0) {
+        navigate('/auctions?status=active&sort=ending_soon', { replace: true });
+      }
     })();
   }, [sb]);
 
@@ -52,6 +62,7 @@ export default function Live() {
         <title>Upcoming Live Shows | ZingLots</title>
         <meta name="description" content="Browse upcoming live auction shows and set reminders so you never miss a drop." />
         <link rel="canonical" href="/live" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <main className="container mx-auto px-4 py-10 space-y-6">
         <h1 className="text-3xl font-bold">Upcoming Live Shows</h1>

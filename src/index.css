@@ -99,6 +99,10 @@
     --ring: 224.3 76.3% 48%;
   }
 }
+.has-cookie-banner body,
+.has-cookie-banner #root {
+  padding-bottom: 72px;
+}
 /* Seller badge utility */
 .badge--seller {
   border-radius: var(--badge-radius);
