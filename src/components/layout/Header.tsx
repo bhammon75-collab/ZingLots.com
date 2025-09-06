@@ -27,6 +27,7 @@ export default function Header({ showSearch = false }: HeaderProps) {
 
         {/* Right: Nav + Auth + CTA */}
         <div className="flex items-center gap-3">
+          <Link to="/about" className="text-sm text-gray-700 hover:text-gray-900">About</Link>
           <Link to="/help" className="text-sm text-gray-700 hover:text-gray-900">Help</Link>
           <Link to="/legal/disputes" className="text-sm text-gray-700 hover:text-gray-900">Disputes</Link>
           <Link to="/login">

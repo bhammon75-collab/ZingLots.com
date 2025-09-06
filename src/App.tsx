@@ -48,6 +48,8 @@ const LegalTerms = lazy(() => import("./pages/legal/Terms"));
 const LegalPrivacy = lazy(() => import("./pages/legal/Privacy"));
 const LegalDisputes = lazy(() => import("./pages/legal/Disputes"));
 const LegalLogistics = lazy(() => import("./pages/legal/Logistics"));
+const AboutPage = lazy(() => import("./pages/about.mdx"));
+const VerifySellersPage = lazy(() => import("./pages/verify-sellers.mdx"));
 
 // B2B Marketplace Pages
 const RegionPage = lazy(() => import("./pages/RegionPage"));
@@ -136,6 +138,8 @@ const App = () => (
                   <Route path="/auction/active" element={<DashboardBuyer />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/help/non-payment-and-pickup" element={<HelpNonPayment />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/verify-sellers" element={<VerifySellersPage />} />
                   <Route path="/pricing" element={<PricingPage />} />
                   {/* Legal and Support Pages */}
                   {/* Trust & Legal */}
