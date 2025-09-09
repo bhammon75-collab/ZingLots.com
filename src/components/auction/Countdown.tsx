@@ -29,8 +29,8 @@ export function Countdown({ timing, onSync }:{ timing: LotTiming; onSync?: ()=>v
 
   // tick every second, re-sync every 15s
   useEffect(()=>{
-    let tick = setInterval(()=>setNow(new Date()), 1000);
-    let resync = setInterval(()=>{
+    const tick = setInterval(()=>setNow(new Date()), 1000);
+    const resync = setInterval(()=>{
       onSync?.();
     }, 15000);
     return ()=>{ clearInterval(tick); clearInterval(resync); };
