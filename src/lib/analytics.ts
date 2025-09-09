@@ -19,7 +19,9 @@ class Analytics {
       try {
         const consent = localStorage.getItem('analytics_consent');
         if (consent === 'false') this.allowed = false;
-      } catch {}
+      } catch {
+        // Access to localStorage may be blocked; default to allowed=true
+      }
       this.init();
     }
   }
