@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { getSupabase } from "@/lib/supabaseClient";
+import { placeBidRPC } from "@/lib/bidding";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -121,13 +123,30 @@ const ModernProductDetail = () => {
   const [nextMinBid, setNextMinBid] = useState(product.nextMinBid);
   const bidStep = 50;
 
-  const handleBid = (e: React.FormEvent) => {
+  const handleBid = async (e: React.FormEvent) => {
     e.preventDefault();
     const amt = Number(bidAmount);
     if (!Number.isFinite(amt) || amt <= 0) {
       toast({ description: "Enter a valid amount" });
       return;
     }
+    const looksUuid = Boolean(id && /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/.test(id));
+    if (looksUuid) {
+      try {
+        const res = await placeBidRPC({ lot_id: id as string, offered: amt });
+        setCurrentBid(Number(res.current_amount || amt));
+        setNextMinBid(Number(res.current_amount || amt) + bidStep);
+        setBidAmount("");
+        toast({ description: `Bid placed at $${Number(res.current_amount || amt).toLocaleString()}` });
+        return;
+      } catch (err:any) {
+        const msg = err?.message || String(err);
+        // Surface server validation (minimum acceptable, auth, etc.)
+        toast({ description: msg.includes('Unauthorized') ? 'Please sign in to bid.' : msg });
+        return;
+      }
+    }
+    // Demo fallback
     if (amt < nextMinBid) {
       toast({ description: `Minimum acceptable is $${nextMinBid.toLocaleString()}` });
       return;
@@ -138,8 +157,68 @@ const ModernProductDetail = () => {
     toast({ description: `Bid placed at $${amt.toLocaleString()}` });
   };
 
-  const handleBuyNow = () => {
-    toast({ description: "Buy Now is coming soon on this page. Checkout works from your Invoices when available." });
+  const handleBuyNow = async () => {
+    const looksUuid = Boolean(id && /[0-9a-fA-F-]{36}/.test(id!));
+    if (!looksUuid) {
+      toast({ description: "Open the lot detail to continue checkout." });
+      return;
+    }
+    const sb = getSupabase();
+    if (!sb) {
+      toast({ description: 'Supabase not configured' });
+      return;
+    }
+    const { data: userData } = await sb.auth.getUser();
+    if (!userData?.user) {
+      toast({ description: 'Please sign in to buy now.' });
+      return;
+    }
+    // Look up listing for Buy Now price
+    const { data: lotRow, error: lotErr } = await sb
+      .schema('app')
+      .from('lots')
+      .select('id, price_buy_now_cents, shipping_flat_cents, listing_status')
+      .eq('id', id)
+      .maybeSingle();
+    if (lotErr || !lotRow) {
+      toast({ description: 'Listing not found' });
+      return;
+    }
+    if (!lotRow.price_buy_now_cents || lotRow.listing_status === 'ended' || lotRow.listing_status === 'sold') {
+      toast({ description: 'Buy Now not available for this item.' });
+      return;
+    }
+    // Ensure an order exists (idempotent-ish)
+    const { data: existing } = await sb.schema('app').from('orders').select('id,status,buyer_id').eq('lot_id', id).maybeSingle();
+    let orderId: string | null = existing?.id ?? null;
+    if (!orderId) {
+      const subtotalDollars = Number(lotRow.price_buy_now_cents) / 100;
+      const shippingCents = Number(lotRow.shipping_flat_cents || 0);
+      const { data: inserted, error: insErr } = await sb
+        .schema('app')
+        .from('orders')
+        .insert({ lot_id: id, buyer_id: userData.user.id, status: 'invoiced', subtotal: subtotalDollars, shipping_cents: shippingCents })
+        .select('id')
+        .single();
+      if (insErr) {
+        toast({ description: insErr.message || 'Failed to create order' });
+        return;
+      }
+      orderId = inserted?.id;
+    }
+    try {
+      const { data, error } = await sb.functions.invoke('checkout-create-session', { body: { orderId } });
+      if (error) throw error;
+      const url = (data as any)?.url;
+      if (url) {
+        window.location.assign(url);
+      } else {
+        // Fallback: go to invoice page
+        window.location.assign('/cart');
+      }
+    } catch (e:any) {
+      toast({ description: e.message || 'Checkout error' });
+    }
   };
 
   return (
