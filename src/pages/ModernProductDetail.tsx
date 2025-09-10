@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Heart,
@@ -11,18 +12,18 @@ import {
   Clock,
   MapPin,
   Truck,
-  Shield,
+  
   Star,
   ChevronLeft,
   ChevronRight,
   Eye,
   Gavel,
-  Package,
+  
   AlertCircle,
   CheckCircle,
   User,
   Calendar,
-  DollarSign,
+  
   TrendingUp,
   Info,
   Camera,
@@ -37,7 +38,8 @@ const ModernProductDetail = () => {
   const [isWatching, setIsWatching] = useState(false);
   const [proxyEnabled, setProxyEnabled] = useState(false);
   const [proxyMax, setProxyMax] = useState<string>("");
-  const [showZoom, setShowZoom] = useState(false);
+  // Zoom UI placeholder removed for now
+  const { toast } = useToast();
 
   // Mock product data
   const product = {
@@ -114,15 +116,30 @@ const ModernProductDetail = () => {
     views: 567
   };
 
+  // Local demo state so the CTA behaves on this marketing page
+  const [currentBid, setCurrentBid] = useState(product.currentBid);
+  const [nextMinBid, setNextMinBid] = useState(product.nextMinBid);
+  const bidStep = 50;
+
   const handleBid = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle bid submission
-    if (import.meta.env.DEV) console.log("Placing bid:", bidAmount);
+    const amt = Number(bidAmount);
+    if (!Number.isFinite(amt) || amt <= 0) {
+      toast({ description: "Enter a valid amount" });
+      return;
+    }
+    if (amt < nextMinBid) {
+      toast({ description: `Minimum acceptable is $${nextMinBid.toLocaleString()}` });
+      return;
+    }
+    setCurrentBid(amt);
+    setNextMinBid(amt + bidStep);
+    setBidAmount("");
+    toast({ description: `Bid placed at $${amt.toLocaleString()}` });
   };
 
   const handleBuyNow = () => {
-    // Handle buy now
-    if (import.meta.env.DEV) console.log("Buy now clicked");
+    toast({ description: "Buy Now is coming soon on this page. Checkout works from your Invoices when available." });
   };
 
   return (
@@ -210,8 +227,7 @@ const ModernProductDetail = () => {
               <img
                 src={product.images[selectedImage]}
                 alt={product.title}
-                className="w-full h-[500px] object-cover cursor-zoom-in"
-                onClick={() => setShowZoom(true)}
+                className="w-full h-[500px] object-cover"
               />
               <button
                 className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
@@ -285,7 +301,7 @@ const ModernProductDetail = () => {
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Current Bid</p>
                     <p className="text-3xl font-bold text-brand-red">
-                      ${product.currentBid.toLocaleString()}
+                      ${currentBid.toLocaleString()}
                     </p>
                     <p className="text-sm text-gray-500">
                       {product.bids} bids
@@ -317,9 +333,9 @@ const ModernProductDetail = () => {
                     <div className="flex-1">
                       <input
                         type="number"
-                        min={product.nextMinBid}
+                        min={nextMinBid}
                         step="50"
-                        placeholder={`Enter $${product.nextMinBid} or more`}
+                        placeholder={`Enter $${nextMinBid} or more`}
                         value={bidAmount}
                         onChange={(e) => setBidAmount(e.target.value)}
                         className="input-modern"
@@ -330,7 +346,7 @@ const ModernProductDetail = () => {
                     </Button>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    Next minimum bid: ${product.nextMinBid}
+                    Next minimum bid: ${nextMinBid}
                   </p>
                 </form>
 
