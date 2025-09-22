@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import './styles/design-tokens.css'
 import './styles/typography.css'
+import 'leaflet/dist/leaflet.css'
 
 createRoot(document.getElementById("root")!).render(
   <HelmetProvider>

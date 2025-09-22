@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { MapPin, TrendingUp, Users, Package } from "lucide-react";
+import USStatesLeaflet from "@/components/maps/USStatesLeaflet";
 import { Badge } from "@/components/ui/badge";
 
 const regions = [
@@ -26,7 +27,6 @@ const featuredRegions = ["new-york", "los-angeles", "chicago", "houston"];
 const Regions = () => {
   const totalActive = regions.reduce((sum, r) => sum + r.active, 0);
   const featured = regions.filter(r => featuredRegions.includes(r.slug));
-  const other = regions.filter(r => !featuredRegions.includes(r.slug));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -154,30 +154,15 @@ const Regions = () => {
           </div>
         </div>
 
-        {/* All States */}
-        <div>
+        {/* All States - Interactive Map */}
+        <section>
           <div className="flex items-center gap-2 mb-6">
             <MapPin className="w-5 h-5 text-gray-500" />
             <h2 className="text-2xl font-bold text-gray-900">All States</h2>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"].map((state) => (
-              <Link
-                key={state}
-                to={`/state/${state.toLowerCase().replace(/\s+/g,'-')}`}
-                className="group bg-white rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:shadow-md transition-all"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {state}
-                  </h3>
-                </div>
-                <div className="text-sm text-gray-600">View markets →</div>
-              </Link>
-            ))}
-          </div>
-        </div>
+          <USStatesLeaflet className="mb-6" />
+          <p className="text-sm text-gray-500">Tip: Hover a state to highlight. Click to view markets.</p>
+        </section>
 
         {/* CTA Section */}
         <div className="mt-16 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 md:p-12 text-white text-center">
